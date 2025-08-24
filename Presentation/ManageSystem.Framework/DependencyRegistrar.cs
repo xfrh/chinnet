@@ -82,8 +82,8 @@ namespace ManageSystem.Framework
             builder.RegisterControllers(typeFinder.GetAssemblies().ToArray());
 
             //注入操作数据库接口
-            builder.RegisterType<ManageSystemContext>().As<IDbContext>().InstancePerRequest();
-            builder.RegisterGeneric(typeof(EfRepository<>)).As(typeof(IRepository<>)).InstancePerRequest();
+            builder.RegisterType<ManageSystemContext>().As<IDbContext>().InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(EfRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
 
             //对所有的ManageSystem.Services 进行依赖注入
             builder.RegisterType<ActionLogService>().As<IActionLogService>().InstancePerLifetimeScope();
