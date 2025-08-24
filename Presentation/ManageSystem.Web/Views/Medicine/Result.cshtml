@@ -1,0 +1,67 @@
+﻿@using ManageSystem.Core.Domain.Medicine
+@model UploadMedicalResult
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "发布医学数据结果";
+}
+
+<style type="text/css">
+     .table tr td:first-child {
+        background-color: white;
+    }
+
+    .table td {
+        text-align: center;
+    }
+</style>
+
+
+<div class="mbx">
+    <p>当前位置：首页 &gt; 发布医学数据 </p>
+</div>
+
+<div class="cy-wrap">
+    <span class="span-mark-author active">上传医学信息结果</span>
+
+</div>
+
+<div class="container2" style="padding: 10px 20px;">
+    @{
+        if (Model.BaseMessage != null)
+        {
+            <div >
+                <table width="100%" class="table table-bordered " >
+                    <tbody>
+                        <tr class="info">
+                            <td colspan="8" style="text-align:center; font-weight:bold;">数据文件基本情况 </td>
+                        </tr>
+                        <tr>
+                            <td class="cb" style="width:10%;">文件名</td>
+                            <td style="width:15%;">@Model.BaseMessage.FileName</td>
+                            <td class="cb" style="width:10%;">文件大小</td>
+                            <td style="width:15%;">@Model.BaseMessage.FileLength</td>
+                        </tr>
+                        <tr>
+                            <td class="cb">数据所属时段</td>
+                            <td>@Model.BaseMessage.DataTime</td>
+                            <td class="cb">上传时间</td>
+                            <td>@Model.BaseMessage.UploadTime.ToString("yyyy-MM-dd HH:mm")</td>
+                        </tr>
+                        <tr>
+                            <td class="cb">标本类型</td>
+                            <td>	@Model.BaseMessage.SpecimenName</td>
+                            <td class="cb">细菌鉴定系统名称</td>
+                            <td>@Model.BaseMessage.BacteriaTypeName</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+
+    <div style="width:100%; text-align:center;">
+         <div style="width: 600px; height: 50px;  line-height: 50px;  background-color: #00bcd4; color: white;  margin: 50px auto; cursor:pointer;" onclick="location.href = '/Medicine/Detail/@Model.BaseMessage.MedicalDataId'" >上传数据成功，本次共读取：@Model.BaseMessage.ReadCount 行，共成功：@Model.BaseMessage.SuccessCount 行</div>
+    </div>
+
+</div>

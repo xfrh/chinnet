@@ -1,0 +1,64 @@
+﻿@model ManageSystem.Web.Models.Regist.RegistModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="applicable-device" content="mobile" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta content="telephone=no" name="format-detection" />
+    <link href="/Content/Css/Regist/Mobile/common.css" rel="stylesheet" />
+    <link href="/Content/Css/Regist/Mobile/style.css?v=1" rel="stylesheet" />
+
+    <script src="~/Content/Scripts/Regist/Mobile/WapRoot.js"></script>
+    <script src="~/Content/Scripts/jquery-1.10.2.min.js"></script>
+    <title>CHINET数据云 - 注册</title>
+
+</head>
+
+<body>
+    <section class="page">
+        <img class="logo" src="~/Content/Images/Regist/Mobile/img-1.jpg?v=12" style="width:50%;" />
+        <p class="txt_bt">CHINET中国细菌耐药监测网</p>
+        <div class="register" style="margin-top:0.5rem; margin-bottom:0.2rem;">
+            <li>
+                <span><img src="~/Content/Images/Regist/Mobile/icon-3.jpg" /></span>@Html.TextBoxFor(m => m.Phone, new { placeholder = "手机号码" })
+            </li>
+            <li>
+                <span><img src="~/Content/Images/Regist/Mobile/icon-2.jpg" /></span>@Html.TextBoxFor(m => m.Password, new { type = "password", placeholder = "密码，长度大于5位" })
+            </li>
+            <li>
+                <span><img src="~/Content/Images/Regist/Mobile/icon-2.jpg" /></span>@Html.TextBoxFor(m => m.Password2, new { type = "password", placeholder = "确认密码，和密码一样" })
+            </li>
+            <li>
+                <span><img src="~/Content/Images/Regist/Mobile/icon-5.jpg" /></span>
+                @Html.DropDownListFor(m => m.AreaId, Model.AreaList, new { @class = "ddl1" })
+            </li>
+            <li>
+                <span><img src="~/Content/Images/Regist/Mobile/icon-6.jpg" /></span>
+                @Html.TextBoxFor(m => m.OtherHospital, new { placeholder = "所属医院名称" })
+            </li>
+            <li class="last">
+                <input class="button btn-login" type="button" value="注 册" onclick="Regist()" />
+                <p style="display:none;">注册即视同意<a href="javascript:;">《注册协议》 </a></p>
+                <p style="display:none;">CHINET中国细菌耐药监测网欢迎您的加入！</p>
+            </li>
+        </div>
+
+        <input type="hidden" id="Code" class="reg_input1" value="@this.Request.QueryString["code"]" />
+
+    </section>
+    <script src="~/Content/Scripts/Regist/Mobile/common.js"></script>
+    <script src="~/Content/Scripts/layer-v2.4/layer.js"></script>
+    <script src="~/Content/Scripts/layer-v2.4/helper.js"></script>
+    <script src="~/Content/Scripts/common-validate.js?v1="></script>
+    <script src="~/Content/Scripts/Regist/Mobile.js?v=1.5"></script>
+
+</body>
+
+</html>

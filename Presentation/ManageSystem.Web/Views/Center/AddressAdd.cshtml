@@ -1,0 +1,81 @@
+﻿@using ManageSystem.Web.Models.Members
+@model MemberAddressModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutBlank.cshtml";
+}
+<link href="~/Content/Css/Center.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    $("body").css("background-color", "white");
+</script>
+<div style="width:100%; height:100%; float:left; background-color:white; ">
+
+    <div style="width:650px; margin:0px auto; " class="add-address-main">
+        @using (Html.BeginForm("AddressAdd", "Center", FormMethod.Post, new { id = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Id)
+            <table class="table data-table  table-blank-new">
+                <tr>
+                    <td style="width:120px;" class="text-right"><span class="red">*</span>收货人：</td>
+                    <td style="width:170px;" class="text-left">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "txt" })
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </td>
+                    <td style="width:100px;"></td>
+                    <td style="width:170px;"></td>
+                </tr>
+                <tr>
+                    <td class="text-right"><span class="red">*</span>手机号码：</td>
+                    <td class="text-left">
+                        @Html.TextBoxFor(m => m.Phone, new { @class = "txt" })
+                        @Html.ValidationMessageFor(m => m.Phone)
+                    </td>
+                    <td class="text-right">固定电话：</td>
+                    <td class="text-left">
+                        @Html.TextBoxFor(m => m.Tel, new { @class = "txt" })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">
+                        <span class="red">*</span>所在地区：
+                    </td>
+                    <td colspan="3" class="text-left">
+                        @Html.Partial("~/Views/PartialView/_SelectArea.cshtml")
+                        @Html.TextBoxFor(model => model.ProvinceId, new { style = "width:1px; height:0px;" })
+                        @Html.TextBoxFor(model => model.CityId, new { style = "width:1px; height:0px;" })
+                        @Html.TextBoxFor(model => model.DistrictsId, new { style = "width:1px; height:0px;" })
+                        @Html.ValidationMessageFor(m => m.DistrictsId)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">
+                        <span class="red">*</span>详细地址：
+                    </td>
+                    <td colspan="3" class="text-left">
+                        @Html.TextBoxFor(m => m.Address, new { @class = "txt", style = "width:423px;" })
+                        @Html.ValidationMessageFor(m => m.Address)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">邮箱地址：</td>
+                    <td colspan="3" class="text-left">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "txt", style = "width:423px;" })
+                        @Html.ValidationMessageFor(m => m.Email)
+                        <span style="display: block;color:#9e9e9e;">用来接收订单提醒邮件，便于您及时了解订单状态</span>
+                        <div>@Html.CheckBoxFor(m => m.IsMain, new { @class = "n-chk",style= "margin: 0px;padding:0px;vertical-align:middle; " }) <span style="">设为默认地址</span></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align:center; height:60px; line-height:60px;">
+                        <input type="button" onclick="Save()" value="保存收货地址" class="btn btn-info" />
+                    </td>
+                </tr>
+            </table>
+        }
+
+    </div>
+</div>
+
+<script src="~/Content/Scripts/Center/AddressAdd.js"></script>

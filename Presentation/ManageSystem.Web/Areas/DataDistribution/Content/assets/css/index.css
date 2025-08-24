@@ -1,0 +1,157 @@
+[v-cloak] {
+    display: none;
+}
+
+.el_select_style {
+    text-align: center;
+}
+
+.is_tip {
+    padding: 30px;
+    margin: 40px;
+    margin-top: 55px;
+    color: #fff;
+    padding-left: 0;
+    font-size: 16px;
+}
+
+.un_select {
+    /* 文字不可选中 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(33, 33, 33, 0.85);
+    vertical-align: middle;
+    display: table-cell;
+    z-index: 99999;
+}
+
+
+/* 圆圈 */
+
+.circular {
+    position: absolute;
+    top: 26%;
+    left: 50%;
+    margin-left: -100px;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    box-shadow: 3px 3px #08517f;
+    animation: rotating 1s infinite linear;
+}
+
+@keyframes rotating {
+    0% {
+        transfrom: rotate(90deg);
+    }
+
+    100% {
+        transfrom: rotate(360deg);
+    }
+}
+
+.el-checkbox {
+    color: #fff;
+}
+
+.el-radio {
+    color: #fff;
+}
+
+.mic_box {
+    margin-bottom: 40px;
+}
+
+.showYears {
+    margin-left: 16px;
+}
+
+.fa-chevron-up:before {
+    transform: rotate(180deg);
+}
+
+.el-checkbox {
+    margin-right: 56px;
+}
+
+.btn-info {
+    border: none;
+}
+
+    .btn-info:hover {
+        border: none;
+    }
+
+@media screen and (min-width:768px) {
+    .father {
+        display: -webkit-box;
+    }
+
+    .navbar-collapse {
+        width: auto;
+        border-top: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+
+    .btn-group-sm > .btn,
+    .btn-sm {
+        padding: 5px 8px;
+    }
+
+    #left_box {
+        display: table-cell;
+    }
+
+    #right_box {
+        display: table-cell;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .btn-group-sm > .btn,
+    .btn-sm {
+        padding: 5px 14px;
+        font-size: 12px;
+        line-height: 1.5;
+        border-radius: 3px;
+    }
+}
+
+.el-radio-group {
+    margin-top: 15px;
+}
+
+.is_a_style {
+    float: right;
+    font-size: 16px;
+    color: #fff;
+    margin-right: 15px;
+}
+
+.glyphicon-home:before {
+    content: "\e021";
+    padding-right: 5px;
+}
+
+.is_a_style:hover,
+.is_a_style:focus {
+    color: #ddd;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+/* .navbar-expand-sm .navbar-toggler {
+    display: none;
+} */

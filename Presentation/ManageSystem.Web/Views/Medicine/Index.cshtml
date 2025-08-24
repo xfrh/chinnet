@@ -1,0 +1,117 @@
+﻿@using ManageSystem.Web.Models.Medicine
+@model IndexModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "医学中心";
+}
+
+<link href="~/Content/Css/Medicine.css" rel="stylesheet" />
+
+<div class="mbx">
+    <p>当前位置：首页 &gt; 医学中心 </p>
+</div>
+<div class="doct_center">
+    <div class="doct_center_r" style="border-left-style: none;">
+        <div class="cy-wrap" style="border-bottom-style:none !important;">
+
+            <div class="sl-v-list" style="height:auto;">
+                <div class="sl-key" style="width:100px">地区：</div>
+                <ul class="js-search-li" data-type="city" id="search-city-ul" style="height: 38px;">
+                    <li>加载中....</li>
+                </ul>
+                <div class="sl-ext" style="width: auto;float: right;  margin-top: 6px;">
+                    <a class="sl-e-more J_extMore sl-e-area" href="javascript:MoreArea();" style="visibility: visible;color: #025193 !important;">更多<i></i></a>
+                    <input type="hidden" id="MoreAreaState" value="0" />
+                </div>
+            </div>
+
+            <div class="sl-v-list" style="height:auto;">
+                <div class="sl-key" style="width:100px">医院：</div>
+                <ul class="js-search-li" data-type="hospital" id="search-hospital-ul" style="height: 38px;">
+                    <li>加载中....</li>
+                </ul>
+
+                <div class="sl-ext" style="width: auto;float: right;  margin-top: 6px;">
+                    <a class="sl-e-more J_extMore sl-e-hospital" href="javascript:MoreHospital();" style="visibility: visible;color: #025193 !important;">更多<i></i></a>
+                    <input type="hidden" id="MoreHospitalState" value="0" />
+                </div>
+            </div>
+
+            <div class="sl-v-list" style="height:auto;">
+                <div class="sl-key" style="width:100px;">药敏实验方法：</div>
+                <ul class="js-search-li" data-type="bacteria" id="search-bacteria-ul">
+                    <li >加载中....</li>
+                </ul>
+
+
+            </div>
+
+            @*<div class="sl-v-list" style="height:auto; border-bottom-style:none;display:none;">
+                    <div class="sl-key" style="width:100px;">标本：</div>
+                    <ul class="js-search-li" data-type="specimen" id="search-specimen-ul">
+                        <li SearchValue="" class="@(Model.SearchModel.Specimen == 0 ? "active" : "" ) "><a href="javascript:">全部</a></li>
+                        @{
+                            if (Model.SearchSpecimenList != null && Model.SearchSpecimenList.Any())
+                            {
+                                foreach (var item in Model.SearchSpecimenList)
+                                {
+                                    <li SearchValue="@item.Id.ToString()" class="@(Model.SearchModel.Specimen == item.Id ? "active" : "" )">
+                                        <a href="javascript:">@item.Name</a>
+                                    </li>
+                                }
+                            }
+                        }
+                    </ul>
+
+                </div>
+
+                <div class="sl-v-list" style="height:auto; display:none;">
+                    <div class="sl-key" style="width:90px;">科室：</div>
+                    <ul class="js-search-li" data-type="department" id="search-department-ul">
+                        <li SearchValue="" class="@(Model.SearchModel.Department == 0 ? "active" : "" ) "><a href="javascript:">全部</a></li>
+                        @{
+                            if (Model.SearchDepartmentList != null && Model.SearchDepartmentList.Any())
+                            {
+                                foreach (var item in Model.SearchDepartmentList)
+                                {
+                                    <li SearchValue="@item.Id.ToString()" class="@(Model.SearchModel.Department == item.Id ? "active" : "" )">
+                                        <a href="javascript:">@item.Name</a>
+                                    </li>
+                                }
+                            }
+                        }
+                    </ul>
+
+                </div>*@
+        </div>
+        <div class="tab">
+            <table width="100%" border="0" cellspacing="1" cellpadding="0" class="table item-table  table-bordered ">
+                <thead>
+                    <tr class="info">
+                        <td style="width:6%;">编号</td>
+                        <td style="width:10%;">上传日期</td>
+                        <td style="width:20%;">所属医院</td>
+                        <td style="width:6%;">菌株数量</td>
+                        <td style="width:10%;">地区</td>
+                    </tr>
+                </thead>
+                <tbody id="validateDataTbody"></tbody>
+            </table>
+        </div>
+
+        <div id="divIncomeIntegral" class="page-btn-main " style="text-align:center;"></div>
+    </div>
+</div>
+
+
+<input type="hidden" id="SearchArea" value="@Model.SearchModel.Area" />
+<input type="hidden" id="SearchHospital" value="@Model.SearchModel.Hospital" />
+<input type="hidden" id="SearchSpecimen" value="@Model.SearchModel.Specimen" />
+<input type="hidden" id="SearchBacteria" value="@Model.SearchModel.Bacteria" />
+<input type="hidden" id="SearchDepartment" value="@Model.SearchModel.Department" />
+
+<link href="/Content/Scripts/laypage-v1.3/skin/laypage.css" rel="stylesheet" />
+<script src="/Content/Scripts/laypage-v1.3/laypage.js"></script>
+
+<script src="~/Content/Scripts/Medicine/Index.js?v=12"></script>

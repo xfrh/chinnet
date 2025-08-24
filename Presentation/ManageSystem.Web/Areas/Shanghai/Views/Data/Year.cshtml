@@ -1,0 +1,147 @@
+﻿@{
+    Layout = "~/Areas/Shanghai/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "柱状图";
+}
+
+@using ManageSystem.Web.Models.ShanghaiData
+
+@model List<SHBarChartDTO>
+
+@section HeadSection{
+    <link href="~/Content/kendo/2014.1.318/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2014.1.318/kendo.default.min.css" rel="stylesheet" />
+    <link href="~/Areas/Shanghai/Content/Data/Year.css" rel="stylesheet" />
+    @*<link href="~/Content/Css/Datas/AntibioticDrugFast.css" rel="stylesheet" />*@
+    <style>
+        li.w300px {
+            width: 300px;
+        }
+
+        li.w380px {
+            width: 380px;
+        }
+
+        li.active a,
+        li.active a:focus,
+        li.active a:link,
+        li.active a:visited,
+        li.active a:hover,
+        li.active a:active {
+            color: red !important;
+            text-decoration: none;
+        }
+
+        #pageContent li a,
+        #pageContent li a:focus,
+        #pageContent li a:link,
+        #pageContent li a:visited,
+        #pageContent li a:hover,
+        #pageContent li a:active {
+            color: #787878;
+            text-decoration: none;
+        }
+    </style>
+
+}
+@section FooterSection{
+    <script src="~/Content/Scripts/template-web.js"></script>
+    <script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+    <script src="~/Content/Scripts/Echarts/theme/blue.js?v=1"></script>
+    <script src="~/Content/Scripts/kendo/2014.1.318/kendo.web.min.js"></script>
+    <script src="~/Areas/Shanghai/Scripts/Data/Year.js?v=1.2242"></script>
+    <script src="~/Areas/Shanghai/Scripts/Data/GermYear.js"></script>
+}
+<section style="overflow:hidden;" id="pageContent">
+    <div class="data-home-box" style="margin-bottom:5px; display: none;">
+        <ul data-step="1" data-intro="<p style='font-weight:bold;'>图表类型：</p>您可以选择三种不同类型的图表：热图、柱状图、趋势图。" data-position='bottom' id="change_chart" class="clickable clearfix greybuttons">
+            <li class="active" data-name="柱状图" id="change_chart_trend" onclick="location.href='/Shanghai/Data/Year'">柱状图</li>
+        </ul>
+    </div>
+    <div class="" style="margin-top: 25px;">
+        <div id="dataError" class="error-box" style="display: none;">
+            <img src="/Content/Images/data-error.png">
+            <p class="error-message">请选择图表类型</p>
+        </div>
+        <div id="mainChart" style="overflow: hidden; width: 100%; min-height: 550px; display: block; margin-bottom: 0px;"></div>
+        <div id="fungus-container" style="display: none;">
+            <article id="data-grid-intro" class="data-grid-intro-article">上海市细菌真菌耐药监测网真菌监测工作组通过收集分离于无菌部位的念珠菌属，剔除同一患者分离的重复菌株。菌株鉴定均在中心实验室采用质谱鉴定复核，必要时使用真菌ITS DNA序列分析确认。药敏试验采用比色微量稀释法（Sensititer Yeast one，Thermof Fisher公司）测定抗真菌药物对念珠菌属的最低抑菌浓度，药物包括氟康唑、伊曲康唑、伏立康唑、泊沙康唑、艾沙康唑、卡泊芬净、阿尼芬净、米卡芬净、5-氟胞嘧啶和两性霉素B</article>
+            <div id="data-grid" style="display: none; margin-bottom: 15px; width: 99.5%;"></div>
+            <div id="data-grid-chart" style="overflow: hidden; width: 100%; min-height: 550px; display: none; margin-bottom: 0px;"></div>
+        </div>
+
+
+        <div id="sjd-container" style="width: 100%; display: block; overflow: hidden;">
+            @{
+                int _step = 3;
+                foreach (SHBarChartDTO item in Model)
+                {
+                    <div class="index-bt"
+                         data-step="@(_step++)"
+                         data-intro="<p style='font-weight:bold;'>数据类型：</p>根据不同的@(item.Name)进行数据统计。"
+                         data-position='top'
+                         @*style="margin-top: 10px;"*@>
+                        <h2>
+                            <i></i>@item.Name
+                            <span class="item-title-3" onclick="ClearSelect()" style="margin-left: 94px;">取消选择</span>
+                            <img data-step="@(_step++)"
+                                 data-intro="<p style='font-weight:bold;'>操作：</p>击箭头可以隐藏该部分数据选项，更加有利于阅读，再次点击则可以显示该部分数据选项。"
+                                 data-position='top'
+                                 class="germ-btn-image btn-image-box@(item.Id)"
+                                 src="~/Content/Images/jiantou-xia.png"
+                                 style="height: 13px; width: 13px; cursor: pointer;"
+                                 alt=""
+                                 draggable="false"
+                                 onclick="ShowStatus('box@(item.Id)')">
+                        </h2>
+                    </div>
+                    <div id="box@(item.Id)" class="fenlei"
+                         data-step="@(_step++)"
+                         data-intro="<p style='font-weight:bold;'>数据段：</p>可选择具体的@(item.Name)查看报表数据。 "
+                         data-position='top'
+                         data-status="1" style="padding:10px 0;">
+                        <ul class="bb-item">
+                            @{
+                                string _class = "germ-li date-item-va";
+                                if (item.Data_type == "1")
+                                {
+                                    foreach (SHBarChartDataItemDTO dataItem in item.DataItems)
+                                    {
+
+                                        <li id="li@(dataItem.Id)" class="@_class" style="width:300px;">
+                                            <a href="/Shanghai/Data/Year/@dataItem.Id" data-default="@(dataItem.Default ? 1 : 0)" onclick="renderTrendChart('@dataItem.Id'); return false;">@dataItem.Name</a>
+                                        </li>
+                                    }
+                                }
+                                else if (item.Data_type == "2")
+                                {
+                                    foreach (SHBarChartDataItemDTO dataItem in item.DataItems)
+                                    {
+
+                                        <li id="li@(dataItem.Id)" class="@_class">
+                                           <a href="/Shanghai/Data/Year/@dataItem.Id" data-default="@(dataItem.Default ? 1 : 0)" onclick="clicktable('@dataItem.Id'); return false;">@dataItem.Name</a>
+                                        </li>
+                                    }
+                                }
+                            }
+                        </ul>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>
+
+<script id="template_data_item" type="text/html">
+    {{each data}}
+    <li class="data-list-item">
+        <a href="javascript: void(0);" data-key="{{$value}}" data-source="1">{{$value}}</a>
+    </li>
+    {{/each}}
+</script>
+<script id="template_data_item_table" type="text/html">
+    {{each data}}
+    <li class="data-list-item">
+        <a href="javascript: void(0);" data-key="{{$value.name}}" data-source="{{$value.type}}">{{$value.name}}</a>
+    </li>
+    {{/each}}
+</script>

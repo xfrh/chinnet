@@ -1,0 +1,59 @@
+﻿@model ManageSystem.Admin.Models.Meetings.MeetingTypeModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+<table class="adminContent">
+    <tr class="insert-time-tr" style="display:none;">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.InsertTime)：</td>
+        <td class="adminData">
+            @Model.InsertTime.ToString("yyyy-MM-dd HH:mm")
+        </td>
+    </tr>
+    <tr class="insert-time-tr" style="display:none;">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.UpdateTime)：</td>
+        <td class="adminData">
+            @Model.UpdateTime.ToString("yyyy-MM-dd HH:mm")
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Name)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Sort)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Sort, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Sort)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.MeetingTypeId)：</td>
+        <td class="adminData">
+            @Html.DropDownListFor(model => model.MeetingTypeId, Model.MeetingTypeList, new { @class = "form-control dropdown" })
+            @Html.ValidationMessageFor(m => m.MeetingTypeId)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Describe)：</td>
+        <td class="adminData">
+            @Html.TextAreaFor(model => model.Describe, new { @class = "form-control txt", cols = "30", rows = "3" })
+            @Html.ValidationMessageFor(m => m.Describe)
+        </td>
+    </tr>
+</table>
+
+<script src="/Content/Scripts/TranTextBox.js"></script>
+<script type="text/javascript">
+
+
+
+
+</script>

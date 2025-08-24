@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewBag.Title = "折点-批量添加";
+    Layout = "~/Areas/DataInput/Views/Shared/_Layout.cshtml";
+}
+    <link href="~/Areas/DataInput/Content/css/OLDataInput.css" rel="stylesheet" />
+    <div class="W">
+        <div class="my_title">
+            当前位置： 首页 / 折点数据上传 / 批量添加
+        </div>
+        <div class="ol_table">
+            @{
+                if (ViewBag.Median == true)
+                {
+                    <div class="ol_left">
+                        <ul>
+                            <li style="background-color:#dceef6"><a href="/DataInput/OLDataInput/OLproject">项目管理</a></li>
+                            <li><a href="/DataInput/OLDataInput/OLtemplate">字段模板</a></li>
+                            <li><a href="/DataInput/OLDataInput/ProjectStatistics">项目统计</a></li>
+                        </ul>
+                    </div>
+                }
+            }
+            <div class="ol_right"><input id="Text1" type="text" />
+                <div style="width:66%">
+                    <div style="text-align: right;margin-bottom: 20px; display:none" height="100%">
+                        <span>项目名称：</span>
+                        <select class="add_project_inp" id="project" style="margin-left: 10px;" onchange="ChengDataview()">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </div>
+                    <div style="text-align: right;margin-bottom: 20px; display:none" height="100%">
+                        <span>字段模板：</span>
+                        <input class="add_project_inp" style="margin-left: 10px;" id="temp" name="temp" type="text" contextmenu=""  disabled value="@ViewBag.tempname"/>               
+                        <input class="add_project_inp" style="margin-left: 10px;" id="temphidden" name="temp" type="hidden" contextmenu="" disabled value="@ViewBag.tempId" />
+                    </div>
+                    <div style="text-align: right;margin-bottom: 20px;" height="100%">
+                        <span>上传文件：</span>
+                        <input type="file" id="FileId" style="display: inline-block !important; padding: 8px; width: 238px; margin-left: 10px;" />
+                        <a href="javascript:;"onclick="GetMoban()" style="color: #428bca;font-size: 14px;">点击下载《折点数据上传模板》</a>
+                    </div>
+                    <div style="text-align: right;margin-bottom: 20px;" height="100%">
+                        <div class="add_project_inp" style="display: inline-block;border: none;padding-left:0;">
+                            <input id="Button1" style="float: left; background: #2582c8; width: 130px; line-height: 2.4; color: #fff;" onclick="AddbatchData()" type="button" value="上传" />
+                        </div>
+                    </div>
+                    <div style="text-align: right;margin-bottom: 20px;" height="100%">
+                        <div class="add_project_inp" style="display: inline-block;border: none;padding-left:0;">
+                            <input id="Button1" style="background: #2582c8; width: 70px; line-height: 2.4; color: #fff;" onclick="javascript:history.back(-1);" type="button" value="返回" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+        $(function () {
+            $.ajax({
+                url: "/DataInput/OLDataInput/OLprojectlist",
+                type: "Post",
+                dataType: "json",
+                data: { projecId: 0 },
+                success: function (json) {
+
+                    if (json == null || json == "") {
+                        return;
+                    }
+                    var content = " ";
+                    for (var i = 0; i < json.length; i++) {
+                        content += " <option value=\"" + json[i].Id + "\" >" + json[i].project_name + "</option>";
+                    }
+                    $("#project").html(content);
+
+                }
+            });        
+            OLprojectlist();
+            var projecId = $("#project").val();
+            ChengDataview(projecId);
+        });        
+        function AddbatchData() {
+            var formData = new FormData();
+            console.log($("#project").val())
+            console.log($("#temphidden").val())
+            console.log($('#FileId').prop('files')[0])
+            formData.append("projectId", $("#project").val());
+            formData.append("templateId", $("#temphidden").val());
+            formData.append("PostFile", $('#FileId').prop('files')[0]);
+            console.log(formData);
+            $.ajax({
+                url: "/DataInput/OLDataInput/AddbatchData",
+                type: "POST",
+                dataType: "JSON",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data);
+                    if (data.status == 'true') {
+                        SuccessWindow("添加成功！", true);
+                        //刷新页面
+                        //location.reload();
+                    } else {
+                        ErrorWindow(data.message, true);
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        }
+        function OLprojectlist() {
+            var projecId = getQueryString("Id")
+            $.ajax({
+                url: "/DataInput/OLDataInput/OLprojectlist",
+                type: "Post",
+                dataType: "json",
+                data: { projecId: projecId },
+                success: function (json) {
+                    for (var i = 0; i < json.length; i++) {
+                        $("#project").val(json[i].Id);
+                        ChengDataview(json[i].Id)
+                    }
+                }
+            });
+        }
+        function ChengDataview(e) {            
+            $.ajax({
+                url: "/DataInput/OLDataInput/GetTemplate",
+                type: "Post",
+                dataType: "json",
+                data: { Id: e },
+                success: function (json) {
+                    $("#temp").val(json.Name);
+                    $("#temphidden").val(json.Id);
+                }
+            });
+        }
+
+        function GetMoban() {
+            var projecId = getQueryString("Id")
+            location.href = "/DataInput/OLDataInput/Exportexcel?Id=" + projecId;
+        }
+
+    </script>

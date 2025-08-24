@@ -1,0 +1,242 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "首页";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=2.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <link rel="shortcut icon" href="/favicon.ico?v=12" />
+
+    <script src="~/Content/Scripts/jquery-1.9.1.min.js"></script>
+
+    <title>首页</title>
+
+    <style>
+        @@font-face {
+            font-family: '时尚中黑简体';
+            src: url('/Content/Fonts/时尚中黑简体.ttf') format('truetype');
+        }
+
+
+        * {
+            padding: 0;
+            margin: 0;
+            border: 0;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        /* 请浮动 */
+        .clearfix:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            background-color: #fff;
+            min-height: 650px;
+        }
+
+        .outer {
+            height: 100%;
+            position: relative;
+            background: url(/Content/Images/new_bg.jpg) no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .h-header {
+            height: 120px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -moz-box;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -moz-box-align: center;
+            align-items: center;
+            text-align: center;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -moz-box-pack: center;
+            justify-content: center;
+            background-image: url('/Content/Images/new_header_01.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+            .h-header img {
+                width: auto;
+                max-height: 100%;
+            }
+
+            .h-header span {
+                color: #f6f9fc;
+                letter-spacing: 0.5rem;
+                font-weight: 500;
+                font-size: 28px;
+                /*font-family: '时尚中黑简体';*/
+            }
+
+            .h-header .flex {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: -moz-box;
+                display: flex;
+                -webkit-box-align: center;
+                -ms-flex-align: center;
+                -moz-box-align: center;
+                align-items: center;
+            }
+
+        img.qrcode_com_chinets_m {
+            max-height: 70%;
+            margin-left: 8rem;
+        }
+
+
+        .home-page {
+            height: 100%;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -moz-box-orient: vertical;
+            -moz-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+        }
+
+            .home-page .h-header {
+            }
+
+            .home-page .page-body {
+                -webkit-box-flex: 1;
+                -moz-box-flex: 1;
+                -ms-flex: 1;
+                flex: 1;
+            }
+
+            .home-page .page-footer {
+                height: 100px;
+                line-height: 60px;
+            }
+
+            .home-page .copyright {
+                font-size: 14px;
+                color: #969696;
+                width: 100%;
+                text-align: center;
+                display: block;
+            }
+
+        .nav-container {
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -moz-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -moz-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .nav-list {
+            width: 100%;
+            height:3000px;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            list-style: none;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -moz-box-orient: horizontal;
+            -moz-box-direction: normal;
+            -ms-flex-flow: row wrap;
+            flex-flow: row wrap;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            background-image: url('/Content/Images/backmenu.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: 23px 0;
+        }
+            .nav-list .nav-item {
+                width: 100%;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                position: relative;
+                top: 18px;
+                left: 2px;
+            }
+
+            .nav-list .nav-link {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+
+      
+            .nav-list .nav-link11 {
+                display: block;
+                width: 100%;
+                height: 80%;
+            }
+    </style>
+</head>
+
+<body>
+
+    <div class="outer clearfix">
+
+        <div class="o-left" style="display: none;">
+            <div class="l-m">@*细菌耐药监测数据共享平台*@</div>
+        </div>
+
+        <div class="home-page">
+            <div class="page-body">
+                <div class="nav-container">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/germ/bar.cshtml"></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Data/Shanghai"></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Satellite/List"></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Document/List"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

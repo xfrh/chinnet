@@ -1,0 +1,173 @@
+﻿@model ManageSystem.Admin.Models.Members.MemberAddressModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+ <style type="text/css">
+     .k-content select {
+    width: 15%;
+}
+ </style>
+<table class="adminContent">
+    <tr class="insert-time-tr" style="display:none;">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.InsertTime)：</td>
+        <td class="adminData">
+            @Model.InsertTime.ToString("yyyy-MM-dd HH:mm")
+        </td>
+    </tr>
+    <tr class="insert-time-tr" style="display:none;">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.UpdateTime)：</td>
+        <td class="adminData">
+            @Model.UpdateTime.ToString("yyyy-MM-dd HH:mm")
+        </td>
+    </tr>
+    <tr class="display-no-view">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.MemberId)：</td>
+        <td class="adminData">
+            @Html.TextBoxFor(m => m.MemberId, new { @class = "text-box single-line", style = "width:200px;float: left;" })
+            <div style="float:left;margin: 0px 20px;" id="SpanMemberId">@Model.MemberLoginId</div>
+            <input type="button" onclick="SelectMember()"  name="save" class="btn btn-blue " style="float: left;margin: 0px 20px;" value="选择会员">
+            @Html.ValidationMessageFor(m => m.MemberId)
+        </td>
+    </tr>
+    <tr class="display-view">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.MemberId)：</td>
+        <td class="adminData">
+            @Model.MemberLoginId
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Name)
+        </td>
+    </tr>
+    <tr class="display-no-view">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Address)：</td>
+        <td class="adminData">
+            @Html.Partial("~/Views/PartialView/_SelectArea.cshtml")
+            @Html.TextBoxFor(model => model.ProvinceId, new { style = "width:1px; height:0px;" })
+            @Html.TextBoxFor(model => model.CityId, new { style = "width:1px; height:0px;" })
+            @Html.TextBoxFor(model => model.DistrictsId, new { style = "width:1px; height:0px;" })
+            @Html.ValidationMessageFor(m => m.ProvinceId)
+            @Html.ValidationMessageFor(m => m.CityId)
+            @Html.ValidationMessageFor(m => m.DistrictsId)
+            @Html.EditorFor(m => m.Address, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Address)
+        </td>
+    </tr>
+    <tr class="display-view">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Address)：</td>
+        <td class="adminData">
+            @(Model.Area +" "+ Model.Address  )
+        </td>
+    </tr>
+    <tr class="display-no-view">
+        <td class="adminTitle"></td>
+        <td class="adminData" style="color:red;">
+            详细地址说明： 必须选择省市区，地址框中输入详细的门牌号等信息
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Phone)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Phone, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Phone)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Email)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Email)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ZipPostalCode)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.ZipPostalCode, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.ZipPostalCode)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Tel)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Tel, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Tel)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.IsMain)：</td>
+        <td class="adminData">
+            @Html.CheckBoxFor(m => m.IsMain, new { @class = "n-chk" })
+            @Html.ValidationMessageFor(m => m.IsMain)
+        </td>
+    </tr>
+    
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Remark)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Remark, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Remark)
+        </td>
+    </tr>
+</table>
+
+
+
+<script src="~/Content/Scripts/layer/layer.js"></script>
+<script src="/Content/Scripts/TranTextBox.js"></script>
+<script type="text/javascript">
+
+
+    //选择所属会员
+    function SelectMember() {
+        OpenSelectMemberWindow("选择所属会员", "/Members/MemberSelect?temp=MemberId");
+    }
+
+    //打开选择会员的窗口
+    function OpenSelectMemberWindow(title, url) {
+        //iframe层-父子操作
+        layer.open({
+            type: 2,
+            area: ['1200px', '800px'],
+            fix: false, //不固定
+            maxmin: true,
+            title: "" + title + "",
+            content: "" + url + ""
+        });
+    }
+
+    //选择会员以后的回调函数  id 会员id，name会员姓名，temp页面的元素
+    function SaveSelectMemberData(id, name, temp) {
+        if (id == null || id.length <= 0) {
+            alert("选择会员数据错误，请重试");
+            return;
+        }
+        $("#" + temp + "").val(id);
+        $("#Span" + temp + "").html(name);
+        $(".Tr" + temp + " span").html("");
+        $(".Tr" + temp + " span").addClass("field-validation-valid");
+        $(".Tr" + temp + " span").removeClass("field-validation-error");
+    }
+
+    //选择省以后的回调函数
+    function SelectProvinceCallBack(id)
+    {
+        $("#ProvinceId").val(id);
+    }
+
+    //选择城市以后的回调函数
+    function SelectCityCallBack(id) {
+        $("#CityId").val(id);
+    }
+
+    //选择城区以后的回调函数
+    function SelectAreaCallBack(id) {
+        $("#DistrictsId").val(id);
+    }
+
+
+</script>

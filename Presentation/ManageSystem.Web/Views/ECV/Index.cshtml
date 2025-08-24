@@ -1,0 +1,175 @@
+﻿
+@{
+    ViewBag.Title = "流行病学折点";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/Css/Medicine.css" rel="stylesheet" />
+<link href="~/Content/Css/Team/Index.css?v=1.8" rel="stylesheet" />
+
+<div class="mbx">
+    <p>当前位置：首页 &gt; 流行病学折点</p>
+</div>
+
+<div class="doct_center" style="margin-bottom:40px;">
+    <div class="doct_center_r">
+        <div id="divIncomeIntegral" class="page-btn-main " style="">
+            <h3>我国目前制定的抗菌药物流行病学界值（Epidemiological Cutoff Value, ECV）</h3>
+            <div @*style="margin-top:40px;"*@>
+                <p class="intro-p" style="height: auto;">
+                    &nbsp; &nbsp; &nbsp; &nbsp; 当前，我国药物敏感试验参考美国临床和实验室标准化协会（Clinical and Laboratory Standards Institute, CLSI）以及欧洲药敏试验委员会（European Committee on Antimicrobial Susceptibility Testing, EUCAST）每年颁布的标准，尚缺乏本国药敏试验参考标准。由于我国自主研发的重要抗菌药物并未在欧洲或美国上市，因此CLSI或EUCAST并无相应的药敏试验判断标准，临床实验室无法对该药进行药敏试验并按判断标准提供结果解释分类（如敏感、中介或耐药等），不利于此类药物在临床的合理使用。
+                </p>
+                <p class="intro-p" style="height: auto;">
+                    &nbsp; &nbsp; &nbsp; &nbsp;为建立我国的抗菌药物药敏试验判断标准，中国政府以及社会团体先后成立或发布与药敏试验折点相关的工作要求。2018年5月，国家药品监督管理局正式发布“抗菌药物折点研究技术指导原则”，明确规定新抗菌药物在获批上市前必须有抗菌药物药敏试验折点（如流行病学界值）；2017年10月，国家卫生计生委合理用药专家委员会正式发布“关于申报全国细菌耐药监测参比实验室的通知（ 国卫合药委函〔2017〕64号）”。2017年，北京协和医院牵头成立欧洲临床微生物和感染病学会药敏委员会华人抗菌药物敏感性试验委员会 (ChiCAST)。2019年8月，“CHINET中国细菌耐药监测网”成立“CHINET药敏试验委员会”（CHINET Committee Antimicrobial Susceptibility Testing, CCAST）。
+                </p>
+                <p class="intro-p" style="height: auto;">
+                    &nbsp; &nbsp; &nbsp; &nbsp;以下为目前我国制定的抗菌药物药敏试验流行病学折点（持续更新中）。
+                </p>
+
+            </div>
+            <h3></h3>
+            <p><span class="sp1">表1. 不同细菌对奈诺沙星（Nemonoxacin）的流行病学界值</span></p>
+            <div class="detail" style="">
+                <table>
+                    <tr>
+                        <td rowspan=2 style="font-weight:bold;text-align:left;"> 细菌名称</td>
+                        <td style="font-weight:bold;" colspan="2"> 纸片扩散法 (mm)</td>
+                        <td style="font-weight:bold;" colspan=2>MIC (mg/L)</td>
+                        <td rowspan=2 style="font-weight:bold;">参与单位</td>
+                        <td rowspan=2 style="font-weight:bold;">菌株数量</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold;">WT</td>
+                        <td style="font-weight:bold;">NWT</td>
+                        <td style="font-weight:bold;">WT</td>
+                        <td style="font-weight:bold;">NWT</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;">肠杆菌目细菌</td>
+                        <td>≥16</td>
+                        <td>≤15</td>
+                        <td>≤2</td>
+                        <td>≥4</td>
+                        <td>4</td>
+                        <td>1067</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;">铜绿假单胞菌</td>
+                        <td>≥16</td>
+                        <td>≤15</td>
+                        <td>≤4</td>
+                        <td>≥8</td>
+                        <td>4</td>
+                        <td>720</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;">葡萄球菌属</td>
+                        <td>≥20</td>
+                        <td>≤19</td>
+                        <td>≤1</td>
+                        <td>≥2</td>
+                        <td>4</td>
+                        <td>550</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;">肺炎链球菌</td>
+                        <td>≥21</td>
+                        <td>≤20</td>
+                        <td>≤0.5</td>
+                        <td>≥1</td>
+                        <td>4</td>
+                        <td>412</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;">流感嗜血杆菌</td>
+                        <td>≥21</td>
+                        <td>≤20</td>
+                        <td>≤0.5</td>
+                        <td>≥1</td>
+                        <td>4</td>
+                        <td>319</td>
+                    </tr>
+                </table>
+            </div>
+            @*<h3>葡萄球菌属细菌对去甲万古霉素（Norvancomycin）的流行病学界值</h3>*@
+            <p><span class="sp1">表2. 葡萄球菌属细菌对去甲万古霉素（Norvancomycin）的流行病学界值</span></p>
+            <div class="detail" style="">
+                <table>
+                    <tr>
+                        <td rowspan=2 style="font-weight:bold;text-align:left;"> 细菌名称</td>
+                        <td style="font-weight:bold;" colspan="2"> 纸片扩散法 (mm)</td>
+                        <td style="font-weight:bold;" colspan=2>MIC (mg/L)</td>
+                        <td rowspan=2 style="font-weight:bold;">参与单位</td>
+                        <td rowspan=2 style="font-weight:bold;">菌株数量</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold;">WT</td>
+                        <td style="font-weight:bold;">NWT</td>
+                        <td style="font-weight:bold;">WT</td>
+                        <td style="font-weight:bold;">NWT</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;">金黄色葡萄球菌</td>
+                        <td></td>
+                        <td></td>
+                        <td>≤1</td>
+                        <td>≥2</td>
+                        <td>5</td>
+                        <td>600</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;">表皮葡萄球菌</td>
+                        <td></td>
+                        <td></td>
+                        <td>≤2</td>
+                        <td>≥4</td>
+                        <td>5</td>
+                        <td>200</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;">溶血葡萄球菌</td>
+                        <td></td>
+                        <td></td>
+                        <td>≤2</td>
+                        <td>≥4</td>
+                        <td>5</td>
+                        <td>200</td>
+                    </tr>
+                    <tr >
+                        <td style="text-align:left;">人葡萄球菌</td>
+                        <td></td>
+                        <td></td>
+                        <td>≤1</td>
+                        <td>≥2</td>
+                        <td>5</td>
+                        <td>199</td>
+                    </tr>
+                </table>
+            </div>
+            <p><span class="sp1">术语说明（来源于2020年CLSI M100文件 ）：</span></p>
+            <p style="height: auto;">
+                1.	野生型（Wild-type, WT）：通过一个ECV值定义解释分类，这些微生物群不携带对所评估抗微生物药物（抗真菌药物）典型表型可检测的耐药或敏感性下降的机制。
+            </p>
+            <p style="height: auto;">
+                2.	非野生型（Non Wild-type, NWT）：通过一个ECV值定义解释分类，这些微生物群携带对所评估抗微生物药物（抗真菌药物）典型表型可检测的耐药或敏感性下降的机制。
+            </p>
+            <p><span class="sp1">链接：</span></p>
+            <p style="height: auto;">
+                1.	EUCAST流行病学界值数据库：<a href="http://www.eucast.org/mic_distributions_and_ecoffs" target="_blank"  style="color:deepskyblue">http://www.eucast.org/mic_distributions_and_ecoffs</a>
+            </p>
+            <p><span class="sp1">参考文献：</span></p>
+            <p style="height: auto;">
+                1.	Clinical and Laboratory Standards Institute. 2020. Performance standards for antimicrobial susceptibility testing, 30th ed. CLSI supplement M100. Clinical and Laboratory Standards Institute, Wayne, PA.
+            </p>
+            <p style="height: auto;">
+                2.	Center for drug evaluation, NMPA. 抗菌药物折点研究技术指导原则.<a href="http://www.cde.org.cn/zdyz.do?method=largePage&id=277" target="_blank"  style="color:deepskyblue">http://www.cde.org.cn/zdyz.do?method=largePage&id=277</a>.
+            </p>
+            <p style="height: auto;">
+                3.	European Committee on Antimicrobial Susceptibility Testing (EUCATS). Antimicrobial wild type distributions of microorganisms.<a href="https://mic.eucast.org/Eucast2" target="_blank"  style="color:deepskyblue"> https://mic.eucast.org/Eucast2</a>
+            </p>
+            <p style="height: auto;">
+                4.	胡付品、吴文娟、郭燕。细菌真菌药敏试验标准查询手册. 2019, 上海科学技术出版社。
+            </p>
+        </div>
+    </div>
+</div>
+

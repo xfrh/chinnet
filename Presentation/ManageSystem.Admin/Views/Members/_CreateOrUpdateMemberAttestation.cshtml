@@ -1,0 +1,92 @@
+﻿@model ManageSystem.Admin.Models.Members.MemberAttestationModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+		<table class="adminContent">
+            <tr class="insert-time-tr" style="display:none;">
+                <td class="adminTitle">@Html.NopLabelFor(m => m.InsertTime)：</td>
+                <td class="adminData">
+                    @Model.InsertTime.ToString("yyyy-MM-dd HH:mm")
+                </td>
+            </tr>
+		<tr class="display-no-view">
+			<td class="adminTitle">@Html.NopLabelFor(m => m.AreaId)：</td>
+				<td class="adminData ">
+				@Html.EditorFor(m => m.AreaId)
+				@Html.ValidationMessageFor(m => m.AreaId)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.AreaName)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.AreaName, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.AreaName)
+			</td>
+			</tr>
+            <tr class="display-no-view">
+                <td class="adminTitle">@Html.NopLabelFor(m => m.HospitalId)：</td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.HospitalId, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                    @Html.ValidationMessageFor(m => m.HospitalId)
+                </td>
+            </tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.HospitalName)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.HospitalName, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.HospitalName)
+			</td>
+			</tr>
+            <tr class="display-no-view">
+                <td class="adminTitle">@Html.NopLabelFor(m => m.HospitalDepartmentId)：</td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.HospitalDepartmentId, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                    @Html.ValidationMessageFor(m => m.HospitalDepartmentId)
+                </td>
+            </tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.HospitalDepartmentName)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.HospitalDepartmentName, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.HospitalDepartmentName)
+			</td>
+			</tr>
+            <tr class="display-no-view">
+                <td class="adminTitle">@Html.NopLabelFor(m => m.DoctorTitleId)：</td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.DoctorTitleId, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                    @Html.ValidationMessageFor(m => m.DoctorTitleId)
+                </td>
+            </tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.DoctorTitleName)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.DoctorTitleName, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.DoctorTitleName)
+			</td>
+			</tr>
+            <tr class="display-no-view">
+                <td class="adminTitle">@Html.NopLabelFor(m => m.Status)：</td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.Status, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                    @Html.ValidationMessageFor(m => m.Status)
+                </td>
+            </tr>
+            <tr class="display-view" style="display:none">
+                <td class="adminTitle">@Html.NopLabelFor(m => m.Status)：</td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.StatusName, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                </td>
+            </tr>
+		</table>
+
+        <script src="/Content/Scripts/TranTextBox.js"></script>
+<script type="text/javascript">
+
+
+
+   
+</script>

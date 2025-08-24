@@ -1,0 +1,170 @@
+﻿@using ManageSystem.Services.Configuration
+@{
+
+    string adminPageTitle = "";
+    if (!String.IsNullOrWhiteSpace(this.ViewBag.Title))
+    {
+        adminPageTitle = this.ViewBag.Title + " / ";
+    }
+
+    adminPageTitle = WebSettingService.GetWebName();
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <link rel="shortcut icon" href="/favicon.ico?v=12" />
+
+    <title>上海细菌真菌耐药监测网</title>
+    <link href="~/Content/Css/assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+
+    <link href="/Content/bootstrap-3.3.0/css/bootstrap.min.css?v=1.3" rel="stylesheet" />
+    <link href="/Content/Css/style.css??v=1.3" rel="stylesheet" />
+    <link href="/Content/Css/keyan.css?v=1.32" rel="stylesheet" />
+    <link href="/Content/Css/common.css?v=1.3" rel="stylesheet" />
+
+    <link href="/Content/Css/swiper-3.3.1.min.css?v=1.3" rel="stylesheet" />
+    <link href="/Content/Scripts/layer-v2.4/skin/layer.css?v=1.3" rel="stylesheet" />
+    <link href="/Content/Scripts/layer-v2.4/laydate/skins/dahong/laydate.css?v=1.3" rel="stylesheet" />
+    <link href="/Content/Css/pageer.css?v=1.3" rel="stylesheet" />
+    <script src="~/Content/Scripts/mobile.js"></script>
+    <script src="~/Content/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="/Content/Scripts/jquery.validate.min.js"></script>
+    <script src="/Content/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/Content/Scripts/layer-v2.4/layer.js"></script>
+    <script src="/Content/Scripts/layer-v2.4/laydate/laydate.js"></script>
+    <script src="/Content/Scripts/common-validate.js"></script>
+
+    <link href="/Content/Css/Layout/base.css?v=1.3" rel="stylesheet" />
+    <link href="/Content/Css/Layout/global.css?v=1.235" rel="stylesheet" />
+    <link href="~/Content/Css/assets/introjs.css" rel="stylesheet" />
+    <script src="~/Content/Css/assets/intro.js"></script>
+
+    @RenderSection("HeadSection", required: false)
+
+    <style>
+        .clearfix:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .zxjc-logo-box {
+        }
+
+        .zxjc-logo-home {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            width: 350px;
+            height: 65px;
+            top: 2px;
+        }
+
+        .zxjc-logo {
+            width: 45px;
+            position: relative;
+            left: 0px;
+        }
+
+        .zxjc-logo-text {
+            color: #787878;
+            font-size: 20px;
+            margin-left: 15px;
+        }
+    </style>
+</head>
+
+<body style="background-color:white;">
+
+    <div class="header wid-1200" style="height:100px;">
+        <div class="logo" style="margin-bottom: 10px; height:45px;">
+            <li class="l zxjc-logo-box" onclick="location.href='/'">
+                <a class="zxjc-logo-home" href="/">
+                    <img src="~/Content/Images/jc_logo.png" alt="" draggable="false" title="耐药监测专项研究" style="width: 82%; margin-left: -56px; margin-top: 5px;" />
+                    @*<img class="zxjc-logo" src="~/Content/Images/chinet_zxjc_logo.png" draggable="false" alt="上海细菌真菌耐药监测网" title="上海细菌真菌耐药监测网" />
+                        <span class="zxjc-logo-text">耐药监测专项研究</span>*@
+                </a>
+            </li>
+            <li class="r">
+                @{ Html.RenderAction("_MenuMember", "PartialView", new { area = "Special" });}
+            </li>
+        </div>
+        @{ Html.RenderAction("_LayoutMenu", "PartialView", new { area = "Special" });}
+    </div>
+    <div class="content wid-1200" id="pageContent">
+        <div style="min-height:400px;">@RenderBody()</div>
+    </div>
+    @RenderSection("FooteMenu", required: false)
+    <div style="width:100%;display:inline-block;">
+        <div class="wid-1200">
+            <h2 class="index-bt sj" style="font-size:14px;"><i></i>数据来源<span style="margin-left:10px; color:#ccc;font-size:12px;">成员单位名称排名不分先后（按拼音排序）</span>  </h2>
+        </div>
+    </div>
+    <div class="page-fooer-partner foot_bg" style="height: 250px;">
+        <ul data-step="15" data-intro="<p style='font-weight:bold;'>数据来源：</p>图表中显示数据来源的单位。" data-position='top' class="wid-1200 clearfix page-footer-main">
+            <li>安徽医科大学附属第一医院</li>
+            <li>北京协和医院</li>
+            <li>北京医院</li>
+            <li>福建晋江市医院</li>
+            <li>福建省泉州市第一医院</li>
+            <li>复旦大学附属儿科医院</li>
+            <li>复旦大学附属华山医院</li>
+            <li>甘肃省人民医院</li>
+            <li>广州医学院附属第一医院</li>
+            <li>贵州省人民医院</li>
+            <li>哈尔滨医科大学附属第一医院</li>
+            <li>河北医科大学第二医院</li>
+            <li>河南省人民医院</li>
+            <li>湖北省秭归县人民医院</li>
+            <li>华中科技大学同济医学院附属同济医院</li>
+            <li>吉林大学中日联谊医院</li>
+            <li>江西省儿童医院</li>
+            <li>昆明医科大学附属第一医院</li>
+            <li>南京大学医学院附属鼓楼医院</li>
+            <li>内蒙古医科大学附属医院</li>
+            <li>宁夏医科大学总医院</li>
+            <li>厦门大学附属第一医院</li>
+            <li>山东省立医院</li>
+            <li>山西省儿童医院</li>
+            <li>陕西省人民医院</li>
+            <li>上海交通大学医学院附属瑞金医院</li>
+            <li>上海浦东新区人民医院</li>
+            <li>上海市儿童医院</li>
+            <li>深圳市人民医院</li>
+            <li>首都医科大学附属儿童医院</li>
+            <li>四川大学华西医院</li>
+            <li>四川省人民医院</li>
+            <li>天津医科大学总医院</li>
+            <li>西藏军区总医院</li>
+            <li>新疆医科大学附属第一医院</li>
+            <li>浙江大学医学院附属邵逸夫医院</li>
+            <li>浙江宁波市镇海龙赛医院</li>
+            <li>中国医科大学附属第一医院</li>
+            <li>中南大学湘雅医院</li>
+        </ul>
+    </div>
+    <div class="footer" style="padding: 10px;">
+        <ul class="wid-1200">
+            <p class="center" style="font-size:12px;">电话：021-52888186 |  www.chinets.com  |   地址：上海市静安区乌鲁木齐中路12号</p>
+            <p class="center" style="font-size:12px;">版权所有：复旦大学附属华山医院抗生素研究所  |   技术支持：杭州杰毅生物技术有限公司</p>
+        </ul>
+    </div>
+
+    <script src="~/Content/Scripts/swiper-3.3.1.min.js"></script>
+    <script src="~/Content/Scripts/common.js"></script>
+    <script src="~/Content/Scripts/layer-v2.4/helper.js"></script>
+    <script src="~/Content/bootstrap-3.3.0/js/bootstrap.min.js"></script>
+    <script src="~/Content/Scripts/_Layout.js"></script>
+
+    @RenderSection("FooterSection", required: false)
+
+</body>
+</html>

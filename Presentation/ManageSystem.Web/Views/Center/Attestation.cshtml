@@ -1,0 +1,144 @@
+﻿@using ManageSystem.Web.Models.Members
+@model  MemberAttestationModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "个人中心";
+}
+
+<style type="text/css">
+  
+    .submit-attestation  select{
+      height: 35px !important;
+    line-height: 35px !important;
+        width: 200px !important;
+    }
+</style>
+
+<div class="mbx"><p>当前位置：首页 &gt; 个人中心 </p></div>
+<div class="user_center center-index-page ">
+    @*<div>
+        @Html.Action("_Menu", "Center")
+    </div>*@
+    <div class="user_center_r" style="width: 100%;padding-right: 10px;padding-left: 10px;">
+        <div class="user_center_r_a center-title">
+            <h2>
+                <span class="span-item " onclick="location.href='@Url.Action("Index", "Center")'">个人信息</span>
+                <span class="span-item  span-item-action" onclick="location.href='@Url.Action("Attestation", "Center")'">认证信息</span>
+            </h2>
+        </div>
+
+        @{
+            if (Model != null)
+            {
+                if (Model.IsSuccess)
+                {
+                    //已经提交过了
+                    <ul style="border-bottom-style:none;">
+                        <li>
+                            <span>认证时间<em style="color:red">*</em>：</span>
+                            <span>
+                                @Model.InsertTime.ToString("yyyy-MM-dd HH:mm")
+                            </span>
+                        </li>
+                        <li>
+                            <span>认证状态：</span>
+                            <span>
+                                @Model.StatusName
+                            </span>
+                        </li>
+                        <li>
+                            <span>所属城市：</span>
+                            <span>
+                                @Model.AreaName
+                            </span>
+                        </li>
+                        <li>
+                            <span>所属医院：</span>
+                            <span>
+                                @Model.HospitalName
+                            </span>
+                        </li>
+                        <li>
+                            <span>所属科室：</span>
+                            <span>
+                                @Model.HospitalDepartmentName
+                            </span>
+                        </li>
+                        <li>
+                            <span>医生职称：</span>
+                            <span>
+                                @Model.DoctorTitleName
+                            </span>
+                        </li>
+
+                    </ul>
+                }
+                else
+                {
+                    using (Html.BeginForm("Attestation", "Center", FormMethod.Post, new { id = "form1" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.Id)
+
+                        <ul style="border-bottom-style:none;" class="submit-attestation">
+                            <li>
+                                <span>所属城市<em style="color:red">*</em>：</span>
+                                <span>
+                                    @Html.Partial("~/Views/PartialView/_SelectArea.cshtml")
+                                    @Html.TextBoxFor(model => model.AreaId, new { style = "width:1px; height:0px;" })
+                                    @Html.ValidationMessageFor(m => m.AreaId)
+                                </span>
+                            </li>
+                            <li>
+                                <span>所属医院<em style="color:red">*</em>：</span>
+                                <span>
+                                    @Html.DropDownList("HospitalId", Model.HospitalList, new { @class = "select-div" })
+                                    @Html.ValidationMessageFor(m => m.HospitalId)
+                                </span>
+                            </li>
+                            <li>
+                                <span>所属科室<em style="color:red">*</em>：</span>
+                                <span>
+                                    @Html.DropDownList("HospitalDepartmentId", Model.HospitalDepartmentList, new { @class = "select-div" })
+                                    @Html.ValidationMessageFor(m => m.HospitalDepartmentId)
+                                </span>
+                            </li>
+                            <li>
+                                <span>医生职称<em style="color:red">*</em>：</span>
+                                <span>
+                                    @Html.DropDownList("DoctorTitleId", Model.DoctorTitleList, new { @class = "select-div" })
+                                    @Html.ValidationMessageFor(m => m.DoctorTitleId)
+                                </span>
+                            </li>
+                        </ul>
+
+                        <input type="button" onclick="Save()" class="button" value="提交认证">
+
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $("#ddlArea").css("display", "none");
+
+                                //加载省份下拉列表框的数据
+                                GetDistrictList(0, 1);
+                            });
+
+                            function Save() {
+                                var cityId = $("#ddlCity").val();
+                                if (cityId != null && cityId != "" && cityId != "0")
+                                    $("#AreaId").val(cityId);
+
+                                if ($("#form1").valid()) {
+                                    $("#form1").submit();
+                                }
+                            }
+
+                        </script>
+                    }
+                }
+            }
+        }
+
+
+
+    </div>
+</div>

@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewBag.Title = "Histogram";
+    Layout = "~/Areas/CR/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .navliactive {
+        text-decoration: none;
+        background-color: transparent;
+        color: #333;
+        border-bottom: solid 2px #333;
+    }
+
+    .conpl p {
+        text-indent: 32px;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .conpl {
+        margin-top: 20px;
+        padding-left: 0px;
+    }
+
+        .conpl h2 {
+            font-size: 24px;
+            color: #333;
+            border-bottom: 2px solid rgb(210, 71, 38);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            margin-top: 10px;
+        }
+</style>
+<div class=" container" id="pageContent">
+    <div style="min-height:400px;">
+        <link href="~/Areas/CR/Content/Css/Datas/Monitor.css" rel="stylesheet" />
+        <style>
+            .intro-article {
+                text-indent: 30px;
+                font-size: 15px;
+                width: 90%;
+                margin: 0 auto;
+                margin-bottom: 15px;
+            }
+        </style>
+        <div id="pageContent">
+            <div class="data-home-box" style="margin-bottom:5px; height:0px;">
+            </div>
+            <div id="dataError" class="error-box" style="display:none;">
+                <img src="/Content/Images/data-error.png">
+                <p class="error-message">请选择数据段</p>
+            </div>
+
+            <div class="main-content2" style="width: 100%; display: block;  margin-top: 0px;">
+                <div style="font-size: 18px; text-align: center; margin-bottom: 5px" id="PageContentTitle">各省份CRE，CRAB分布</div>
+                <div id="main" style="margin-bottom: 0px; -webkit-tap-highlight-color: transparent; user-select: none; background: transparent; position: relative;">
+
+                </div>
+            </div>
+
+            <div style="width: 100%; display: block; overflow: hidden; margin-top: 20px; ">
+                <div class="index-bt">
+                    <h2 style="padding: 5px 0px; display: inline-block;">
+                        <i></i>细菌分类
+                        <span class="item-title-3" style="margin-left: 20%; cursor: pointer;" onclick="SelectNull()">取消选择</span>
+                        <img class="germ-btn-image btn-image-GermContent" src="/Areas/CR/Content/Images/jiantou-xia.png" style="height:13px;width:13px;cursor:pointer; margin-top: 1px; margin-left: 5px;" alt="" onclick="ShowStatus('GermContent')">
+                    </h2>
+                </div>
+                <div class="" id="GermContent" data-status="1">
+                    <ul id="germ_list" class="germ-list">
+                    </ul>
+                </div>
+                <div style="float: none;"></div>
+                <div class="index-bt" style="width:100%; padding-top: 20px; ">
+                    <h2>
+                        <i></i>抗菌药物<span class="item-title-3" style="margin-left: 20%;cursor: pointer;" onclick="SelectNull()">取消选择</span>
+                        <img class="antibiotic-btn-image btn-image-AntibioticContent" src="/Content/Images/jiantou-xia.png" style="height:13px;width:13px;cursor:pointer; margin-top: 1px; margin-left: 5px;" alt="" onclick="ShowStatus('AntibioticContent')">
+                    </h2>
+                </div>
+                <style>
+                    .kanjunclass {
+                        overflow: hidden;
+                        padding: 20px 0;
+                    }
+
+                    .kjcalss {
+                        overflow: hidden;
+                        padding: 10px 0;
+                    }
+
+                        .kjcalss li {
+                            float: left;
+                            width: 25%;
+                            line-height: 1.8;
+                        }
+                </style>
+                <div class="kjcalss  container" id="AntibioticContent" data-status="1">
+                    <ul id="antibiotic_list" class="antibiotic-list">
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <input type="hidden" id="TypeValue" data-remark="数据段名称">
+    </div>
+</div>
+<script src="~/Areas/CR/Content/Scripts/template-web.js"></script>
+<script src="~/Areas/CR/Content/Scripts/Echarts/echarts.min.js"></script>
+<script src="~/Areas/CR/Content/js/Project1.js"></script>
+@*<script src="~/Areas/CR/Content/js/JavaScript.js"></script>*@

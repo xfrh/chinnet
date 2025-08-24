@@ -1,0 +1,1 @@
+﻿location.href = "/Home/List";

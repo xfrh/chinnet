@@ -1,0 +1,179 @@
+﻿
+@using ManageSystem.Web.Models.Medicine;
+@using Webdiyer.WebControls.Mvc;
+@model HospitalWardLocationModel
+@{
+    ViewBag.Title = "科室配置管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+   
+<div class="mbx"><p>当前位置：首页 &gt; 会员中心 &gt; 科室配置管理 </p></div>
+<div class="user_center">
+    <div class="user_center_r" style="width: 100%;padding-right: 10px;padding-left: 10px;">
+        <div class="user_center_r_a" style="margin-bottom: 10px;">
+            <button id="btn-org" class="btn btn-primary" type="button" style="border-radius: 0; padding: 4px 12px; font-size: 12px;" onclick="location.href='/HospitalDepartment/CreateDepartment'">新增</button>
+            <button id="btn-roc" class="btn btn-primary" type="button" style="border-radius: 0; padding: 4px 12px; font-size: 12px; margin-left: 8px;" onclick="Deletelist()">删除</button>
+            <button id="btn-roc" class="btn btn-primary" type="button" style="border-radius: 0; padding: 4px 12px; font-size: 12px; margin-left: 8px;" onclick="location.href='/HospitalDepartment/DepartmentImport'">批量导入</button>
+        </div>
+        <div class="user_center_r_a">           
+        </div>
+        <div class="user_center_r_b">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <thead>
+                    <tr style="text-align:center;">
+                        <th width="3%" style="text-align:center;">
+                            <label for="checkall">
+                                <input class="" id="checkall" name="data-items" type="checkbox" value="0" />
+                            </label>
+                        </th>
+                        @* <th width="10%" style="text-align:center;">医院名称</th>*@
+                        <th width="10%" style="text-align:center;">Ward</th>
+                        <th width="8%" style="text-align:center;">Location</th>
+                        @* <th width="14%" style="text-align:center;">Department_CN</th>*@
+                        <th width="14%" style="text-align:center;">Department</th>
+                        <th width="8%" style="text-align:center;">Location_Type</th>
+                        @* <th width="8%" style="text-align:center;">上传时间</th>*@
+                        <th width="5%" style="text-align:center;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model != null && Model.PageList.Any())
+                        {
+                            foreach (var item in Model.PageList)
+                            {
+                                <tr>
+                                    <td class="text-center">
+                                        <label for="data-item-@(item.Id)">
+                                            <input class="" id="data-item-@(item.Id)" type="checkbox" name="data-item" value="@item.Id" />
+                                            <span class="text"></span>
+                                        </label>
+                                    </td>
+                                    @*<td>@item.Name</td>*@
+                                    <td>@item.Ward</td>
+                                    <td>@item.Location</td>
+                                    @*<td>@item.Department_CN</td>*@
+                                    <td>@item.Department_EN</td>
+                                    <td>@item.Location_Type</td>
+                                    <td>
+                                        <a class='td-aclass' href='@Url.Action("UpdateDepartment", "HospitalDepartment")/@item.Id' target='_blank'>修改</a>&nbsp;
+                                        <a class='td-aclass' href="#" onclick="Delete('@item.Id'); return false;">删除</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8" class="text-danger">暂无数据~</td>
+                            </tr>
+                        }
+                    }
+            </table>
+            <input id="HospitalName" type="hidden" value="@ViewBag.HospitalName" />
+            <input id="Department" type="hidden" value="@ViewBag.Department" />
+            @if (ViewBag.Hospitalid == 0)
+            {
+                return;
+            }
+            <div id="page-box" class="page">
+                @Html.Pager(Model.PageList, MvcPagerExtensions.GetPagerOptions())
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var HospitalName = $("#HospitalName").val();
+        var Department = $("#Department").val();      
+        if (Department != 1)
+        {
+            SuccessWindows("<div style='text-align:center;'>您暂时没有对【" + HospitalName + "】进行科室配置的权限，请联系医院负责人或向我们进行<a style='color:red' href='/Center/Feedback'>反馈</a>，谢谢！", false, "/Medicine/Upload");
+            return;
+        }
+    })
+    $("[name='data-items']").click(function () {
+
+        if ($("[name='data-items']").prop("checked") == true) {
+            $("[name='data-item']").prop("checked", true)
+
+        }
+        else {
+            $("[name='data-item']").prop("checked", false)
+        }
+    })
+    function Delete(id) {
+        if (id) {
+            //询问框
+            layer.confirm('您确认要删除该数据吗？', {
+                title: '系统提示',
+                btn: ['确认', '取消'] //按钮
+            }, function ()
+            {
+                 var Department = $("#Department").val();
+                if (Department != 1)
+                {
+                    SuccessWindows("<div style='text-align:center;'>您暂时没有对【" + HospitalName + "】进行科室配置的权限，请联系医院负责人或向我们进行<a style='color:red' href='/Center/Feedback'>反馈</a>，谢谢！", false, "/Medicine/Upload");
+                    return;
+                }
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "/HospitalDepartment/DeleteDepartment",
+                    data: { id: id },
+                    dataType: "json",
+                    success: function (json) {
+                        if (json == null || json == "") {
+                            return false;
+                        }
+
+                        if (json.status == "true") {
+                            SuccessWindow("删除成功！", true);
+                        }
+                        else {
+                            ErrorWindow(json.message, true);
+                        }
+                    }
+                });
+            });
+        }
+        return false;
+    }
+    function Deletelist()
+    {
+        var ids = "";
+         $("input[name='data-item']:checked").each(function () {
+                ids += $(this).val() + ","
+            });
+        if (ids == "" || ids.length<=0) {
+            MessageWindow("请选择要删除的数据");
+        }
+        else { 
+            layer.confirm('您确认要删除该数据吗？', {
+                title: '系统提示',
+                btn: ['确认', '取消'] //按钮
+            }, function () {
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "/HospitalDepartment/DeleteDepartment",
+                    data: { id: ids },
+                    dataType: "json",
+                    success: function (json) {
+                        if (json == null || json == "") {
+                            return false;
+                        }
+
+                        if (json.status == "true") {
+                            SuccessWindow("删除成功！", true);
+                        }
+                        else {
+                            ErrorWindow(json.message, true);
+                        }
+                    }
+                });
+            })
+        }
+    }
+</script>

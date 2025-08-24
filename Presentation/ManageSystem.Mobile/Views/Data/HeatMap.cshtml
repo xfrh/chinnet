@@ -1,0 +1,84 @@
+﻿@using ManageSystem.Core.Utility
+@using ManageSystem.Mobile.Models.Data
+
+@model List<HeatmapDTO>
+@{
+    ViewBag.Title = "热图";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="app" v-cloak class="indexpage">
+    <div id="header" class="header flex padding-tb-20 fon-30 bold f-around top-nav">
+        <div @@click="toPage('@Url.Action("GermWithBar", "Data").ToLowerInvariant()')">柱状图</div>
+        <div @@click="toPage('@Url.Action("GermWithYear", "Data").ToLowerInvariant()')">趋势图</div>
+        <div @@click="toPage('@Url.Action("Monitor", "Data").ToLowerInvariant()')">主动监测</div>
+        <div class="border-b-2" @@click="toPage('@Url.Action("HeatMap", "Data").ToLowerInvariant()')">热图</div>
+    </div>
+    <div ref="middle" class="middle">
+        <div ref="swiper_container" class="swiper-container scroll">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide slidescroll">
+                    <div style="width: 100%; display: block; overflow: hidden;" class="main-content">
+                        <div class="padding-lr-20" style="font-size: 0.4rem; text-align: center;  margin-bottom: 5px;margin-top: 0.4rem;" v-text="pageContentTitle"></div>
+                        <div style="font-size: 0.37rem; text-align: center;  margin-bottom: 10px;" v-text="pageContentSubTitle"></div>
+                        <div ref="main" style="overflow: hidden; width: 95%; height: 10rem; display: block; margin-bottom: 0px;"></div>
+                    </div>
+                    <div class="" style="margin-top: 0.5rem;">
+                        @foreach (HeatmapDTO item in Model)
+                        {
+                            <div class="sjd-list-group">
+                                <h4 class="">@item.Name</h4>
+                                <ul class="flex list-group">
+                                    @foreach (HeatmapItemDTO dataItem in item.DataItems)
+                                    {
+                                        string _guid = Guid.NewGuid().ToString().ToLowerInvariant();
+                                        <li id="listitem-@_guid" class="list-item" data-default="@(dataItem.Default?1:0)" @@click="renderHeatMap('@dataItem.Id', $event)">@dataItem.Name</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                        <div style="height: 25px;"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    @Html.Partial("_FooterNavBar", "首页")
+
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_toast" style="font-size: 1.65rem;"></i>
+            <p class="weui-toast__content fon-32" v-text="weui_toast_content"></p>
+        </div>
+    </div>
+
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32">数据加载中</p>
+        </div>
+    </div>
+
+</div>
+
+@section Styles{
+    <link href="~/Content/Css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Data/HeatMap.css?v=@DateTime.Now.Ticks" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/Echarts/asset/js/html5shiv.js"></script>
+    <script src="~/Content/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/swiper/swiper.min.js"></script>
+    <script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+    <script src="~/Content/Scripts/Echarts/china.js"></script>
+    <script src="~/Content/Scripts/Echarts/bmap.js"></script>
+    <script src="~/Content/Scripts/Echarts/theme/blue.js?v=1"></script>
+    <script src="~/Content/Scripts/Data/HeatMap.js?v=@DateTime.Now.Ticks"></script>
+}

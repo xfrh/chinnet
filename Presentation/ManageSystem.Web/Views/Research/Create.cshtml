@@ -1,0 +1,188 @@
+﻿@using ManageSystem.Web.Models.Researches
+@model ResearchModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "科研发布";
+}
+
+<script src="~/Content/Scripts/ueditor1_4_3_3/ueditor.config.js"></script>
+<script src="~/Content/Scripts/ueditor1_4_3_3/ueditor.all.min.js"></script>
+<script src="~/Content/Scripts/ueditor1_4_3_3/lang/zh-cn/zh-cn.js"></script>
+<script src="~/Content/Scripts/uploadify/jquery.uploadify.js"></script>
+<link href="~/Content/Css/Research.css" rel="stylesheet" />
+
+<div class="research-page">
+    <div class="mbx">
+        <p>当前位置：首页 &gt; 科研发布 </p>
+    </div>
+    <div id="post_form">
+
+        @using (Html.BeginForm("Create", "Research", FormMethod.Post, new { id = "form1" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Id)
+
+            <ul class="post_main_ul">
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>研究名称：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "post_title post_title_Party", placeholder = "请输入研究名称" })
+                            @Html.ValidationMessageFor(m => m.Name)
+                        </div>
+                        <div class="post_main_note">
+
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>研究编码：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.TextBoxFor(m => m.Code, new { @class = "post_title post_title_Party", placeholder = "请输入研究编码" })
+                            @Html.ValidationMessageFor(m => m.Code)
+                        </div>
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>科研区域：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.Partial("~/Views/PartialView/_SelectArea.cshtml")
+                            @Html.TextBoxFor(model => model.AreaId, new { style = "width:1px; height:0px;" })
+                            @Html.ValidationMessageFor(m => m.AreaId)
+                        </div>
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>科研时间：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.TextBoxFor(m => m.StartTime, new { @class = "post_title post_title_Party laydate-icon", placeholder = "请选择科研时间", style = "width:250px;box-sizing: border-box;" })
+                            <div style="float: left;width: 100%;">@Html.ValidationMessageFor(m => m.StartTime)</div>
+                        </div>
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>研究类型：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.DropDownListFor(m => m.ResearchTypeId, Model.ResearchTypeList, new { style = "width:250px;" })
+                        </div>
+                        <div style="float: left;width: 100%;">@Html.ValidationMessageFor(m => m.ResearchTypeId)</div>
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>参与要求：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.TextBoxFor(m => m.Require, new { @class = "post_title post_title_Party", placeholder = "请输入参与要求" })
+                            @Html.ValidationMessageFor(m => m.Require)
+                        </div>
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>科研发起人：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.TextBoxFor(m => m.Author, new { @class = "post_title post_title_Party", placeholder = "请输入科研发起人" })
+                            @Html.ValidationMessageFor(m => m.Author)
+                        </div>
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>研究Logo：</span></div>
+                    <div id="post_main_r_K_poster" class="red_outK">
+                        <div class="post_main_r" style="height:123px; width:auto;">
+                            <div class="posterimg_outside  meeting-cover-image">
+                                <img class="posterImg_pic image-div" @(string.IsNullOrWhiteSpace(Model.LogoImage) ? "" : "src='" + Model.LogoImage + "'")>
+                            </div>
+                            <div class="upload-image-box">
+                                <div class="btn-div">
+                                    <input type="file" name="uploadify" id="uploadify" />
+                                </div>
+                                <div class="title-div">温馨提示：图片尺寸建议为：900*525，<br />图片小于2M，文件类型：jpg,jpeg,bmp,png</div>
+                            </div>
+                        </div>
+                        <div class="post_main_note">
+                            <div style="width:0px; height:0px;">@Html.TextBoxFor(m => m.CoverImage, new { style = " height:0px;" })</div>
+                            @Html.ValidationMessageFor(m => m.CoverImage)
+                        </div>
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+
+                <li class="post_main_li hdRichtext">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>研究简介：</span></div>
+                    <div class="red_outK">
+                        @Html.TextAreaFor(m => m.Remark, new { style = " height:60px;", @class = "txt2" })
+                        @Html.ValidationMessageFor(m => m.Remark)
+                    </div>
+                    <div class="post_main_note">
+                    </div>
+                </li>
+
+                <li class="post_main_li hdRichtext">
+                    <div class="post_main_l_tit"><b class="red"></b><span>详细内容：</span></div>
+                    <div class="red_outK">
+                        @Html.TextAreaFor(m => m.Content, new { onblur = "setUeditor()", style = "width:100%; min-height: 300px; margin-top:10px; text-align:left;" })
+
+                    </div>
+                </li>
+
+            </ul>
+            <ul class="fb_Btn">
+                <input type="submit" class="btn_Post" value="申请科研项目" style="cursor:pointer;" />
+            </ul>
+        }
+    </div>
+</div>
+
+<script src="~/Content/Scripts/Research/Create.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //加载省份下拉列表框的数据
+        GetDistrictList(0, 1);
+    });
+
+    $(document).ready(function () {
+
+        $("#StartTime").val("@DateTime.Now.ToString("yyyy-MM-dd 00:00")");
+
+        laydate({
+            elem: '#StartTime',
+            format: 'YYYY-MM-DD hh:mm',
+            min: laydate.now(), //设定最小日期为当前日期
+            max: '2099-06-16 23:59', //最大日期
+            istime: true,
+            istoday: false,
+        });
+
+        var ue = UE.getEditor('Content', {
+            toolbars: [
+                ['fontsize', 'forecolor', 'bold', 'underline', 'simpleupload', 'insertimage', 'fullscreen']
+            ],
+            elementPathEnabled: false,
+            autoHeightEnabled: true,
+            autoFloatEnabled: true,
+            maximumWords: 10000
+        });
+
+    });
+</script>

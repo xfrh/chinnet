@@ -1,0 +1,28 @@
+﻿@model  FunctionModel 
+@using ManageSystem.Admin.Models.SystemSet
+
+<div class="page-sidebar" id="sidebar">
+    <!-- Page Sidebar Header-->
+    <div class="sidebar-header-wrapper">
+        <input type="text" class="searchinput" disabled="disabled" />
+        <i class="searchicon fa fa-search" style="display:none;"></i>
+        <div class="searchhelper">查询信息、文章</div>
+    </div>
+    <!-- /Page Sidebar Header -->
+    <!-- Sidebar Menu -->
+
+    <ul class="nav sidebar-menu">
+        @Html.Raw(ViewBag.MenuHtml);
+    </ul>
+
+    <input type='hidden' value='@Model.ShowFunctinId' id='CurveFunctionId' />
+    <script type="text/javascript">
+        $(document).ready(
+            function () {
+                var item = $("#CurveFunctionId").val();
+                $(".function-" + item).addClass(" active ");
+                $(".function-" + item).parents(".menu-item").addClass("  open ");
+
+            });
+    </script>
+</div>

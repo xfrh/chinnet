@@ -1,0 +1,113 @@
+﻿@model  ManageSystem.Admin.Models.Configuration.SettingModel
+@{
+    //page title
+    ViewBag.Title ="编辑系统配置";
+}
+
+@section Breadcrumb{
+  @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "系统管理", SecondName = "系统配置（高级）", LocationName = this.ViewBag.Title }); }
+}
+
+
+@using (Html.BeginForm())
+{
+  @Html.AntiForgeryToken()
+
+ <div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                </div>
+                <div class="widget-body " id="BaseDiv" runat="server">
+
+                    <div class="add-content ">
+                        <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                            @Html.ValidationSummary(true)
+                            @Html.HiddenFor(model => model.Id)
+
+                            <table class="adminContent">
+                                <tr>
+                                    <td class="adminTitle">@Html.NopLabelFor(m => m.Title)：</td>
+                                    <td class="adminData">
+                                        @Model.Title
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+                                    <td class="adminData">
+                                        @Model.Name
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">@Html.NopLabelFor(m => m.Type)：</td>
+                                    <td class="adminData">
+                                        @Html.EditorFor(m => m.Type)
+                                        @Html.ValidationMessageFor(m => m.Type)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">@Html.NopLabelFor(m => m.IsCache)：</td>
+                                    <td class="adminData">
+                                        @(Model.IsCache ? "是" : "否")
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">@Html.NopLabelFor(m => m.IsAdmin)：</td>
+                                    <td class="adminData">
+                                        @(Model.IsAdmin?"否":"是")
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">@Html.NopLabelFor(m => m.Value)：</td>
+                                    <td class="adminData">
+                                        @{
+                                            if (Model.IsAdmin)
+                                            {
+                                                <text>@Model.Value</text>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextAreaFor(m => m.Value, new { @class = "form-control txt", cols = "30", rows = "3" })
+                                            }
+                                        }
+                                        @Html.ValidationMessageFor(m => m.Value)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle"></td>
+                                    <td class="adminData"></td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">@Html.NopLabelFor(m => m.Describe)：</td>
+                                    <td class="adminData">
+                                        @Html.TextAreaFor(model => model.Describe, new { @class = "form-control txt", cols = "30", rows = "3" })
+                                        @Html.ValidationMessageFor(m => m.Describe)
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="options add-page-options" style="text-align:right">
+                    <input type="submit" name="save" class="btn btn-blue " value="保存" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".adminContent select").attr("disabled", "disabled");
+        $(".adminContent .k-picker-wrap  .k-select").css("display", "none");
+        $(".adminContent .selected").attr("disabled", "disabled");
+    });
+
+</script>

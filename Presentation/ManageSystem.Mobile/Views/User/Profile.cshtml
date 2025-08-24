@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewBag.Title = "修改个人信息";
+    Layout = "/Views/Shared/_MyLayout.cshtml";
+}
+<style>
+    .status {
+        color: #6ac7dc;
+        border: 1px solid #6ac7dc;
+        border-radius: 0.1rem;
+        font-size: 0.35rem;
+        padding: 0.1rem 0.2rem 0.125rem;
+    }
+</style>
+<div id="app" v-cloak class="indexpage">
+    <div class="middle">
+        <div class="PI-top f-center flex padding-tb-40 f-between">
+            <img ref="imgHeadImage" class="MY-header" :src="userphoto" alt="" draggable="false" @@error="defaultHeadImage" />
+            <span class="fon-30 bold padding-lr-40" @@click="browsePhoto">选择图片</span>
+            <input ref="postFile" type="file" name="postFile" @@change="previewPhoto" v-validate="'ext:jpeg,jpg,png'" accept="image/*" data-vv-as="上传图片" style="position: absolute; left: -100rem;" />
+        </div>
+        <div class="padding-lr-40">
+            <div class="flex f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">用户名</div>
+                <div class="fon-28" v-text="username"></div>
+            </div>
+            <div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('realname')}">
+                <div class="fon-28 padding-lr-10">真实姓名</div>
+                <input class="flex1 fon-28 t-right PI-Input" placeholder="真实姓名"
+                       type="text" name="realname"
+                       v-model="realname" v-validate="'required'"
+                       data-vv-as="真实姓名" />
+            </div>
+            <div :class="{'flex f-between padding-tb-40 border-b-1': true, '': errors.has('genderText')}">
+                <div class="fon-28 padding-lr-10">性别</div>
+                <input class=" flex1 fon-28 t-right PI-Input" placeholder="选择性别" type="text" readonly="readonly" name="genderText" style="background-color: transparent;" @@click="openGender" v-model="genderText" v-validate="'required'" />
+                <img class="Lo-left-img" src="/Content/Images/Jian_l_15.jpg" alt="">
+                <div>
+                    <div class="weui-mask" id="iosMask" style="display: none;"></div>
+                    <div class="weui-actionsheet" id="genderActionsheet">
+                        <div class="weui-actionsheet__title">
+                            <p class="weui-actionsheet__title-text fon-30">请选择性别</p>
+                        </div>
+                        <div class="weui-actionsheet__menu">
+                            <div class="weui-actionsheet__cell fon-28" @@click="setGender('保密',3)">保密</div>
+                            <div class="weui-actionsheet__cell fon-28" @@click="setGender('男',1)">男</div>
+                            <div class="weui-actionsheet__cell fon-28" @@click="setGender('女',2)">女</div>
+                        </div>
+                        <div class="weui-actionsheet__action">
+                            <div class="weui-actionsheet__cell fon-28" id="iosActionsheetCancel" @@click="closeGender">取消</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('email')}">
+                <div class="fon-28 padding-lr-10">邮箱</div>
+                <input class="flex1 fon-28 t-right PI-Input" placeholder="邮箱"
+                       type="email" name="email"
+                       v-model="email" v-validate="'required|email'"
+                       data-vv-as="邮箱" id="Email" />
+                <span class="status" v-if="!IsCheckEmail" id="sendEmail" onclick="SendCheckEmail()">验证</span>
+            </div>
+            <div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('mobile')}">
+                <div class="fon-28 padding-lr-10">手机号</div>
+                <input class="flex1 fon-28 t-right PI-Input" placeholder="手机号"
+                       type="tel" name="mobile"
+                       v-model="mobile" v-validate="'required|digits:11'"
+                       data-vv-as="手机号" />
+            </div>
+            <div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('province')}">
+                <div class="fon-28 padding-lr-10">所在省份</div>
+                <select name="province" class="flex1 fon-28 PI-Input" v-model="province"
+                        v-validate="'required|excluded:0'" data-vv-as="省份">
+                    <option v-for="item in provinceList" :value="item.Value">{{item.Text}}</option>
+                </select>
+            </div>
+            <div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('hospital')}">
+                <div class="fon-28 padding-lr-10">医院名称</div>
+                <input class="flex1 fon-28 t-right PI-Input" placeholder="医院名称"
+                       type="tel" name="hospital"
+                       v-model="hospital" v-validate="'required'"
+                       data-vv-as="医院名称" />
+            </div>
+            <a ref="btnSubmit" class="btn margin-t-40 margin-b-20 ladda-button" data-style="zoom-in" href="javascript:void(0);" @@click="onSubmit">提交</a>
+        </div>
+    </div>
+    @Html.Partial("_FooterNavBar", "我的")
+
+    <div class="js_dialog" ref="iosDialog" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd" v-html="dialogContent"></div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:void(0);" @@click="closeDialog" class="weui-dialog__btn weui-dialog__btn_primary" style="color: #005cad;">知道了</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="successToast" ref="successToast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32" v-text="resSuccessMessage"></p>
+        </div>
+    </div>
+    <div id="failToast" ref="failToast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_toast" style="font-size: 1.65rem;"></i>
+            <p class="weui-toast__content fon-32" v-text="resFailMessage" style="margin-top: 0.25rem;"></p>
+        </div>
+    </div>
+    <div id="loadingToast" ref="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32" v-html="loadingText">数据提交中</p>
+        </div>
+    </div>
+</div>
+
+
+@section Styles{
+    <link href="~/Content/Css/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/User/Profile.css?v=1.0.0" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/vee-validate/vee-validate.min.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/fx.js"></script>
+    <script src="~/Content/Scripts/fx_methods.js"></script>
+    <script src="~/Content/Scripts/User/Profile.js?v=1.0.0"></script>
+    <script>
+        function SendCheckEmail() {
+            $.ajax({
+                url: '/User/SendCheckEmail',
+                type: 'POST',
+                data: { Email: $("#Email").val(), Token: localStorage.getItem('token') },
+                datatype: 'JsonData',
+                success: function (res) {
+                    alert(res);
+                    var sendEmailbtn = document.getElementById("sendEmail");
+                    sendEmailbtn.onclick = "";
+                    sendEmailbtn.text = "已发送";
+                }
+            });
+
+        }
+    </script>
+}

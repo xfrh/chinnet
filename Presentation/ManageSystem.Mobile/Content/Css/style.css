@@ -1,0 +1,266 @@
+/**
+ * 通用样式
+ * 作者：蒋一笑
+ * 时间：2019.01.25
+ */
+.Lo-topimg {
+    width: 5.2rem;
+    margin: 1rem auto 2rem auto;
+}
+
+.Lo-left-img {
+    width: 0.6rem;
+    height: 0.6rem;
+    margin-left: 0.1rem;
+}
+
+.Lo-mid {
+    width: 72%;
+    margin: 0 auto;
+}
+
+.Lo-Input {
+    border: 0;
+    height: 1rem;
+    padding-left: 0.2rem;
+    font-size: 0.4rem;
+}
+
+.Lo-footer {
+    position: absolute;
+    bottom: 1rem;
+    width: 100%;
+}
+
+.FP-code {
+    width: 2.5rem;
+    height: 0.8rem;
+    font-size: 0.3rem;
+    color: #fff;
+    border: 0;
+    text-align: center;
+    line-height: 0.8rem;
+}
+
+.Lo-Code {
+    width: 4rem;
+}
+/* 首页 */
+
+
+.In-topimg {
+    width: 7rem;
+    margin: 0 auto;
+    margin-top: 1.5rem;
+}
+
+.In-img-r {
+    width: 1.2rem;
+    height: 0.65rem;
+}
+
+.IN-md {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    bottom: 0.4rem;
+}
+
+.Dn-message {
+    width: 0.6rem;
+    height: 0.4rem;
+    margin-right: 0.1rem;
+    position: relative;
+    top: 0.05rem;
+}
+
+.Dn-l-img {
+    width: 3.2rem;
+    height: 2.2rem;
+    margin-right: 0.2rem;
+    border-radius: 0.2rem;
+}
+
+.DD-limg {
+    width: 0.4rem;
+    height: 0.35rem;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.1rem;
+}
+
+.MY-top {
+    height: 4.32rem;
+    background: url('/Content/Images/bg_my_02.jpg') no-repeat;
+    background-size: 100%;
+}
+
+.MY-header {
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    margin: 0 0.5rem;
+}
+
+.PI-Input {
+    border: 0;
+}
+
+[v-cloak] {
+    display: none;
+}
+
+.has-error {
+    color: #d81b60;
+    border-bottom: 1px solid #d81b60;
+}
+
+.footer > div {
+    cursor: pointer;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -moz-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+
+    .footer > div.active {
+        color: #005cad;
+    }
+
+.no-border {
+    border: none !important;
+}
+
+@media (max-height: 400px) {
+    .Lo-footer,
+    #ftnavbar {
+        display: none;
+    }
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+.scroll {
+    height: 100%;
+}
+
+.swiper-slide.slidescroll {
+    height: auto;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+.flex {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.flex-center {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -moz-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.flex-vertical-center {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.flex-horizontal-center {
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -moz-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.flex-1 {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -moz-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    position: relative;
+}
+
+.flex-2 {
+    -webkit-box-flex: 2;
+    -webkit-flex: 2;
+    -moz-box-flex: 2;
+    -ms-flex: 2;
+    flex: 2;
+    position: relative;
+}
+
+.flex-3 {
+    -webkit-box-flex: 3;
+    -webkit-flex: 3;
+    -moz-box-flex: 3;
+    -ms-flex: 3;
+    flex: 3;
+    position: relative;
+}
+
+.null-h-50 {
+    height: 50px;
+    width: 100%;
+}
+
+.body-content .weui-toast,
+.chinet-weui-toast .weui-toast {
+    width: 3.8rem;
+    min-height: 3.8rem;
+    top: 180px;
+    left: 50%;
+    margin-left: -1.9rem;
+}
+
+.body-content .weui-toast__content,
+.chinet-weui-toast .weui-toast__content {
+    color: #fff;
+}
+
+.chinet-weui-dialog .weui-dialog__btn_primary {
+    color: rgb(0, 92, 173);
+}
+
+.list-null {
+    margin: 0 auto;
+    width: 25%;
+    height: 65%;
+    background-image: url('/Content/Images/data_list_null_x128.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.swiper-slide > .flex {
+    cursor: pointer;
+    z-index: 100;
+}
+
+.ladda-button[data-style=zoom-in] .ladda-label {
+    color: inherit;
+}

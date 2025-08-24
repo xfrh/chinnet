@@ -1,0 +1,250 @@
+﻿@model  ManageSystem.Admin.Models.Survey.SurveyRecordModel
+@using ManageSystem.Admin.Extensions;
+@using ManageSystem.Services.Common;
+
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+<div class="adminContent">
+    <div>
+        <div class="adminTitle">1.大肠埃希菌检出株数（株/年）？</div>
+        <div class="adminData">
+            @Model.Content1
+        </div>
+    </div>
+
+    <div>
+        <div class="adminTitle">2.碳青霉烯类耐药大肠埃希菌（CR-ECO）检出株数（株/年）?</div>
+        <div class="adminData">
+            @Model.Content2
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">3.CR-ECO主要标本来源有哪些？（列举前三位标本及百分比）</div>
+        <div class="adminData">
+            @Model.Content3
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">4.CR-ECO主要科室来源有哪些（列举前三科室来源及百分比）</div>
+        <div class="adminData">
+            @Model.Content4
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">5.肺炎克雷伯菌检出株数（株/年）？</div>
+        <div class="adminData">
+            @Model.Content5
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">6.碳青霉烯类耐药肺炎克雷伯菌（CR-KPN）检出株数（株/年）?</div>
+        <div class="adminData">
+            @Model.Content6
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">7.CR-KPN主要标本来源有哪些？（列举前三位标本及百分比）</div>
+        <div class="adminData">
+            @Model.Content7
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            8.CR-KPN主要科室来源有哪些（列举前三科室来源及百分比）
+        </div>
+        <div class="adminData">
+            @Model.Content8
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            9.阴沟肠杆菌检出株数（株/年）？
+        </div>
+        <div class="adminData">
+            @Model.Content9
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            10.碳青霉烯类耐药阴沟肠杆菌（CR-ECL）检出株数（株/年）?
+        </div>
+        <div class="adminData">
+            @Model.Content10
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            11.CR-ECL主要标本来源有哪些？（列举前三位标本及百分比）
+        </div>
+        <div class="adminData">
+            @Model.Content11
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            12.CR-ECO主要科室来源有哪些？（列举前三科室来源及百分比）
+        </div>
+        <div class="adminData">
+            @Model.Content12
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            13.黏质沙雷菌检出株数（株/年）？
+        </div>
+        <div class="adminData">
+            @Model.Content13
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            14.碳青霉烯类耐药黏质沙雷菌（CR-SMA）检出株数（株/年）?
+        </div>
+        <div class="adminData">
+            @Model.Content14
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            15.CR-SMA主要标本来源有哪些？（列举前三位标本及百分比）
+        </div>
+        <div class="adminData">
+            @Model.Content15
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            16.CR-SMA主要科室来源有哪些？（列举前三科室来源及百分比）
+        </div>
+        <div class="adminData">
+            @Model.Content16
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            17.铜绿假单胞菌检出株数（株/年）？
+        </div>
+        <div class="adminData">
+            @Model.Content17
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            18.碳青霉烯类耐药铜绿假单胞菌（CR-PAE）检出株数（株/年）?
+        </div>
+        <div class="adminData">
+            @Model.Content18
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            19.CR-PAE主要标本来源有哪些？（列举前三位标本及百分比）
+        </div>
+        <div class="adminData">
+            @Model.Content19
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            20.CR-PAE主要科室来源有哪些？（列举前三科室来源及百分比）
+        </div>
+        <div class="adminData">
+            @Model.Content20
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            21.鲍曼不动杆菌检出株数（株/年）？
+        </div>
+        <div class="adminData">
+            @Model.Content21
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            22.碳青霉烯类耐药鲍曼不动杆菌（CR-ABA）检出株数（株/年）?
+        </div>
+        <div class="adminData">
+            @Model.Content22
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            23.CR-ABA主要标本来源有哪些？（列举前三位标本及百分比）
+        </div>
+        <div class="adminData">
+            @Model.Content23
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            24.CR-ABA主要科室来源有哪些？（列举前三科室来源及百分比）
+        </div>
+        <div class="adminData">
+            @Model.Content24
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            25.目前实验室检测碳青霉烯酶的方法
+        </div>
+        <div class="adminData">
+            @Model.Content25
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            26.药敏试验是否常规报告CRE所产碳青霉烯酶型别？
+        </div>
+        <div class="adminData">
+            @Model.Content26
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            27.您单位分离的CRE主要产哪种碳青霉烯酶及所占比例？
+        </div>
+        <div class="adminData">
+            @Model.Content27
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            28.实验室分离到CRE菌株时，补充加做以下哪些药物的药敏试验？
+        </div>
+        <div class="adminData">
+            @Model.Content28
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            29.医院名称
+        </div>
+        <div class="adminData">
+            @Model.Content29
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            30.您的姓名
+        </div>
+        <div class="adminData">
+            @Model.Content30
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle">
+            31.请输入您的手机号码
+        </div>
+        <div class="adminData">
+            @Model.Content31
+        </div>
+    </div>
+    <div>
+        <div class="adminTitle"></div>
+        <div class="adminData"></div>
+    </div>
+</div>

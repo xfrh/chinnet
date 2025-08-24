@@ -1,0 +1,61 @@
+﻿@using ManageSystem.Admin.Models.Medicine
+@model HospitalWardLocationModel
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.HospitalID)
+
+<table class="adminContent">
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @readonly = "readonly", disabled = "disabled", style = "background-color: transparent;" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Ward)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Ward, new { htmlAttributes = new { data_val = "true", data_val_required = "Ward不能为空！" } })
+            @Html.ValidationMessageFor(m => m.Ward)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Department)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Department, new { htmlAttributes = new { data_val = "true", data_val_required = "Department不能为空！" } })
+            @Html.ValidationMessageFor(m => m.Department)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Location)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Location, new { htmlAttributes = new { data_val = "true", data_val_required = "Location不能为空！" } })
+            @Html.ValidationMessageFor(m => m.Location)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.LocationType)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.LocationType, new { htmlAttributes = new { data_val = "true", data_val_required = "Location_Type不能为空！" } })
+            @Html.ValidationMessageFor(m => m.LocationType)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <div class="well bordered-left bordered-yellow" style="padding: 12px 10px 5px; margin-top: 0.875rem; width: 80%;">
+                <p><strong>填写说明：</strong></p>
+                <p>
+                    <strong>Department</strong>: WHONET对应的 "专业类别"
+                </p>
+                <p>
+                    <strong>Location</strong>: WHONET对应的 "科室"
+                </p>
+                <p>
+                    <strong>Location_Type</strong>: WHONET对应的 "科室类别"
+                </p>
+            </div>
+        </td>
+    </tr>
+</table>
+

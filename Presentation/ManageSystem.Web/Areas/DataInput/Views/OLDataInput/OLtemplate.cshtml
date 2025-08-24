@@ -1,0 +1,201 @@
+﻿@using ManageSystem.Web.Models.DataInput;
+@using Webdiyer.WebControls.Mvc;
+@using ManageSystem.Web.Extensions;
+@model OLTemplateModel
+@{
+    ViewBag.Title = "折点-字段模板";
+    Layout = "~/Areas/DataInput/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Areas/DataInput/Content/css/OLDataInput.css" rel="stylesheet" />
+    <div class="W">
+
+        <div class="my_title">
+            当前位置： 首页 / 折点数据上传 / 字段模板
+        </div>
+
+        <div class="ol_table">
+
+            @{
+                if (ViewBag.Median == true)
+                {
+                    <div class="ol_left">
+                        <ul>
+                            <li><a href="/DataInput/OLDataInput/OLproject">项目管理</a></li>
+                            <li style="background-color:#dceef6"><a href="/DataInput/OLDataInput/OLtemplate">字段模板</a></li>
+                            <li><a href="/DataInput/OLDataInput/ProjectStatistics">项目统计</a></li>
+                        </ul>
+                    </div>
+                }
+            }
+
+            <!-- 字段模块 开始 -->
+            <div class="ol_right">
+                <div class="my_btns">
+                    <div class="cbtn"><a href="/DataInput/OLDataInput/CreateOLtemplate" class="my_a_style">添加模板</a></div>
+                    @*<div class="cbtn" onclick="Deletelist()">删除数据</div>*@
+                </div>
+
+                <table cellpadding="0" cellspacing="0" width="100%" class="no-collapse" style="font-size:14px;">
+                    <thead>
+                        <tr style="text-align:center;background-color: #42a3ce;height:35px;color: #fff;width:988px;">
+                            <th style="text-align:center; width:auto;padding-left:25px;">
+                                <label for="checkall">
+                                    <input class="" id="checkall" name="data-items" type="checkbox" value="0" />
+                                </label> 全选
+                            </th>
+                            <th style="text-align:center; width:auto">模板名称</th>
+                            <th style="text-align:center; width:auto">创建时间</th>
+                            <th style="text-align:center; width:auto">字段代码</th>
+                            <th style="text-align:center; width:auto">创建者</th>
+                            <th style="text-align:center; width:auto">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (Model != null && Model.PageList.Any())
+                            {
+                                foreach (var item in Model.PageList)
+                                {
+
+
+                                    <tr style="text-align:center;background-color: #fff;height:38px;color: #000;" :key="index">
+
+                                        <td >
+                                            <label for="data-item-@(item.Id)">
+                                                <input class="" id="data-item-@(item.Id)" type="checkbox" name="data-item" onclick="monitorCheck()" template="@item.template_name" value="@item.Id" />
+                                                <span class="text"></span>
+                                            </label>
+                                        </td>
+                                        <td>@item.template_name</td>
+                                        <td>@item.InsertTime</td>
+                                        <td>@item.field_code</td>
+                                        <td>@item.createdname</td>
+                                        <td>
+                                            <div style="padding-left: 12px;">
+                                                <a class="opera_btn" href="/DataInput/OLDataInput/CreateOLtemplate?Id=@item.Id">编辑</a>
+
+                                                <a class="opera_btn" onclick="dele('@item.Id.ToString()',&quot;@item.template_name&quot;)">删除</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-danger" style="text-align:center">暂无数据~</td>
+                                </tr>
+
+                            }
+                        }
+                    </tbody>
+                </table>
+                 <input id="DataCount" type="hidden" value="@Model.PageList.Count"/>
+                <div id="page-box" class="page">
+                    @Html.Pager(Model.PageList, MvcPagerExtensions.GetPagerOptions())
+                </div>
+            </div>
+            <!-- 字段模块 结束 -->
+            <input id="Median" type="hidden" value="@ViewBag.Median.ToString()" />
+
+        </div>
+    </div>
+<script src="~/Areas/DataInput/Content/js/jquery.min.js"></script>
+<script>
+    var Median = $("#Median").val();
+    if (Median != "" && Median != null && Median != "True") {
+        location.href = "/DataInput/OLDataInput/index";     
+    }
+    $("[name='data-items']").click(function () {
+
+        if ($("[name='data-items']").prop("checked") == true) {
+            $("[name='data-item']").prop("checked", true)
+
+        }
+        else {
+            $("[name='data-item']").prop("checked", false)
+        }
+    })
+    function dele(Id,template_name)
+    {
+        if (Id) {
+            //询问框
+            layer.confirm('您确认要删除该数据吗？', {
+                title: '系统提示',
+                btn: ['确认', '取消'] //按钮
+            }, function () {
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "/DataInput/OLDataInput/deletetemplate",
+                    data: { ids: Id, template_name: template_name},
+                    dataType: "json",
+                    success: function (json) {
+                        if (json == null || json == "") {
+                            return false;
+                        }
+
+                        if (json.status == "true") {
+                            SuccessWindow("删除成功！", true);
+                        }
+                        else {
+                            ErrorWindow(json.message, true);
+                        }
+                    }
+                });
+            });
+        }
+        return false;
+    }
+
+    function Deletelist() {
+        var ids = "";
+        var template = "";
+        $("input[name='data-item']:checked").each(function () {
+            ids += $(this).val() + ","
+            template += $(this).attr("template")+","
+        });
+        if (ids == "" || ids.length <= 0) {
+            MessageWindow("请选择要删除的数据");
+        }
+        else {
+            layer.confirm('您确认要删除该数据吗？', {
+                title: '系统提示',
+                btn: ['确认', '取消'] //按钮
+            }, function () {
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "/DataInput/OLDataInput/deletetemplate",
+                    data: { ids: ids, template_name: template },
+                    dataType: "json",
+                    success: function (json) {
+                        if (json == null || json == "") {
+                            return false;
+                        }
+
+                        if (json.status == "true") {
+                            SuccessWindow("删除成功！", true);
+                        }
+                        else {
+                            ErrorWindow(json.message, true);
+                        }
+                    }
+                });
+            })
+        }
+    }
+    //监听单个checkbox选择时，全选框
+    function monitorCheck() {
+        var DataCount = $("#DataCount").val();
+        var i = 0;
+        $("input[name='data-item']:checked").each(function () {
+            i++;
+        });
+        if (i == DataCount) {
+            $("[name='data-items']").prop("checked", true)
+        } else {
+            $("[name='data-items']").prop("checked", false)
+        }
+    }
+</script>

@@ -1,0 +1,173 @@
+﻿@model ManageSystem.Admin.Models.Users.LoginModel
+@using ManageSystem.Admin.Extensions;
+@using ManageSystem.Framework.MvcCaptcha;
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>后台登录</title>
+    <meta name="description" content="login page" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="/Images/Admin/favicon.png" type="image/x-icon">
+
+
+    <link href="~/Content/Css/login.css" rel="stylesheet" />
+     <style type="text/css">
+
+         .mvc-captcha-div {
+           width: 190px;
+    float: right;
+    padding-right: 10px;
+         }
+
+             .mvc-captcha-div a {
+                display: block;
+                float: right;
+                padding-top: 5px;
+             }
+
+                 .mvc-captcha-div:last-child {
+                 display:none;
+                 }
+
+         .field-validation-error {
+         
+         width: 100%;
+    text-align: center;
+    display: block;
+    padding: 5px 0px;
+         }
+     </style>
+</head>
+<body>
+
+    <div class="i-content-wrap p-content-wrap">
+        @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { id = "loginForm" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="p-login" id="jp-login">
+                <div class="p-login-content" style="padding-top:20px;">
+                    @*<span title="74-new_login">CHINET数据云后台管理系统</span>*@
+                  <img src="~/Content/Images/logo.jpg"  style="max-width:100%"/>
+                </div>
+                <div class="p-login-content">
+                    @*<div class="error" id="">
+                    </div>*@
+
+                    <div class="item first">
+                        <label for="userName" class="login-label label-for-username"></label>
+                        @Html.TextBoxFor(m => m.LoginId, new { @class = "text", placeholder = "请输入登录帐号" })
+                    </div>
+                    <div class="item" style="border-bottom-style: none;">
+                        <label for="passwordText" class="login-label label-for-password"></label>
+                        <input type="text" class="text" style="display: none">
+                        @Html.TextBoxFor(m => m.Password, new { type = "password", @class = "text", placeholder = "请输入密码" })
+                    </div>
+                    <div class="item">
+                        <label for="mvcCaptchaText" class="login-label label-for-mvccaptcha"></label>
+                        <input type="text" class="text" style="display: none">
+                        @Html.TextBoxFor(m => m.Captcha, new { @class = "text", placeholder = "请输入验证码", style = "width:90px;" })
+                        <div class="mvc-captcha-div">
+                            @Html.MvcCaptcha(new MvcCaptchaOptions { ValidationInputBoxId = "Captcha", CaptchaImageContainerId = "captchaImage", ReloadLinkText = "" })
+                        </div>
+                        <span id="captchaImage"></span>
+                    </div>
+
+                    <div class="item-handle" style="height: 45px;">
+                        <a href="#" class="forget-password"></a>
+                        <label class="auto-login">
+                            @*<input type="checkbox" name="autoLogin" id="autoLogin"> 自动登录*@
+                        </label>
+                    </div>
+                    <input type="hidden" name="page_style" id="page_style" value="">
+                    <input class="submit-btn" id="submitButt" name="submitButt" type="button" onclick="Login()" value="登录">
+                    @*<div align="center" style="padding-top:20px;">
+                        <span>CHINET中国细菌耐药监测网</span>                        
+                    </div>
+                    <div align="center">                       
+                        <span>China Antimicrobial Surveillance Network</span>
+                    </div>*@
+                    <div class="error" id="inputErrorDiv">
+                        @Html.ValidationMessageFor(m => m.LoginId)
+                        @Html.ValidationMessageFor(m => m.Password)
+                        @Html.ValidationMessageFor(m => m.Captcha)
+                        @Html.ValidationSummary(true)
+                    </div>
+
+                    <div class="p-login-linker" style="border-style:none; display:none;">
+                        <label></label>
+                        <a href="#" class="p-login-5"></a>
+                        <a href="#" class="p-login-1"></a>
+                        <a href="#" class="p-login-3"></a>
+                        <a href="#" class="p-login-2"></a>
+                        <a href="#" class="p-login-4"></a>
+                    </div>
+                </div>
+                <div class="p-login-footer" style="display:none;">
+                    <button class="register-btn">立即注册</button>
+                </div>
+            </div>
+
+        }
+
+
+        <div id="jp-bg" class="carousel slide p-bg-wrap" >
+        
+        </div>
+    </div>
+
+    <script src="/Content/Scripts/jquery-1.10.2.min.js"></script>
+
+    <script type="text/javascript">
+
+        function Login() {
+
+            var loginId = $("#@Html.FieldIdFor(m=>m.LoginId)").val();
+
+            var reg = /^[a-zA-z][a-zA-Z0-9_]{3,50}$/;
+            var regLogin= loginId.match(reg);
+            if (regLogin == null)
+            {
+                this.SetError("登录帐号格式不正确");
+                return;
+            }
+
+            var password = $("#@Html.FieldIdFor(m=>m.Password)").val();
+            reg = /^\S{6,50}$/;
+            var regPassword = password.match(reg);
+            if (regPassword == null) {
+                this.SetError("密码格式不正确");
+                return;
+            }
+
+           var captcha = $("#@Html.FieldIdFor(m=>m.Captcha)").val();
+            reg = /^\S{4}$/;
+            var regCaptcha = captcha.match(reg);
+            if (regCaptcha == null) {
+                this.SetError("验证码格式不正确");
+                return;
+            }
+
+            $("#loginForm").submit();
+        }
+
+        function SetError(errorMessage) {
+            $("#inputErrorDiv").html(" <div class=\"validation-summary-errors\"><ul><li>" + errorMessage + "</li></ul></div> ");
+        }
+    </script>
+
+</body>
+</html>
+
+
+
+
+

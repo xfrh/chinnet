@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "首页";
+    Layout = "~/Areas/CR/Views/Shared/_Layout.cshtml";
+}
+
+<div >
+    <link href="/Areas/CR/Content/Css/Datas/Monitor.css?v=1.2" rel="stylesheet">
+    <style>
+        .intro-article {
+            text-indent: 30px;
+            font-size: 15px;
+            width: 90%;
+            margin: 0 auto;
+            margin-bottom: 15px;
+        }
+         .active {
+            color: red;           
+        }
+         .active:hover {
+            color: red;           
+        }
+        .zceng {
+            margin-top:-100px;
+            z-index:99999;
+            position:relative;
+        }       
+    </style>
+    <div id="pageContent" style="margin-bottom:20px;">
+        <div class="data-home-box" style="margin-bottom:5px; height:0px;">
+        </div>
+        <div id="dataError" class="error-box" style="display:none;">
+            <img src="/Areas/CR/Content/Images/data-error.png">
+            <p class="error-message">请选择数据段</p>
+        </div>
+
+        <div class="main-content2" style="width: 100%; display: block;  margin-top: 0px;">          
+            <button id="back" class="btn btn-primary hidden">返回</button>
+            <div id="mains">
+
+            </div>
+            <div id="main">
+
+            </div>
+        </div>
+
+        <div style="width: 100%; display: block; overflow: hidden; " class="stop">
+            <div class="index-bt">
+                <h2 style="padding: 5px 0px; display: inline-block;">
+                    <i></i>年份
+                    <span class="item-title-3" style="margin-left: 20%; cursor: pointer;" onclick="SelectNull()">取消选择</span>
+                    <img class="germ-btn-image btn-image-GermContent" src="/Areas/CR/Content/Images/jiantou-xia.png" style="height:13px;width:13px;cursor:pointer; margin-top: 1px; margin-left: 5px;" alt="" onclick="ShowItemContent()">
+                </h2>
+            </div><input id="year" type="hidden" value="@ViewBag.def" />
+            <div class="fenlei GermContent3" id="GermContent" data-status="1">
+                @foreach (var item in ViewBag.year)
+                {
+                    if (item.Year != null)
+                    {
+                        if (item.Year == ViewBag.def)
+                        {
+                            <li data-status="0"><a style="cursor:pointer;" data-year="@item.Year" class="active"><span>@item.Year</span>年</a></li>
+                        }
+                        else
+                        {
+                            <li data-status="0"><a style="cursor:pointer" data-year="@item.Year"><span>@item.Year</span>年</a></li>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="TypeValue" data-remark="数据段名称">
+</div>
+
+@*<script src="/Areas/CRs/Content/Scripts/template-web.js"></script>*@
+<script src="~/Areas/CR/Content/js/echarts.js"></script>
+@*<script src="~/Areas/CRs/Content/Data/Project1.js"></script>*@
+<script src="~/Areas/CR/Content/js/GetCRslist.js"></script>
+<script src="~/Areas/CR/Content/js/china.js"></script>
+

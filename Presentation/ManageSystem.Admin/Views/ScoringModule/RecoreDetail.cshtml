@@ -1,0 +1,119 @@
+﻿@model List<DataQuality_Score_Detail>
+
+@{
+    ViewBag.Title = "评分详情";
+    IEnumerable<string> groupNames = Model.GroupBy(r => new { r.DataQuality_Score_Group_Index, r.DataQuality_Score_Group }).OrderBy(r => r.Key.DataQuality_Score_Group_Index).Select(r => r.Key.DataQuality_Score_Group);
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "评分管理", SecondName = "评分管理", LocationName = ViewBag.Title }); }
+}
+
+@section HeadSection{
+
+}
+
+@section FooterSection{
+
+}
+
+<div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@ViewBag.Title</span>
+                </div>
+                <div class="widget-body">
+                    <div class="add-content ">
+                        <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                            <div class="widget-main">
+                                <div class="panel panel-bordered-primary">
+                                    <div class="panel-heading">
+                                        <div class="row panel-title">
+                                            <div class="col-md-10">医院名称：@ViewData["HospitalName"]</div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p>评&emsp;&emsp;委：@ViewData["JuryName"]</p>
+                                        <p>评分时间：@ViewData["MarkingTime"]</p>
+                                        <p>总&ensp;评&ensp;分：@ViewData["TotalScore"]</p>
+                                        <p>评&emsp;&emsp;语：@ViewData["Comment"]</p>
+                                    </div>
+                                </div>
+
+                                @foreach (string groupName in groupNames)
+                                {
+                                    var items = Model.Where(r => r.DataQuality_Score_Group == groupName).OrderBy(r => r.DataQuality_Score_Sort);
+                                    if (groupName.Equals("药敏品种合理性(30分)"))
+                                    {
+                                        var total = items.Sum(r => r.DataQuality_Score_Score);
+                                        total = 30 - (total > 0 ? total : 0 - total);
+                                        total = total > 30 ? 30 : total < 0 ? 0 : total;
+                                        <div class="panel panel-bordered-primary">
+                                            <div class="panel-heading">
+                                                <div class="row panel-title">
+                                                    <div class="col-md-10">@groupName</div>
+                                                    <div class="col-md-2">得分：@total 分</div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body">
+                                                @foreach (var item in items)
+                                                {
+                                                    <div class="row clearfix" style="margin-bottom: 15px;">
+                                                        <div class="col-md-10">@item.DataQuality_Score_Item</div>
+                                                        <div class="col-md-2">@item.DataQuality_Score_Score 分</div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                    else if (groupName.Equals("标本来源(10分)") || groupName.Equals("菌株数量(20分)"))
+                                    {
+                                        <div class="panel panel-bordered-primary">
+                                            <div class="panel-heading">
+                                                <div class="row panel-title">
+                                                    <div class="col-md-10">@groupName</div>
+                                                    <div class="col-md-2">得分：@items.Sum(r => r.DataQuality_Score_Score) 分</div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body">
+                                                @foreach (var item in items)
+                                                {
+                                                    <div class="row clearfix" style="margin-bottom: 15px;">
+                                                        <div class="col-md-7">@item.DataQuality_Score_Item</div>
+                                                        <div class="col-md-3">@item.DataQuality_Score_Value</div>
+                                                        <div class="col-md-2">@item.DataQuality_Score_Score 分</div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="panel panel-bordered-primary">
+                                            <div class="panel-heading">
+                                                <div class="row panel-title">
+                                                    <div class="col-md-10">@groupName</div>
+                                                    <div class="col-md-2">得分：@items.Sum(r => r.DataQuality_Score_Score) 分</div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body">
+                                                @foreach (var item in items)
+                                                {
+                                                    <div class="row clearfix" style="margin-bottom: 15px;">
+                                                        <div class="col-md-10">@item.DataQuality_Score_Item</div>
+                                                        <div class="col-md-2">@item.DataQuality_Score_Score 分</div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

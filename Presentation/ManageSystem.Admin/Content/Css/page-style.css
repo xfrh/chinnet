@@ -1,0 +1,154 @@
+﻿.aspnetpage-box {
+    padding: 10px 5px;
+}
+
+
+
+.mvc-page-content {
+    height: 45px;
+    line-height: 45px;
+    text-align: right;
+    vertical-align: middle;
+    padding-right: 20px;
+    width:70%;float:left;
+    
+}
+
+    .mvc-page-content div:first-child {
+        text-align: right;
+    }
+
+
+    .mvc-page-content a, .mvc-page-content span {
+        height: 20px;
+        padding: 3px 10px;
+        border: 1px solid #CCC;
+        margin-left: 2px;
+        font-family: arial;
+        line-height: 20px;
+        font-size: 14px;
+        overflow: hidden;
+        cursor: pointer;
+        text-decoration: none;
+        /*  -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    */
+        vertical-align: middle;
+    }
+
+    .mvc-page-content a, .mvc-page-content span, .pageGoClass {
+        height: auto;
+        border-radius: 0 2px 2px 0;
+        background-clip: padding-box;
+        color: #444;
+        background-color: #fff;
+        margin: 0 -1px 0 0;
+        border-color: #ccc;
+        padding: 6px 12px;
+        margin-left: -1px;
+        line-height: 1.42857143;
+        color: #428bca;
+        text-decoration: none;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        color: #444;
+        font-family: 'Microsoft YaHei','Segoe UI';
+        border-radius: 2px;
+    }
+
+
+        .mvc-page-content a:hover, .aspNetPage span:hover {
+            background: #2dc3e8;
+            color: white;
+            text-decoration: none;
+            outline:none;
+        }
+
+    .mvc-page-content .pageGoClass {
+        background-color: #F4F4F4;
+        border-color: #F4F4F4;
+    }
+
+        .mvc-page-content .pageGoClass:hover {
+            background-color: #F4F4F4;
+            border-color: #F4F4F4;
+            color: #444;
+        }
+
+
+    .mvc-page-content .cpb {
+        background: #2dc3e8;
+        border-color: #2dc3e8;
+        color: white;
+    }
+
+    .mvc-page-content select {
+        height: 30px;
+        width: auto;
+        text-align: center;
+        margin: 0px 2px;
+        border: 1px solid #CCC;
+        vertical-align: middle;
+        padding: 0px 3px;
+        text-align: center;
+    }
+
+.aspNetPageBootom {
+    height: 40px;
+    line-height: 40px;
+    text-align: right;
+    background-color: White;
+}
+
+
+.mvc-page-title {
+    height: 45px;
+  line-height: 45px;
+ text-align:left;
+ width:30%;float:left;
+}
+
+    .mvc-page-title strong {
+    color:red;
+    }
+
+
+
+
+     .mvc-page-content a, .mvc-page-content .current-page {
+      height: auto;
+        border-radius: 2px;
+        background-clip: padding-box;
+        color: #444;
+        background-color: #fff;
+        margin:0px;
+        border-color: #ccc;
+        padding: 6px 15px;
+        margin-left: -1px;
+        line-height: 1.42857143;
+        color: #428bca;
+        text-decoration: none;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        color: #444;
+        font-family: 'Microsoft YaHei','Segoe UI';
+         float:none;
+         cursor:pointer;
+         font-size:14px;
+}
+
+         
+    .mvc-page-content  .mvc-page-content a:hover {
+  
+            background: #2dc3e8;
+  border: 1px solid #2dc3e8;
+  color: white;
+    }
+
+ .mvc-page-content  .current-page {
+          background: #2dc3e8;
+  border: 1px solid #2dc3e8;
+  color: white;
+}
+
+

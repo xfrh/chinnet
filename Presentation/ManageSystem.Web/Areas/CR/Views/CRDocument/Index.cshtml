@@ -1,0 +1,94 @@
+﻿@using ManageSystem.Web.Models.Document
+@using Webdiyer.WebControls.Mvc;
+
+@model IndexModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/CR/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .navliactive {
+        text-decoration: none;
+        background-color: transparent;
+        color: #333;
+        border-bottom: solid 2px #333;
+    }
+
+    .h3p {
+        margin-left: 10px;
+        font-size: 16px;
+        padding-bottom: 5px;
+        border-bottom: 4px solid #f63756;
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+    .downlist ul li {
+        border-bottom: 1px solid #F0F0F1;
+        line-height: 40px;
+        margin-top: 20px;
+        text-align: left;
+        font-size: 14px;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .downlist a {
+        margin-left: 20px;
+        font-size: 14px;
+        color: #428bca;
+    }
+
+    .downlist span {
+        color: #ccc;
+        margin-left: 20px;
+    }
+
+    .datetime {
+        display: inline-block;
+        float: right;
+        color: #ccc;
+    }
+</style>
+<div class="container">
+    <span class="h3p">资料下载</span>
+    <div class="downlist">
+        <ul>
+            @{
+                if (Model.PageList != null && Model.PageList.Any())
+                {
+                    foreach (var item in Model.PageList)
+                    {
+                        <li>
+                            <i class="glyphicon glyphicon-folder-open"></i> @item.Name
+                            <a href="@item.Url" class="dowlinka">《点击下载》</a>
+                            <a class="sharelink" accesskey="@item.Url">分享链接</a>
+                            <span>@item.Count 次下载</span>
+                            <span class="datetime">@item.InsertTime.ToString("yyyy/MM/dd")</span>
+                        </li>
+
+
+                    }
+                }
+            }
+        </ul>
+    </div>
+    <div id="pageDiv" class="page">
+        @Html.Pager(Model.PageList, new PagerOptions() { CssClass = "pagination", CurrentPagerItemTemplate = "<li class=\"active\"><a href=\"#\">{0}</a></li>", DisabledPagerItemTemplate = "<li class=\"disabled\"><a>{0}</a></li>", PagerItemTemplate = "<li>{0}</li>" })
+    </div>
+</div>
+<script>
+    function isMobile() {
+        try {
+            document.createEvent("TouchEvent");
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    if (isMobile()) {
+        location.href = '/CR/CRDocument/List';
+    }
+</script>

@@ -1,0 +1,341 @@
+﻿@model  ManageSystem.Admin.Models.Organism.BacteriaModel
+@using ManageSystem.Services.Common;
+
+@{
+    ViewBag.Title = "细菌信息列表";
+    bool IsEdit = UserinfoExtensions.CheckFunction(Url.Action("ChartEdit"));
+}
+
+@section HeadSection {
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "细菌分布图表", SecondName = "细菌详细列表", LocationName = this.ViewBag.Title }); }
+}
+
+@Html.AntiForgeryToken()
+
+
+<div class="page-body">
+
+    <div class="row manage-page">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-yellow manage-title-box">
+                    <span class="widget-caption manage-title"><i class="glyphicon glyphicon-th "></i>@ViewBag.Title </span>
+                    <div class="widget-buttons">
+                        <a href="#" data-toggle="maximize"><i class="fa fa-expand"></i></a>
+                        <a href="#" data-toggle="collapse"><i class="fa fa-minus"></i></a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+
+                        <div id="searchable_filter" class="dataTables_filter manage-but-box">
+                            <div style="width: 100%;">
+                                @Html.ButtonHtml(HtmlButtonType.Import, "ChartImport", "OrganismChart")
+
+                                @Html.ButtonHtml(HtmlButtonType.Delete, "ChartDelete", "OrganismChart")
+                            </div>
+                            <div style="width: 100%;">
+                                <div class="dataTables_filter manage-but-box">
+                                    <label class="lb-left">@Html.NopLabelFor(m => m.Name)：</label>
+                                    <label class="lb-right"><input type="text" id="input-search" class="form-control input-sm  search" aria-controls="searchable" name="searchKey" /></label>
+                                    <label class="lb-left">@Html.NopLabelFor(m => m.MedicalOrganismTypeId)：</label>
+                                    <div class="form-control ddl lb-right " style="width:250px">
+                                        @Html.DropDownList("MedicalOrganismTypeId", Model.MedicalOrganismTypeList, new { @class = "form-control dropdown", style = "width:250px;" })
+                                    </div>
+                                    <label class="lb-left">@Html.NopLabelFor(m => m.MedicalOrganism)：</label>
+                                    <div class="form-control ddl lb-right " style="width:350px">
+                                        @Html.DropDownList("MedicalOrganismId", Model.MedicalOrganism, new { @class = "form-control dropdown", style = "width:350px;" })
+                                    </div>
+                                    <label> <input type="button" id="btn-search" class="btn btn-blue" value="查 询" /> </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table table-striped table-bordered dataTable no-footer table-select" id="ManageTableDiv" aria-describedby="editabledatatable_info">
+                            <div id="data-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*删除数据的表单*@
+@using (Html.BeginForm("ChartDelete", "OrganismChart", FormMethod.Post, new { id = "delete-selected-form" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="selectedIds" name="selectedIds" value="" />
+
+
+}
+
+<script>
+    $(document).ready(function () {
+
+        $("#data-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("ChartList"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [10,30,50]
+            },
+            scrollable: false,
+            groupable: true,
+            dataBound: onDataBound,
+            columns: [
+                {
+                field: "Id",
+                headerTemplate: "  <div class='' style='text-align: center;'>    <label><input type='checkbox' id='mastercheckbox' /><span class='text'></span> </label>   </div>",
+                headerAttributes: { style: "text-align:center" },
+                attributes: { style: "text-align:center" },
+                template: " <div class='' style='text-align: center;'>    <label><input type='checkbox' class='checkboxGroups'  value='#=Id#' /><span class='text'></span> </label>   </div> ",
+                width: 50
+            },
+             		{
+			field: "Name",
+            title: "名称",
+            width:150
+		},
+		{
+            field: "V0002",
+            title: "0.002"
+		},
+		{
+            field: "V0004",
+            title: "0.004"
+        },
+        {
+            field: "V0008",
+            title: "0.008"
+        },
+        {
+            field: "V0016",
+            title: "0.016"
+        },
+        {
+            field: "V0032",
+            title: "0.032"
+        },
+        {
+            field: "V0064",
+            title: "0.064"
+        },
+        {
+            field: "V0125",
+            title: "0.125"
+        },
+        {
+            field: "V0025",
+            title: " 0.25"
+        },
+        {
+            field: "V0005",
+            title: "0.5"
+        },
+        {
+            field: "V1001",
+            title: "1"
+        },
+        {
+            field: "V1002",
+            title: "2"
+        },
+        {
+            field: "V1004",
+            title: "4"
+        },
+        {
+            field: "V1008",
+            title: "8"
+        },
+        {
+            field: "V1016",
+            title: "16"
+        },
+        {
+            field: "V1032",
+            title: "32"
+        },
+        {
+            field: "V1064",
+            title: "64"
+        },
+        {
+            field: "V1128",
+            title: "128"
+        },
+        {
+            field: "V1256",
+            title: "256"
+        },
+        {
+            field: "V1512",
+            title: "512"
+        },
+        {
+            field: "Ecoff",
+            title: "ECOFF"
+        },
+        {
+            field: "Distributions",
+            title: "Distributions"
+        },
+        {
+            field: "Observations",
+            title: "Observations"
+        },
+            {
+                field: "Id",
+                title: "操作",
+                width: 150,
+                template: "@Html.KendoUIEdit(IsEdit, "ChartEdit") "
+            }]
+        });
+
+
+
+        //$('#MedicalOrganismType').easyDropDown({
+        //    cutOff: 10,
+        //    onChange: function (item) {
+        //        alert(item.value);
+
+        //    }
+        //});
+        $('#MedicalOrganismTypeId').on("change", function (item) {
+            var tId = item.currentTarget.selectedOptions[0].value;
+            $.ajax({
+                url: "@Url.Action("GetMedicalOrganism")?typeId=" + tId,
+                type: "GET",
+                dataType: "json",
+                success: function (json) {
+                    if (json == null || json == "") {
+                        return;
+                    }
+                    var content = " <option value=\"0\" >全部</option>";
+                    for (var i = 0; i < json.length; i++) {
+                        content += " <option value=\"" + json[i].Value + "\" >" + json[i].Text + "</option>";
+                    }
+                    $("#MedicalOrganismId").html(content);
+                    $("#MedicalOrganismId").easyDropDown('destroy');
+                    $("#MedicalOrganismId").easyDropDown();
+                }
+            });
+        });
+        //$('#MedicalOrganism').easyDropDown();
+
+
+    });
+
+    //设置查询参数
+    function additionalData() {
+        var data = {
+            Name: $("#input-search").val(),
+            MedicalOrganismTypeId: $("#MedicalOrganismTypeId").val(),
+            MedicalOrganismId: $("#MedicalOrganismId").val()
+        };
+
+        addAntiForgeryToken(data);
+        return data;
+    }
+
+    function ChartDelete(id) {
+        var r = confirm("你确定要删除吗？");
+        if (r) {
+            $.ajax({
+                url: "@Url.Action("ChartDelete")",
+                type: "POST",
+                dataType: "json",
+                data: { selectedIds: id },
+                success: function (json) {
+                    if (json.Code == 1) {
+                        alert("删除成功！");
+                        $("#data-grid").data("kendoGrid").dataSource.read();
+                    }
+                 }
+            });
+        }
+
+
+    }
+
+    //function GetDate(value) {
+    //    var str = '';
+
+    //    str.toLowerCase().indexOf(':') > 0 ?:str.split(':')[1]:str
+    //}
+
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#MedicalOrganismTypeId').on("change", function (item) {
+            var tId = item.currentTarget.selectedOptions[0].value;
+            $.ajax({
+                url: "@Url.Action("GetMedicalOrganism")?typeId=" + tId,
+                type: "GET",
+                dataType: "json",
+                success: function (json) {
+                    if (json == null || json == "") {
+                        return;
+                    }
+                    var content = " <option value=\"0\" >选择细菌</option>";
+                    for (var i = 0; i < json.length; i++) {
+                        content += " <option value=\"" + json[i].Value + "\" >" + json[i].Text + "</option>";
+                    }
+                    $("#MedicalOrganismId").html(content);
+                    $("#MedicalOrganismId").easyDropDown('destroy');
+                    $("#MedicalOrganismId").easyDropDown();
+                }
+            });
+
+        });
+
+        $("#DataFiles").on("change", function () {
+            $("#DataFilesMsg").hide();
+            var filepath = $("#DataFiles").val();
+            var fileArr = filepath.split("\\");
+            var fileTArr = fileArr[fileArr.length - 1].toLowerCase().split(".");
+            var filetype = fileTArr[fileTArr.length - 1];
+            if (filetype != "xls" && filetype != "xlsx") {
+                $("#DataFiles").val("");
+                alert("格式错误，请重新选择!");
+                return;
+            }
+            $("#userdefinedFile").val($("#DataFiles").val());
+
+        });
+    });
+
+</script>
+
+<script src="~/Content/Scripts/admin.listpage.js"></script>

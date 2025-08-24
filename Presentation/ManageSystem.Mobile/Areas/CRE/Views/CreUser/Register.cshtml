@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "注册";
+     Layout =  "~/Areas/CRE/Views/Shared/_Layout.cshtml";
+}
+
+<div id="app" v-cloak class="indexpage">
+    <img class="Lo-topimg" src="~/Areas/CRE/Content/Images/u18.png" alt="">
+    <div class="Lo-mid">
+        <div :class="{'flex f-center margin-b-20 border-b-1': true, 'has-error': errors.has('membername')}">
+            <img class="Lo-left-img" src="/Content/Images/left_phone_07.jpg" alt="">
+            <input class=" flex1 Lo-Input" placeholder="请输入姓名" type="text" name="membername" v-model="membername" v-validate="'required'" />
+        </div>
+        <div :class="{'flex f-center margin-b-20 border-b-1': true, 'has-error': errors.has('loginid')}">
+            <img class="Lo-left-img" src="/Content/Images/left_phone_07.jpg" alt="">
+            <input class="flex1 Lo-Input" placeholder="请输入登录用户名" type="text" name="loginid" v-model="loginid" v-validate="'required'" />
+        </div>
+        <div :class="{'flex f-center margin-b-20 border-b-1': true, 'has-error': errors.has('username')}">
+            <img class="Lo-left-img" src="/Content/Images/left_phones_07.jpg" alt="">
+            <input class=" flex1 Lo-Input" placeholder="请输入手机号码" type="tel" name="username" v-model="username" v-validate="'required'" />
+        </div>
+        <div :class="{'flex f-center margin-b-20 border-b-1': true, 'has-error': errors.has('password')}">
+            <img class="Lo-left-img" src="/Content/Images/left_suo_11.jpg" alt="">
+            <input minlength="5" class=" flex1 Lo-Input" placeholder="请输入密码，长度大于或等于6位" name="password" type="password" autocomplete="new-password" v-model="password" v-validate="'required|min:6'" ref="password" />
+        </div>
+        <div :class="{'flex f-center margin-b-20 border-b-1': true, 'has-error': errors.has('password2')}">
+            <img class="Lo-left-img" src="~/Areas/CRE/Content/Images/left_l_14.jpg" alt="">
+            <input minlength="5" class=" flex1 Lo-Input" placeholder="确认密码，和密码一样" type="password" name="password2" autocomplete="new-password" v-model="password2" v-validate="'required|confirmed:password'" data-vv-as="password" />
+        </div>
+        @*<div :class="{'flex f-center margin-b-20 border-b-1': true, 'has-error': errors.has('province')}">
+                <img class="Lo-left-img" src="/Content/Images/address_15.jpg" alt="">
+                @Html.DropDownList("province", (IEnumerable<SelectListItem>)ViewData["DropProvince"], new { @class = "flex1 Lo-Input", v_model = "province", v_validate = "'required|excluded:-1'" })
+                <img class="Lo-left-img" src="/Content/Images/Jian_l_15.jpg" alt="">
+            </div>
+            <div :class="{'flex f-center margin-b-20 border-b-1': true, 'has-error': errors.has('hospital')}">
+                <img class="Lo-left-img" src="/Content/Images/left_hos_15.jpg" alt="">
+                <input class=" flex1 Lo-Input" placeholder="所属医院名称" type="text" name="hospital" v-model="hospital" v-validate="'required'" />
+            </div>*@
+        <a ref="btnRegister" class="btn margin-t-40 ladda-button" data-style="zoom-in" @@click="onRegister" href="javascript:void(0);">注册</a>
+    </div>
+    <div class="fon-26 Lo-footer t-center">
+        <div class="margin-b-20">已有账号？<a class="blue" href="@Url.Action("Login", "CREUser").ToLowerInvariant()">去登录</a></div>       
+    </div>
+
+    <div class="js_dialog" ref="iosDialog" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd" v-html="dialogContent"></div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:void(0);" @@click="closeDialog" class="weui-dialog__btn weui-dialog__btn_primary" style="color: #005cad;">知道了</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="successToast" ref="successToast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32" v-text="resSuccessMessage"></p>
+        </div>
+    </div>
+    <div id="failToast" ref="failToast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_toast" style="font-size: 1.65rem;"></i>
+            <p class="weui-toast__content fon-32" v-text="resFailMessage" style="margin-top: 0.25rem;"></p>
+        </div>
+    </div>
+    <div id="submitToast" ref="submitToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32" v-html="loadingText">数据提交中</p>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    <link href="~/Content/Css/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/User/Register.css?v=1.0.0" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/vee-validate/vee-validate.min.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/fx.js"></script>
+    <script src="~/Content/Scripts/fx_methods.js"></script>
+    <script src="~/Areas/CRE/Content/Scripts/CreUser/Register.js?v=1.0.1"></script>
+}

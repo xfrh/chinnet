@@ -1,0 +1,120 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    this.ViewBag.Title = "医学数据统计 - 分离细菌中排名前十位的细菌";
+}
+
+@{
+    var breadcrumb = this.Request.QueryString["breadcrumb"];
+    if (string.IsNullOrWhiteSpace(breadcrumb) || !breadcrumb.Equals("hidden"))
+    {
+        <div class="mbx">
+            <p>当前位置：首页 &gt; 医学数据统计 &gt; 分离细菌中排名前十位的细菌</p>
+        </div>
+    }
+    else
+    {
+        <div class="mbx" style="height:15px;">  </div>
+    }
+}
+
+<div class="doct_center">
+
+    <div id="main" style="width: 90%;height:900px; margin:0px auto; ">
+
+    </div>
+</div>
+<script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+<script src="~/Content/Scripts/Echarts/bmap.js"></script>
+<script src="~/Content/Scripts/Echarts/china.js"></script>
+<script type="text/javascript">
+
+    function randomData() {
+        return Math.round(Math.random() * 1000);
+    }
+
+    $(document).ready(function () {
+
+            // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+            option = {
+                color: ['#3398DB'],
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '15%',
+                    containLabel: true
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        axisLabel: {
+                            interval: 0,
+                            rotate: 45,
+                            margin: 10,
+                            textStyle: {
+                                fontSize: "14px"
+                            }
+                        },
+                        data: ['大肠埃希菌','克雷伯菌属','不动杆菌属','金黄色葡萄球菌','铜绿假单胞菌','肠球菌属','凝固酶阴性葡萄球菌','肠杆菌属','嗜麦芽窄食单胞菌','β-溶血链球菌'],
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        axisLabel: {
+                            show: true,
+                            interval: 'auto',
+                            formatter: '{value} %'
+                        },
+                        show: true
+                    }
+                ],
+                series: [
+                    {
+                        name: '数量',
+                        type: 'bar',
+                        barWidth: '60%',
+                        data: [19.47,13.81,10.76,8.93,8.66,8.33,4.80,3.75,3.12,3.05],
+                        //以下为是否显示，显示位置和显示格式的设置了
+                        itemStyle: {
+                            normal: {
+                                color: function(params) {
+                                    // build a color map as your need.
+                                    var colorList = [
+                                        '#C1232B', '#B5C334', '#FCCE10', '#E87C25', '#27727B',
+                                        '#FE8463', '#9BCA63', '#FAD860', '#F3A43B', '#60C0DD',
+                                        '#D7504B', '#C6E579', '#F4E001', '#F0805A', '#26C0C0'
+                                    ];
+                                    return colorList[params.dataIndex];
+                                },
+                                //以下为是否显示，显示位置和显示格式的设置了
+                                label: {
+                                   // show: true,
+                                    position: 'top',
+                                    // formatter: '{c}'
+                                    formatter: '{c} %'
+                                }
+                            }
+                        },
+                    }
+                ],
+                textStyle:
+                {
+                    fontSize: 10
+                }
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+    });
+
+</script>

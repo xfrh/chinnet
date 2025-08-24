@@ -1,0 +1,142 @@
+﻿@using ManageSystem.Core.Domain.SHChart
+@using ManageSystem.Core.Extensions
+
+@model ManageSystem.Admin.Models.SHChart.SHBarChartTableModel
+@{
+    ViewBag.Title = "上海细菌真菌耐药监测网添编辑表格报表";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "上海网图表管理", SecondName = "柱状图管理", LocationName = this.ViewBag.Title }); }
+}
+
+@section HeadSection{
+    <link href="~/Content/Scripts/ladda/ladda-themeless.min.css" rel="stylesheet" />
+   <link href="~/Content/Css/MgtChart/SHBarChar/Create.css" rel="stylesheet" />
+}
+
+@using (Html.BeginForm("SHBarChartEditTable", "MgtSHChart", FormMethod.Post, new { id = "SHBarChartForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="page-body">
+        <div class="row add-page">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget ">
+                    <div class="widget-header add-page-titlebox ">
+                        <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                    </div>
+                    <div class="widget-body " id="BaseDiv" runat="server" style="overflow: hidden; ">
+                        @*<div class="options add-page-options">
+                                <input type="submit" name="save" class="btn btn-blue" value="保存" id="submit" />
+                                <a class="btn btn-default" href="@Url.Action("SHBarChartList")">返回</a>
+                            </div>*@
+                        <div class="add-content ">
+                            <div class="k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                                @Html.Partial("SHBarChart_CreateTablePartial", Model)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input id="MobileDisplayScale" name="MobileDisplayScale" type="hidden" value="10" />
+    <input id="SubTitle" name="SubTitle" type="hidden" value="table" />
+    <input id="MICName" name="MICName" type="hidden" value="" />
+    <input id="MIC_Range" name="MIC_Range" type="hidden" value="" />
+    <input id="MIC50" name="MIC50" type="hidden" value="" />
+    <input id="MIC90" name="MIC90" type="hidden" value="" />
+    <input id="S" name="S" type="hidden" value="" />
+    <input id="SDD" name="SDD" type="hidden" value="" />
+    <input id="I" name="I" type="hidden" value="" />
+    <input id="R" name="R" type="hidden" value="" />
+}
+
+<div id="modal_preview" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myPreviewLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myPreviewLabel">效果预览</h4>
+            </div>
+            <div class="modal-body">
+                <div id="chartmain" style="min-height: 500px;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section FooterSection{
+    <script src="~/Content/Scripts/toastr/toastr.js"></script>
+    <script src="~/Content/Scripts/utils.min.js"></script>
+    <script src="~/Content/Scripts/underscore-min.js"></script>
+    <script src="~/Content/Scripts/underscore.string.min.js"></script>
+    <script src="~/Content/Scripts/template-web.js"></script>
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=CA6ec345eb03c609a8738322aa89905c"></script>
+    <script src="~/Content/Scripts/echarts/echarts.min.js"></script>
+    <script src="~/Content/Scripts/echarts/map/js/china.js"></script>
+    <script src="~/Content/Scripts/echarts/extension/bmap.min.js"></script>
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/MgtChart/SHBarChart/Edittable.js?v=@DateTime.Now.Ticks"></script>
+    <script>
+
+        $.validator.addMethod('owners', function (value, element, params) {
+            return value !== 'undefined' && typeof (value) !== 'undefined';
+        });
+
+        $.validator.unobtrusive.adapters.add("owners", function (options) {
+            options.rules["owners"] = {};
+            options.messages["owners"] = options.message;
+        });
+
+
+        $("#submit").click(function () {
+            var MICName = "";
+            var MIC_Range = ""
+            var MIC50 = ""
+            var MIC90 = ""
+            var S = ""
+            var SDD = ""
+            var I = ""
+            var R = ""
+            $("input[MICNames='MICName']").each(function (j, item) {
+                MICName += item.value + ',';
+            });
+            $('#MICName').val(MICName);
+            $("input[MIC_Ranges='MIC_Range']").each(function (j, item) {
+                MIC_Range += item.value + ',';
+            });
+            $('#MIC_Range').val(MIC_Range);
+            $("input[MIC50s='MIC50']").each(function (j, item) {
+                MIC50 += item.value + ',';
+            });
+            $('#MIC50').val(MIC50);
+            $("input[MIC90s='MIC90']").each(function (j, item) {
+                MIC90 += item.value + ',';
+            });
+            $('#MIC90').val(MIC90);
+            $("input[Ss='S']").each(function (j, item) {
+                S += item.value + ',';
+            });
+            $('#S').val(S);
+            $("input[SDDs='SDD']").each(function (j, item) {
+                SDD += item.value + ',';
+            });
+            $('#SDD').val(SDD);
+            $("input[Is='I']").each(function (j, item) {
+                I += item.value + ',';
+            });
+            $('#I').val(I);
+            $("input[Rs='R']").each(function (j, item) {
+                R += item.value + ',';
+            });
+            $('#R').val(R);
+            //$('#SHBarChartForm').submit();
+            //return false;
+        });
+    </script>
+}

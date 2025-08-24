@@ -1,0 +1,40 @@
+﻿@model ManageSystem.Admin.Models.Meetings.MeetingCommentModel
+@{
+    //page title
+    ViewBag.Title = "编辑信息动态评论";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "信息动态管理", SecondName = "会议评论管理", LocationName = this.ViewBag.Title }); }
+}
+
+
+@using (Html.BeginForm())
+{
+  @Html.AntiForgeryToken()
+
+ <div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                </div>
+                <div class="widget-body " id="BaseDiv" runat="server">
+
+                    <div class="add-content ">
+                        <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                            @Html.Partial("_CreateOrUpdateMeetingComment", Model)
+                        </div>
+                    </div>
+                </div>
+                <div class="options add-page-options" style="text-align:right">
+                    <input type="submit" name="save" class="btn btn-blue " value="保存" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}
+

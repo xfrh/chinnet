@@ -1,0 +1,259 @@
+﻿@model ManageSystem.Admin.Models.Members.MemberDoctorModel
+@{
+    //page title
+    ViewBag.Title = "设置医生";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "会员管理", SecondName = "会员管理", LocationName = this.ViewBag.Title }); }
+}
+
+<style type="text/css">
+    .doctor-ul li {
+            list-style:none;
+    }
+    .li-span {
+     cursor:pointer;
+     color:#428bca;
+    }
+</style>
+
+    @Html.AntiForgeryToken()
+
+    <div class="page-body">
+        <div class="row add-page">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget ">
+                    <div class="widget-header add-page-titlebox ">
+                        <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                    </div>
+                    <div class="widget-body " id="BaseDiv" runat="server">
+                        <div class="options add-page-options">
+                            <input type="button" name="save" class="btn btn-blue " onclick="Save()" value="保存" />
+                        </div>
+                        <div class="add-content ">
+                            <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+
+                                <table class="adminContent">
+
+                                    <tr class="insert-time-tr" >
+                                        <td class="adminTitle">@Html.NopLabelFor(m => m.MemberName)：</td>
+                                        <td class="adminData">
+                                            @Model.MemberName
+                                        </td>
+                                    </tr>
+                                    <tr class="insert-time-tr">
+                                        <td class="adminTitle"></td>
+                                        <td class="adminData">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                             <div class="col-lg-4">
+                                                 <div>
+                                                         @Html.DropDownList("HospitalList", Model.HospitalList, new { @class = "form-control ", onchange = "HospitalChange()",style= "height: 30px;" })
+                                                         @Html.ValidationMessageFor(m => m.HospitalList)
+                                                 </div>
+                                                 <div>
+                                                     <ul class="doctor-ul" style="padding:0px;">
+                                                      
+                                                     </ul>
+                                                 </div>
+                                             </div>
+                                            <div class="col-lg-6">
+                                               
+
+                                                <div  style="width:100%;">
+                                                    <div class="well with-header  with-footer">
+                                                        <div class="header bg-blue">
+                                                            已选择的医生
+                                                        </div>
+                                                        <table class="table table-hover">
+                                                            <thead class="bordered-darkorange">
+                                                                <tr>
+                                                                    <th>医院名称</th>
+                                                                    <th>医生姓名</th>
+                                                                    <th>操作</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="user-list-table  select-user-table">
+                                                                @{
+
+                                                                    if (Model.DoctorList != null && Model.DoctorList.Any())
+                                                                    {
+                                                                        foreach (var item in Model.DoctorList)
+                                                                        {
+                                                                            <tr class="item-@item.Id  user-@item.Id" userid="@item.Id">
+                                                                                <td>@item.HospitalName</td> 
+                                                                                <td>@item.Name</td>
+                                                                             <td><a href="javascript:Delete('@item.Id')">删除</a></td>
+                                                                             </tr>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div style="width:100%;">
+                                                    <div class="well with-header  with-footer">
+                                                        <div class="header bg-lightred">
+                                                            系统默认推荐医生
+                                                        </div>
+                                                        <table class="table table-hover">
+                                                            <thead class="bordered-darkorange">
+                                                                <tr>
+                                                                    <th>医院名称</th>
+                                                                    <th>医生姓名</th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="user-list-table">
+                                                                @{
+
+                                                                    if (Model.SystemDoctorList != null && Model.SystemDoctorList.Any())
+                                                                    {
+                                                                        foreach (var item in Model.SystemDoctorList)
+                                                                        {
+                                                                            <tr class="item-@item.Id" userid="@item.Id">
+                                                                                <td>@item.HospitalName</td>
+                                                                                <td>@item.Name</td>
+                                                                                <td></td>
+                                                                            </tr>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script type="text/javascript">
+
+    function HospitalChange()
+    {
+        var hospital = $("#HospitalList").val();
+        $(".doctor-ul").html("");
+
+        if (hospital == "" || hospital == "0")
+            return;
+
+        $.ajax({
+            url: "/Members/GetDoctorList",
+            type: "Post",
+            dataType: "json",
+            data: {
+                hospital: "" + hospital + ""
+            },
+            success: function (json) {
+
+                if (json != null && json != "") {
+
+                    for (var i = 0; i < json.length; i++) {
+                        var content = " <li>" + json[i].Name + " <span class=\"li-span\"  UserId=\"" + json[i].Id + "\" UserName=\"" + json[i].Name + "\" onclick=\"Add(this)\">选择</span>  </li>";
+                        $(".doctor-ul").append(content);
+                    }
+                }
+            },
+            error: function (x, e) { },
+            complete: function (x) {
+            }
+        });
+
+    }
+
+    //新增
+    function Add(obj) {
+        var hospitalName = $("#HospitalList option:selected").text();
+        var userName = $(obj).attr("UserName");
+        var userId =""+ $(obj).attr("UserId")+"";
+
+        //检查是否重复
+        var tr = $(".user-list-table tr")
+        if (tr != null && tr.length > 0) {
+            for (var i = 0; i < tr.length; i++) {
+                var tempId = $(tr[i]).attr("UserId");
+                if (tempId == userId) {
+                    alert("已经存在");
+                    return;
+                }
+            }
+        }
+
+        var content = " <tr class='item-" + userId + "' UserId='" + userId + "'><td>" + hospitalName + "</td> <td>" + userName + "</td>   <td><a href=\"javascript:Delete('" + userId + "')\">删除</a></td> </tr>";
+        $(".select-user-table").append(content);
+    }
+
+    //删除
+    function Delete( userId) {
+        $(".user-" + userId).remove();
+    }
+
+    //保存
+    function Save()
+    {
+        var ids = "";
+        var tr = $(".select-user-table tr")
+
+        if (tr != null && tr.length > 0) {
+            for (var i = 0; i < tr.length; i++) {
+                var tempId = ""+$(tr[i]).attr("UserId")+"";
+
+                if (tempId != null && tempId != undefined && tempId != "")
+                    ids += tempId + ",";
+            }
+        }
+
+        if (ids != "")
+            ids = ids.substring(0, ids.length - 1);
+
+        $.ajax({
+            url: "/Members/SetMemberDoctor",
+            type: "Post",
+            dataType: "json",
+            data: {
+                memberId: "@Model.MemberId",
+                doctorIds: ids
+            },
+            success: function (data) {
+
+                if (data == "" || data == null)
+                {
+                    alert("设置用户医生失败，请重试！");
+                    return;
+                }
+
+                if (data.status) {
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+
+            },
+            error: function (x, e) { },
+            complete: function (x) {
+            }
+        });
+    }
+
+</script>
+

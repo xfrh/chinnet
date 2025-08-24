@@ -1,0 +1,100 @@
+﻿@model ManageSystem.Core.Domain.Documents.Document
+
+@{
+    ViewBag.Title = "查看";
+    bool IsDownloadList = UserinfoExtensions.CheckFunction(Url.Action("DocumentDownloadList", "Document"));
+}
+
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "文章管理", SecondName = "文章列表", LocationName = this.ViewBag.Title }); }
+}
+
+<div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                </div>
+                <div class="widget-body " id="BaseDiv" runat="server">
+                    <div class="options add-page-options clearfix">
+                        @Html.ActionLink("返回", "List", "Document", null, new { @class = "btn btn-info" })
+                    </div>
+                    <div class="add-content ">
+                        <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                            <table class="adminContent">
+                                <tbody>
+                                    <tr>
+                                        <td class="adminTitle">资料编号</td>
+                                        <td class="adminData">@Model.Id</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminTitle">资料标题</td>
+                                        <td class="adminData">@Model.Name</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminTitle">启用状态</td>
+                                        <td class="adminData">@(Model.Status ? "启用" : "禁用")</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminTitle">资料所属</td>
+                                        <td class="adminData">
+                                            @{
+                                                if (!string.IsNullOrWhiteSpace(Model.Owners))
+                                                {
+                                                    var owners = new List<string>();
+                                                    if (Model.Owners.Contains("2"))
+                                                    {
+                                                        owners.Add("CHINET");
+                                                    }
+                                                    if (Model.Owners.Contains("3"))
+                                                    {
+                                                        owners.Add("CRE专项研究");
+                                                    }
+                                                    <label>@string.Join("、", owners)</label>
+                                                }
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminTitle">排序</td>
+                                        <td class="adminData">@Model.Sort</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminTitle">链接文本</td>
+                                        <td class="adminData">
+                                            <a class="link" href="@Model.FilePath.TrimStart('~')" target="_blank">@Model.UrlName</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminTitle">文件名</td>
+                                        <td class="adminData">@(System.IO.Path.GetFileName(Model.FilePath))</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminTitle">下载量</td>
+                                        <td class="adminData">
+                                            @if (IsDownloadList)
+                                            {
+                                                <a class="link" href="@Url.Action("DocumentDownloadList",new { documentId = Model.Id })">@Model.Count</a>
+                                                <a class="link" href="@Url.Action("DocumentDownloadList",new { documentId = Model.Id })" style="margin-left: 0.75rem;">下载记录</a>
+                                            }
+                                            else
+                                            {
+                                                <span>@Model.Count</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminTitle">创建时间</td>
+                                        <td class="adminData">@Model.InsertTime.ToString("yyyy-MM-dd HH:mm")</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "问卷";
+    Layout = "~/Views/Shared/_SurveyLayout.cshtml";
+    string _version = DateTime.Now.Ticks.ToString();
+}
+
+@section Styles{
+    <link href="~/Content/Css/Survey/Finish.css?v=@_version" rel="stylesheet" />
+}
+@section Scripts{
+    <script src="~/Content/Scripts/Survey/Finish.js?v=@_version"></script>
+}
+
+<div id="app" v-locak>
+    <div class="survey-done">
+        <div class="page msg_success js_show">
+            <div class="weui-msg">
+                <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+                <div class="weui-msg__text-area">
+                    <h2 class="weui-msg__title">感谢您的参与！</h2>
+                </div>
+                <div class="weui-msg__opr-area">
+                    <p class="weui-btn-area">
+                        <a href="javascript:void(0);" @@click="onClosePage" style="color: #005cad;">关闭</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,828 @@
+﻿@model DataQuality_Score
+@{
+    ViewBag.Title = "修改评比信息";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "评分管理", SecondName = "评分管理", LocationName = this.ViewBag.Title }); }
+}
+
+@section HeadSection{
+    <link href="~/Content/Scripts/layui-v2.5.4/css/layui.css" rel="stylesheet" />
+    <link href="~/Content/Scripts/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <style>
+        #BaseDataDiv .flex {
+            display: flex;
+        }
+
+            #BaseDataDiv .flex > label {
+                margin: 0;
+                margin-right: 25px;
+                display: inline-table;
+            }
+
+        .filtrate-title {
+            width: 75px;
+            text-align: right;
+        }
+
+        #data-grid td .btn {
+            padding: 6px 5px 6px 7px;
+        }
+
+        @@media (min-width:1080px) {
+            .modal-lg {
+                width: 1060px
+            }
+        }
+    </style>
+}
+
+@Html.Hidden("Hidden_CurrentDateTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="page-body">
+        <div class="row add-page">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget ">
+                    <div class="widget-header add-page-titlebox ">
+                        <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                    </div>
+                    <div class="widget-body " id="BaseDiv">
+
+                        <div class="add-content ">
+                            <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+
+                                <div id="BaseDataDiv" class="tab-pane active" style="">
+                                    <div class="row clearfix">
+                                        <div class="col-sm-12">
+                                            <h4 style="font-size:14px; font-weight: 600 !important;">评比基本信息</h4>
+                                            <hr style="margin: 15px 0;" />
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-sm-12">
+                                            <table class="adminContent">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="adminTitle">
+                                                            <img alt="评比名称" src="/Content/images/ico-help.gif" title="评比名称" />
+                                                            <label for="Title" title="评比名称">评比名称</label>：
+                                                        </td>
+                                                        <td>
+                                                            <input class="text-box single-line" data-val="true" data-val-required="请输入评比名称" id="Title" name="Title" type="text" placeholder="请输入评比名称" autocomplete="off" value="@Model.Title" />
+                                                            <span class="field-validation-valid" data-valmsg-for="Title" data-valmsg-replace="true"></span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="adminTitle">
+                                                            <img alt="评比时间" src="/Content/images/ico-help.gif" title="评比时间" />
+                                                            <label for="Title" title="评比时间">评比时间</label>：
+                                                        </td>
+                                                        <td>
+                                                            <div class="flex">
+                                                                <label class="" for="BeginDateTime">
+
+                                                                    <input class="text-box single-line" data-val="true" data-val-required="请选择开始时间" id="BeginDateTime" name="BeginTime" type="text" placeholder="请选择开始时间" autocomplete="off" readonly="readonly" value="@Model.BeginTime.ToString("yyyy-MM-dd HH:mm:ss")" />
+                                                                    <span class="field-validation-valid" data-valmsg-for="BeginTime" data-valmsg-replace="true"></span>
+                                                                </label>
+                                                                <label class="" for="EndDateTime">
+                                                                    <input class="text-box single-line" data-val="true" data-val-required="请选择结束时间" id="EndDateTime" name="EndTime" type="text" placeholder="请选择结束时间" autocomplete="off" readonly="readonly" value="@Model.EndTime.ToString("yyyy-MM-dd HH:mm:ss")" />
+                                                                    <span class="field-validation-valid" data-valmsg-for="EndTime" data-valmsg-replace="true"></span>
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="adminTitle">
+                                                            <img alt="说明信息" src="/Content/images/ico-help.gif" title="说明信息" />
+                                                            <label for="Title" title="说明信息">说明信息</label>：
+                                                        </td>
+                                                        <td>
+                                                            <textarea class="text-box single-line" id="Intro" name="Intro" data-val="true" data-val-required="请输入说明信息" placeholder="请输入说明信息" style="resize: none; width: 80%; height: 100px;" autocomplete="off">@Model.Intro</textarea>
+                                                            <span class="field-validation-valid" data-valmsg-for="Intro" data-valmsg-replace="true"></span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="" class="">
+                                    <div class="row clearfix">
+                                        <div class="col-sm-12">
+                                            <div class="flex flex-vertical-center clearfix">
+                                                <h4 class="flex-1" style="font-size:14px; font-weight: 600 !important;">参与评比医院</h4>
+                                                <button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#addHospital">添加医院</button>
+                                            </div>
+                                            <hr style="margin: 15px 0;" />
+                                        </div>
+                                    </div>
+
+                                    <div class="row clearfix">
+                                        <div class="col-sm-12">
+                                            <div class="table table-striped table-bordered dataTable no-footer table-select" id="ManageTableDiv" aria-describedby="editabledatatable_info">
+                                                <div id="data-grid"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="options add-page-options" style="text-align:right">
+                        <input type="submit" name="save" class="btn btn-blue " value="保存" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<div id="addHospital" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: rgb(37, 71, 106); color: #fff;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: #fff; opacity: 0.8;">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">选择医院</h4>
+            </div>
+            <div class="modal-body">
+                <div class="filtrate-header flex flex-vertical-center">
+                    <div class="form-inline flex flex-vertical-center">
+                        <span class="filtrate-title">医院名称：</span>
+                        <input class="form-control flex-1" id="filtrateHospitalName" name="filtrateHospitalName" type="text" autocomplete="off" />
+                    </div>
+                    <div class="form-inline flex flex-vertical-center" for="dropIsTeam">
+                        <span class="filtrate-title">单位成员：</span>
+                        <select class="form-control flex-1" id="dropIsTeam" name="dropIsTeam">
+                            <option value="null">不限</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+                    <div class="form-inline flex flex-vertical-center" for="dropStatus">
+                        <span class="filtrate-title">状态：</span>
+                        <select class="form-control flex-1" id="dropStatus" name="dropStatus">
+                            <option value="null">全部</option>
+                            <option value="1">正常</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </div>
+                    <div class="form-inline flex flex-vertical-center">
+                        <span class="filtrate-title">联系人：</span>
+                        <input class="form-control flex-1" id="filtrateContacts" name="filtrateContacts" type="text" autocomplete="off" />
+                    </div>
+                    <div class="form-inline" style="margin-left: 15px;">
+                        <button class="btn btn-primary" id="filtrate-search" type="button">查询</button>
+                        <button class="btn btn-success ladda-button" data-style="zoom-in" id="filtrate-confirm" type="button" style="display: none;">确认选择</button>
+                    </div>
+                </div>
+                <div class="table table-striped table-bordered dataTable no-footer table-select" id="ManageTableDiv" aria-describedby="editabledatatable_info">
+                    <div id="filtrate-result"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="selectJury" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true" aria-labelledby="myModalLabel2">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: rgb(37, 71, 106); color: #fff;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: #fff; opacity: 0.8;">&times;</button>
+                <h4 class="modal-title" id="myModalLabel2">选择评委</h4>
+            </div>
+            <div class="modal-body">
+                <div class="filtrate-header flex flex-vertical-center">
+                    <div class="form-inline flex flex-vertical-center">
+                        <span class="filtrate-title" style="width: 45px;">姓名：</span>
+                        <input class="form-control flex-1" id="filtrateJuryName" name="filtrateJuryName" type="text" autocomplete="off" />
+                    </div>
+                    <div class="form-inline flex flex-vertical-center" for="dropStatus">
+                        <span class="filtrate-title" style="width: 55px;">状态：</span>
+                        <select class="form-control flex-1" id="dropStatus" name="dropStatus">
+                            <option value="null">全部</option>
+                            <option value="2">正常</option>
+                            <option value="3">禁用</option>
+                        </select>
+                    </div>
+                    <div class="form-inline flex flex-vertical-center">
+                        <span class="filtrate-title" style="width: 85px;">所属医院：</span>
+                        <input class="form-control flex-1" id="filtrateHospital" name="filtrateHospital" type="text" autocomplete="off" />
+                    </div>
+                    <div class="form-inline" style="margin-left: 15px;">
+                        <button class="btn btn-primary" id="filtrate-searchJury" type="button">查询</button>
+                    </div>
+                </div>
+                <div class="table table-striped table-bordered dataTable no-footer table-select" id="ManageTableDiv" aria-describedby="editabledatatable_info">
+                    <div id="filtrate-juryresult"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section FooterSection{
+
+    <script id="sortTemplate" type="text/x-kendo-template">
+        <div class="input-group">
+            <input id="sort_#=Sort.Key#" data-val="#=Sort.Key#" class="text-box single-line form-control" name="InputSort" value="#=Sort.Value#" style="height: 34px;" />
+            <span class="input-group-btn">
+                <button id="btn_sort_#=Sort.Key#" class="btn btn-default ladda-button" data-style="zoom-in" data-val="#=Sort.Key#" type="button" style="margin-right: 0;" onclick="onSaveSort(this); return false;"><i class="glyphicon glyphicon-ok"></i></button>
+            </span>
+        </div>
+
+    </script>
+
+    <script id="explainTemplate" type="text/x-kendo-template">
+        <div class="input-group">
+            <input id="explain_#=Explain.Key#" data-val="#=Explain.Key#" class="text-box single-line form-control" name="InputExplain" value="#=Explain.Value#" style="height: 34px;" />
+            <span class="input-group-btn">
+                <button id="btn_explain_#=Explain.Key#" class="btn btn-default ladda-button" data-style="zoom-in" data-val="#=Explain.Key#" type="button" style="margin-right: 0;" onclick="onSaveExplain(this); return false;"><i class="glyphicon glyphicon-ok"></i></button>
+            </span>
+        </div>
+    </script>
+
+    <script id="juryTemplate" type="text/x-kendo-template">
+        <a data-val="#=Jury.Key#" href="javascript: void(0);" onclick="openJury(this);" style="color: rgb(22, 155, 213);">#=Jury.Value#</a>
+        <!--
+        # if (Jury.Chceked) { #
+        <a data-val="#=Jury.Key#" href="javascript: void(0);">#=Jury.Value#</a>
+        # } else { #
+        <a data-val="#=Jury.Key#" href="javascript: void(0);">选择</a>
+        # } #
+            -->
+    </script>
+
+    <script id="deleteTemplate" type="text/x-kendo-template">
+        <a data-val="#=Id#" href="javascript: void(0);" onclick="deleteHospital('#=Id#'); return false;" style="color: rgb(226, 41, 60);">删除</a>
+    </script>
+
+    <script id="selectJuryTemplate" type="text/x-kendo-template">
+        <a data-val="#=Id#" href="javascript: void(0);" onclick="settingJury(this); return false;" style="color: rgb(22, 155, 213);">选择</a>
+    </script>
+
+    <script src="~/Content/Scripts/layui-v2.5.4/layui.js"></script>
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/admin.listpage.js"></script>
+
+    <script>
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+            var beginDateTime, endDateTime;
+
+            beginDateTime = laydate.render({
+                elem: '#BeginDateTime',
+                type: 'datetime',
+                done: function (value, dates) {
+                    var currentDate = new Date();
+                    if (dates.year) {
+                        var selectDate = new Date(dates.year, dates.month - 1, dates.date, dates.hours, dates.minutes, dates.seconds);
+                        if (selectDate >= currentDate) {
+                            endDateTime.config.min = {
+                                year: dates.year,
+                                month: dates.month - 1, //关键
+                                date: dates.date,
+                                hours: dates.hours,
+                                minutes: dates.minutes,
+                                seconds: dates.seconds
+                            };
+                        }
+                        else {
+                            endDateTime.config.min = {
+                                year: currentDate.getFullYear(),
+                                month: currentDate.getMonth(),
+                                date: currentDate.getDate(),
+                                hours: currentDate.getHours(),
+                                minutes: currentDate.getMinutes(),
+                                seconds: currentDate.getSeconds()
+                            }
+                        }
+                    }
+                    else {
+                        endDateTime.config.min = {
+                            year: currentDate.getFullYear(),
+                            month: currentDate.getMonth(),
+                            date: currentDate.getDate(),
+                            hours: currentDate.getHours(),
+                            minutes: currentDate.getMinutes(),
+                            seconds: currentDate.getSeconds()
+                        }
+                    }
+                }
+            });
+
+            endDateTime = laydate.render({
+                elem: '#EndDateTime',
+                type: 'datetime',
+                min: document.getElementById('Hidden_CurrentDateTime').value,
+                done: function (value, dates) {
+                    beginDateTime.config.max = {
+                        year: dates.year,
+                        month: dates.month - 1, //关键
+                        date: dates.date,
+                        hours: dates.hours,
+                        minutes: dates.minutes,
+                        seconds: dates.seconds
+                    };
+                }
+            });
+        });
+
+        $("#data-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: '/ScoringModule/CreateWithCheckedHospitalList',
+                        type: "POST",
+                        dataType: "json",
+                        data: { id: $('#Id').val() }
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 30, 50]
+            },
+            scrollable: false,
+            groupable: false,
+            dataBound: onDataBound,
+            columns: [
+                {
+                    field: "HospitalName",
+                    title: "医院名称",
+                    width: 200
+                },
+                {
+                    field: "Contacts",
+                    title: '联系人',
+                    width: 100
+                },
+
+                {
+                    field: "ContactWay",
+                    title: '联系方式',
+                    width: 100
+                },
+                {
+                    field: "Sort",
+                    title: "显示顺序",
+                    width: 100,
+                    template: kendo.template(document.getElementById('sortTemplate').innerHTML)
+                },
+                {
+                    field: "Explain",
+                    title: "参与说明",
+                    width: 320,
+                    template: kendo.template(document.getElementById('explainTemplate').innerHTML)
+                },
+                {
+                    field: "Jury",
+                    title: "选择评委",
+                    width: 100,
+                    template: kendo.template(document.getElementById('juryTemplate').innerHTML)
+                },
+                {
+                    field: "Id",
+                    title: "操作",
+                    width: 80,
+                    template: kendo.template(document.getElementById('deleteTemplate').innerHTML)
+                }
+            ]
+        });
+
+        function addHospital() {
+            $('#addHospital').modal('show');
+        }
+
+        $('#filtrate-result').kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: '/ScoringModule/CreateWithHospitalList',
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalFiltrateData
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [5, 10, 15, 20, 30, 50, 100]
+            },
+            scrollable: false,
+            groupable: false,
+            dataBound: onDataBound,
+            columns: [
+                {
+                    field: "Id",
+                    headerTemplate: "  <div class='' style='text-align: center;'>    <label><input type='checkbox' id='ft-mastercheckbox' /><span class='text'></span> </label>   </div>",
+                    headerAttributes: { style: "text-align:center" },
+                    attributes: { style: "text-align:center" },
+                    template: " <div class='' style='text-align: center;'>    <label><input type='checkbox' class='checkboxGroups' name='data-item'  value='#=Id#' /><span class='text'></span> </label>   </div> ",
+                    width: 50
+                },
+                {
+                    field: "HospitalName",
+                    title: "医院名称",
+                    width: 200
+                },
+                {
+                    field: "Status",
+                    title: "状态",
+                    width: 80
+                },
+                {
+                    field: "HospitalAddress",
+                    title: "医院地址",
+                    width: 300
+                },
+                {
+                    field: "Contacts",
+                    title: '联系人',
+                    width: 100
+                },
+                {
+                    field: "ContactWay",
+                    title: '联系方式',
+                    width: 100
+                },
+            ]
+        });
+
+        $("#addHospital").on('hidden.bs.modal', function () {
+            setTimeout(function () {
+                var grid = $('#data-grid').data('kendoGrid');
+                grid.dataSource.page(1);
+                $('#addHospital').find('input[type="checkbox"]').prop('checked', false);
+                $('#filtrate-confirm').hide();
+            }, 50);
+            return false;
+        });
+
+        function additionalFiltrateData() {
+            var data = {
+                HospitalName: $("#addHospital #filtrateHospitalName").val(),
+                Status: $("#addHospital #dropStatus").val(),
+                IsTeam: $('#addHospital #dropIsTeam').val(),
+                Contacts: $("#addHospital #filtrateContacts").val()
+            };
+            if (data.Status === 'null' || data.Status === null) {
+                data.Status = null;
+            }
+            addAntiForgeryToken(data);
+            return data;
+        }
+
+        function deleteHospital(id) {
+            if (id) {
+                layui.use('layer', function () {
+                    layer.confirm('是否确定删除这个医院？', {
+                        btn: ['确定', '取消'] //按钮
+                    }, function () {
+                        var loading;
+                        $.ajax({
+                            url: '/ScoringModule/CreateHospitalWithDelete',
+                            method: 'post',
+                            data: {
+                                id: id, dqsid: $("#Id").val()
+                            },
+                            dataType: 'json',
+                            beforeSend: function () { loading = layer.load(2); },
+                            complete: function () { setTimeout(function () { layer.close(loading); }, 200); },
+                            error: function () {
+                                layer.alert('网络请求错误');
+                            },
+                            success: function (res) {
+                                var grid = $('#data-grid').data('kendoGrid');
+                                grid.dataSource.page(1);
+                                layer.closeAll();
+                            }
+                        });
+                    });
+                });
+            }
+        }
+
+        $('#filtrate-juryresult').kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: '/ScoringModule/CreateWithJuryList',
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalFiltrateJuryData
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [5, 10, 15, 20, 30, 50, 100]
+            },
+            scrollable: false,
+            groupable: false,
+            dataBound: onDataBound,
+            columns: [
+                {
+                    field: "Id",
+                    title: '操作',
+                    width: 80,
+                    template: kendo.template(document.getElementById('selectJuryTemplate').innerHTML)
+                },
+                {
+                    field: "Name",
+                    title: "姓名",
+                    width: 100
+                },
+                {
+                    field: "Mobile",
+                    title: "手机号",
+                    width: 100
+                },
+                {
+                    field: "Status",
+                    title: "状态",
+                    width: 80
+                },
+                {
+                    field: "Hospital",
+                    title: "所属医院",
+                    width: 300
+                }
+            ]
+        });
+
+        function additionalFiltrateJuryData() {
+            var data = {
+                name: $("#selectJury #filtrateJuryName").val(),
+                status: $("#selectJury #dropStatus").val(),
+                hospital: $("#selectJury #filtrateHospital").val()
+            };
+            if (data.status === 'null' || data.status === null) {
+                data.status = null;
+            }
+            addAntiForgeryToken(data);
+            return data;
+        }
+
+        $('#filtrate-search').on('click', function () {
+            var grid = $('#filtrate-result').data('kendoGrid');
+            grid.dataSource.page(1);
+            return false;
+        });
+
+        $('#filtrate-searchJury').on('click', function () {
+            var grid = $('#filtrate-juryresult').data('kendoGrid');
+            grid.dataSource.page(1);
+            return false;
+        });
+
+        // 确认添加医院
+        $('#filtrate-confirm').on('click', function () {
+            var checkeds = $('#filtrate-result').find('input[name="data-item"][type="checkbox"]:checked');
+            if (checkeds.length === 0) {
+                layui.use('layer', function () { layer.alert('您未选择医院'); });
+                return false;
+            }
+            var ids = [];
+            $('#filtrate-result').find('input[name="data-item"][type="checkbox"]:checked').each(function (i, item) {
+                ids.push(item.value);
+            });
+            var id = $('#Id').val(),
+                l = Ladda.create(document.getElementById('filtrate-confirm'));
+            l = Ladda.create(document.getElementById('filtrate-confirm'));
+            if (id && !l.isLoading()) {
+                $.ajax({
+                    url: '/ScoringModule/EditWithConfirmHospital',
+                    method: 'post',
+                    data: { id: id, hospitalIds: ids },
+                    dataType: 'json',
+                    beforeSend: function () { l.start(); },
+                    complete: function () { setTimeout(function () { l.stop(); }, 200); },
+                    error: function () {
+                        layui.use('layer', function () { layer.alert('网络请求错误'); });
+                    },
+                    success: function (res) {
+                        layui.use('layer', function () {
+                            if (res.status) {
+                                $('#addHospital').modal('hide');
+                                //var grid = $('#data-grid').data('kendoGrid');
+                                //grid.dataSource.page(1);
+                            }
+                            else {
+                                layer.alert(res.message);
+                            }
+                        });
+                    }
+                });
+            }
+            return false;
+        });
+
+        $('#filtrate-result').on('click', 'table input[name="data-item"][type="checkbox"]', function () {
+            setTimeout(function () {
+                var checkeds = $('#filtrate-result').find('input[name="data-item"][type="checkbox"]:checked'),
+                    totalLength = $('#filtrate-result').find('input[name="data-item"][type="checkbox"]').length;
+
+                if (checkeds.length > 0) {
+                    $('#filtrate-confirm').show();
+                }
+                else {
+                    $('#filtrate-confirm').hide();
+                }
+
+                if (totalLength > 0 && totalLength === checkeds.length) {
+                    $('#filtrate-result').find('input[id="ft-mastercheckbox"][type="checkbox"]').prop('checked', true);
+                }
+                else {
+                    $('#filtrate-result').find('input[id="ft-mastercheckbox"][type="checkbox"]').prop('checked', false);
+                }
+            }, 50);
+        });
+
+        $('#filtrate-result').on('click', 'table input[id="ft-mastercheckbox"][type="checkbox"]', function () {
+            var $this = $(this);
+            setTimeout(function () {
+                if ($this.prop('checked')) {
+                    $('#filtrate-result').find('input[name="data-item"][type="checkbox"]').prop('checked', true);
+                    $('#filtrate-confirm').show();
+                }
+                else {
+                    $('#filtrate-result').find('input[name="data-item"][type="checkbox"]').prop('checked', false);
+                    $('#filtrate-confirm').hide();
+                }
+            }, 50);
+        });
+
+        function openJury(obj) {
+            var id = obj.dataset['val'];
+            if (id) {
+                $('#selectJury').data('id', id).modal({ show: true });
+            }
+        }
+
+        $('#selectJury').on('show.bs.modal', function (event) {
+            //console.log($('#selectJury').data('id'));
+            //console.log(event.relatedTarget.dataset['id']);
+        }).on('hidden.bs.modal', function () {
+            var grid = $('#data-grid').data('kendoGrid');
+            grid.dataSource.page(1);
+            return false;
+        });
+
+        function settingJury(obj) {
+
+            var sid = $('#Id').val(),
+                memberId = obj.dataset['val'],
+                hid = $('#selectJury').data('id');
+            var juryGrid = $("#filtrate-juryresult").data("kendoGrid"),
+                dataItem = juryGrid.dataSource.data().find(function (i) { return i.Id == memberId; });
+            if (sid && hid && memberId) {
+                layui.use('layer', function () {
+                    layer.confirm('确认评委信息？<br />姓&emsp;&emsp;名：' + dataItem.Name + '<br />手&ensp;机&ensp;号：' + dataItem.Mobile + '<br />所属医院：' + dataItem.Hospital, {
+                        btn: ['确定', '取消'] //按钮
+                    }, function () {
+                        var loading;
+                        $.ajax({
+                            url: '/ScoringModule/CreateHospitalWithSettingJury',
+                            method: 'post',
+                            data: { dqid: sid, dqHospitalId: hid, memberId: memberId },
+                            dataType: 'json',
+                            beforeSend: function () { loading = layer.load(2); },
+                            complete: function () { setTimeout(function () { layer.close(loading); }, 200); },
+                            error: function () {
+                                layer.alert('网络请求错误');
+                            },
+                            success: function (res) {
+                                var grid = $('#data-grid').data('kendoGrid');
+                                grid.dataSource.page(1);
+                                layer.closeAll();
+                                $('#selectJury').modal('hide');
+                            }
+                        });
+                    });
+                });
+            }
+        }
+
+        function onSaveSort(obj) {
+            var hid = obj.dataset['val'],
+                sid = $('#Id').val(),
+                textSort = $('#data-grid input[id="sort_' + hid + '"]').val(),
+                l = Ladda.create(document.getElementById('btn_sort_' + hid));
+            layui.use('layer', function () {
+                if (!/^[0-9]*[1-9][0-9]*$/.test(textSort)) {
+                    layer.msg('请输入大于0的整数');
+                    return false;
+                }
+                if (hid && sid && !l.isLoading()) {
+                    $.ajax({
+                        url: '/ScoringModule/SettingHospitalSortByCreate',
+                        method: 'POST',
+                        data: {
+                            dqid: sid,
+                            dqHospitalId: hid,
+                            sort: textSort
+                        },
+                        dataType: 'JSON',
+                        beforeSend: function () { l.start(); },
+                        complete: function () { setTimeout(function () { l.stop(); }, 200); },
+                        error: function () { },
+                        success: function (res) {
+                            if (!res.status) {
+                                layer.alert(res.message);
+                            }
+                            var grid = $('#data-grid').data('kendoGrid');
+                            grid.dataSource.page(1);
+                        }
+                    });
+                }
+            });
+        }
+
+        function onSaveExplain(obj) {
+            var hid = obj.dataset['val'],
+                sid = $('#Id').val(),
+                textExplain = $('#data-grid input[id="explain_' + hid + '"]').val(),
+                l = Ladda.create(document.getElementById('btn_explain_' + hid));
+            layui.use('layer', function () {
+                if (hid && sid && !l.isLoading()) {
+                    $.ajax({
+                        url: '/ScoringModule/SettingHospitalExplainByCreate',
+                        method: 'POST',
+                        data: {
+                            dqid: sid,
+                            dqHospitalId: hid,
+                            explain: textExplain
+                        },
+                        dataType: 'JSON',
+                        beforeSend: function () { l.start(); },
+                        complete: function () { setTimeout(function () { l.stop(); }, 200); },
+                        error: function () { },
+                        success: function (res) {
+                            layer.msg(res.message, { time: 1200, shade: 0.001, shadeClose: true });
+                            //if (!res.status) {
+                            //    layer.alert(res.message);
+                            //}
+                            //var grid = $('#data-grid').data('kendoGrid');
+                            //grid.dataSource.page(1);
+                        }
+                    });
+                }
+            });
+        }
+
+    </script>
+}

@@ -1,0 +1,52 @@
+﻿@model ManageSystem.Admin.Models.Integrals.IntegralSettingModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+<table class="adminContent">
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Name)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Type)：</td>
+        <td class="adminData">
+            @Html.DropDownList("Type", Model.TypeList, new { @class = "form-control dropdown" })
+            @Html.ValidationMessageFor(m => m.TypeList)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Status)：</td>
+        <td class="adminData">
+            @Html.CheckBoxFor(m => m.Status, new { @class = "n-chk" })
+            @Html.ValidationMessageFor(m => m.Status)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Value)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Value, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Value)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Remark)：</td>
+        <td class="adminData">
+            @Html.TextAreaFor(model => model.Remark, new { @class = "form-control txt", cols = "30", rows = "3" })
+            @Html.ValidationMessageFor(m => m.Remark)
+        </td>
+    </tr>
+</table>
+
+<script src="/Content/Scripts/TranTextBox.js"></script>
+<script type="text/javascript">
+
+
+
+
+</script>

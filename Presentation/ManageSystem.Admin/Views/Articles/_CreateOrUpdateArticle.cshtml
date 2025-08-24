@@ -1,0 +1,55 @@
+﻿@model ManageSystem.Admin.Models.Articles.ArticleModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+<script src="~/Content/Scripts/ueditor/ueditor.config.js"></script>
+<script src="~/Content/Scripts/ueditor/ueditor.all.min.js"></script>
+<script src="~/Content/Scripts/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+<link href="~/Content/Scripts/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+<script src="~/Content/Scripts/bootstrap-fileinput/js/fileinput.min.js"></script>
+<script src="~/Content/Scripts/bootstrap-fileinput/js/locales/zh.js"></script>
+
+
+<div>
+    <div class="widget-main ">
+        <div class="tabbable">
+            <ul class="nav nav-tabs tabs-flat" id="myTab11" style="font-size: 14px;">
+                <li class="active">
+                    <a data-toggle="tab" href="#BaseDataDiv">
+                        基本信息
+                    </a>
+                </li>
+                <li class="">
+                    <a data-toggle="tab" href="#AttachmentDiv">
+                        文章附件
+                    </a>
+                </li>
+
+
+            </ul>
+            <div class="tab-content tabs-flat" style="background-color: white; padding: 30px 12px; min-height: 350px;">
+
+                <!-- 基本信息 -->
+                <div id="BaseDataDiv" class="tab-pane active">
+                    <div class="row">
+                        @Html.Partial("_ArticleDetails.BaseData",Model)
+                    </div>
+
+                </div>
+
+
+                <!-- 文章附件 -->
+                <div id="AttachmentDiv" class="tab-pane">
+                    <div class="row">
+                        @Html.Partial("_ArticleDetails.Attachment", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

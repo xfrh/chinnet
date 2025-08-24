@@ -1,0 +1,9 @@
+﻿# 日期: 2019-08-19
+# 说明: dbo.CRProject 新增字段 MHSource: MH平板来源厂家
+# SQL: ALTER TABLE dbo.CRProject ADD [MHSource] NVARCHAR(MAX) NULL;
+
+# 说明: dbo.CRProjectItem 新增字段 MIC_Imipenem: 亚胺培南MIC值(ug/ml)
+# SQL: ALTER TABLE dbo.CRProjectItem ADD [MIC_Imipenem] DECIMAL(18, 2) NULL;
+
+#
+

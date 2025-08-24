@@ -1,0 +1,68 @@
+﻿<div class="swiper-container scroll">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide slidescroll">
+            <article class="cro-page">
+                <div class="cro-qbox">
+                    <div class="cro-qbox-title">请完善您的个人信息，以便我们发放奖品</div>
+                </div>
+                <div class="cro-qbox">
+                    <div class="cro-qbox-title" v-text="Q29.title"></div>
+                    <div class="cro-qbox-awbox">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="flex align-items__baseline">
+                                            <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q29_hospital')}">
+                                                <input class="flex-1 cro-qbox__input" name="Q29_hospital" v-model="Q29.hospital" v-validate="{required: true, min: 1}" type="text" @@focus="onHideSubmit" @@blur="onShowSubmit" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="cro-qbox">
+                    <div class="cro-qbox-title" v-text="Q30.title"></div>
+                    <div class="cro-qbox-awbox">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="flex align-items__baseline">
+                                            <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q30_name')}">
+                                                <input class="flex-1 cro-qbox__input" name="Q30_name" v-model="Q30.name" v-validate="{required: true, min: 1}" type="text" @@focus="onHideSubmit" @@blur="onShowSubmit" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="cro-qbox">
+                    <div class="cro-qbox-title" v-text="Q31.title"></div>
+                    <div class="cro-qbox-awbox">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="flex align-items__baseline">
+                                            <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q31_mobile')}">
+                                                <input class="flex-1 cro-qbox__input" name="Q31_mobile" v-model="Q31.mobile" v-validate="{required: true, min: 1}" type="tel" @@focus="onHideSubmit" @@blur="onShowSubmit" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </article>
+            <footer class="cre-footer" v-if="showSubmit">
+                <a class="btn btn-primary cre-submit" href="javascript: void(0);" @@click="onSubmit">提交问卷</a>
+            </footer>
+        </div>
+    </div>
+</div>

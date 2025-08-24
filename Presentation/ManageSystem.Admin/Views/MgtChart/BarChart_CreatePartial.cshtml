@@ -1,0 +1,198 @@
+﻿@using ManageSystem.Admin.Extensions;
+@using ManageSystem.Core.Domain.Chart;
+@using ManageSystem.Core.Extensions;
+
+@model ManageSystem.Admin.Models.Chart.BarChartModel
+
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.DataSegmentId)
+@Html.HiddenFor(model => model.DataItemType)
+@*class="adminContent"*@
+<style>
+    .adminData {
+        width: 300px;
+        padding-bottom: 15px;
+    }
+</style>
+<div style="width:20%;float:left">
+    <table>
+        <tr>
+            @*<td class="adminTitle">@Html.NopLabelFor(m => m.DataSegmentId)：</td>*@
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.DataSegmentId)：
+                @Html.DropDownListFor(m => m.DataSegmentId, Model.DropDataSegment, new { data_val_number = "请选择所属数据段", data_val_range_min = "1", data_val_range = "请选择所属数据段", @readonly = "readonly", disabled = "disabled", style = "background: transparent;" })
+                @Html.ValidationMessageFor(m => m.DataSegmentId)
+            </td>
+        </tr>
+        <tr>
+            @*<td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>*@
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.Name)：
+                @Html.EditorFor(m => m.Name, new { htmlAttributes = new { placeholder = "请输入报表名称" } })
+                @Html.ValidationMessageFor(m => m.Name)
+                <a class="btn-link" style="text-decoration: none;" data-toggle="modal" data-target="#modal_title_toptip">什么是报表名称、报表标题、报表副标题？</a>
+            </td>
+        </tr>
+        <tr>
+            @*<td class="adminTitle">@Html.NopLabelFor(m => m.Title)：</td>*@
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.Title)：
+                @Html.EditorFor(m => m.Title, new { htmlAttributes = new { placeholder = "请输入报表标题" } })
+                @Html.ValidationMessageFor(m => m.Title)
+            </td>
+        </tr>
+        <tr>
+            @*<td class="adminTitle">@Html.NopLabelFor(m => m.SubTitle)：</td>*@
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.SubTitle)：
+                @Html.EditorFor(m => m.SubTitle, new { htmlAttributes = new { placeholder = "请输入报表副标题" } })
+                @Html.ValidationMessageFor(m => m.SubTitle)
+            </td>
+        </tr>
+        <tr>
+            @*<td class="adminTitle">@Html.NopLabelFor(m => m.Sort)：</td>*@
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.Sort)：
+                @Html.EditorFor(m => m.Sort, new { htmlAttributes = new { placeholder = "排序必须大于等于1，且值越小越靠前", data_val_number = "排序必须大于等于1，且值越小越靠前", data_val_range_min = "1", data_val_range = "排序必须大于等于1，且值越小越靠前" } })
+                @Html.ValidationMessageFor(m => m.Sort)
+            </td>
+        </tr>
+        <tr>
+            @*<td class="adminTitle">@Html.NopLabelFor(m => m.Display)：</td>*@
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.Display)：
+                @Html.DropDownListFor(m => m.Display, Model.DropDisplay)
+                @Html.ValidationMessageFor(m => m.Display)
+            </td>
+        </tr>
+        <tr>
+            @*<td class="adminTitle">@Html.NopLabelFor(m => m.Unit)：</td>*@
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.Unit)：
+                @Html.EditorFor(m => m.Unit, new { htmlAttributes = new { placeholder = "请输入数值单位", data_val = "true", data_val_required = "数值单位不能为空，如：%" } })
+                @Html.ValidationMessageFor(m => m.Unit)
+            </td>
+        </tr>
+        <tr>
+            @*<td class="adminTitle">@Html.NopLabelFor(m => m.MobileDisplayScale)：</td>*@
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.MobileDisplayScale)：
+                @Html.EditorFor(m => m.MobileDisplayScale, new { htmlAttributes = new { placeholder = "请输入显示比例，如：80", data_val_range_min = "1", data_val_range_max = "100", data_val_range = "显示比例应该在1-100之间" } })
+                @Html.ValidationMessageFor(m => m.MobileDisplayScale)
+                <span style="display: block; width: 100%; line-height: 20px; color: #ababab;">
+                    如果报表太长移动端会显示部分数据项<br />
+                    100表示全部显示，80表示显示80%的
+                </span>
+            </td>
+        </tr>
+    </table>
+</div>
+@*class="widget flat"*@
+<div class="widget flat" style="width:80%;float:right">
+    <div class="widget-body">
+        <div class="widget-main">
+            <div class="tabbable">
+                <ul class="nav nav-tabs tabs-flat" id="myTab11">
+                    <li class="active">
+                        <a data-toggle="tab" data-dataitemtype="@((byte)ManageSystem.Core.Domain.Chart.ChartDataItemType.SingleData)" href="#single_container">展示一：单数据</a>
+                    </li>
+                    <li class="">
+                        <a data-toggle="tab" data-dataitemtype="@((byte)ManageSystem.Core.Domain.Chart.ChartDataItemType.MultipleData)" href="#multiple_container">展示二：多数据</a>
+                    </li>
+                    <li class="dataitem-tip">
+                        <a class="text-danger">报表只能选择一种展现形式，且不能修改</a>
+                    </li>
+                </ul>
+                <div class="tab-content tabs-flat">
+                    <!-- 单数据 -->
+                    <div id="single_container" class="tab-pane active">
+                        <div class="flex flex-vertical-center">
+                            <label class="ChartTypeLabel" for="ChartType">报表类型：</label>
+                            <select id="ChartType" name="ChartType" class="">
+                                <option value="@((byte)ChartTypeEnum.Bar)">@(EnumExtension.GetDescription(ChartTypeEnum.Bar))</option>
+                                <option value="@((byte)ChartTypeEnum.Line)">@(EnumExtension.GetDescription(ChartTypeEnum.Line))</option>
+                            </select>
+                            <label class="BarColorLabel" for="BarColor">颜色：</label>
+                            <input id="BarColor" name="BarColor" type="color" value="#015baa" />
+                        </div>
+                        <div class="item-container">
+                            <div class="flex flex-vertical-center item-header">
+                                <div class="flex-1">
+                                    <span class="item-active">报表数据项</span>
+                                </div>
+                                <div class="">
+                                    <button class="btn btn-primary btn-excel" type="button" data-toggle="modal" data-target="#singleExcelModal">Excel导入数据</button>
+                                </div>
+                            </div>
+                            <table id="single_datatable" class="table table-bordered item-table">
+                                <thead>
+                                    <tr>
+                                        <th>数据项名称</th>
+                                        <th class="text-center" style="width: 15%;">数值</th>
+                                        <th class="text-center" style="width: 15%;">是否显示</th>
+                                        <th class="text-center" style="width: 15%;">显示顺序</th>
+                                        <th class="text-center" style="width: 20%;">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="item_tbody">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5">
+                                            <a id="btnAddItemRow" class="btn btn-info ladda-button" data-style="zoom-in" href="javascript: onAddItemRow();" style="padding: 4px 12px; font-size: 12px;">增加一行数据</a>
+                                            <a class="btn btn-danger" href="javascript: onPreview();" style="padding: 4px 12px; font-size: 12px;">预&emsp;览</a>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 多数据 -->
+                    <div id="multiple_container" class="tab-pane">
+                        <div class="multitem-container">
+                            <div class="flex flex-vertical-center item-header">
+                                <div class="flex-1">
+                                    <span class="item-active">报表数据项</span>
+                                </div>
+                                <div class="">
+                                    <button class="btn btn-primary btn-excel" type="button" data-toggle="modal" data-target="#multipleExcelModal">Excel导入数据</button>
+                                </div>
+                            </div>
+                            <div class="multiple-colbar flex flex-vertical-center">
+                                <button class="btn btn-info btn-excel" type="button" onclick="onMultipleAddTableCell(); return false;">添加一列数据</button>
+                                <div id="multiple_cell_tooptip" class="red" style="margin-right: 20px;">多数据展示请点击右侧“添加一列数据”按钮添加展示数据&emsp;<i class="fa fa-hand-o-right" aria-hidden="true"></i></div>
+                            </div>
+                            <div class="multiple_datatable-container">
+                                <table id="multiple_datatable" class="table table-bordered item-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" style="width: 75px; min-width: 75px;">操作</th>
+                                            <th style="width: 150px; min-width: 150px">数据名称</th>
+                                            <th class="text-center" style="width: 65px; min-width:65px;">颜色</th>
+                                            <th style="width: 100px; min-width: 100px;">是否显示</th>
+                                            <th style="width: 100px; min-width: 100px;">类型</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="multitem_tbody">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tfootbar">
+                                <a id="btnMultipleAddItemRow" class="btn btn-info ladda-button" data-style="zoom-in" href="javascript: onAddMultipleItemRow();" style="padding: 4px 12px; font-size: 12px;">增加一行数据</a>
+                                <a class="btn btn-danger" href="javascript: onPreview();" style="padding: 4px 12px; font-size: 12px;">预&emsp;览</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="options add-page-options"style="text-align:right">
+                    <input type="submit" name="save" class="btn btn-blue"value="保存" onclick="return onSubmit();" />
+                    @*<a class="btn btn-default" style="margin-right:76px;" href="@Url.Action("BarChartList")">返回</a>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

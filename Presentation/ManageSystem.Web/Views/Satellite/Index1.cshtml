@@ -1,0 +1,453 @@
+﻿@using ManageSystem.Web.Models.Members
+@model  SatelliteModel
+@{
+    ViewBag.Title = "卫星网";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section HeadSection{
+    <link href="~/Content/Scripts/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Scripts/searchableSelect/jquery.searchableSelect.css" rel="stylesheet" />
+    <style type="text/css">
+
+        .center-index-page .text {
+            padding: 4px 10px;
+        }
+
+        .give {
+            position: relative;
+            line-height: 30px;
+            width: 53px;
+            padding: 0;
+            text-align: center;
+            z-index: 9;
+            background-color: #337ab7;
+            border: 1px solid #337ab7;
+            list-style-type: none;
+            margin: 5px 10px;
+            box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+        }
+
+            .give, .give:hover .give:active {
+                color: #fff !important;
+            }
+
+        [class^="weui-icon-"],
+        [class*=" weui-icon-"] {
+            display: inline-block;
+            vertical-align: middle;
+            width: 24px;
+            height: 24px;
+            -webkit-mask-position: 50% 50%;
+            mask-position: 50% 50%;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-size: 100%;
+            mask-size: 100%;
+            background-color: currentColor;
+        }
+
+        .weui-icon-success-circle {
+            color: #07C160;
+            -webkit-mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010zm0-1.2a8.8%208.8%200%20100-17.6%208.8%208.8%200%20000%2017.6zm-1.172-6.242l5.809-5.808.848.849-5.95%205.95a1%201%200%2001-1.414%200L7%2012.426l.849-.849%202.98%202.98z%22%2F%3E%3C%2Fsvg%3E');
+            mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010zm0-1.2a8.8%208.8%200%20100-17.6%208.8%208.8%200%20000%2017.6zm-1.172-6.242l5.809-5.808.848.849-5.95%205.95a1%201%200%2001-1.414%200L7%2012.426l.849-.849%202.98%202.98z%22%2F%3E%3C%2Fsvg%3E');
+        }
+
+        .ladda-button[data-style=zoom-in] .ladda-label {
+            width: inherit;
+            line-height: normal;
+            clear: both;
+            float: inherit;
+        }
+
+        .spanbr {
+            float: left;
+            line-height: 4.5;
+            width: 80%;
+        }
+
+        .ul {
+            padding: 0;
+            margin: 0;
+            text-align: left;
+            list-style-type: none;
+        }
+    </style>
+}
+
+<div class="mbx"><p>当前位置：首页 &gt; 卫星网 </p></div>
+<div class="user_center center-index-page ">
+    <div class="user_center_r" style="width: 100%;padding-right: 10px;padding-left: 10px;">
+        <div class="user_center_r_a center-title">
+            <h2>
+                <span class="span-item span-item-action" style="margin-left: 0; " onclick="location.href='@Url.Action("Index", "MICapply")'">个人信息</span>
+            </h2>
+        </div>
+
+        @using (Html.BeginForm("Index1", "Satellite", FormMethod.Post, new { enctype = "multipart/form-data", id = "Insertindex" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model=> model.ApplyUser)
+            <input id="Hidden1" type="hidden" value="@ViewBag.HospitalId" />
+            <ul style="border-bottom: none;">
+                <li>
+                    <span>负责人姓名<em style="color:red">* </em>：</span>
+                    <span>
+                        @if (!string.IsNullOrEmpty(Model.ChargeName))
+                        {
+                            if (Model.ChargeName != "" && Model.ChargeName != null && Model.ChargeName != "[]")
+                            {
+                                @Html.TextBoxFor(m => m.ChargeName, new { @class = "text", @disabled = "disabled" })
+                                @Html.ValidationMessageFor(m => m.ChargeName)
+                            }
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.ChargeName, new { @class = "text" })
+                            @Html.ValidationMessageFor(m => m.ChargeName)
+                        }
+                    </span>
+                </li>
+                <li>
+                    <span>邮箱<em style="color:red">* </em>：</span>
+                    <span>
+                        @Html.TextBoxFor(m => m.ChargeEmail, new { @class = "text", data_oemail = Model.ChargeEmail, data_oemail_valid = "true" })
+                        @Html.ValidationMessageFor(m => m.ChargeEmail)
+
+                    </span>
+                </li>
+                <li>
+                    <span>手机<em style="color:red">* </em>：</span>
+                    <span>
+                        @if (!string.IsNullOrEmpty(Model.ChargePhoneNumber))
+                        {
+                            @Html.TextBoxFor(m => m.ChargePhoneNumber, new { @class = "text", disabled = "disabled" })
+                            @Html.ValidationMessageFor(m => m.ChargePhoneNumber)
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.ChargePhoneNumber, new { @class = "text" })
+                            @Html.ValidationMessageFor(m => m.ChargePhoneNumber)
+                        }
+
+                    </span>
+                </li>
+                <li>
+                    <span>微信号码  <em style="color:red"> </em>：</span>
+                    <span>
+                        @if (!string.IsNullOrEmpty(Model.ChargeWechatNumber))
+                        {
+                            @Html.TextBoxFor(m => m.ChargeWechatNumber, new { @class = "text", disabled = "disabled" })
+                            @Html.ValidationMessageFor(m => m.ChargeWechatNumber)
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.ChargeWechatNumber, new { @class = "text" })
+                            @Html.ValidationMessageFor(m => m.ChargeWechatNumber)
+                        }
+
+                    </span>
+                </li>
+                <li>
+                    <span>所属省份<em style="color:red">* </em>：</span>
+                    <span>
+                        @Html.DropDownList("Province", Model.ProvinceList, new { @id = "province", @class = "text", @onchange = @"provincechange()" })
+                        @Html.ValidationMessageFor(m => m.Province)
+
+                    </span>
+                </li>
+                <li>
+                    <span>所属市<em style="color:red">* </em>：</span>
+                    <span>
+                        @Html.DropDownList("City", Model.CityList, new { @id = "city", @class = "text" })
+                        @Html.ValidationMessageFor(m => m.City)
+
+                    </span>
+                </li>
+                <div>
+                    <span  style="margin-left:162px;">所属医院<em style="color:red">* </em>：</span>
+                    <span   style="margin-left:1px;">
+                        @Html.DropDownList("PlaceOfWork", Model.HospitalList, new { @id = "hospital",@class = "text", @onchange = @"hospitalchange()" })
+                        @Html.ValidationMessageFor(m => m.PlaceOfWork)
+                    </span>
+                    <div style="margin-top:7px;" id="div1">
+                        <span class="__email-noValid" style="line-height: 1.5rem; color: #ea4f4f; font-weight: 600; margin-left:240px;">
+                            没找到医院请在下方添加
+                        </span>
+                    </div>
+                </div>
+                <li id="li1">
+                    <span>医院名称<em style="color:red"></em>：</span>
+                    <span>
+                        @Html.TextBoxFor(m => m.HospitalName, new { @class = "text" })
+                        @Html.ValidationMessageFor(m => m.HospitalName)
+                    </span>
+                   
+                </li>
+                <li>
+                    <span>科室名称<em style="color:red">* </em>：</span>
+                    <span>
+                        @Html.DropDownList("Office", Model.HospitalDepartmentList, new { @id = "department", @class = "text" })
+                        @Html.ValidationMessageFor(m => m.Office)
+                    </span>
+                </li>
+                <li>
+                    <span>职位名称<em style="color:red">* </em>：</span>
+                    <span>
+                        @Html.DropDownList("Profession", Model.DoctorTitleList, new { @class = "text", @onchange = @"selectchange()" })
+                        @Html.ValidationMessageFor(m => m.Profession)
+                    </span>
+                </li>
+                <li>
+                    <span>卫星网名称<em style="color:red">* </em>：</span>
+                    <span>
+                        @Html.TextBoxFor(m => m.SatelliteName, new { @class = "text" })
+                        @Html.ValidationMessageFor(m => m.SatelliteName)
+
+                    </span>
+                </li>
+                <li>
+                    <span>卫星网域名<em style="color:red">* </em>：</span>
+                    <span>
+                        @Html.TextBoxFor(m => m.RealmName, new { @class = "text", @id = "_realmName" })
+                        @Html.ValidationMessageFor(m => m.RealmName)
+                        <a class="give btn btn-large btn-success-help" href="javascript:void(0);" id="sendEmail" onclick="CheckRealmName()">验证</a>
+                        <span class="__email-noValid" style="line-height: 1.5rem; color: black; font-weight: 600;" id="showEmailValidate_err">
+                            例如：chinets.com/henan或者chinets.com/shanghai、chinets.com/xxx，只需填写xxx部分即可。
+                        </span>
+                        <span class="__email-noValid" style="line-height: 1.5rem; color: #ea4f4f; font-weight: 600;" id="showEmailValidate_err">
+                        </span>
+                        <span id="showEmailValidate" class="__email-noValid" style="line-height: 1.5rem; color: #07C160; margin-top: 8px;">
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <span>成员单位数量<em style="color:red">* </em>：</span>
+                    <span>
+                        @Html.TextBoxFor(m => m.UnitCount, new { @class = "text" })
+                        @Html.ValidationMessageFor(m => m.UnitCount)
+
+                    </span>
+                </li>
+                <li>
+                    <span>联系人姓名<em style="color:red">* </em>：</span>
+                    <span>
+                        @Html.TextBoxFor(m => m.ItemName, new { @class = "text" })
+                        @Html.ValidationMessageFor(m => m.ItemName)
+
+                    </span>
+                </li>
+                <li>
+                    <span>联系人电话<em style="color:red">* </em>：</span>
+                    <span>
+                        @Html.TextBoxFor(m => m.ItemPhoneNumber, new { @class = "text" })
+                        @Html.ValidationMessageFor(m => m.ItemPhoneNumber)
+
+                    </span>
+                </li>
+                <li>
+                    <span>联系人Email<em style="color:red">* </em>：</span>
+                    <span>
+                        @Html.TextBoxFor(m => m.ItemEmail, new { @class = "text" })
+                        @Html.ValidationMessageFor(m => m.ItemEmail)
+
+                    </span>
+                </li>
+
+            </ul>
+            <input type="button" class="button" value="确认提交" onclick="Validators()">
+        }
+    </div>
+</div>
+@section FooterSection{
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/template-web.js"></script>
+    <script src="~/Content/Scripts/searchableSelect/jquery.searchableSelect.js"></script>
+    <script>
+
+        $(function () {
+            $('#hospital').searchableSelect();
+            var id = $("#Hidden1").val();
+            if (id != '0') {
+                $("#li1").css("display", "none");
+                $("#div1").css("display", "none");
+            }
+        });
+
+        window.onload = function () {
+            $('.searchable-select-holder').css({ 'width': '472px' });
+
+        }
+
+        function Validators() {
+            var HospitalId = $('#hospital').val();
+            var HospitalName = $('#HospitalName').val();
+            var HospitalId1 = $("#Hidden1").val();
+            if (HospitalId == 0 && HospitalName == null) {
+                return ErrorWindow("请选择医院或者添加医院", true);
+            }
+            if (HospitalId == 0 && HospitalName != null) {
+                if (HospitalName.length < 5) {
+                    return ErrorWindow("请填写完整的医院名称", true);
+                };
+            }
+            if (HospitalId1 != 0 && HospitalId == 0 && HospitalName != null) {
+                $('#HospitalName').val("");
+            }
+            $("#Insertindex").submit();
+        }
+        function SendCheckEmail() {
+            var $btn = $('#btnValidateEmail');
+            var l = Ladda.create(document.getElementById('btnValidateEmail'));
+            if (!l.isLoading()) {
+
+                $.ajax({
+                    method: 'POST',
+                    url: '/Center/SendCheckEmail',
+                    data: { Email: $("#Email").val() },
+                    dataType: 'JSON',
+                    beforeSend: function () { l.start(); },
+                    success: function (res) {
+                        setTimeout(function () {
+                            l.stop();
+
+                            layer.alert(res.message);
+                            if (res.status) {
+                                $btn.attr('onclick', 'return false;').css('cursor', 'not-allowed');
+                                $('#showEmailValidate').show();
+                                daojishi(60);
+                            }
+                            else {
+                                $('#showEmailValidate').hide();
+                            }
+                        }, 1500);
+
+                        //var sendEmailbtn = document.getElementById("sendEmail");
+                        //sendEmailbtn.onclick = "";
+                        //sendEmailbtn.text = "已发送";
+                    },
+                    error: function () {
+                        layer.alert('网络请求错误');
+                    }
+                });
+            }
+            return false;
+        }
+
+        function daojishi(sec) {
+            $('#emailSecText').text(sec);
+            if (sec === 0) {
+                var $btn = $('#btnValidateEmail');
+                $btn.attr('onclick', 'SendCheckEmail(); return false;').css('cursor', 'pointer');
+                $('#showEmailValidate').show();
+                return;
+            }
+            setTimeout(_daojishi(--sec), 1000);
+        }
+
+        function _daojishi(sec) {
+            return function () {
+                daojishi(sec);
+            }
+        }
+
+        $('#Email').on('input propertychange', function () {
+            var $email = $('#Email'),
+                $span = $email.closest('span');
+            var nemail = $.trim($email.val()),
+                oemail = $email.data('oemail'),
+                oemailValid = $email.data('oemail-valid');
+            if (oemail) {
+                if (nemail === oemail && (oemailValid === true || oemailValid === 'true')) {
+                    $('i[class*="__email-valid"], span[class="__email-noValid"]').remove();
+                    $span.append('<i class="__email-valid weui-icon-success-circle"></i>');
+                }
+                else {
+                    $('i[class*="__email-valid"], span[class="__email-noValid"]').remove();
+                    $span.append(template('template_email_noValidate', {}));
+                }
+            }
+        });
+
+
+        function provincechange() {
+            var id = $('#province').val();
+            $.ajax({
+                url: "/Satellite/GetCityList",
+                type: "Post",
+                dataType: "json",
+                data: { provinceId: id },
+                success: function (json) {
+                    var content = " <option value=\"0\" >-- 请选择 --</option>";
+                    for (var i = 0; i < json.length; i++) {
+                        content += " <option value=\"" + json[i].Id + "\" >" + json[i].Name + "</option>";
+                    }
+                    $("#city").html(content);
+                },
+
+                error: function (x, e) { },
+                complete: function (x) { }
+            });
+        }
+
+        function hospitalchange()
+        {
+            var id = $('#hospital').val();
+            console.log(id);
+            $.ajax({
+                url: "/Satellite/GetDepartemnt",
+                type: "Post",
+                dataType: "json",
+                data: { hspitalId: id },
+                success: function (json) {
+                    var content = " <option value=\"0\" >-- 请选择 --</option>";
+                    for (var i = 0; i < json.length; i++) {
+                        content += " <option value=\"" + json[i].Id + "\" >" + json[i].Name + "</option>";
+                    }
+                    $("#department").html(content);
+                },
+
+                error: function (x, e) { },
+                complete: function (x) { }
+            });
+        }
+
+        function CheckRealmName()
+        {
+            if ($('#_realmName').val() == "") {
+                $('#showEmailValidate').hide();
+                $('#showEmailValidate_err').show();
+                $('#showEmailValidate_err').html("域名不能为空！");
+            }
+
+            $.ajax({
+                url: "/Satellite/CheckRealmName",
+                type: "Post",
+                dataType: "json",
+                data: { Realmname: $('#_realmName').val() },
+                success: function (json) {
+                    if (json == 1 || json == "1") {
+                        $('#showEmailValidate_err').hide();
+                        $('#showEmailValidate').show();
+                        $('#showEmailValidate').html("域名可用！");
+                    }
+                    else {
+                        $('#showEmailValidate').hide();
+                        $('#showEmailValidate_err').show();
+                        $('#showEmailValidate_err').html("域名被占用！");
+                    }
+                },
+
+                error: function (x, e) {
+                    console.log(x + "    " + "e");
+                },
+                complete: function (x) {
+                    console.log(x);
+                }
+            });
+        }
+    </script>
+}
+

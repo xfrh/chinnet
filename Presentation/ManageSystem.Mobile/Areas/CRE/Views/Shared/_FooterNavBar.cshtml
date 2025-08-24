@@ -1,0 +1,24 @@
+﻿@model string
+
+<div id="ftnavbar" class="flex footer f-center footer f-around">
+    <div class="@(Model.Equals("首页") ? "active" : "")"  onclick="location.href='/CRE/CreData/HeatMap'">
+        <img src="@(Model.Equals("首页") ? @"/Content/Images/index_01_20.jpg" : @"/Content/Images/index_01_no_22.jpg")" alt="" />
+        <div class="div">首页</div>
+    </div>
+    @*<div class="@(Model.Equals("动态") ? "active" : "")" data-link="@Url.Action("List", "Information").ToLowerInvariant()">
+        <img src="@(Model.Equals("动态") ? @"/Content/Images/index_02_26.jpg" : @"/Content/Images/index_03_21.jpg")" alt="" />
+        <div class="div">动态</div>
+    </div>*@
+    <div class="@(Model.Equals("下载") ? "active" : "")"  onclick="location.href='/CRE/CREdocument/list'" >
+        <img src="@(Model.Equals("下载") ? @"/Content/Images/index_04_a_22.jpg" : @"/Content/Images/index_04_22.jpg")" alt="" />
+        <div class="div">下载</div>
+    </div>
+    <div class="@(Model.Equals("简介") ? "active" : "")" onclick="location.href='/CRE/Brief/index'" >
+        <img src="@(Model.Equals("简介") ? @"/Content/Images/icon_about_active.png?v=12" : @"/Content/Images/icon_about_default.png?v=12")" alt="" />
+        <div class="div">简介</div>
+    </div>
+    <div class="@(Model.Equals("我的") ? "active" : "")" onclick="location.href='/CRE/creuser/mycenter'" >
+        <img src="@(Model.Equals("我的") ? @"/Content/Images/index_05_a_21.jpg" : @"/Content/Images/index_06_22.jpg")" alt="" />
+        <div class="div">我的</div>
+    </div>
+</div>

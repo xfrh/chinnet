@@ -1,0 +1,81 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+
+    <title>登录</title>
+    <link href="~/Content/Css/Login/Open.css?v=122" rel="stylesheet" />
+
+</head>
+<body>
+
+    <section class="aui-content" style="margin:0px;width:692px;overflow:hidden;">
+        <div class="aui-content-box clearfix" style="margin:0px;border-style: none;    margin-top: 35px;">
+            <div class="aui-content-box-fl">
+                <div class="aui-form-header">
+                    <div class="aui-form-header-item on">密码登录</div>
+                    <div class="aui-form-header-item">验证码登录</div>
+                    <span class="aui-form-header-san"></span>
+                </div>
+                <div class="aui-form-content">
+                    <div class="aui-form-content-item" style="display: block;">
+
+                        <div class="aui-form-list">
+                            <input type="text" class="aui-input" name="" id="LoginId" placeholder="请输入帐号" data-required="required" autocomplete="off">
+                        </div>
+                        <div class="aui-form-list">
+                            <input type="password" class="aui-input" id="Password" name="" placeholder="请输入密码" data-required="required" autocomplete="off">
+                        </div>
+                        <div class="aui-form-pwd clearfix">
+                            <a href="/FindPassword/Open">忘记密码？</a>
+                        </div>
+                        <div class="aui-form-btn">
+                            <input type="submit" class="aui-btn" value="登 录" onclick="AccountLogin()">
+                        </div>
+                    </div>
+                    <div class="aui-form-content-item">
+                        <div class="aui-form-list">
+                            <input type="text" class="aui-input" id="Phone" name="" placeholder="请输入手机号" data-required="required" autocomplete="off">
+                        </div>
+                        <div class="aui-form-list">
+                            <input type="text" class="aui-input" id="PhoneCode" name="" placeholder="请输入验证码" data-required="required" autocomplete="off">
+                            <input type="button" class="aui-child yzm" value="获取验证码"  onclick="SendValidateCode()" >
+                        </div>
+                        <div class="aui-form-pwd clearfix">
+                         <a href="/FindPassword/Open">忘记密码？</a> 
+                        </div>
+                        <div class="aui-form-btn">
+                            <input type="submit" class="aui-btn" value="登 录" onclick="PhoneLogin()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="aui-content-box-fr">
+                <div class="aui-content-box-text">
+                    <div>  <img src="~/Content/Images/logo_2.png" style="width:100%;   margin-top: 10px; margin-left:-5px;" /></div>
+                    <h3 style="margin-top: 60px;">还没有帐号？</h3>
+                    <a href="/Regist/Open" class="aui-ll-link">立即注册</a>
+                    <h3>欢迎使用CHINET数据云！</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="~/Content/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Content/Scripts/layer-v2.4/layer.js"></script>
+    <script src="~/Content/Scripts/layer-v2.4/helper.js"></script>
+    <script src="~/Content/Scripts/common-validate.js"></script>
+    <script src="~/Content/Scripts/Login/Open.js?v=1223"></script>
+
+</body>
+</html>

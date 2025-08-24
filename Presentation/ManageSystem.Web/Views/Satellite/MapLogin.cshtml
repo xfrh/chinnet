@@ -1,0 +1,306 @@
+﻿@model  SatelliteModel
+@{
+    ViewBag.Title = "MapLogin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地图</title>
+    <style>
+        body {
+            margin: 0 auto;
+        }
+
+        #main {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            float: left;
+            width: 820px;
+            height: 800px;
+        }
+
+
+        .divright {
+            float: right;
+            width: 30%;
+            height: 800px;
+        }
+
+        .div11 {
+            _height: 200px;
+            min-height: 200px;
+            width: 100%
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class="divleft" id="main"></div>
+        <div class="divright">
+            <div style="width: 100%; padding-right: 10px; padding-left: 0px; margin-top: 10px;">
+                @*<div class="user_center_r_a">
+                        @using (Html.BeginForm("ProjectDataManage", "Center", FormMethod.Get))
+                        {
+                            @Html.DropDownListFor(model => model.Province, Model.ProvinceList, new { @id = "province", @style = "width: 100px", @onchange = @"provincechange()" })
+                            @Html.DropDownListFor(model => model.City, Model.CityList, new { @id = "city", @style = "width: 100px" })
+                            <input type="button" onclick="SearchSatellite()" value="搜索" style="margin-right:10px;">
+                        }
+                    </div>*@
+                <div style="min-height: 80px">
+                </div>
+                <span style="color: blue; font-size: 18px;">&ensp;&nbsp;现有卫星监测网络</span>
+                <div style="min-height: 500px">
+                    <ul id="SatelliteList">
+                    </ul>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <button id="btn-org" onclick='JumpPage()' class="btn btn-primary" type="button" style="margin-top: 10px; margin-left: 10px; border-radius: 0; padding: 4px 12px; font-size: 15px; width: 100px; height: 41px;">点击申请</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/4.7.0/echarts.min.js"></script>
+    <script src="~/Content/Scripts/china.js"></script>
+    <script src="~/Content/Scripts/Convert_Pinyin.js"></script>
+    <script>
+        window.onload = function () {
+
+            var mapData = [];
+
+            $.ajax({
+                type: "POST",
+                url: "/Satellite/GetLoginList",
+                dataType: "json",
+                success: function (result) {
+                    console.log(result);
+                    for (var i = 0; i < result.length; i++) {
+                        mapData.push({ name: result[i].Name, value: [parseFloat(result[i].Longitude), parseFloat(result[i].Latitude), result[i].Describe] });
+                    }
+
+
+                    // 初始化echarts实例
+                    var myEcharts = echarts.init(document.getElementById("main"));
+                    var option = {
+                        geo: {
+                            map: 'china',
+                            label: {
+                                normal: {
+                                    show: false, //显示省份标签
+                                },
+                                emphasis: { //对应的鼠标悬浮效果
+                                    show: false,
+                                    textStyle: {
+                                        color: "#fff"
+                                    }
+                                }
+                            },
+                            roam: false,//是否开启鼠标缩放和平移漫游
+                            itemStyle: {//地图区域的多边形 图形样式
+                                normal: {//是图形在默认状态下的样式
+                                    borderWidth: .5, //区域边框宽度
+                                    borderColor: '#fff', //区域边框颜色
+                                    areaColor: "#3EABFF", //区域颜色
+                                },
+                                emphasis: {//是图形在高亮状态下的样式,比如在鼠标悬浮或者图例联动高亮时
+                                    borderWidth: .5,
+                                    borderColor: '#fff',
+                                    areaColor: "#0078FF",
+                                    label: { show: true }
+                                }
+                            },
+                            aspectScale: 0.75,
+                            zoom: 1.1,//地图缩放比例,默认为1
+                        },
+                        title: {  //标题样式
+                            text: '',
+                            x: "center",
+                            textStyle: {
+                                fontSize: 18,
+                                color: "#1E1E1E"
+                            },
+                        },
+                        tooltip: {  //这里设置提示框
+                            show: true,
+                            trigger: 'item',  //数据项图形触发
+                            backgroundColor: "#fff",  //提示框浮层的背景颜色。
+                            formatter: function (params) {
+                                //console.log(params);
+                                if (isNaN(params.value)) {
+                                    params.value = 0
+                                }
+                                if (params.seriesName === '散点') {
+                                    params.value = params.data.value[2]
+                                }
+                                var html = '<span>' + params.name + '：</span><br/>'
+                                html += '<span>值：' + params.value + '</span><br/>'
+                                return html
+                            },
+                            backgroundColor: 'rgba(29, 38, 71)',
+                            // 额外附加的阴影
+                            extraCssText: 'box-shadow:0 0 4px rgba(11, 19, 43,0.8)'
+                        },
+                        visualMap: {//视觉映射组件
+                            show: false,
+                            top: 'center',
+                            left: 'left',
+                            min: 10,
+                            max: 500000,
+                            text: ['High', 'Low'],
+                            realtime: false,  //拖拽时，是否实时更新
+                            calculable: true,  //是否显示拖拽用的手柄
+                            inRange: {
+                                color: ['lightskyblue', 'yellow', 'orangered']
+                            }
+                        },
+                        series: [
+                            {
+                                name: '散点',
+                                type: 'effectScatter', // series图表类型
+                                coordinateSystem: 'geo', // series坐标系类型
+                                symbolSize: function (val) {//设置散点大小
+                                    return 10
+                                },
+                                //data: [{
+                                //    name: '北京',    // 数据项名称，在这里指地区名称
+                                //    value: [        // 数据项值
+                                //        116.46,     // 地理坐标，经度
+                                //        39.92,      // 地理坐标，纬度
+                                //        340         // 北京地区的数值
+                                //    ],
+                                //},
+                                //{ name: '海门', value: [121.15, 31.89, 90] },
+                                //{ name: '鄂尔多斯', value: [109.781327, 39.608266, 120] },
+                                //{ name: '招远', value: [120.38, 37.35, 142] },
+                                //{ name: '哈尔滨市', value: [126.535319, 45.803131, 100] }
+                                //],
+                                data: mapData,
+                                label: {
+                                    // 静态显示时的样式
+                                    normal: {
+                                        show: true, // 显示地区名称
+                                        formatter: function (data) { // 显示模板
+                                            return data.name
+                                        },
+                                        position: 'bottom', // 显示位置
+                                        textStyle: {
+                                            color: "rgba(30,30,30)"
+                                        }
+                                    },
+                                    // 鼠标悬浮上去的样式
+                                    emphasis: {
+                                        show: true, // 显示地区名称
+                                        color: "red",
+                                    },
+
+                                }
+                            }
+                        ]
+                    };
+                    console.log(option);
+                    // 使用刚指定的配置项和数据显示图表。
+                    myEcharts.setOption(option);
+
+                    // 解绑click事件
+                    myEcharts.off("click");
+                    //给地图添加监听事件
+                    myEcharts.on('click', async params => {
+                        console.log(params.value);
+                        OpenLogin(params.value[2]);
+                        //window.location.href = "/Satellite/MapLoginOpenIndex/" + params.value[2];
+                    })
+                }
+            });
+
+            SearchSatellite();
+
+        }
+        //登录成功的回调
+        function OpenLoginCallback(returnUrl) {
+            if (returnUrl === undefined || typeof returnUrl === 'undefined') {
+                returnUrl = $("#returnUrl").val();
+            }
+            if (returnUrl !== "") {
+                location.href = returnUrl;
+                return;
+            } else {
+                location.href = "/";
+            }
+        }
+        function OpenLogin(id) {
+            console.log(id);
+            layer.open({
+                title: false,
+                type: 2,
+                area: '800px',
+                fixed: false, //不固定
+                maxmin: false,
+                content: '/Satellite/MapLoginOpenIndex/?returnUrl=' + $("#returnUrl").val() + "&id=" + id,
+                success: function (layero, index) {
+                    layer.iframeAuto(index);
+                }
+            });
+        }
+
+        function provincechange() {
+            var id = $('#province').val();
+            $.ajax({
+                url: "/Satellite/GetCityList",
+                type: "Post",
+                dataType: "json",
+                data: { provinceId: id },
+                success: function (json) {
+                    var content = " <option value=\"0\" >-- 请选择 --</option>";
+                    for (var i = 0; i < json.length; i++) {
+                        content += " <option value=\"" + json[i].Id + "\" >" + json[i].Name + "</option>";
+                    }
+                    $("#city").html(content);
+                },
+
+                error: function (x, e) { },
+                complete: function (x) { }
+            });
+        }
+
+        function GoSatellite(city) {
+            sessionStorage.setItem('satelliteCity', city);
+            window.location.href = "/" + city;
+        }
+
+        function SearchSatellite() {
+            var province_id = $('#province').val();
+            var city_id = $('#city').val();
+            $.ajax({
+                url: "/Satellite/GetSatelliteListByPC",
+                type: "Post",
+                dataType: "json",
+                data: { provinceId: 0, cityId: 0 },
+                success: function (json) {
+                    var content = "";
+                    for (var i = 0; i < json.length; i++) {
+                        content += " <li style='margin-top:10px;margin-left:15px;font-size:16px;cursor:pointer;' onclick='GoSatellite(" + "\"" + json[i].RealmName + "\"" + ")'>" + "● " + json[i].SatelliteName + "</li>";
+                    }
+                    $("#SatelliteList").html(content);
+                },
+
+                error: function (x, e) { },
+                complete: function (x) { }
+            });
+        }
+
+        function JumpPage() {
+            window.location.href = "/Satellite/Index1";
+        }
+    </script>
+</body>
+
+</html>
+

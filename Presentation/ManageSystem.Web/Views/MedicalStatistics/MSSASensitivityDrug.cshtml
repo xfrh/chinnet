@@ -1,0 +1,167 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    this.ViewBag.Title = "医学数据统计 - MSSA对抗菌药物的耐药率";
+}
+
+@{
+    var breadcrumb = this.Request.QueryString["breadcrumb"];
+    if (string.IsNullOrWhiteSpace(breadcrumb) || !breadcrumb.Equals("hidden"))
+    {
+        <div class="mbx">
+            <p>当前位置：首页 &gt; 医学数据统计 &gt; MSSA对抗菌药物的耐药率</p>
+        </div>
+    }
+    else
+    {
+        <div class="mbx" style="height:15px;">  </div>
+    }
+}
+
+<div class="doct_center">
+    <div style="width:100%;float:left;margin-top: -30px;">
+        <div id="main" style="width: 90%;height:650px;  margin:0px auto;"></div>
+    </div>
+</div>
+
+<script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+<script src="~/Content/Scripts/Echarts/bmap.js"></script>
+<script src="~/Content/Scripts/Echarts/china.js"></script>
+<script type="text/javascript">
+
+
+    function randomData() {
+        return Math.round(Math.random() * 1000);
+    }
+
+    $(document).ready(function () {
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        option = {
+            title: {
+                text: '革兰阴性菌菌种分布',
+                subtext: '',
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['苯唑西林', '青霉素', '红霉素', '克林霉素', '复方磺胺甲恶唑', '庆大霉素', '环丙沙星', '左氧氟沙星', '利福平', '替考拉宁', '利奈唑胺', '万古霉素'],
+            },
+            series: [
+                {
+                    name: '数量',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: [100, 100, 83.8, 66.7, 7.4, 47.1, 50.5, 58.3, 22.4, 0, 0, 0],
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    });
+
+
+    function randomData() {
+        return Math.round(Math.random() * 1000);
+    }
+
+    $(document).ready(function () {
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        option = {
+            color: ['#3398DB'],
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '15%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    axisLabel: {
+                        interval: 0,
+                        rotate: 45,
+                        margin: 10,
+                        textStyle: {
+                            fontSize: "14px"
+                        }
+                    },
+                    data: ['苯唑西林', '青霉素', '红霉素', '克林霉素', '复方磺胺甲恶唑', '庆大霉素', '环丙沙星', '左氧氟沙星', '利福平', '替考拉宁', '利奈唑胺', '万古霉素'],
+                    axisTick: {
+                        alignWithLabel: true
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    axisLabel: {
+                        show: true,
+                        interval: 'auto',
+                        formatter: '{value} %'
+                    },
+                    show: true
+                }
+            ],
+            series: [
+                {
+                    name: '数量',
+                    type: 'bar',
+                    barWidth: '60%',
+                    data: [0, 90.9, 54.6, 27.8, 17.3, 12.6, 9.9, 10.1, 1.3, 0, 0, 0],
+                    //以下为是否显示，显示位置和显示格式的设置了
+                    itemStyle: {
+                        normal: {
+                            color: function (params) {
+                                // build a color map as your need.
+                                var colorList = [
+                                    '#C1232B', '#B5C334', '#FCCE10', '#E87C25', '#27727B',
+                                    '#FE8463', '#9BCA63', '#FAD860', '#F3A43B', '#60C0DD',
+                                    '#D7504B', '#C6E579', '#F4E001', '#F0805A', '#26C0C0'
+                                ];
+                                return colorList[params.dataIndex];
+                            },
+                            //以下为是否显示，显示位置和显示格式的设置了
+                            label: {
+                                // show: true,
+                                position: 'top',
+                                // formatter: '{c}'
+                                formatter: '{c} %'
+                            }
+                        }
+                    },
+                }
+            ],
+            textStyle:
+            {
+                fontSize: 10
+            }
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    });
+
+</script>

@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1353BB17-609B-4ECE-AA9E-FCA533FA5E8D}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodematicWEB</RootNamespace>
+    <AssemblyName>CodematicWEB</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <Use64BitIISExpress />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AspNetPager, Version=7.3.2.0, Culture=neutral, PublicKeyToken=fb0a0fe055d40fd4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\AspNetPager.dll</HintPath>
+    </Reference>
+    <Reference Include="ChnCharInfo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=18f031bd02e5e291, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\ChnCharInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="ChnCharInfo.resources, Version=1.0.0.0, Culture=zh-CN, PublicKeyToken=18f031bd02e5e291, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\ChnCharInfo.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NPOI.2.1.3.1\lib\net40\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NPOI, Version=2.1.3.1, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NPOI.2.1.3.1\lib\net40\NPOI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.1.3.1, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NPOI.2.1.3.1\lib\net40\NPOI.OOXML.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.1.3.1, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NPOI.2.1.3.1\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.1.3.1, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NPOI.2.1.3.1\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SharpZipLib, Version=0.84.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CSS\beyond.min.css" />
+    <Content Include="CSS\bootstrap-theme.css" />
+    <Content Include="CSS\bootstrap-theme.min.css" />
+    <Content Include="CSS\bootstrap.css" />
+    <Content Include="CSS\bootstrap.min.css" />
+    <Content Include="CSS\dataTables.bootstrap.css" />
+    <Content Include="CSS\font-awesome.min.css" />
+    <Content Include="CSS\Style.css" />
+    <Content Include="DLL\AspNetPager.dll" />
+    <Content Include="DLL\ChnCharInfo.dll" />
+    <Content Include="DLL\ChnCharInfo.resources.dll" />
+    <Content Include="DLL\SharpZipLib.dll" />
+    <Content Include="File\Config\Setting.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="File\Config\Template.xml" />
+    <Content Include="File\Template\Test001\ListJS.t" />
+    <Content Include="File\Template\Test001\AddJs.t" />
+    <Content Include="File\Template\Test001\UpdatePageJs.t" />
+    <Content Include="File\Template\Test001\Add.aspx.cs.t" />
+    <Content Include="File\Template\Test001\Add.aspx.designer.cs.t" />
+    <None Include="File\Template\Test001\Add.aspx.t" />
+    <Content Include="Fonts\fontawesome-webfont.svg" />
+    <Content Include="Fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Fonts\typicons.svg" />
+    <Content Include="Fonts\weathericons-regular-webfont.svg" />
+    <Content Include="Image\temp-1.jpg" />
+    <Content Include="Image\temp-2.jpg" />
+    <Content Include="Image\temp-3.jpg" />
+    <Content Include="Image\temp-4.jpg" />
+    <Content Include="Index.aspx" />
+    <Content Include="JS\beyond.min.js" />
+    <Content Include="JS\bootstrap.js" />
+    <Content Include="JS\bootstrap.min.js" />
+    <Content Include="JS\npm.js" />
+    <Content Include="JS\skins.min.js" />
+    <Content Include="JS\zou.js" />
+    <Content Include="Web.config" />
+    <Content Include="Config.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Code\Builder\AutoMapperBuilder.cs" />
+    <Compile Include="Code\Builder\BuilderBase.cs" />
+    <Compile Include="Code\Builder\ControllerBuilder.cs" />
+    <Compile Include="Code\Builder\AutofacBuilder.cs" />
+    <Compile Include="Code\Builder\ListPageBuilder.cs" />
+    <Compile Include="Code\Builder\ViewPageBuilder.cs" />
+    <Compile Include="Code\Builder\EditPageBuilder.cs" />
+    <Compile Include="Code\Builder\CreatePageBuilder.cs" />
+    <Compile Include="Code\Builder\ModelBuilder.cs" />
+    <Compile Include="Code\Builder\ValidatorBuilder.cs" />
+    <Compile Include="Code\Builder\ServicesBuilder.cs" />
+    <Compile Include="Code\Builder\DataBuilder.cs" />
+    <Compile Include="Code\Builder\EntityBuilder.cs" />
+    <Compile Include="Code\Common\ConfigUtil.cs" />
+    <Compile Include="Code\Common\DateUtil.cs" />
+    <Compile Include="Code\Common\DBClass.cs" />
+    <Compile Include="Code\Common\EnumLibrary.cs" />
+    <Compile Include="Code\Common\EnumUtil.cs" />
+    <Compile Include="Code\Common\FileUtil.cs" />
+    <Compile Include="Code\Common\INIFile.cs" />
+    <Compile Include="Code\Common\JSUtil.cs" />
+    <Compile Include="Code\Common\Message.cs" />
+    <Compile Include="Code\Common\StringList.cs" />
+    <Compile Include="Code\Common\StringPlus.cs" />
+    <Compile Include="Code\Common\StringUtil.cs" />
+    <Compile Include="Code\Common\ValidateUtil.cs" />
+    <Compile Include="Code\Common\VSProject.cs" />
+    <Compile Include="Code\Common\WebUtil.cs" />
+    <Compile Include="Code\Manage\SettingManage.cs" />
+    <Compile Include="Code\Manage\TableInfoManage.cs" />
+    <Compile Include="Code\Manage\TemplateManage.cs" />
+    <Compile Include="Code\Model\ColumnInfo.cs" />
+    <Compile Include="Code\Model\MaticModel.cs" />
+    <Compile Include="Code\Model\PublicCode.cs" />
+    <Compile Include="Code\Model\SettingModel.cs" />
+    <Compile Include="Code\Model\TableInfoModel.cs" />
+    <Compile Include="Code\Model\TemplateModel.cs" />
+    <Compile Include="Index.aspx.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Index.aspx.designer.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Config.aspx.cs">
+      <DependentUpon>Config.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Config.aspx.designer.cs">
+      <DependentUpon>Config.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CSS\bootstrap-theme.css.map" />
+    <Content Include="CSS\bootstrap.css.map" />
+    <Content Include="Fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Fonts\fontawesome-webfont.eot" />
+    <Content Include="Fonts\fontawesome-webfont.ttf" />
+    <Content Include="Fonts\fontawesome-webfont.woff" />
+    <Content Include="Fonts\typicons.eot" />
+    <Content Include="Fonts\typicons.ttf" />
+    <Content Include="Fonts\typicons.woff" />
+    <Content Include="Fonts\weathericons-regular-webfont.eot" />
+    <Content Include="Fonts\weathericons-regular-webfont.ttf" />
+    <Content Include="Fonts\weathericons-regular-webfont.woff" />
+    <Content Include="File\Template\Test001\List.aspx.t" />
+    <Content Include="File\Template\Test001\List.aspx.cs.t" />
+    <Content Include="File\Template\Test001\List.aspx.designer.cs.t" />
+    <Content Include="File\Template\Test001\Update.aspx.t" />
+    <Content Include="File\Template\Test001\Update.aspx.cs.t" />
+    <Content Include="File\Template\Test001\Update.aspx.designer.cs.t" />
+    <Content Include="File\Template\Test001\View.aspx.t" />
+    <Content Include="File\Template\Test001\View.aspx.cs.t" />
+    <Content Include="File\Template\Test001\View.aspx.designer.cs.t" />
+    <Content Include="File\Template\Test001\UpdateJS.t" />
+    <Content Include="packages.config" />
+    <Content Include="File\Template\Test002\Edit.cshtml.t" />
+    <None Include="File\Template\Test002\Create.cshtml.t" />
+    <Content Include="File\Template\Test002\View.cshtml.t" />
+    <None Include="File\Template\Test002\List.cshtml.t" />
+    <None Include="File\Template\Test002\_CreateOrUpdate.cshtml.t" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="File\UploadFile\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:47369/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

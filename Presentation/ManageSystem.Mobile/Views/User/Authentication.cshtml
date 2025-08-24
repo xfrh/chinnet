@@ -1,0 +1,125 @@
+﻿
+@{
+    ViewBag.Title = "认证信息";
+    Layout = "/Views/Shared/_MyLayout.cshtml";
+}
+
+<div id="app" v-cloak class="indexpage">
+    <div class="middle">
+        <div v-if="!CreateAttestation" class="padding-lr-40">
+            <div class="flex f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">认证时间</div>
+                <div class="fon-28" v-text="Attestation.Date"></div>
+            </div>
+            <div class="flex f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">认证状态</div>
+                <div class="fon-28" v-text="Attestation.Status"></div>
+            </div>
+            <div class="flex f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">所属城市</div>
+                <div class="fon-28" v-text="Attestation.AreaName"></div>
+            </div>
+            <div class="flex f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">所属医院</div>
+                <div class="fon-28" v-text="Attestation.HospitalName"></div>
+            </div>
+            <div class="flex f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">所属科室</div>
+                <div class="fon-28" v-text="Attestation.HospitalDepartmentName"></div>
+            </div>
+            <div class="flex f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">医生职称</div>
+                <div class="fon-28" v-text="Attestation.DoctorTitleName"></div>
+            </div>
+        </div>
+
+        <div v-if="CreateAttestation" class="padding-lr-40">
+            <div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('province')}">
+                <span class="fon-30">所属省份:</span>
+                <select name="province" class="flex1 fon-28 PI-Input" v-model="SubmitModel.Province" v-validate="'required|excluded:0'" @@change="loadCity(SubmitModel.Province)">
+                    <option v-for="item in CreateModel.ProvinceList" :value="item.Value">{{item.Text}}</option>
+                </select>
+            </div>
+
+            <div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('city')}">
+                <span class="fon-30">所属城市:</span>
+                <select name="city" class="flex1 fon-28 PI-Input" v-model="SubmitModel.City" v-validate="'required|excluded:0'">
+                    <option v-for="item in CreateModel.CityList" :value="item.Value">{{item.Text}}</option>
+                </select>
+            </div>
+
+            <div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('hospital')}">
+                <span class="fon-30">所属医院:</span>
+                <select name="hospital" class="flex1 fon-28 PI-Input" v-model="SubmitModel.Hospital" v-validate="'required|excluded:0'">
+                    <option v-for="item in CreateModel.HospitalList" :value="item.Value">{{item.Text}}</option>
+                </select>
+            </div>
+
+            <div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('hospitaldepartment')}">
+                <span class="fon-30">所属科室:</span>
+                <select name="hospitaldepartment" class="flex1 fon-28 PI-Input" v-model="SubmitModel.HospitalDepartment" v-validate="'required|excluded:0'">
+                    <option v-for="item in CreateModel.HospitalDepartmentList" :value="item.Value">{{item.Text}}</option>
+                </select>
+            </div>
+
+            <div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('doctortitle')}">
+                <span class="fon-30">医生职称:</span>
+                <select name="doctortitle" class="flex1 fon-28 PI-Input" v-model="SubmitModel.DoctorTitle" v-validate="'required|excluded:0'">
+                    <option v-for="item in CreateModel.DoctorTitleList" :value="item.Value">{{item.Text}}</option>
+                </select>
+            </div>
+
+            <a ref="btnSubmit" class="btn margin-t-40 margin-b-20 ladda-button" data-style="zoom-in" @@click="onSubmit" href="javascript:void(0);">提交认证</a>
+        </div>
+    </div>
+
+    @Html.Partial("_FooterNavBar", "我的")
+
+    <div id="loadingToast" ref="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32">加载中</p>
+        </div>
+    </div>
+
+    <div id="successToast" ref="successToast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32" v-text="resSuccessMessage"></p>
+        </div>
+    </div>
+
+    <div id="failToast" ref="failToast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_toast" style="font-size: 1.65rem;"></i>
+            <p class="weui-toast__content fon-32" v-text="resFailMessage" style="margin-top: 0.25rem;"></p>
+        </div>
+    </div>
+
+    <div id="submitToast" ref="submitToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32">数据提交中</p>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    <link href="~/Content/Css/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/User/Authentication.css?v=1.0.0" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/vee-validate/vee-validate.min.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/fx.js"></script>
+    <script src="~/Content/Scripts/fx_methods.js"></script>
+    <script src="~/Content/Scripts/User/Authentication.js?v=1.0.0"></script>
+}

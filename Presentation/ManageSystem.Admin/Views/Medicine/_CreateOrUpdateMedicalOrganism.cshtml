@@ -1,0 +1,66 @@
+﻿@model ManageSystem.Admin.Models.Medicine.MedicalOrganismModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+		<table class="adminContent">
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Name)
+				@Html.ValidationMessageFor(m => m.Name)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Type)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Type)
+				@Html.ValidationMessageFor(m => m.Type)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Code)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Code)
+				@Html.ValidationMessageFor(m => m.Code)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Remark)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Remark)
+				@Html.ValidationMessageFor(m => m.Remark)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.OrganismTypeId1)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.OrganismTypeId1)
+				@Html.ValidationMessageFor(m => m.OrganismTypeId1)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.OrganismTypeId2)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.OrganismTypeId2)
+				@Html.ValidationMessageFor(m => m.OrganismTypeId2)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Sort)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Sort)
+				@Html.ValidationMessageFor(m => m.Sort)
+			</td>
+			</tr>
+		</table>
+
+
+<script type="text/javascript">
+
+
+
+   
+</script>

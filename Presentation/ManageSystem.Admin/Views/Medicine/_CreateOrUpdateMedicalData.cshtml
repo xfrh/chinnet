@@ -1,0 +1,179 @@
+﻿@model MedicalDataModel
+@using ManageSystem.Admin.Extensions;
+@using ManageSystem.Admin.Models.Medicine;
+@using ManageSystem.Core.Utility
+@using ManageSystem.Core.Utility
+@using ManageSystem.Core.Extensions;
+@using ManageSystem.Core.Domain.Medicine
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+<style type="text/css">
+    .table-bordered > tbody > tr > td {
+        border: 1px solid #ddd;
+    }
+</style>
+<div>
+    <div class="widget-main ">
+
+        @{
+            if (Model.UploadMessageEntity.BaseMessage != null)
+            {
+                <div class="tab" style="padding-top:0px;">
+                    <table width="100%" border="0" cellspacing="1" cellpadding="0" class="table table-striped table-bordered table-hover dataTable no-footer table-bordered">
+                        <tbody>
+                            <tr class="info">
+                                <td colspan="8" style="text-align:center; font-weight:bold;">数据文件基本情况 </td>
+                            </tr>
+                            <tr>
+                                <td class="cb" style="width:8%;">文件名</td>
+                                <td style="width:15%;">@Model.UploadMessageEntity.BaseMessage.FileName</td>
+                                <td class="cb" style="width:6%;">文件大小</td>
+                                <td style="width:15%;">@Model.UploadMessageEntity.BaseMessage.FileLength</td>
+                            </tr>
+                            <tr>
+                                <td class="cb">数据所属时段</td>
+                                <td>@Model.UploadMessageEntity.BaseMessage.DataTime</td>
+                                <td class="cb">上传时间</td>
+                                <td>@Model.UploadMessageEntity.BaseMessage.UploadTime.ToString("yyyy-MM-dd HH:mm")</td>
+                            </tr>
+                            <tr>
+                                <td class="cb">药敏实验方法</td>
+                                <td>	@Model.UploadMessageEntity.BaseMessage.BacteriaTypeName</td>
+                                <td class="cb">编号</td>
+                                <td>@Model.SN</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            }
+        }
+
+        <div class="tabbable" style="margin-top:30px;">
+            <ul class="nav nav-tabs tabs-flat" id="myTab11" style="font-size: 14px;">
+                <li class="active">
+                    <a data-toggle="tab" href="#tabResult">
+                        数据分析汇总
+                    </a>
+                </li>
+                <li class="">
+                    <a data-toggle="tab" id="analysis" href="#tabFileData">
+                        上传情况分析
+                    </a>
+                </li>
+                <li class="">
+                    <a data-toggle="tab" href="#tabColumnRatio">
+                        各字段说明
+                    </a>
+                </li>
+                <li class="">
+                    <a data-toggle="tab" href="#tabColumnData">
+                        各记录分析情况
+                    </a>
+                </li>
+                <li class="">
+                    <a data-toggle="tab" href="#tabColumnData">
+                        特殊耐药表型
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content tabs-flat" style="background-color: white; padding: 30px 12px; min-height: 350px;">
+                <div class="tab-pane active select-item" id="tabResult">
+                    <div class="col-lg-12">
+                        <div class="alert alert-warning">
+                            <h4 style="padding: 8px 0px;">数据上报成功！</h4>
+                            <b>** 警告 ** ：</b><br><br>
+                            ●&nbsp;共产生了<span class="bg-danger" style="cursor:pointer;text-decoration: underline;color:blue;" onclick="Analysiserror()">&nbsp; @Model.ValidateErrorCount &nbsp;</span>个数据项错误，这并不影响整个文件的上报，但建议您尽量改正后，重新上传一次！<br><br>
+                            ●&nbsp;1)特殊耐药表型:<span class="bg-warning" style="cursor:pointer;text-decoration: underline;color:blue;" onclick="Analysiswarning()">&nbsp;@Model.ValidateWarningCount&nbsp;</span>点击查看并确认<br><br>
+                            ●&nbsp;2)共产生了<span class="bg-warning" style="cursor:pointer;text-decoration: underline;color:blue;" onclick="Analysiswarning()">&nbsp;@Model.ValidateWarningCount&nbsp;</span>个数据项警告！
+                        </div>
+                    </div>
+                    @if (ViewData["ExceptionMessage"] != null && !string.IsNullOrWhiteSpace((string)ViewData["ExceptionMessage"]))
+                    {
+                        <div class="col-lg-12">
+                            <div class="alert alert-danger">
+                                <b>** 错误 ** @ViewData["ExceptionMessage"]</b><br><br>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-lg-3" style="display:none;">
+                        <img src="@Model.CodeFilePath" class="img-responsive" style="width: 200px; height: 190px;" />
+                    </div>
+
+                    <table class="table table2 table-bordered ">
+                        <tbody>
+                            <tr class="info">
+                                <td class="big" colspan="4"><b>数据行数统计</b></td>
+                            </tr>
+                            <tr>
+                                <td class="big right"><b>上传文件总行数</b></td>
+                                <td class="big center">@(Model.UploadMessageEntity.BaseMessage == null ? "" : Model.UploadMessageEntity.BaseMessage.ReadCount.ToString())</td>
+                                <td class="big right"><b>上传成功总行数</b></td>
+                                <td class="big center">@(Model.UploadMessageEntity.BaseMessage == null ? "" : Model.UploadMessageEntity.BaseMessage.SuccessCount.ToString())</td>
+                            </tr>
+                            @*<tr>
+                                <td class="big right"><b>系统可校验记录总数</b></td>
+                                <td class="big center">194</td>
+                                <td class="big right"><b></b></td>
+                                <td class="big center"></td>
+                            </tr>*@
+                        </tbody>
+                    </table>
+                </div>
+
+                @Html.Partial("/Views/Medicine/_CreateOrUpdateMedicalData.Validate.cshtml")
+                @Html.Partial("/Views/Medicine/_CreateOrUpdateMedicalData.Column.cshtml")
+                @Html.Partial("/Views/Medicine/_CreateOrUpdateMedicalData.Data.cshtml")
+            </div>
+
+            <div style="width:100%; margin-top:20px; text-align:center;">
+                <a href="@Url.Action("DownloadOriginalData","Medicine",new { id = Model.Id.ToString() })" class="btn btn-primary">下载原始上传数据</a> &nbsp; &nbsp; &nbsp; &nbsp;
+                <a href="@Url.Action("DownloadNewData","Medicine",new { id = Model.Id.ToString() })" class="btn btn-success">下载经过容错处理的数据</a> &nbsp; &nbsp; &nbsp; &nbsp;
+                <a href="@Url.Action("MedicalDataToWord","Medicine",new { id = Model.Id })" class="btn btn-maroon">生成Word</a>
+                @*<a href="@Url.Action("DownloadWord","Medicine",new { id = Model.Id })" id="btnWord" onclick="downloadWordBefore();" class="btn btn-info ladda-button" data-style="zoom-in">生成PDF文件</a>*@
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="DataId" value="@Model.Id.ToString()" />
+
+<link href="/Content/Scripts/laypage-v1.3/skin/laypage.css" rel="stylesheet" />
+<script src="/Content/Scripts/laypage-v1.3/laypage.js"></script>
+
+
+<script type="text/javascript">
+    function SelectDataItem(obj) {
+        var selectItem = $(obj).attr("SelectItem");
+        if (selectItem == "1") {
+            $(obj).removeClass("danger");
+            $(obj).attr("SelectItem", "0");
+        } else {
+            $(obj).addClass('danger');
+            $(obj).attr("SelectItem", "1");
+        }
+    }
+    function Analysiserror() {
+        $("#analysis").click();
+        $("#error").click()
+    }
+    function Analysiswarning() {
+        $("#analysis").click();
+        $("#warning").click()
+    }
+
+    function downloadWordBefore() {
+        var l = Ladda.create(document.getElementById('btnWord'));
+        if (l.isLoading()) { return false; }
+        l.start();
+        setTimeout(function () {
+            l.stop();
+        }, 8000);
+        return true;
+    }
+</script>
+

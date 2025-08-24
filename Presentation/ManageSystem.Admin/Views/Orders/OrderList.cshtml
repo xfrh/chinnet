@@ -1,0 +1,256 @@
+﻿@model  ManageSystem.Admin.Models.Orders.OrderListSearchModel
+
+@{
+    ViewBag.Title = "订单管理";
+}
+
+@section HeadSection {
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "订单管理", SecondName = "订单管理", LocationName = this.ViewBag.Title }); }
+}
+
+@Html.AntiForgeryToken()
+
+<div class="page-body">
+
+    <div class="row manage-page">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-yellow manage-title-box">
+                    <span class="widget-caption manage-title"><i class="glyphicon glyphicon-th "></i>@ViewBag.Title </span>
+                    <div class="widget-buttons">
+                        <a href="#" data-toggle="maximize"><i class="fa fa-expand"></i></a>
+                        <a href="#" data-toggle="collapse"><i class="fa fa-minus"></i></a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+
+                        <div id="searchable_filter" class="dataTables_filter manage-but-box">
+                            <div style="width: 100%;">
+                                @Html.ButtonHtml(HtmlButtonType.Delete, "OrderDelete", "Orders")
+                            </div>
+                            <div style="width: 100%;">
+                                <div class="dataTables_filter manage-but-box">
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.SN)：</label>
+                                    <label class="lb-right"><input type="text" id="SN" class="form-control input-sm  "  /></label>
+                                    <label class="lb-left">@Html.NopLabelFor(m => m.Status)：</label>
+                                    <div class="form-control ddl lb-right " style="width: 10%;">
+                                        @Html.DropDownList("Status", Model.StatusList, new { @class = "form-control dropdown" })
+                                    </div>
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.MemberLoginId)：</label>
+                                    <label class="lb-right"><input type="text" id="MemberLoginId" class="form-control input-sm  " /></label>
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.UserName)：</label>
+                                    <label class="lb-right"><input type="text" id="UserName" class="form-control input-sm  " /></label>
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.UserPhone)：</label>
+                                    <label class="lb-right"><input type="text" id="UserPhone" class="form-control input-sm  " /></label>
+                                </div>
+                                <div class="dataTables_filter manage-but-box">
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.CreateTimeStart)：</label>
+                                    <label class="lb-right">@Html.EditorFor(m => m.CreateTimeStart, new { @class = "form-control input-sm" }) </label>
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.CreateTimeEnd)：</label>
+                                    <label class="lb-right">@Html.EditorFor(m => m.CreateTimeEnd, new { @class = "form-control input-sm" }) </label>
+                                    <label> <input type="button" id="btn-search" class="btn btn-blue" value="查 询" /> </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table table-striped table-bordered dataTable no-footer table-select" id="ManageTableDiv" aria-describedby="editabledatatable_info">
+                            <div id="data-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*删除数据的表单*@
+@using (Html.BeginForm("OrderDelete", "Orders", FormMethod.Post, new { id = "delete-selected-form" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="selectedIds" name="selectedIds" value="" />
+
+}
+
+<script src="~/Content/Scripts/admin.listpage.js"></script>
+<script src="~/Content/Scripts/layer/layer.js"></script>
+
+<script type="text/javascript">
+
+    //确认发货
+    function OrderSendWindow(id) {
+        //iframe层-父子操作
+        layer.open({
+            type: 2,
+            area: ['650px', '580px'],
+            fix: false, //不固定
+            maxmin: true,
+            title: "订单发货",
+            content: '/Orders/OrderSend?id=' + id
+        });
+    }
+
+    //确认收货
+    function OrderReceiveWindow(id) {
+        //iframe层-父子操作
+        layer.open({
+            type: 2,
+            area: ['650px', '450px'],
+            fix: false, //不固定
+            maxmin: true,
+            title: "订单发货",
+            content: '/Orders/OrderReceive?id=' + id
+        });
+    }
+
+    //取消订单
+    function OrderCancelWindow(id) {
+        //iframe层-父子操作
+        layer.open({
+            type: 2,
+            area: ['650px', '450px'],
+            fix: false, //不固定
+            maxmin: true,
+            title: "取消订单",
+            content: '/Orders/OrderCancel?id=' + id
+        });
+    }
+
+
+    function ReloadPage() {
+        location.reload();
+    }
+
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#data-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("OrderList"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 30, 50]
+            },
+            scrollable: false,
+            groupable: true,
+            dataBound: onDataBound,
+            columns: [{
+                field: "Id",
+                headerTemplate: "  <div class='' style='text-align: center;'>    <label><input type='checkbox' id='mastercheckbox' /><span class='text'></span> </label>   </div>",
+                headerAttributes: { style: "text-align:center" },
+                attributes: { style: "text-align:center" },
+                template: " <div class='' style='text-align: center;'>    <label><input type='checkbox' class='checkboxGroups'  value='#=Id#' /><span class='text'></span> </label>   </div> ",
+                width: 50
+            },
+            	{
+            	    field: "CreateTimeString",
+            	    title: "下单时间",
+            	    width: 120
+            	},
+             		{
+             		    field: "MemberLoginId",
+             		    title: "会员帐号",
+             		    width: 90
+             		},
+                    {
+                        field: "SN",
+                        title: "订单号",
+                        width: 90
+                    },
+		{
+		    field: "StatusName",
+		    title: "订单状态",
+		    width: 80
+		},
+
+		{
+		    field: "Amount ",
+		    title: "订单总金额",
+		    width: 80
+		},
+		{
+		    field: "ReceivedAmount ",
+		    title: "实收金额",
+		    width: 80
+		},
+        	{
+        	    field: "UserName",
+        	    title: "收货人",
+        	    width: 80
+        	},
+		{
+		    field: "UserPhone",
+		    title: "手机号码",
+		    width: 90
+		},
+
+		{
+		    field: "UserAddress",
+		    title: "详细地址",
+		    width: 280
+		},
+
+            {
+                field: "IdString",
+                title: "操作",
+                width: 130,
+                template: '@Html.Raw("#=ActionHtml#")'
+            }]
+        });
+    });
+
+
+    //设置查询参数
+    function additionalData() {
+        var data = {
+            SN: $("#@Html.FieldIdFor(m=>m.SN)").val(),
+            Status: $("#@Html.FieldIdFor(m=>m.Status)").val(),
+            CreateTimeStart: $("#@Html.FieldIdFor(m=>m.CreateTimeStart)").val(),
+            CreateTimeEnd: $("#@Html.FieldIdFor(m=>m.CreateTimeEnd)").val(),
+            UserName: $("#@Html.FieldIdFor(m=>m.UserName)").val(),
+            UserPhone: $("#@Html.FieldIdFor(m=>m.UserPhone)").val(),
+            MemberLoginId: $("#@Html.FieldIdFor(m=>m.MemberLoginId)").val(),
+        };
+
+        addAntiForgeryToken(data);
+        return data;
+    }
+
+
+    $("#@Html.FieldIdFor(m=> m.CreateTimeStart)").kendoDatePicker({ format: "yyyy-MM-dd HH:mm" });
+    $("#@Html.FieldIdFor(m => m.CreateTimeEnd)").kendoDatePicker({ format: "yyyy-MM-dd HH:mm" });
+
+</script>
+
+

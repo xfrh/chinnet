@@ -1,0 +1,55 @@
+﻿@{
+    this.Layout = null;
+}
+
+@{
+    if (this.ViewBag.IsLogin)
+    {
+        <li class="r">
+            
+            <span>欢迎光临 @ViewBag.Name</span>
+            <span><a href="/Login/Out"><img src="/Content/Images/03.jpg" alt="" style="max-width: 15px; position: relative; top: -2px;" /></a></span>
+        </li>
+    }
+    else
+    {
+        <li class="r">
+            <span><a onclick="OpenLogin()" style="cursor:pointer">登录 </a></span>
+            @*<span style="padding-left: 6px; color: #999;">|</span>*@
+            @*<span style="padding-left: 6px;"><a onclick="OpenRegist()" style="cursor:pointer">注册 </a></span>*@
+            @*href="/?type=regist&returnUrl=" href="/?type=login&returnUrl="*@
+        </li>
+    }
+
+}
+<script>
+    //登录成功的回调
+    function OpenLoginCallback(returnUrl) {
+        if (returnUrl === undefined || typeof returnUrl === 'undefined') {
+            returnUrl = $("#returnUrl").val();
+        }
+        //if (returnUrl !== "") {
+        //    location.href = returnUrl;
+        //    return;
+        //} else {
+        //    location.href = "/";
+        //}
+        var satelliteCity = sessionStorage.getItem('satelliteCity');
+        location.href = "/" + satelliteCity;
+    }
+    function OpenLogin(id) {
+        console.log(id);
+        layer.open({
+            title: false,
+            type: 2,
+            area: '800px',
+            fixed: false, //不固定
+            maxmin: false,
+            content: '/Satellite/MapLoginOpenIndex/?returnUrl=' + $("#returnUrl").val() + "&id=" + id,
+            success: function (layero, index) {
+                layer.iframeAuto(index);
+            }
+        });
+    }
+</script>
+

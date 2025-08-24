@@ -1,0 +1,74 @@
+﻿<div class="swiper-container scroll">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide slidescroll">
+            <article class="cro-page">
+                <div class="cro-qbox">
+                    <div class="cro-qbox-title" v-text="Q25.title"></div>
+                    <div class="cro-qbox-awbox">
+                        <table>
+                            <tbody>
+                                <tr v-for="(item, index) in Q25.options">
+                                    <td>
+                                        <div class="checkbox-control">
+                                            <input :id="'checkbox__25_'+(index+1)" v-model="Q25.answer" class="checkbox-control-input" type="checkbox" name="Q25" :value="item.value" />
+                                            <label :for="'checkbox__25_'+(index+1)" class="checkbox-control-label"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <label :for="'checkbox__25_'+(index+1)" v-text="item.text"></label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="cro-qbox">
+                    <div class="cro-qbox-title" v-text="Q26.title"></div>
+                    <div class="cro-qbox-awbox">
+                        <table>
+                            <tr>
+                                <td style="width: 1.55rem;">
+                                    <div class="checkbox-control">
+                                        <input id="checkbox__26_1" v-model="Q26.answer" class="checkbox-control-input" name="Q26" type="radio" value="否" />
+                                        <label for="checkbox__26_1" class="checkbox-control-label"></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <label for="checkbox__26_1">否</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="checkbox-control">
+                                        <input id="checkbox__26_2" v-model="Q26.answer" class="checkbox-control-input" name="Q26" type="radio" value="是" />
+                                        <label for="checkbox__26_2" class="checkbox-control-label"></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <label for="checkbox__26_2" style="width: 2.75rem;">是</label>
+                                </td>
+                            </tr>
+                            <tr v-if="Q26.answer === '是'">
+                                <td colspan="2">
+                                    <div class="flex align-items__baseline" style="margin-top: 0.75rem;">
+                                        <div class="">采用何方法？</div>
+                                        <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q26_other')}">
+                                            <input class="flex-1 cro-qbox__input" name="Q26_other" v-model="Q26.other" v-validate="{required: true, min: 1}" type="text" />
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </article>
+            <footer class="cre-footer" v-if="showSubmit">
+                <a class="btn btn-primary cre-submit" href="javascript: void(0);" @@click="onSubmit">提交问卷</a>
+            </footer>
+            <footer class="flex flex-center" v-if="beginAnswer && Q26.answer === '是'">
+                <a class="btn flex-1" style="height: 45px; line-height: 45px; text-align: center; color: #005cad; background-color: transparent;" @@click="onPrevSlide">上一页</a>
+                <a class="btn flex-1 disabled" style="height: 45px; line-height: 45px; text-align: center; color: #005cad; background-color: transparent;" @@click="onNextSlide">下一页</a>
+            </footer>
+        </div>
+    </div>
+</div>

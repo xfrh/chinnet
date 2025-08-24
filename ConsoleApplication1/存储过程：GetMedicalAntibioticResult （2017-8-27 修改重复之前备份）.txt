@@ -1,0 +1,561 @@
+===============================================================================
+
+修改人： 邹学典
+说明：在2017-8-27修改界面的时候发现存储过程的数据有重复，所以重新修改存储过程。本次备份的是未修改前的数据
+
+===============================================================================
+
+
+USE [HuiruiMedicalDB]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GetMedicalAntibioticResult]    Script Date: 2017/8/27 11:00:14 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROC [dbo].[GetMedicalAntibioticResult]
+ @OrganismId BIGINT  --　本次查询细菌的Id
+AS
+
+DECLARE @OrganismName NVARCHAR(1000) -- 本次查询细菌的名称
+DECLARE @OrganismCode NVARCHAR(1000)　-- 本次查询的细菌编码
+
+-- 查询的细菌
+SELECT @OrganismId= Id, @OrganismCode=Code,@OrganismName=Name FROM  dbo.MedicalOrganism WHERE Id = @OrganismId 
+
+--为查询到细菌数据，直接返回
+IF @OrganismId <= 0
+BEGIN
+	RETURN
+END
+
+ --声明临时表，记录本次需要处理的数据
+ SELECT  * INTO  #DataTable  FROM  MedicalAntibioticResult(NOLOCK)  WHERE Mark>0 AND OrganismId=@OrganismId  AND IsValid=1 AND MedicalDataId IN 
+ ( SELECT Id FROM  dbo.MedicalData(NOLOCK) WHERE Status =1 AND Mark>0 )
+
+
+ --声明临时表存数据
+ CREATE TABLE #ResultTable
+ (
+    FieldName NVARCHAR(1000), --字段名称，也就是抗生素对应的导入列名称
+	OrganismId BIGINT , -- 细菌Id
+	OrganismName NVARCHAR(1000), --细菌名称
+	OrganismCode NVARCHAR(1000), --细菌编码
+	AntibioticId BIGINT , -- 抗生素Id
+	AntibioticName NVARCHAR(1000), --抗生素名称
+	AntibioticCode NVARCHAR(1000), --抗生素编码
+	SensitiveCount INT, -- 敏感数量
+	IntermediaryCount INT, -- 中介数量
+	ResistanceCount INT, -- 耐药数量
+ )
+
+ -- AMC_ND20 阿莫西林/克拉维酸 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('AMC_ND20',@OrganismId,@OrganismName,@OrganismCode, 1, '阿莫西林/克拉维酸','AMC',(SELECT Count(*) FROM #DataTable WHERE AMC_ND20 = 1 ),(SELECT Count(*) FROM #DataTable WHERE AMC_ND20 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE AMC_ND20 = 3 ) ) 
+
+-- AZM_ND15 阿奇霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('AZM_ND15',@OrganismId,@OrganismName,@OrganismCode, 12, '阿奇霉素','AZM',(SELECT Count(*) FROM #DataTable WHERE AZM_ND15 = 1 ),(SELECT Count(*) FROM #DataTable WHERE AZM_ND15 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE AZM_ND15 = 3 ) ) 
+
+-- AMP_ND10 氨苄西林 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('AMP_ND10',@OrganismId,@OrganismName,@OrganismCode, 5, '氨苄西林','AMP',(SELECT Count(*) FROM #DataTable WHERE AMP_ND10 = 1 ),(SELECT Count(*) FROM #DataTable WHERE AMP_ND10 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE AMP_ND10 = 3 ) ) 
+
+-- SAM_ND10 氨苄西林/舒巴坦 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('SAM_ND10',@OrganismId,@OrganismName,@OrganismCode, 98, '氨苄西林/舒巴坦','SAM',(SELECT Count(*) FROM #DataTable WHERE SAM_ND10 = 1 ),(SELECT Count(*) FROM #DataTable WHERE SAM_ND10 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE SAM_ND10 = 3 ) ) 
+
+-- ATM_ND30 氨曲南 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('ATM_ND30',@OrganismId,@OrganismName,@OrganismCode, 11, '氨曲南','ATM',(SELECT Count(*) FROM #DataTable WHERE ATM_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE ATM_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE ATM_ND30 = 3 ) ) 
+
+-- OXA_ND1 苯唑西林 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('OXA_ND1',@OrganismId,@OrganismName,@OrganismCode, 85, '苯唑西林','OXA',(SELECT Count(*) FROM #DataTable WHERE OXA_ND1 = 1 ),(SELECT Count(*) FROM #DataTable WHERE OXA_ND1 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE OXA_ND1 = 3 ) ) 
+
+-- POL_ND300 多粘菌素B 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('POL_ND300',@OrganismId,@OrganismName,@OrganismCode, 91, '多粘菌素B','POL',(SELECT Count(*) FROM #DataTable WHERE POL_ND300 = 1 ),(SELECT Count(*) FROM #DataTable WHERE POL_ND300 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE POL_ND300 = 3 ) ) 
+
+-- NIT_ND300 呋喃妥因 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('NIT_ND300',@OrganismId,@OrganismName,@OrganismCode, 80, '呋喃妥因','NIT',(SELECT Count(*) FROM #DataTable WHERE NIT_ND300 = 1 ),(SELECT Count(*) FROM #DataTable WHERE NIT_ND300 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE NIT_ND300 = 3 ) ) 
+
+-- SXT_ND1_2 复方新诺明 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('SXT_ND1_2',@OrganismId,@OrganismName,@OrganismCode, 105, '复方新诺明','SXT',(SELECT Count(*) FROM #DataTable WHERE SXT_ND1_2 = 1 ),(SELECT Count(*) FROM #DataTable WHERE SXT_ND1_2 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE SXT_ND1_2 = 3 ) ) 
+
+-- STH_ND300 高浓度链霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('STH_ND300',@OrganismId,@OrganismName,@OrganismCode, 101, '高浓度链霉素','STH',(SELECT Count(*) FROM #DataTable WHERE STH_ND300 = 1 ),(SELECT Count(*) FROM #DataTable WHERE STH_ND300 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE STH_ND300 = 3 ) ) 
+
+
+-- ERY_ND15 红霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('ERY_ND15',@OrganismId,@OrganismName,@OrganismCode, 47, '红霉素','ERY',(SELECT Count(*) FROM #DataTable WHERE ERY_ND15 = 1 ),(SELECT Count(*) FROM #DataTable WHERE ERY_ND15 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE ERY_ND15 = 3 ) ) 
+
+-- CIP_ND5 环丙沙星 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CIP_ND5',@OrganismId,@OrganismName,@OrganismCode, 24, '环丙沙星','CIP',(SELECT Count(*) FROM #DataTable WHERE CIP_ND5 = 1 OR CIP_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE CIP_ND5 = 2 OR  CIP_NM = 2  ) ,(SELECT Count(*) FROM #DataTable WHERE CIP_ND5 = 3 OR CIP_NM = 3 ) ) 
+
+
+-- CIP_NM 环丙沙星 
+--INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+--VALUES('CIP_NM',@OrganismId,@OrganismName,@OrganismCode, 24, '环丙沙星','CIP',(SELECT Count(*) FROM #DataTable WHERE CIP_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE CIP_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CIP_NM = 3 ) ) 
+
+
+-- MET_ND5 甲氧西林 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('MET_ND5',@OrganismId,@OrganismName,@OrganismCode, 71, '甲氧西林','MET',(SELECT Count(*) FROM #DataTable WHERE MET_ND5 = 1 ),(SELECT Count(*) FROM #DataTable WHERE MET_ND5 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE MET_ND5 = 3 ) ) 
+
+-- CLI_ND2 克林霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CLI_ND2',@OrganismId,@OrganismName,@OrganismCode, 26, '克林霉素','CLI',(SELECT Count(*) FROM #DataTable WHERE CLI_ND2 = 1 OR CLI_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE CLI_ND2 = 2 OR CLI_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CLI_ND2 = 3  OR CLI_NM = 3 ) ) 
+
+-- CLI_NM 克林霉素 
+--INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+--VALUES('CLI_NM',@OrganismId,@OrganismName,@OrganismCode, 26, '克林霉素','CLI',(SELECT Count(*) FROM #DataTable WHERE CLI_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE CLI_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CLI_NM = 3 ) ) 
+
+
+-- RIF_ND5 利福平 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('RIF_ND5',@OrganismId,@OrganismName,@OrganismCode, 96, '利福平','RIF',(SELECT Count(*) FROM #DataTable WHERE RIF_ND5 = 1 OR RIF_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE RIF_ND5 = 2 OR RIF_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE RIF_ND5 = 3 OR RIF_NM = 3 ) ) 
+
+
+-- RIF_NM 利福平 
+--INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+--VALUES('RIF_NM',@OrganismId,@OrganismName,@OrganismCode, 96, '利福平','RIF',(SELECT Count(*) FROM #DataTable WHERE RIF_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE RIF_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE RIF_NM = 3 ) ) 
+
+
+-- LNZ_ND30 利奈唑胺 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('LNZ_ND30',@OrganismId,@OrganismName,@OrganismCode, 63, '利奈唑胺','LNZ',(SELECT Count(*) FROM #DataTable WHERE LNZ_ND30 = 1 OR LNZ_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE LNZ_ND30 = 2 OR LNZ_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE LNZ_ND30 = 3 OR  LNZ_NM = 3 ) ) 
+
+
+---- LNZ_NM 利奈唑胺 
+--INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+--VALUES('LNZ_NM',@OrganismId,@OrganismName,@OrganismCode, 63, '利奈唑胺','LNZ',(SELECT Count(*) FROM #DataTable WHERE LNZ_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE LNZ_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE LNZ_NM = 3 ) ) 
+
+
+-- STR_ND10 链霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('STR_ND10',@OrganismId,@OrganismName,@OrganismCode, 103, '链霉素','STR',(SELECT Count(*) FROM #DataTable WHERE STR_ND10 = 1 ),(SELECT Count(*) FROM #DataTable WHERE STR_ND10 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE STR_ND10 = 3 ) ) 
+
+-- FOS_ND200 磷霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('FOS_ND200',@OrganismId,@OrganismName,@OrganismCode, 53, '磷霉素','FOS',(SELECT Count(*) FROM #DataTable WHERE FOS_ND200 = 1 ),(SELECT Count(*) FROM #DataTable WHERE FOS_ND200 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE FOS_ND200 = 3 ) ) 
+
+-- CHL_ND30 氯霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CHL_ND30',@OrganismId,@OrganismName,@OrganismCode, 22, '氯霉素','CHL',(SELECT Count(*) FROM #DataTable WHERE CHL_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE CHL_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CHL_ND30 = 3 ) ) 
+
+-- MEM_ND10 美洛培南 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('MEM_ND10',@OrganismId,@OrganismName,@OrganismCode, 69, '美洛培南','MEM',(SELECT Count(*) FROM #DataTable WHERE MEM_ND10 = 1 ),(SELECT Count(*) FROM #DataTable WHERE MEM_ND10 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE MEM_ND10 = 3 ) ) 
+
+-- MNO_ND30 米诺环素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('MNO_ND30',@OrganismId,@OrganismName,@OrganismCode, 76, '米诺环素','MNO',(SELECT Count(*) FROM #DataTable WHERE MNO_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE MNO_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE MNO_ND30 = 3 ) ) 
+
+-- MFX_ND5 莫西沙星 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('MFX_ND5',@OrganismId,@OrganismName,@OrganismCode, 73, '莫西沙星','MFX',(SELECT Count(*) FROM #DataTable WHERE MFX_ND5 = 1 ),(SELECT Count(*) FROM #DataTable WHERE MFX_ND5 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE MFX_ND5 = 3 ) ) 
+
+-- PIP_ND100 哌拉西林 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('PIP_ND100',@OrganismId,@OrganismName,@OrganismCode, 90, '哌拉西林','PIP',(SELECT Count(*) FROM #DataTable WHERE PIP_ND100 = 1 ),(SELECT Count(*) FROM #DataTable WHERE PIP_ND100 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE PIP_ND100 = 3 ) ) 
+
+-- TZP_ND100 哌拉西林/他唑巴坦 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('TZP_ND100',@OrganismId,@OrganismName,@OrganismCode, 119, '哌拉西林/他唑巴坦','TZP',(SELECT Count(*) FROM #DataTable WHERE TZP_ND100 = 1 ),(SELECT Count(*) FROM #DataTable WHERE TZP_ND100 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE TZP_ND100 = 3 ) ) 
+
+-- GEH_ND120 高浓度庆大霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('GEH_ND120',@OrganismId,@OrganismName,@OrganismCode, 58, '高浓度庆大霉素','GEH',(SELECT Count(*) FROM #DataTable WHERE GEH_ND120 = 1 ),(SELECT Count(*) FROM #DataTable WHERE GEH_ND120 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE GEH_ND120 = 3 ) ) 
+
+
+-- TCC_ND75 替卡西林/克拉维酸 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('TCC_ND75',@OrganismId,@OrganismName,@OrganismCode, 107, '替卡西林/克拉维酸','TCC',(SELECT Count(*) FROM #DataTable WHERE TCC_ND75 = 1 ),(SELECT Count(*) FROM #DataTable WHERE TCC_ND75 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE TCC_ND75 = 3 ) ) 
+
+-- TIC_ND75 替卡西林 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('TIC_ND75',@OrganismId,@OrganismName,@OrganismCode, 115, '替卡西林','TIC',(SELECT Count(*) FROM #DataTable WHERE TIC_ND75 = 1 ),(SELECT Count(*) FROM #DataTable WHERE TIC_ND75 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE TIC_ND75 = 3 ) ) 
+
+-- TEC_ND30 替考拉宁 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('TEC_ND30',@OrganismId,@OrganismName,@OrganismCode, 111, '替考拉宁','TEC',(SELECT Count(*) FROM #DataTable WHERE TEC_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE TEC_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE TEC_ND30 = 3 ) ) 
+
+-- TGC_ND15 替加环素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('TGC_ND15',@OrganismId,@OrganismName,@OrganismCode, 113, '替加环素','TGC',(SELECT Count(*) FROM #DataTable WHERE TGC_ND15 = 1 ),(SELECT Count(*) FROM #DataTable WHERE TGC_ND15 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE TGC_ND15 = 3 ) ) 
+
+-- FEP_ND30 头孢吡肟 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('FEP_ND30',@OrganismId,@OrganismName,@OrganismCode, 51, '头孢吡肟','FEP',(SELECT Count(*) FROM #DataTable WHERE FEP_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE FEP_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE FEP_ND30 = 3 ) ) 
+
+-- CXM_ND30 头孢呋辛 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CXM_ND30',@OrganismId,@OrganismName,@OrganismCode, 39, '头孢呋辛','CXM',(SELECT Count(*) FROM #DataTable WHERE CXM_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE CXM_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CXM_ND30 = 3 ) ) 
+
+-- CEC_ND30 头孢克洛 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CEC_ND30',@OrganismId,@OrganismName,@OrganismCode, 17, '头孢克洛','CEC',(SELECT Count(*) FROM #DataTable WHERE CEC_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE CEC_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CEC_ND30 = 3 ) ) 
+
+-- CFP_ND75 头孢哌酮 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CFP_ND75',@OrganismId,@OrganismName,@OrganismCode, 19, '头孢哌酮','CFP',(SELECT Count(*) FROM #DataTable WHERE CFP_ND75 = 1 ),(SELECT Count(*) FROM #DataTable WHERE CFP_ND75 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CFP_ND75 = 3 ) ) 
+
+-- CSL_ND30 头孢哌酮/舒巴坦 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CSL_ND30',@OrganismId,@OrganismName,@OrganismCode, 33, '头孢哌酮/舒巴坦','CSL',(SELECT Count(*) FROM #DataTable WHERE CSL_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE CSL_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CSL_ND30 = 3 ) ) 
+
+-- CRO_ND30 头孢曲松 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CRO_ND30',@OrganismId,@OrganismName,@OrganismCode, 28, '头孢曲松','CRO',(SELECT Count(*) FROM #DataTable WHERE CRO_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE CRO_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CRO_ND30 = 3 ) ) 
+
+-- CTX_ND30 头孢噻肟 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CTX_ND30',@OrganismId,@OrganismName,@OrganismCode, 36, '头孢噻肟','CTX',(SELECT Count(*) FROM #DataTable WHERE CTX_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE CTX_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CTX_ND30 = 3 ) ) 
+
+-- CAZ_ND30 头孢他啶 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CAZ_ND30',@OrganismId,@OrganismName,@OrganismCode, 15, '头孢他啶','CAZ',(SELECT Count(*) FROM #DataTable WHERE CAZ_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE CAZ_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CAZ_ND30 = 3 ) ) 
+
+
+-- CZO_ND30 头孢唑啉 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CZO_ND30',@OrganismId,@OrganismName,@OrganismCode, 41, '头孢唑啉','CZO',(SELECT Count(*) FROM #DataTable WHERE CZO_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE CZO_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CZO_ND30 = 3 ) ) 
+
+-- TOB_ND10 妥布霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('TOB_ND10',@OrganismId,@OrganismName,@OrganismCode, 117, '妥布霉素','TOB',(SELECT Count(*) FROM #DataTable WHERE TOB_ND10 = 1 ),(SELECT Count(*) FROM #DataTable WHERE TOB_ND10 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE TOB_ND10 = 3 ) ) 
+
+
+-- IPM_ND10 亚胺培南 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('IPM_ND10',@OrganismId,@OrganismName,@OrganismCode, 62, '亚胺培南','IPM',(SELECT Count(*) FROM #DataTable WHERE IPM_ND10 = 1 ),(SELECT Count(*) FROM #DataTable WHERE IPM_ND10 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE IPM_ND10 = 3 ) ) 
+
+-- LVX_ND5 左旋氧氟沙星 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('LVX_ND5',@OrganismId,@OrganismName,@OrganismCode, 66, '左旋氧氟沙星','LVX',(SELECT Count(*) FROM #DataTable WHERE LVX_ND5 = 1 ),(SELECT Count(*) FROM #DataTable WHERE LVX_ND5 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE LVX_ND5 = 3 ) ) 
+
+-- SSS_ND200 磺胺类 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('SSS_ND200',@OrganismId,@OrganismName,@OrganismCode, 99, '磺胺类','SSS',(SELECT Count(*) FROM #DataTable WHERE SSS_ND200 = 1 ),(SELECT Count(*) FROM #DataTable WHERE SSS_ND200 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE SSS_ND200 = 3 ) ) 
+
+-- CEP_ND30 头孢噻吩 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CEP_ND30',@OrganismId,@OrganismName,@OrganismCode, 18, '头孢噻吩','CEP',(SELECT Count(*) FROM #DataTable WHERE CEP_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE CEP_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CEP_ND30 = 3 ) ) 
+
+-- CRB_ND100 羧苄西林 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CRB_ND100',@OrganismId,@OrganismName,@OrganismCode, 27, '羧苄西林','CRB',(SELECT Count(*) FROM #DataTable WHERE CRB_ND100 = 1 ),(SELECT Count(*) FROM #DataTable WHERE CRB_ND100 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CRB_ND100 = 3 ) ) 
+
+-- OFX_ND5 氧氟沙星 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('OFX_ND5',@OrganismId,@OrganismName,@OrganismCode, 83, '氧氟沙星','OFX',(SELECT Count(*) FROM #DataTable WHERE OFX_ND5 = 1 ),(SELECT Count(*) FROM #DataTable WHERE OFX_ND5 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE OFX_ND5 = 3 ) ) 
+
+-- CZX_ND30 头孢唑肟 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CZX_ND30',@OrganismId,@OrganismName,@OrganismCode, 43, '头孢唑肟','CZX',(SELECT Count(*) FROM #DataTable WHERE CZX_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE CZX_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CZX_ND30 = 3 ) ) 
+
+-- MEZ_ND75 美洛西林 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('MEZ_ND75',@OrganismId,@OrganismName,@OrganismCode, 72, '美洛西林','MEZ',(SELECT Count(*) FROM #DataTable WHERE MEZ_ND75 = 1 ),(SELECT Count(*) FROM #DataTable WHERE MEZ_ND75 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE MEZ_ND75 = 3 ) ) 
+
+-- NOR_ND10 诺氟沙星 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('NOR_ND10',@OrganismId,@OrganismName,@OrganismCode, 81, '诺氟沙星','NOR',(SELECT Count(*) FROM #DataTable WHERE NOR_ND10 = 1 ),(SELECT Count(*) FROM #DataTable WHERE NOR_ND10 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE NOR_ND10 = 3 ) ) 
+
+-- MAN_ND30 头孢孟多 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('MAN_ND30',@OrganismId,@OrganismName,@OrganismCode, 67, '头孢孟多','MAN',(SELECT Count(*) FROM #DataTable WHERE MAN_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE MAN_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE MAN_ND30 = 3 ) ) 
+
+-- DOX_ND30 多西环素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('DOX_ND30',@OrganismId,@OrganismName,@OrganismCode, 46, '多西环素','DOX',(SELECT Count(*) FROM #DataTable WHERE DOX_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE DOX_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE DOX_ND30 = 3 ) ) 
+
+-- NOV_ND5 新生霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('NOV_ND5',@OrganismId,@OrganismName,@OrganismCode, 82, '新生霉素','NOV',(SELECT Count(*) FROM #DataTable WHERE NOV_ND5 = 1 ),(SELECT Count(*) FROM #DataTable WHERE NOV_ND5 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE NOV_ND5 = 3 ) ) 
+
+-- AMK_NM 阿米卡星 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('AMK_NM',@OrganismId,@OrganismName,@OrganismCode, 3, '阿米卡星','AMK',(SELECT Count(*) FROM #DataTable WHERE AMK_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE AMK_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE AMK_NM = 3 ) ) 
+
+-- AMX_NM 阿莫西林 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('AMX_NM',@OrganismId,@OrganismName,@OrganismCode, 9, '阿莫西林','AMX',(SELECT Count(*) FROM #DataTable WHERE AMX_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE AMX_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE AMX_NM = 3 ) ) 
+
+-- AMC_NM 阿莫西林/克拉维酸 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('AMC_NM',@OrganismId,@OrganismName,@OrganismCode, 1, '阿莫西林/克拉维酸','AMC',(SELECT Count(*) FROM #DataTable WHERE AMC_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE AMC_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE AMC_NM = 3 ) ) 
+
+-- AZM_NM 阿奇霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('AZM_NM',@OrganismId,@OrganismName,@OrganismCode, 12, '阿奇霉素','AZM',(SELECT Count(*) FROM #DataTable WHERE AZM_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE AZM_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE AZM_NM = 3 ) ) 
+
+-- AMP_NM 氨苄西林 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('AMP_NM',@OrganismId,@OrganismName,@OrganismCode, 5, '氨苄西林','AMP',(SELECT Count(*) FROM #DataTable WHERE AMP_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE AMP_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE AMP_NM = 3 ) ) 
+
+-- SAM_NM 氨苄西林/舒巴坦 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('SAM_NM',@OrganismId,@OrganismName,@OrganismCode, 98, '氨苄西林/舒巴坦','SAM',(SELECT Count(*) FROM #DataTable WHERE SAM_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE SAM_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE SAM_NM = 3 ) ) 
+
+-- ATM_NM 氨曲南 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('ATM_NM',@OrganismId,@OrganismName,@OrganismCode, 11, '氨曲南','ATM',(SELECT Count(*) FROM #DataTable WHERE ATM_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE ATM_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE ATM_NM = 3 ) ) 
+
+-- OXA_NM 苯唑西林 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('OXA_NM',@OrganismId,@OrganismName,@OrganismCode, 85, '苯唑西林','OXA',(SELECT Count(*) FROM #DataTable WHERE OXA_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE OXA_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE OXA_NM = 3 ) ) 
+
+-- POL_NM 多粘菌素B 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('POL_NM',@OrganismId,@OrganismName,@OrganismCode, 91, '多粘菌素B','POL',(SELECT Count(*) FROM #DataTable WHERE POL_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE POL_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE POL_NM = 3 ) ) 
+
+-- NIT_NM 呋喃妥因 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('NIT_NM',@OrganismId,@OrganismName,@OrganismCode, 80, '呋喃妥因','NIT',(SELECT Count(*) FROM #DataTable WHERE NIT_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE NIT_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE NIT_NM = 3 ) ) 
+
+-- SXT_NM 复方新诺明 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('SXT_NM',@OrganismId,@OrganismName,@OrganismCode, 105, '复方新诺明','SXT',(SELECT Count(*) FROM #DataTable WHERE SXT_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE SXT_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE SXT_NM = 3 ) ) 
+
+-- STH_NM 高浓度链霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('STH_NM',@OrganismId,@OrganismName,@OrganismCode, 101, '高浓度链霉素','STH',(SELECT Count(*) FROM #DataTable WHERE STH_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE STH_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE STH_NM = 3 ) ) 
+
+-- GEH_NM 高浓度链霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('GEH_NM',@OrganismId,@OrganismName,@OrganismCode, 101, '高浓度链霉素','STH',(SELECT Count(*) FROM #DataTable WHERE GEH_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE GEH_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE GEH_NM = 3 ) ) 
+
+-- ERY_NM 红霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('ERY_NM',@OrganismId,@OrganismName,@OrganismCode, 47, '红霉素','ERY',(SELECT Count(*) FROM #DataTable WHERE ERY_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE ERY_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE ERY_NM = 3 ) ) 
+
+-- MET_NM 甲氧西林 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('MET_NM',@OrganismId,@OrganismName,@OrganismCode, 71, '甲氧西林','MET',(SELECT Count(*) FROM #DataTable WHERE MET_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE MET_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE MET_NM = 3 ) ) 
+
+
+-- STR_NM 链霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('STR_NM',@OrganismId,@OrganismName,@OrganismCode, 103, '链霉素','STR',(SELECT Count(*) FROM #DataTable WHERE STR_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE STR_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE STR_NM = 3 ) ) 
+
+-- FOS_NM 磷霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('FOS_NM',@OrganismId,@OrganismName,@OrganismCode, 53, '磷霉素','FOS',(SELECT Count(*) FROM #DataTable WHERE FOS_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE FOS_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE FOS_NM = 3 ) ) 
+
+-- CHL_NM 氯霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CHL_NM',@OrganismId,@OrganismName,@OrganismCode, 22, '氯霉素','CHL',(SELECT Count(*) FROM #DataTable WHERE CHL_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE CHL_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CHL_NM = 3 ) ) 
+
+-- MEM_NM 美洛培南 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('MEM_NM',@OrganismId,@OrganismName,@OrganismCode, 69, '美洛培南','MEM',(SELECT Count(*) FROM #DataTable WHERE MEM_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE MEM_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE MEM_NM = 3 ) ) 
+
+-- MNO_NM 米诺环素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('MNO_NM',@OrganismId,@OrganismName,@OrganismCode, 76, '米诺环素','MNO',(SELECT Count(*) FROM #DataTable WHERE MNO_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE MNO_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE MNO_NM = 3 ) ) 
+
+-- MFX_NM 莫西沙星 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('MFX_NM',@OrganismId,@OrganismName,@OrganismCode, 73, '莫西沙星','MFX',(SELECT Count(*) FROM #DataTable WHERE MFX_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE MFX_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE MFX_NM = 3 ) ) 
+
+-- PIP_NM 哌拉西林 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('PIP_NM',@OrganismId,@OrganismName,@OrganismCode, 90, '哌拉西林','PIP',(SELECT Count(*) FROM #DataTable WHERE PIP_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE PIP_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE PIP_NM = 3 ) ) 
+
+-- TZP_NM 哌拉西林/他唑巴坦 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('TZP_NM',@OrganismId,@OrganismName,@OrganismCode, 119, '哌拉西林/他唑巴坦','TZP',(SELECT Count(*) FROM #DataTable WHERE TZP_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE TZP_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE TZP_NM = 3 ) ) 
+
+-- PEN_NM 青霉素G 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('PEN_NM',@OrganismId,@OrganismName,@OrganismCode, 88, '青霉素G','PEN',(SELECT Count(*) FROM #DataTable WHERE PEN_NM = 1 OR  PEN_NE = 1 OR PEN_ND10 = 1  ),(SELECT Count(*) FROM #DataTable WHERE PEN_NM = 2 OR  PEN_NE = 2 OR PEN_ND10 = 2  ) ,(SELECT Count(*) FROM #DataTable WHERE PEN_NM = 3 OR  PEN_NE = 3  OR PEN_ND10 = 3 ) ) 
+
+
+---- PEN_NE 青霉素G 
+--INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+--VALUES('PEN_NE',@OrganismId,@OrganismName,@OrganismCode, 88, '青霉素G','PEN',(SELECT Count(*) FROM #DataTable WHERE PEN_NE = 1 ),(SELECT Count(*) FROM #DataTable WHERE PEN_NE = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE PEN_NE = 3 ) ) 
+
+
+---- PEN_ND10 青霉素G 
+--INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+--VALUES('PEN_ND10',@OrganismId,@OrganismName,@OrganismCode, 88, '青霉素G','PEN',(SELECT Count(*) FROM #DataTable WHERE PEN_ND10 = 1  ),(SELECT Count(*) FROM #DataTable WHERE PEN_ND10 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE PEN_ND10 = 3 ) ) 
+
+
+
+-- GEN_NM 庆大霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('GEN_NM',@OrganismId,@OrganismName,@OrganismCode, 59, '庆大霉素','GEN',(SELECT Count(*) FROM #DataTable WHERE GEN_NM = 1 OR GEN_ND10 = 1  ),(SELECT Count(*) FROM #DataTable WHERE GEN_NM = 2 OR GEN_ND10 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE GEN_NM = 3 OR GEN_ND10 = 3  ) ) 
+
+
+---- GEN_ND10 庆大霉素 
+--INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+--VALUES('GEN_ND10',@OrganismId,@OrganismName,@OrganismCode, 59, '庆大霉素','GEN',(SELECT Count(*) FROM #DataTable WHERE GEN_ND10 = 1 ),(SELECT Count(*) FROM #DataTable WHERE GEN_ND10 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE GEN_ND10 = 3 ) ) 
+
+
+
+-- TCY_NM 四环素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('TCY_NM',@OrganismId,@OrganismName,@OrganismCode, 109, '四环素','TCY',(SELECT Count(*) FROM #DataTable WHERE TCY_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE TCY_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE TCY_NM = 3 ) ) 
+
+-- TCC_NM 替卡西林/克拉维酸 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('TCC_NM',@OrganismId,@OrganismName,@OrganismCode, 107, '替卡西林/克拉维酸','TCC',(SELECT Count(*) FROM #DataTable WHERE TCC_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE TCC_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE TCC_NM = 3 ) ) 
+
+-- TIC_NM 替卡西林 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('TIC_NM',@OrganismId,@OrganismName,@OrganismCode, 115, '替卡西林','TIC',(SELECT Count(*) FROM #DataTable WHERE TIC_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE TIC_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE TIC_NM = 3 ) ) 
+
+-- TEC_NM 替考拉宁 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('TEC_NM',@OrganismId,@OrganismName,@OrganismCode, 111, '替考拉宁','TEC',(SELECT Count(*) FROM #DataTable WHERE TEC_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE TEC_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE TEC_NM = 3 ) ) 
+
+-- TGC_NM 替加环素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('TGC_NM',@OrganismId,@OrganismName,@OrganismCode, 113, '替加环素','TGC',(SELECT Count(*) FROM #DataTable WHERE TGC_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE TGC_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE TGC_NM = 3 ) ) 
+
+-- FEP_NM 头孢吡肟 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('FEP_NM',@OrganismId,@OrganismName,@OrganismCode, 51, '头孢吡肟','FEP',(SELECT Count(*) FROM #DataTable WHERE FEP_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE FEP_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE FEP_NM = 3 ) ) 
+
+-- CXM_NM 头孢呋辛 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CXM_NM',@OrganismId,@OrganismName,@OrganismCode, 39, '头孢呋辛','CXM',(SELECT Count(*) FROM #DataTable WHERE CXM_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE CXM_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CXM_NM = 3 ) ) 
+
+-- CFP_NM 头孢哌酮 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CFP_NM',@OrganismId,@OrganismName,@OrganismCode, 19, '头孢哌酮','CFP',(SELECT Count(*) FROM #DataTable WHERE CFP_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE CFP_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CFP_NM = 3 ) ) 
+
+-- CSL_NM 头孢哌酮/舒巴坦 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CSL_NM',@OrganismId,@OrganismName,@OrganismCode, 33, '头孢哌酮/舒巴坦','CSL',(SELECT Count(*) FROM #DataTable WHERE CSL_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE CSL_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CSL_NM = 3 ) ) 
+
+-- CRO_NM 头孢曲松 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CRO_NM',@OrganismId,@OrganismName,@OrganismCode, 28, '头孢曲松','CRO',(SELECT Count(*) FROM #DataTable WHERE CRO_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE CRO_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CRO_NM = 3 ) ) 
+
+-- CTX_NM 头孢噻肟 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CTX_NM',@OrganismId,@OrganismName,@OrganismCode, 36, '头孢噻肟','CTX',(SELECT Count(*) FROM #DataTable WHERE CTX_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE CTX_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CTX_NM = 3 ) ) 
+
+-- CAZ_NM 头孢他啶 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CAZ_NM',@OrganismId,@OrganismName,@OrganismCode, 15, '头孢他啶','CAZ',(SELECT Count(*) FROM #DataTable WHERE CAZ_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE CAZ_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CAZ_NM = 3 ) ) 
+
+-- FOX_ND30 头孢西丁 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('FOX_ND30',@OrganismId,@OrganismName,@OrganismCode, 55, '头孢西丁','FOX',(SELECT Count(*) FROM #DataTable WHERE FOX_ND30 = 1  OR  FOX_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE FOX_ND30 = 2 OR FOX_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE FOX_ND30 = 3 OR FOX_NM = 3 ) ) 
+
+
+---- FOX_NM 头孢西丁 
+--INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+--VALUES('FOX_NM',@OrganismId,@OrganismName,@OrganismCode, 55, '头孢西丁','FOX',(SELECT Count(*) FROM #DataTable WHERE FOX_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE FOX_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE FOX_NM = 3 ) ) 
+
+-- CZO_NM 头孢唑啉 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CZO_NM',@OrganismId,@OrganismName,@OrganismCode, 41, '头孢唑啉','CZO',(SELECT Count(*) FROM #DataTable WHERE CZO_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE CZO_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CZO_NM = 3 ) ) 
+
+-- TOB_NM 妥布霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('TOB_NM',@OrganismId,@OrganismName,@OrganismCode, 117, '妥布霉素','TOB',(SELECT Count(*) FROM #DataTable WHERE TOB_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE TOB_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE TOB_NM = 3 ) ) 
+
+-- VAN_ND30 万古霉素 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('VAN_ND30',@OrganismId,@OrganismName,@OrganismCode, 121, '万古霉素','VAN',(SELECT Count(*) FROM #DataTable WHERE VAN_ND30 = 1 OR VAN_NM = 1 OR VAN_NE = 1 ),(SELECT Count(*) FROM #DataTable WHERE VAN_ND30 = 2 OR VAN_NM = 2  OR VAN_NE = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE VAN_ND30 = 3 OR VAN_NM = 3 OR VAN_NE = 3 ) ) 
+
+
+---- VAN_NM 万古霉素 
+--INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+--VALUES('VAN_NM',@OrganismId,@OrganismName,@OrganismCode, 121, '万古霉素','VAN',(SELECT Count(*) FROM #DataTable WHERE VAN_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE VAN_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE VAN_NM = 3 ) ) 
+
+-- VAN_NE 万古霉素 
+--INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+--VALUES('VAN_NE',@OrganismId,@OrganismName,@OrganismCode, 121, '万古霉素','VAN',(SELECT Count(*) FROM #DataTable WHERE VAN_NE = 1 ),(SELECT Count(*) FROM #DataTable WHERE VAN_NE = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE VAN_NE = 3 ) ) 
+
+-- IPM_NM 亚胺培南 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('IPM_NM',@OrganismId,@OrganismName,@OrganismCode, 62, '亚胺培南','IPM',(SELECT Count(*) FROM #DataTable WHERE IPM_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE IPM_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE IPM_NM = 3 ) ) 
+
+-- LVX_NM 左旋氧氟沙星 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('LVX_NM',@OrganismId,@OrganismName,@OrganismCode, 66, '左旋氧氟沙星','LVX',(SELECT Count(*) FROM #DataTable WHERE LVX_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE LVX_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE LVX_NM = 3 ) ) 
+
+-- CTX_NE 头孢噻肟 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CTX_NE',@OrganismId,@OrganismName,@OrganismCode, 36, '头孢噻肟','CTX',(SELECT Count(*) FROM #DataTable WHERE CTX_NE = 1 ),(SELECT Count(*) FROM #DataTable WHERE CTX_NE = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CTX_NE = 3 ) ) 
+
+-- CSL_ND75 头孢哌酮/舒巴坦 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CSL_ND75',@OrganismId,@OrganismName,@OrganismCode, 33, '头孢哌酮/舒巴坦','CSL',(SELECT Count(*) FROM #DataTable WHERE CSL_ND75 = 1 ),(SELECT Count(*) FROM #DataTable WHERE CSL_ND75 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CSL_ND75 = 3 ) ) 
+
+-- AMX_ND30 阿莫西林 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('AMX_ND30',@OrganismId,@OrganismName,@OrganismCode, 9, '阿莫西林','AMX',(SELECT Count(*) FROM #DataTable WHERE AMX_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE AMX_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE AMX_ND30 = 3 ) ) 
+
+-- ETP_ND10 厄他培南 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('ETP_ND10',@OrganismId,@OrganismName,@OrganismCode, 50, '厄他培南','ETP',(SELECT Count(*) FROM #DataTable WHERE ETP_ND10 = 1 ),(SELECT Count(*) FROM #DataTable WHERE ETP_ND10 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE ETP_ND10 = 3 ) ) 
+
+-- ETP_NM 厄他培南 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('ETP_NM',@OrganismId,@OrganismName,@OrganismCode, 50, '厄他培南','ETP',(SELECT Count(*) FROM #DataTable WHERE ETP_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE ETP_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE ETP_NM = 3 ) ) 
+
+-- CTT_ND30 头孢替坦 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CTT_ND30',@OrganismId,@OrganismName,@OrganismCode, 35, '头孢替坦','CTT',(SELECT Count(*) FROM #DataTable WHERE CTT_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE CTT_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CTT_ND30 = 3 ) ) 
+
+-- CTT_NM 头孢替坦 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('CTT_NM',@OrganismId,@OrganismName,@OrganismCode, 35, '头孢替坦','CTT',(SELECT Count(*) FROM #DataTable WHERE CTT_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE CTT_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE CTT_NM = 3 ) ) 
+
+-- DOR_ND10 多尼培南 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('DOR_ND10',@OrganismId,@OrganismName,@OrganismCode, 44, '多尼培南','DOR',(SELECT Count(*) FROM #DataTable WHERE DOR_ND10 = 1 ),(SELECT Count(*) FROM #DataTable WHERE DOR_ND10 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE DOR_ND10 = 3 ) ) 
+
+-- DOR_NM 多尼培南 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('DOR_NM',@OrganismId,@OrganismName,@OrganismCode, 44, '多尼培南','DOR',(SELECT Count(*) FROM #DataTable WHERE DOR_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE DOR_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE DOR_NM = 3 ) ) 
+
+-- NET_ND30 奈替米星 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('NET_ND30',@OrganismId,@OrganismName,@OrganismCode, 78, '奈替米星','NET',(SELECT Count(*) FROM #DataTable WHERE NET_ND30 = 1 ),(SELECT Count(*) FROM #DataTable WHERE NET_ND30 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE NET_ND30 = 3 ) ) 
+
+-- NET_NM 奈替米星 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('NET_NM',@OrganismId,@OrganismName,@OrganismCode, 78, '奈替米星','NET',(SELECT Count(*) FROM #DataTable WHERE NET_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE NET_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE NET_NM = 3 ) ) 
+
+-- QDA_ND15 奎奴普丁/达福普汀 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('QDA_ND15',@OrganismId,@OrganismName,@OrganismCode, 94, '奎奴普丁/达福普汀','QDA',(SELECT Count(*) FROM #DataTable WHERE QDA_ND15 = 1 ),(SELECT Count(*) FROM #DataTable WHERE QDA_ND15 = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE QDA_ND15 = 3 ) ) 
+
+-- QDA_NM 奎奴普丁/达福普汀 
+INSERT INTO #ResultTable ( FieldName,OrganismId, OrganismName, OrganismCode,AntibioticId,AntibioticName,AntibioticCode, SensitiveCount,IntermediaryCount,ResistanceCount ) 
+VALUES('QDA_NM',@OrganismId,@OrganismName,@OrganismCode, 94, '奎奴普丁/达福普汀','QDA',(SELECT Count(*) FROM #DataTable WHERE QDA_NM = 1 ),(SELECT Count(*) FROM #DataTable WHERE QDA_NM = 2 ) ,(SELECT Count(*) FROM #DataTable WHERE QDA_NM = 3 ) ) 
+
+
+--CCV_NM  CCV_NM，
+--CTC_NM  CTC_NM，
+--MFX_ND  MFX_ND，
+--DAP_NM  DAP_NM，
+
+
+ SELECT *,(SensitiveCount+IntermediaryCount+ResistanceCount) AS DataCount FROM  #ResultTable WHERE  SensitiveCount>0 OR IntermediaryCount>0 OR  ResistanceCount>0  ORDER BY AntibioticId 
+
+ DROP TABLE #DataTable
+ DROP TABLE #ResultTable
+
+
+
+GO
+
+

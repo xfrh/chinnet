@@ -1,0 +1,221 @@
+﻿@using ManageSystem.Services.Products
+@using ManageSystem.Web.Models.Products
+@model ProductModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "积分兑换";
+}
+
+<script src="~/Content/Scripts/CloudZoom/cloudzoom.js"></script>
+<script src="~/Content/Scripts/CloudZoom/thumbelina.js"></script>
+<link href="~/Content/Scripts/CloudZoom/cloudzoom.css" rel="stylesheet" />
+<link href="~/Content/Scripts/CloudZoom/thumbelina.css" rel="stylesheet" />
+
+<style type="text/css">
+    .product-img-ul {
+        width: 100%;
+        float: left;
+    }
+
+        .product-img-ul li {
+            float: left;
+            width: 75px;
+            height: 75px;
+            margin-right: 25px;
+        }
+
+            .product-img-ul li img {
+                cursor: pointer;
+            }
+
+    #surround {
+        width: 440px;
+        text-align: center;
+        float: left;
+    }
+
+    img.cloudzoom {
+        width: 100%;
+    }
+
+    #slider1 {
+        margin-left: 20px;
+        margin-right: 20px;
+        position: relative;
+        float: left;
+        padding-top: 10px;
+    }
+
+    .dispalyinlineblock {
+        text-decoration: none;
+    }
+</style>
+
+<script type="text/javascript">
+    CloudZoom.quickStart();
+</script>
+
+
+
+<div class="mbx">
+    <p>当前位置：首页 &gt; 积分兑换 </p>
+</div>
+
+@{
+    if (Model == null || Model.Id <= 0)
+    {
+        <p>商品不存在</p>
+    }
+    else
+    {
+        <div class="center_keyan">
+            <div class="jf">
+                <div id="surround">
+                    <img class="cloudzoom" alt="Cloud Zoom small image" id="zoom1" style="width:400px;height:400px;" src="@(ProductExtensions.GetProductImage(Model.ProductImage))" data-cloudzoom='zoomSizeMode:"image",autoInside:550'>
+
+                    <div id="slider1">
+                        <ul class="product-img-ul">
+                            @{
+                                if (Model.ProductImageList != null && Model.ProductImageList.Any())
+                                {
+                                    foreach (var item in Model.ProductImageList)
+                                    {
+                                        if (string.IsNullOrWhiteSpace(item.Path))
+                                        {
+                                            continue;
+                                        }
+                                        <li>
+                                            <img class='cloudzoom-gallery' src="@(ProductExtensions.GetProductImage(item.Path))" style="width:80px; height:80px;"
+                                                 data-cloudzoom="useZoom:'.cloudzoom', image:'@(ProductExtensions.GetProductImage(item.Path))' ">
+                                        </li>
+                                    }
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                <ul class="cen">
+                    <li>
+                        <h2>@Model.Name</h2>
+                    </li>
+                    <li>
+                        积分：
+                        <a href="javascript:;" class="active">@Model.MarketPrice</a>
+                        <br> 商品编码：@Model.Code
+                    </li>
+                    <li>
+                        选择数量：
+                        <div>
+                            <a class="sub_bt dispalyinlineblock fl" href="javascript:void(0);" onclick="ChangeAmount(-1);">-</a>
+                            <input class="dispalyinlineblock input_text fl" id="shopInventory" style="width:50px;" type="text" value="1" maxlength="1000" onblur="CheckCount();" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                            <a class="add_bt dispalyinlineblock fl" href="javascript:void(0);" onclick="ChangeAmount(1);">+</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="exchange_now_bt dispalyinlineblock" href="javascript:Conversion()">立即兑换</a>
+                        <a class="exchange_donation dispalyinlineblock" href="javascript:AddCart();">加入购物车</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="jf_txt">
+                <ul>
+                    <li class="active">商品信息</li>
+                </ul>
+                <div class="product-content" style="padding:10px; overflow:hidden;">
+                    @Html.Raw(Model.Content)
+                </div>
+            </div>
+        </div>
+           }
+}
+
+<input type="hidden"  id="ProductId" value="@Model.Id.ToString()" />
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".product-content img").addClass("img-responsive center-block");
+    });
+
+    //添加 或者减少购买数量
+    function ChangeAmount(count) {
+        CheckCount();
+
+        var value = $("#shopInventory").val();
+        $("#shopInventory").val(parseInt(value) + parseInt(count));
+
+        CheckCount();
+    }
+
+    //检查输入的购买数量是否合法
+    function CheckCount() {
+        var count = $("#shopInventory").val();
+        if (!IsPositiveInteger(count) || parseInt(count) > 100000 || parseInt(count) <= 0) {
+            $("#shopInventory").val(1);
+        }
+    }
+
+
+    //添加购物车
+    function AddCart()
+    {
+        $.ajax({
+            url: "/Mall/AddCart",
+            type: "Post",
+            dataType: "json",
+            data: {
+                ProductId: $("#ProductId").val(),
+                Count: $("#shopInventory").val()
+            },
+            success: function (json) {
+
+                if (json == null || json == "")
+                {
+                    ErrorWindow("数据错误，请刷新重试！", true, "");
+                    return;
+                }
+
+                if (json.status == "true") {
+                    SuccessWindow("添加购物车成功！", false, "");
+                    return;
+                } else {
+                    ErrorWindow(json.message, false, "");
+                }
+                
+            }
+        });
+    }
+
+    
+    //立即兑换
+    function Conversion() {
+        $.ajax({
+            url: "/Mall/AddCart",
+            type: "Post",
+            dataType: "json",
+            data: {
+                ProductId: $("#ProductId").val(),
+                Count: $("#shopInventory").val()
+            },
+            success: function (json) {
+
+                if (json == null || json == "") {
+                    ErrorWindow("数据错误，请刷新重试！", true, "");
+                    return;
+                }
+
+                if (json.status == "true") {
+                    location.href = '/Mall/Cart';
+                    return;
+                } else {
+                    ErrorWindow(json.message, false, "");
+                }
+
+            }
+        });
+    }
+
+</script>
+

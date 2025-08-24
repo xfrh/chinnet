@@ -1,0 +1,237 @@
+﻿@using ManageSystem.Admin.Models.Medicine
+@model HospitalWardLocationModel
+@{
+    ViewBag.Title = "新增医院科室配置";
+    IEnumerable<SelectListItem> hospitalList = ViewData["HospitalList"] as IEnumerable<SelectListItem>;
+    var _hospitalList = hospitalList.ToList();
+    _hospitalList.Insert(0, new SelectListItem { Value = "", Text = "" });
+    hospitalList = _hospitalList;
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "医学信息", SecondName = "医院科室管理", LocationName = this.ViewBag.Title }); }
+}
+
+@section HeadSection{
+    <link href="~/Content/Scripts/layui-v2.5.4/css/layui.css" rel="stylesheet" />
+    <link href="~/Content/Scripts/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="~/Content/Scripts/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+    <style>
+        .layui-input {
+            height: 34px;
+        }
+
+        .layui-form-select dl dd.layui-this {
+            background-color: #2dc3e8;
+        }
+
+        div.chinets-chosen {
+            width: calc(80% + 26px) !important;
+        }
+
+        .chinets-chosen .chosen-single {
+            -webkit-border-radius: 0 !important;
+            -webkit-background-clip: padding-box !important;
+            -moz-border-radius: 0 !important;
+            -moz-background-clip: padding !important;
+            border-radius: 0 !important;
+            background-clip: padding-box !important;
+            color: #858585;
+            background-color: #fbfbfb;
+            border: 1px solid #d5d5d5;
+            font-family: inherit;
+            -webkit-transition: -webkit-box-shadow .45s,border-color .45s ease-in-out;
+            -moz-transition: -moz-box-shadow .45s,border-color .45s ease-in-out;
+            -o-transition: box-shadow .45s,border-color .45s ease-in-out;
+            transition: box-shadow .45s,border-color .45s ease-in-out;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+            padding: 6px 12px;
+            display: block;
+            height: 20px;
+            line-height: 20px;
+            background-image: none;
+            box-sizing: content-box;
+        }
+
+        .chosen-container-single .chosen-single abbr {
+            top: 10px;
+            right: 22px;
+        }
+
+        .chosen-container-single .chosen-single div b {
+            background-position-x: 2px;
+            background-position-y: 7px;
+        }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div b {
+            background-position: -16px 7px;
+        }
+
+        .chosen-container-single .chosen-search input[type=text] {
+            -webkit-border-radius: 0 !important;
+            -webkit-background-clip: padding-box !important;
+            -moz-border-radius: 0 !important;
+            -moz-background-clip: padding !important;
+            border-radius: 0 !important;
+            background-clip: padding-box !important;
+            color: #858585;
+            background-color: #fbfbfb;
+            border: 1px solid #d5d5d5;
+            font-family: inherit;
+            -webkit-transition: -webkit-box-shadow .45s,border-color .45s ease-in-out;
+            -moz-transition: -moz-box-shadow .45s,border-color .45s ease-in-out;
+            -o-transition: box-shadow .45s,border-color .45s ease-in-out;
+            transition: box-shadow .45s,border-color .45s ease-in-out;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+            padding: 6px 20px 6px 5px;
+            height: 28px;
+            line-height: 20px;
+            background-image: none;
+            box-sizing: border-box;
+        }
+    </style>
+}
+
+@using (Html.BeginForm("HospitalWardLocationCreate", "Medicine", FormMethod.Post, new { id = "HWLItemCreateForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="page-body">
+        <div class="row add-page">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget ">
+                    <div class="widget-header add-page-titlebox ">
+                        <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                    </div>
+                    <div class="widget-body " id="BaseDiv" runat="server">
+                        <div class="options add-page-options">
+                            <input type="submit" name="save" class="btn btn-blue" value="保存" />
+                            <a class="btn btn-default" href="@Url.Action("HospitalWardLocationList")">返回</a>
+                        </div>
+                        <div class="add-content ">
+                            <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                                <table class="adminContent">
+                                    <tr>
+                                        <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+                                        <td class="adminData">
+                                            @*@Html.DropDownList("DropHospitalList", hospitalList, new { @class = "chinets-chosen", name = "HospitalID", data_val = "true", data_val_required = "" })*@
+                                            @Html.DropDownListFor(m => m.HospitalID, hospitalList, new { @class = "chinets-chosen" })
+                                            @Html.ValidationMessageFor(m => m.HospitalID)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminTitle">@Html.NopLabelFor(m => m.Ward)：</td>
+                                        <td class="adminData">
+                                            @Html.EditorFor(m => m.Ward, new { htmlAttributes = new { data_val = "true", data_val_required = "Ward不能为空！" } })
+                                            @Html.ValidationMessageFor(m => m.Ward)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminTitle">@Html.NopLabelFor(m => m.Department)：</td>
+                                        <td class="adminData">
+                                            @Html.EditorFor(m => m.Department, new { htmlAttributes = new { data_val = "true", data_val_required = "Department不能为空！" } })
+                                            @Html.ValidationMessageFor(m => m.Department)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminTitle">@Html.NopLabelFor(m => m.Location)：</td>
+                                        <td class="adminData">
+                                            @Html.EditorFor(m => m.Location, new { htmlAttributes = new { data_val = "true", data_val_required = "Location不能为空！" } })
+                                            @Html.ValidationMessageFor(m => m.Location)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminTitle">@Html.NopLabelFor(m => m.LocationType)：</td>
+                                        <td class="adminData">
+                                            @Html.EditorFor(m => m.LocationType, new { htmlAttributes = new { data_val = "true", data_val_required = "Location_Type不能为空！" } })
+                                            @Html.ValidationMessageFor(m => m.LocationType)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <div class="well bordered-left bordered-yellow" style="padding: 12px 10px 5px; margin-top: 0.875rem; width: calc(80% + 24px);">
+                                                <p><strong>温馨提示：</strong></p>
+                                                <p>
+                                                    <strong class="text-danger">添加更多科室配置请前往“医学信息 > 医院科室管理”，查到到指定医院后点击操作栏中的“查看”</strong>
+                                                </p>
+                                                <p style="margin-top: 20px;"><strong>填写说明：</strong></p>
+                                                <p>
+                                                    <strong>Department</strong>: WHONET对应的 "专业类别"
+                                                </p>
+                                                <p>
+                                                    <strong>Location</strong>: WHONET对应的 "科室"
+                                                </p>
+                                                <p>
+                                                    <strong>Location_Type</strong>: WHONET对应的 "科室类别"
+                                                </p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section FooterSection{
+    <script src="~/Content/Scripts/toastr/toastr.js"></script>
+    <script src="~/Content/Scripts/underscore-min.js"></script>
+    <script src="~/Content/Scripts/underscore.string.min.js"></script>
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/layui-v2.5.4/layui.js"></script>
+    <script src="~/Content/Scripts/chosen/chosen.jquery.min.js"></script>
+    <script>
+        $.validator.setDefaults({
+            onkeyup: function (element) {
+                this.element(element);
+            },
+            onfocusout: function (element) {
+                this.element(element);
+            },
+            onfocusin: function (element, event) {
+                //找到显示错误提示的标签并移除,针对jquery.validate.unobtrusive
+                var errorElement = $(element).next('span.field-validation-error');
+                if (errorElement) {
+                    //errorElement.children().remove();
+                }
+            },
+            submitHandler: function (form) {
+
+                //return false;
+                form.submit();
+            }
+        });
+
+        $('#HospitalID').chosen({
+            no_results_text: '没有找到与之匹配的医院',
+            search_contains: true,
+            allow_single_deselect: true,
+            inherit_select_classes: true,
+            placeholder_text_single: '请输入或选择医院'
+        });
+
+        $('#HospitalID').css({
+            'display': 'block',
+            'width': '1px',
+            'height': '1px',
+            'position': 'absolute',
+            'left': '-1000rem'
+        });
+
+        $("#HospitalID").chosen().change(function () {
+            $(this).valid();
+        });
+    </script>
+}

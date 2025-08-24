@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "简介";
+    Layout = "~/Areas/CRE/Views/Shared/_MainLayout.cshtml";
+}
+
+<div id="app" v-cloak class="indexpage">
+    <div ref="middle" class="middle">
+        <div ref="pageSwiper" class="swiper-container scroll">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide slidescroll">                 
+                    <section class="about-container" style="margin-top: 0.5rem;">
+                        <h4>中国CRE 检测能力提升及合理用药公益教育项目（MIC 项目）</h4>
+                        <article class="fon-28 padding-20 " style=" padding: .26rem;">
+                            耐碳青霉烯类肠杆菌科细菌（CRE）感染已被WHO列为最重要的“紧迫”公共健康威胁之一，其检出率在全球范围内呈逐年增高趋势， 中国CHINET数据显示，2005-2018年CRE耐药率快速升高8倍。近50%的医院患者因CRE细菌感染而死亡，临床抗感染治疗常面临无药可用的困境，成为中国乃至世界最重要的公共卫生问题之一。基于此，中国初级卫生保健基金会联合复旦大学附属华山医院抗生素研究所共同发起，由中国CHINET及上海市微生物学会微生物耐药防控专委会指导的“中国CRE检测能力提升及合理用药公益教育项目（MIC项目）”。旨在通过对中国CRE高发的前300家医院的微生物工作人员进行CRE常见抗菌药物药敏标准化操作培训，普及CRE耐碳青霉烯酶检测方法，辅助临床科室CRE筛查与防控，提升CRE检测能力。也将建立中国CRE专项监测数据云平台，形成CRE中耐碳青霉烯酶全国热力图分布，以及常见抗菌药物耐药监测数据，从而指导临床对于耐药菌治疗合理选择用药。
+                        </article>
+                    </section>                                      
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_FooterNavBar", "简介")
+</div>
+
+@section Styles{
+    <link href="~/Content/Css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Home/Index.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+    <script src="~/Content/Scripts/Echarts/bmap.js"></script>
+    <script src="~/Content/Scripts/Echarts/china.js"></script>
+    <script src="~/Content/Scripts/swiper/swiper.min.js"></script>
+    <script src="~/Content/Scripts/Home/Index.js?v=1.0.0"></script>
+}

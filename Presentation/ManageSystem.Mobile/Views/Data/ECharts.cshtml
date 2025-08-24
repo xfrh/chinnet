@@ -1,0 +1,875 @@
+﻿
+@{
+    ViewBag.Title = "首页";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div id="app" v-cloak class="indexpage">
+    <div id="header" class="header flex padding-tb-20 fon-30 bold f-around">
+        <div @@click="layerHeatMap">热图</div>
+        <div @@click="layerGermBar">柱状图</div>
+        <div @@click="layerGermYear">趋势图</div>
+    </div>
+    <div ref="middle" class="middle">
+
+        <!--热图-->
+        <div id="heatmap-container" v-show="HeatMap.Show" ref="HeatMapSwiperContainer" class="swiper-container scroll">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2005.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2005.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药肺炎克雷伯菌（CRKP）的检出率<small class="text-maroon">2005年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2006.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2006.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药肺炎克雷伯菌（CRKP）的检出率<small class="text-maroon">2006年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2007.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2007.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药肺炎克雷伯菌（CRKP）的检出率<small class="text-maroon">2007年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2008.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2008.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药肺炎克雷伯菌（CRKP）的检出率<small class="text-maroon">2008年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2009.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2009.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药肺炎克雷伯菌（CRKP）的检出率<small class="text-maroon">2009年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2010.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2010.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药肺炎克雷伯菌（CRKP）的检出率<small class="text-maroon">2010年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2011.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2011.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药肺炎克雷伯菌（CRKP）的检出率<small class="text-maroon">2011年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2012.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2012.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药肺炎克雷伯菌（CRKP）的检出率<small class="text-maroon">2012年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2013.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2013.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药肺炎克雷伯菌（CRKP）的检出率<small class="text-maroon">2013年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2014.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2014.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药肺炎克雷伯菌（CRKP）的检出率<small class="text-maroon">2014年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2015.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2015.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药肺炎克雷伯菌（CRKP）的检出率<small class="text-maroon">2015年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2016.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2016.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药肺炎克雷伯菌（CRKP）的检出率<small class="text-maroon">2016年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2017.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2017.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药肺炎克雷伯菌（CRKP）的检出率<small class="text-maroon">2017年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2005.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2005.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药铜绿假单胞菌（CRKP）的检出率<small class="text-maroon">2005年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2006.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2006.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药铜绿假单胞菌（CRKP）的检出率<small class="text-maroon">2006年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2007.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2007.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药铜绿假单胞菌（CRKP）的检出率<small class="text-maroon">2007年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2008.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2008.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药铜绿假单胞菌（CRKP）的检出率<small class="text-maroon">2008年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2009.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2009.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药铜绿假单胞菌（CRKP）的检出率<small class="text-maroon">2009年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2010.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2010.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药铜绿假单胞菌（CRKP）的检出率<small class="text-maroon">2010年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2011.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2011.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药铜绿假单胞菌（CRKP）的检出率<small class="text-maroon">2011年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2012.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2012.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药铜绿假单胞菌（CRKP）的检出率<small class="text-maroon">2012年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2013.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2013.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药铜绿假单胞菌（CRKP）的检出率<small class="text-maroon">2013年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2014.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2014.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药铜绿假单胞菌（CRKP）的检出率<small class="text-maroon">2014年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2015.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2015.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药铜绿假单胞菌（CRKP）的检出率<small class="text-maroon">2015年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2016.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2016.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药铜绿假单胞菌（CRKP）的检出率<small class="text-maroon">2016年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2017.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2017.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药铜绿假单胞菌（CRKP）的检出率<small class="text-maroon">2017年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2005.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2005.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药鲍曼不动杆菌（CRKP）的检出率<small class="text-maroon">2005年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2006.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2006.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药鲍曼不动杆菌（CRKP）的检出率<small class="text-maroon">2006年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2007.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2007.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药鲍曼不动杆菌（CRKP）的检出率<small class="text-maroon">2007年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2008.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2008.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药鲍曼不动杆菌（CRKP）的检出率<small class="text-maroon">2008年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2009.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2009.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药鲍曼不动杆菌（CRKP）的检出率<small class="text-maroon">2009年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2010.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2010.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药鲍曼不动杆菌（CRKP）的检出率<small class="text-maroon">2010年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2011.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2011.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药鲍曼不动杆菌（CRKP）的检出率<small class="text-maroon">2011年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2012.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2012.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药鲍曼不动杆菌（CRKP）的检出率<small class="text-maroon">2012年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2013.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2013.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药鲍曼不动杆菌（CRKP）的检出率<small class="text-maroon">2013年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2014.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2014.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药鲍曼不动杆菌（CRKP）的检出率<small class="text-maroon">2014年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2015.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2015.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药鲍曼不动杆菌（CRKP）的检出率<small class="text-maroon">2015年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2016.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2016.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药鲍曼不动杆菌（CRKP）的检出率<small class="text-maroon">2016年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide slidescroll">
+                    <div class="map-container flex flex-center">
+                        <div class="my-gallery" data-pswp-uid="1">
+                            <figure>
+                                <div class="img-dv">
+                                    <a href="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2017.jpg" data-size="2500x1875">
+                                        <img src="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2017.jpg" alt="" draggable="false" />
+                                    </a>
+                                    <div class="fon-24 text-center margin-t-10">各省市碳青霉烯类耐药鲍曼不动杆菌（CRKP）的检出率<small class="text-maroon">2017年</small></div>
+                                </div>
+                                <figcaption style="display:none;"></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 柱状图 -->
+        <div id="germbar-container" ref="GermBarSwiperContainer" v-show="GermBar.Show" class="swiper-container scroll" style="display: none;">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide slidescroll">
+                    <div style="width: 100%; display: block; overflow: hidden;" class="chart-content">
+                        <div class="germyear-pagecontenttitle" v-text="GermBar.PageContentTitle"></div>
+                        <div style="font-size: 0.35rem; text-align: center;  margin-bottom: 10px;">（CHINET 2017）</div>
+                        <div ref="GermBarChart" id="GermBarChart" style="overflow: hidden; width: 95%; margin: 0 auto; min-height: 10rem; display: block; margin-bottom: 0px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--趋势图-->
+        <div id="germyear-container" ref="GermYearSwiperContainer" v-show="GermYear.Show" class="swiper-container scroll" style="display: none;">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide slidescroll">
+                    <div style="width: 100%; display: block; overflow: hidden;" class="chart-content">
+                        <div class="germyear-pagecontenttitle" v-text="GermYear.PageContentTitle"></div>
+                        <div ref="GermYearChart" id="GermYearChart" style="overflow: hidden; width: 95%; margin: 0 auto; min-height: 10rem; display: block; margin-bottom: 0px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ref="HeatMapActionsheet" id="HeatMapActionsheet" class="weui-skin_android" style="display: none">
+        <div class="weui-mask"></div>
+        <div class="weui-actionsheet">
+            <div class="weui-actionsheet__menu">
+                <div ref="HeatMapActionsheetSwiper" class="swiper-container scroll">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide slidescroll">
+                            <div class="germ-year">
+                                <h4 class="">各省市碳青霉烯类耐药肺炎克雷伯菌（CRKP）的检出率</h4>
+                                <ul class="flex list-group">
+                                    <li @@click="onSetHeatMap(0)" data-slide="0" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2005.jpg" class="germ-li year-select text-center active">2005年</li>
+                                    <li @@click="onSetHeatMap(1)" data-slide="1" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2006.jpg" class="germ-li year-select text-center">2006年</li>
+                                    <li @@click="onSetHeatMap(2)" data-slide="2" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2007.jpg" class="germ-li year-select text-center">2007年</li>
+                                    <li @@click="onSetHeatMap(3)" data-slide="3" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2008.jpg" class="germ-li year-select text-center">2008年</li>
+                                    <li @@click="onSetHeatMap(4)" data-slide="4" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2009.jpg" class="germ-li year-select text-center">2009年</li>
+                                    <li @@click="onSetHeatMap(5)" data-slide="5" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2010.jpg" class="germ-li year-select text-center">2010年</li>
+                                    <li @@click="onSetHeatMap(6)" data-slide="6" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2011.jpg" class="germ-li year-select text-center">2011年</li>
+                                    <li @@click="onSetHeatMap(7)" data-slide="7" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2012.jpg" class="germ-li year-select text-center">2012年</li>
+                                    <li @@click="onSetHeatMap(8)" data-slide="8" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2013.jpg" class="germ-li year-select text-center">2013年</li>
+                                    <li @@click="onSetHeatMap(9)" data-slide="9" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2014.jpg" class="germ-li year-select text-center">2014年</li>
+                                    <li @@click="onSetHeatMap(10)" data-slide="10" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2015.jpg" class="germ-li year-select text-center">2015年</li>
+                                    <li @@click="onSetHeatMap(11)" data-slide="11" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2016.jpg" class="germ-li year-select text-center">2016年</li>
+                                    <li @@click="onSetHeatMap(12)" data-slide="12" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2017.jpg" class="germ-li year-select text-center">2017年</li>
+                                </ul>
+                            </div>
+                            <div class="germ-year">
+                                <h4 class="">各省市碳青霉烯类耐药铜绿假单胞菌（CRPA）的检出率</h4>
+                                <ul class="flex list-group">
+                                    <li @@click="onSetHeatMap(13)" data-slide="13" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2005.jpg" class="germ-li year-select text-center">2005年</li>
+                                    <li @@click="onSetHeatMap(14)" data-slide="14" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2006.jpg" class="germ-li year-select text-center">2006年</li>
+                                    <li @@click="onSetHeatMap(15)" data-slide="15" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2007.jpg" class="germ-li year-select text-center">2007年</li>
+                                    <li @@click="onSetHeatMap(16)" data-slide="16" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2008.jpg" class="germ-li year-select text-center">2008年</li>
+                                    <li @@click="onSetHeatMap(17)" data-slide="17" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2009.jpg" class="germ-li year-select text-center">2009年</li>
+                                    <li @@click="onSetHeatMap(18)" data-slide="18" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2010.jpg" class="germ-li year-select text-center">2010年</li>
+                                    <li @@click="onSetHeatMap(19)" data-slide="19" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2011.jpg" class="germ-li year-select text-center">2011年</li>
+                                    <li @@click="onSetHeatMap(20)" data-slide="20" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2012.jpg" class="germ-li year-select text-center">2012年</li>
+                                    <li @@click="onSetHeatMap(21)" data-slide="21" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2013.jpg" class="germ-li year-select text-center">2013年</li>
+                                    <li @@click="onSetHeatMap(22)" data-slide="22" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2014.jpg" class="germ-li year-select text-center">2014年</li>
+                                    <li @@click="onSetHeatMap(23)" data-slide="23" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2015.jpg" class="germ-li year-select text-center">2015年</li>
+                                    <li @@click="onSetHeatMap(24)" data-slide="24" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2016.jpg" class="germ-li year-select text-center">2016年</li>
+                                    <li @@click="onSetHeatMap(25)" data-slide="25" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2017.jpg" class="germ-li year-select text-center">2017年</li>
+                                </ul>
+                            </div>
+                            <div class="germ-year">
+                                <h4 class="">各省市碳青霉烯类耐药鲍曼不动杆菌（CRAB）的检出率</h4>
+                                <ul class="flex list-group no-border">
+                                    <li @@click="onSetHeatMap(26)" data-slide="26" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2005.jpg" class="germ-li year-select text-center">2005年</li>
+                                    <li @@click="onSetHeatMap(27)" data-slide="27" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2006.jpg" class="germ-li year-select text-center">2006年</li>
+                                    <li @@click="onSetHeatMap(28)" data-slide="28" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2007.jpg" class="germ-li year-select text-center">2007年</li>
+                                    <li @@click="onSetHeatMap(29)" data-slide="29" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2008.jpg" class="germ-li year-select text-center">2008年</li>
+                                    <li @@click="onSetHeatMap(30)" data-slide="30" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2009.jpg" class="germ-li year-select text-center">2009年</li>
+                                    <li @@click="onSetHeatMap(31)" data-slide="31" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2010.jpg" class="germ-li year-select text-center">2010年</li>
+                                    <li @@click="onSetHeatMap(32)" data-slide="32" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2011.jpg" class="germ-li year-select text-center">2011年</li>
+                                    <li @@click="onSetHeatMap(33)" data-slide="33" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2012.jpg" class="germ-li year-select text-center">2012年</li>
+                                    <li @@click="onSetHeatMap(34)" data-slide="34" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2013.jpg" class="germ-li year-select text-center">2013年</li>
+                                    <li @@click="onSetHeatMap(35)" data-slide="35" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2014.jpg" class="germ-li year-select text-center">2014年</li>
+                                    <li @@click="onSetHeatMap(36)" data-slide="36" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2015.jpg" class="germ-li year-select text-center">2015年</li>
+                                    <li @@click="onSetHeatMap(37)" data-slide="37" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2016.jpg" class="germ-li year-select text-center">2016年</li>
+                                    <li @@click="onSetHeatMap(38)" data-slide="38" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2017.jpg" class="germ-li year-select text-center">2017年</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ref="GermBarActionsheet" id="GermBarActionsheet" class="weui-skin_android" style="display: none">
+        <div class="weui-mask"></div>
+        <div class="weui-actionsheet">
+            <div class="weui-actionsheet__menu">
+                <div ref="GermBarActionsheetSwiper" class="swiper-container scroll">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide slidescroll">
+                            <div class="germ-bar__class">
+                                <h4 class="germ-bar__header">细菌分类</h4>
+                                <ul class="flex list-group">
+                                    @foreach (string item in ViewBag.GermList)
+                                    {
+                                        <li @@click="onSelectGermClass" data-status="0" data-name="@item" class="germ-li date-item-va text-left">@item</li>
+                                    }
+                                </ul>
+                            </div>
+                            <div class="germ-bar__antibiotic">
+                                <h4 class="germ-bar__header">抗菌药物</h4>
+                                <ul class="flex list-group">
+                                    @foreach (string item in ViewBag.AntibioticList)
+                                    {
+                                        if (item.Equals("头孢他啶"))
+                                        {
+                                            <li @@click="onSelectAntibiotic" data-status="0" data-name="@item" class="antibiotic-li text-left antibiotic-select date-item-va ">@item</li>
+                                        }
+                                        else
+                                        {
+                                            <li @@click="onSelectAntibiotic" data-status="0" data-name="@item" class="antibiotic-li text-left date-item-va ">@item</li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                            <div class="germ-bar__year">
+                                <h4 class="germ-bar__header">主要标本菌种分布</h4>
+                                <ul class="list-group">
+                                    <li @@click="onSelectMainGerm" data-code="100" data-status="0" data-name="190610株临床分离菌株主要菌种分布" class="germ-li date-item-va text-left">190610株临床分离菌株主要菌种分布</li>
+                                    <li @@click="onSelectMainGerm" data-code="101" data-status="0" data-name="76333株呼吸道标本分离菌主要菌种分布" class="germ-li date-item-va text-left">76333株呼吸道标本分离菌主要菌种分布</li>
+                                    <li @@click="onSelectMainGerm" data-code="102" data-status="0" data-name="36635株尿道标本分离菌主要菌种分布" class="germ-li date-item-va text-left">36635株尿道标本分离菌主要菌种分布</li>
+                                    <li @@click="onSelectMainGerm" data-code="103" data-status="0" data-name="29000株血液标本分离菌主要菌种分布" class="germ-li date-item-va text-left">29000株血液标本分离菌主要菌种分布</li>
+                                    <li @@click="onSelectMainGerm" data-code="104" data-status="0" data-name="22320株伤口脓液标本分离菌主要菌种分布" class="germ-li date-item-va text-left">22320株伤口脓液标本分离菌主要菌种分布</li>
+                                    <li @@click="onSelectMainGerm" data-code="105" data-status="0" data-name="8331株其他无菌体液标本分离菌主要菌种分布" class="germ-li date-item-va text-left">8331株其他无菌体液标本分离菌主要菌种分布</li>
+                                    <li @@click="onSelectMainGerm" data-code="106" data-status="0" data-name="2708株脑脊液标本分离菌主要菌种分布" class="germ-li date-item-va text-left">2708株脑脊液标本分离菌主要菌种分布</li>
+                                </ul>
+                            </div>
+                            <div class="germ-bar__hospital">
+                                <h4 class="germ-bar__header">不同医院耐药菌分布</h4>
+                                <ul class="list-group">
+                                    <li @@click="onSelectHospitalGerm" data-code="200" data-status="0" data-name="各医院金葡菌MR菌株检出率" class="germ-li date-item-va text-left">各医院金葡菌MR菌株检出率</li>
+                                    <li @@click="onSelectHospitalGerm" data-code="201" data-status="0" data-name="各医院凝固酶阴性葡萄球菌MR菌株检出率" class="germ-li date-item-va text-left">各医院凝固酶阴性葡萄球菌MR菌株检出率</li>
+                                    <li @@click="onSelectHospitalGerm" data-code="202" data-status="0" data-name="各医院分离铜绿假单胞菌对亚胺培南的耐药率（68-1025株）" class="germ-li date-item-va text-left">各医院分离铜绿假单胞菌对亚胺培南的耐药率（68-1025株）</li>
+                                    <li @@click="onSelectHospitalGerm" data-code="203" data-status="0" data-name="各医院分离鲍曼不动杆菌对亚胺培南的耐药率（19-1299株）" class="germ-li date-item-va text-left">各医院分离鲍曼不动杆菌对亚胺培南的耐药率（19-1299株）</li>
+                                    <li @@click="onSelectHospitalGerm" data-code="204" data-status="0" data-name="各医院分离肺炎克雷伯菌对亚胺培南的耐药率（66-1838株）" class="germ-li date-item-va text-left">各医院分离肺炎克雷伯菌对亚胺培南的耐药率（66-1838株）</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ref="GermYearActionsheet" id="GermYearActionsheet" class="weui-skin_android" style="display: none">
+        <div class="weui-mask"></div>
+        <div class="weui-actionsheet">
+            <div class="weui-actionsheet__menu">
+                <h4 class="germ-year-data-header">数据段</h4>
+                <div ref="GermYearActionsheetSwiper" class="swiper-container scroll">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide slidescroll">
+                            <div class="germ-year-data">
+                                <ul class="list-group">
+                                    <li @@click="onSetGermYear" data-status="0" data-name="肠杆菌科细菌对碳青霉烯类的耐药变迁（7996-82754株）" class="germ-li text-left">肠杆菌科细菌对碳青霉烯类的耐药变迁</li>
+                                    <li @@click="onSetGermYear" data-status="0" data-name="大肠埃希菌对碳青霉烯类耐药变迁" class="germ-li text-left">大肠埃希菌（碳青霉烯类）</li>
+                                    <li @@click="onSetGermYear" data-status="0" data-name="肺炎克雷伯菌对碳青霉烯类耐药变迁" class="germ-li text-left">肺炎克雷伯菌（碳青霉烯类）</li>
+                                    <li @@click="onSetGermYear" data-status="0" data-name="肠杆菌科细菌对亚胺培南耐药变迁" class="germ-li text-left">肠杆菌科细菌对亚胺培南耐药变迁</li>
+                                    <li @@click="onSetGermYear" data-status="0" data-name="铜绿假单细胞菌对碳青霉烯类耐药变迁" class="germ-li text-left">铜绿假单胞菌（碳青霉烯类）</li>
+                                    <li @@click="onSetGermYear" data-status="0" data-name="鲍曼不动杆菌对碳青霉烯类耐药变迁" class="germ-li text-left">鲍曼不动杆菌（碳青霉烯类）</li>
+                                    <li @@click="onSetGermYear" data-status="0" data-name="CHINET监测历年MRSA和MRCNS检出变迁" class="germ-li text-left">MRSA和MRCNS</li>
+                                    <li @@click="onSetGermYear" data-status="0" data-name="MRSA检出率(成人和儿童)" class="germ-li text-left">MRSA检出率(成人和儿童)</li>
+                                    <li @@click="onSetGermYear" data-status="0" data-name="粪肠球菌和屎肠球菌对万古霉素耐药变迁" class="germ-li text-left">万古霉素耐药肠球菌</li>
+                                    <li @@click="onSetGermYear" data-status="0" data-name="CHINET监测主要标本所占比例变迁" class="germ-li text-left">标本占比</li>
+                                    <li @@click="onSetGermYear" data-status="0" data-name="主要细菌在革兰阴性杆菌中所占比例变迁" class="germ-li text-left">主要革兰阴性杆菌检出率变迁</li>
+                                    <li @@click="onSetGermYear" data-status="0" data-name="肠杆菌科细菌对头孢噻肟(或头孢曲松)耐药菌株的检出率变迁" class="germ-li text-left">肠杆菌科细菌对头孢噻肟(或头孢曲松)</li>
+                                    <li @@click="onSetGermYear" data-status="0" data-name="CHINET监测历年分离革兰阴性菌和革兰阳性菌所占比例" class="germ-li text-left">革兰阴性菌/阳性菌占比</li>
+                                    <li @@click="onSetGermYear" data-status="0" data-name="CHINET监测历年住院和门急诊患者分离菌株数所占比例" class="germ-li text-left">住院和门急诊患者分离菌株占比</li>
+                                    <li @@click="onSetGermYear" data-status="0" data-name="儿童患者非脑膜炎肺炎链球菌的分布" class="germ-li text-left">儿童患者非脑膜炎肺炎链球菌</li>
+                                    <li @@click="onSetGermYear" data-status="0" data-name="成人患者非脑膜炎肺炎链球菌的分布" class="germ-li text-left">成人患者非脑膜炎肺炎链球菌</li>
+                                    <li @@click="onSetGermYear" data-status="0" data-name="流感嗜血杆菌对氨苄西林耐药变迁" class="germ-li text-left">流感嗜血杆菌对氨苄西林耐药变迁</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @Html.Partial("_FooterNavBar", "首页")
+
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_toast" style="font-size: 1.65rem;"></i>
+            <p class="weui-toast__content fon-32" v-text="weui_toast_content"></p>
+        </div>
+    </div>
+
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32">数据加载中</p>
+        </div>
+    </div>
+
+    <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp__bg"></div>
+        <div class="pswp__scroll-wrap">
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div>
+                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                            <div class="pswp__preloader__cut">
+                                <div class="pswp__preloader__donut"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div>
+                </div>
+                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Styles{
+    <link href="~/Content/Css/photoSwipe/photoswipe.css" rel="stylesheet" />
+    <link href="~/Content/Css/photoSwipe/default-skin/default-skin.css" rel="stylesheet" />
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Data/ECharts.css?V=1.2" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/swiper/swiper.min.js"></script>
+    <script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+    <script src="~/Content/Scripts/Echarts/bmap.js"></script>
+    <script src="~/Content/Scripts/Echarts/china.js"></script>
+    <script src="~/Content/Scripts/Echarts/theme/blue.js?v=1"></script>
+    <script src="~/Content/Scripts/fx.js"></script>
+    <script src="~/Content/Scripts/fx_methods.js"></script>
+    <script src="~/Content/Scripts/photoSwipe/photoswipe.min.js"></script>
+    <script src="~/Content/Scripts/photoSwipe/photoswipe-ui-default.min.js"></script>
+    <script src="~/Content/Scripts/Data/ECharts.js?v=1.0.0"></script>
+}
+

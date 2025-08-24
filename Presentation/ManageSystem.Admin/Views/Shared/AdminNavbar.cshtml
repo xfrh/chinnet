@@ -1,0 +1,228 @@
+﻿@model ManageSystem.Admin.Models.Users.LoginModel
+
+<div class="navbar">
+    <div class="navbar-inner">
+        <div class="navbar-container">
+            <!-- Navbar Barnd -->
+            <div class="navbar-header pull-left">
+                <a href="@(Url.Action("Index","Home"))" class="navbar-brand">
+                    <small>
+                        <img src="~/Content/Images/logo.png?v=12" alt="" style="    margin-top: 8px;height:auto;" />
+                    </small>
+                </a>
+            </div>
+            <!-- /Navbar Barnd -->
+
+            <!-- Sidebar Collapse -->
+            <div class="sidebar-collapse" id="sidebar-collapse">
+                <i class="collapse-icon fa fa-bars"></i>
+            </div>
+            <!-- /Sidebar Collapse -->
+            <!-- Account Area and Settings --->
+            <div class="navbar-header pull-right">
+
+                <div class="navbar-account" >
+                    <ul class="account-area">
+@*  <li>
+                                <a class=" dropdown-toggle" data-toggle="dropdown" title="Help" href="#">
+                                    <i class="icon fa fa-warning"></i>
+                                </a>
+                                <!--Notification Dropdown-->
+                                <ul class="pull-right dropdown-menu dropdown-arrow dropdown-notifications">
+                                    <li>
+                                        <a href="#">
+                                            <div class="clearfix">
+                                                <div class="notification-icon">
+                                                    <i class="fa fa-phone bg-themeprimary white"></i>
+                                                </div>
+                                                <div class="notification-body">
+                                                    <span class="title">帐号异地登录提示 </span>
+                                                    <span class="description">2014-12-12 12:00</span>
+                                                </div>
+                                                <div class="notification-extra">
+                                                    <i class="fa fa-clock-o themeprimary"></i>
+                                                    <span class="description">安全</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="clearfix">
+                                                <div class="notification-icon">
+                                                    <i class="fa fa-check bg-darkorange white"></i>
+                                                </div>
+                                                <div class="notification-body">
+                                                    <span class="title">有3条留言未审核</span>
+                                                    <span class="description">2014-12-12 12:00</span>
+                                                </div>
+                                                <div class="notification-extra">
+                                                    <i class="fa fa-clock-o darkorange"></i>
+                                                    <span class="description">系统</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="clearfix">
+                                                <div class="notification-icon">
+                                                    <i class="fa fa-gift bg-warning white"></i>
+                                                </div>
+                                                <div class="notification-body">
+                                                    <span class="title">刘云给您留言</span>
+                                                    <span class="description">2014-12-12 12:00</span>
+                                                </div>
+                                                <div class="notification-extra">
+                                                    <i class="fa fa-calendar warning"></i>
+                                                    <i class="fa fa-clock-o warning"></i>
+                                                    <span class="description">系统</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="clearfix">
+                                                <div class="notification-icon">
+                                                    <i class="fa fa-glass bg-success white"></i>
+                                                </div>
+                                                <div class="notification-body">
+                                                    <span class="title">明天工作安排提示</span>
+                                                    <span class="description">2014-12-12 12:00</span>
+                                                </div>
+                                                <div class="notification-extra">
+                                                    <i class="fa fa-clock-o themefourthcolor"></i>
+                                                    <span class="description">管理员</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown-footer ">
+                                        <span>今天：215-3-12
+                                        </span>
+                                        <span class="pull-right">10°c
+                                            <i class="wi wi-cloudy"></i>
+                                        </span>
+                                    </li>
+                                </ul>
+                                <!--/Notification Dropdown-->
+                  
+                            </li>*@
+                  
+                            
+                            @*<li>
+                                <a class="wave in dropdown-toggle" data-toggle="dropdown" title="Help" href="#">
+                                    <i class="icon fa fa-envelope"></i>
+                                    <span class="badge">@(ViewBag.MessageList==null?"":ViewBag.MessageList.Count)</span>
+                                </a>
+                                <!--Messages Dropdown-->
+                                <ul class="pull-right dropdown-menu dropdown-arrow dropdown-messages">
+                                    @{
+                                        foreach (Model.V_Message item in ViewBag.MessageList)
+                                        {
+                                            <li>
+                                            <a href="@(Url.Action("ReceiveMessageView", "UserMessage", new  {id=WEB.PublicCode.SetId(item.Id.ToString()) }))">
+                                                <img style="height: 50px;" src="@(Manage.UserinfoManage.GetHeadImg(item.SendUserHeadImage))" class="message-avatar" alt="Divyia Austin">
+                                                <div class="message">
+                                                    <span class="message-sender">@item.SendUserNickName  </span>
+                                                    <span class="message-time">@Common.DateUtil.GetValueOrDefault(item.CreateTime.ToString(),"")</span>
+                                                    <span class="message-subject">@Common.StringUtil.CutString(item.Title,30)  </span>
+                                                    <span class="message-body">@Common.StringUtil.CutString(item.Contents.Replace("&nbsp;","").Replace("<br />","").Replace(" ",""),40) 
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        }   
+                                       }
+
+                                </ul>
+                                <!--/Messages Dropdown-->
+                            </li>*@
+
+                            <li>
+                                <a class="login-area dropdown-toggle " data-toggle="dropdown">
+                                    <div class="avatar" title="View your public profile" style="display:none;">
+                                        <img src="/Content/Images/avatars/John-Smith.jpg" />
+                                    </div>
+                                    <section>
+                                        <h2><span class="profile"><span>@Model.Name</span></span></h2>
+                                    </section>
+                                </a>
+                                <!--Login Area Dropdown-->
+                                <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
+                                    <li class="email"><a>@Model.Name</a></li>
+                                    <!--Avatar Area-->
+                                    <li style="display:none;"> 
+                                      <div class="avatar-area" style="cursor: pointer;" >
+                                            <img src="~/Content/Images/avatars/John-Smith.jpg" class="avatar" id="UserHeadImage">
+                                        </div>
+                                    </li>
+                                    <!--Avatar Area-->
+                                    <li class="edit" style="display:none;">
+                                       @{if (this.ViewBag.UserProfile) { 
+                                             <a href="@Url.Action("UserProfile","SystemSet")" class="pull-left">个人中心</a> 
+                                            <a  href="@Url.Action("UserProfile","SystemSet", new { type = "headimage" })"class="pull-right">修改头像</a>
+                                       }}
+                                    </li>
+                                    <!--Theme Selector Area-->
+                                    <li class="theme-area">
+                                        <ul class="colorpicker" id="skin-changer">
+                                            <li><a class="colorpick-btn" href="#" style="background-color: #5DB2FF;" rel="/Content/CSS/skins/blue.min.css"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color: #2dc3e8;" rel="/Content/CSS/skins/azure.min.css"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color: #03B3B2;" rel="/Content/CSS/skins/teal.min.css"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color: #53a93f;" rel="//Content/CSS/skins/green.min.css"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color: #FF8F32;" rel="/Content/CSS /skins/orange.min.css"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color: #cc324b;" rel="/Content/CSS/skins/pink.min.css"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color: #AC193D;" rel="/Content/CSS/skins/darkred.min.css"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color: #8C0095;" rel="/Content/CSS/skins/purple.min.css"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color: #0072C6;" rel="/Content/CSS/skins/darkblue.min.css"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color: #585858;" rel="/Content/CSS/skins/gray.min.css"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color: #474544;" rel="/Content/CSS/skins/black.min.css"></a></li>
+                                            <li><a class="colorpick-btn" href="#" style="background-color: #001940;" rel="/Content/CSS/skins/deepblue.min.css"></a></li>
+                                        </ul>
+                                    </li>
+                                    <!--/Theme Selector Area-->
+                                    <li class="dropdown-footer edit">
+                                        <a href="@(Url.Action("Lock","Shared"))" class="pull-left" style="display:none;">系统锁定</a>
+                                        <a href="@(Url.Action("Logout","Home"))" class="pull-right">安全退出</a>
+                                    </li>
+                                </ul>
+                                <!--/Login Area Dropdown-->
+                            </li>
+                            <!-- /Account Area -->
+                            <!-- Settings -->
+                        </ul>
+                        <div class="setting" style="display:none;">
+                            <a id="btn-setting" title="Setting" href="#">
+                                <i class="icon glyphicon glyphicon-cog"></i>
+                            </a>
+                        </div>
+                        <div class="setting-container setting-top"  style="display:none;">
+                            @{
+                                if (this.ViewBag.UserProfile)
+                                {
+                                  <label>
+                                        <a href="@Url.Action("UserProfile","SystemSet")"><i class="icon glyphicon glyphicon-th-list "></i>&nbsp;修改个人资料 </a>
+                                    </label>
+                                    <label>
+                                        <a href="@Url.Action("UserProfile", "SystemSet", new {type="headimage" })"><i class="icon  glyphicon glyphicon-user"></i>&nbsp;修改头像 </a>
+                                    </label>
+                                 }
+                                 
+                                if (this.ViewBag.PasswordUpdate)
+                                {
+                                    <label>
+                                        <a href="@Url.Action("PasswordUpdate","SystemSet")"><i class="icon glyphicon glyphicon-lock"></i>修改密码 </a>
+                                    </label>
+                                }
+                                }
+                            
+                        </div>
+                        <!-- Settings -->
+                    </div>
+                </div>
+                <!-- /Account Area and Settings -->
+            </div>
+        </div>
+    </div>

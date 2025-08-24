@@ -1,0 +1,55 @@
+﻿@using ManageSystem.Web.Models.Articles;
+@model PagedList<ArticleModel>
+@using Webdiyer.WebControls.Mvc;
+@using ManageSystem.Services.Articles;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "资讯中心";
+}
+
+<div class="news" style="min-height:600px; border-left-style:none;    background-image: none;">
+    <div class="mbx"><p>当前位置：首页 &gt; 资讯中心 </p></div>
+
+    <div class="news_l" style="border-top-style:none; width:16%;">
+        <h2>资讯中心</h2>
+
+        @{
+            var articleTypeList = this.ViewBag.ArticleTypeList as List<ArticleTypeModel>;
+            if (articleTypeList != null && articleTypeList.Any())
+            {
+                foreach (var item in articleTypeList)
+                {
+                    <li><a href="@Url.Action("Index","News",new { type=item.Id.ToString()})">@item.Name</a></li>
+                }
+            }
+
+        }
+    </div>
+
+    <div class="news_r" style="width:80%;">
+
+        @{
+            if (Model != null && Model.Count > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <ul>
+                        <a href="@Url.Action("Detail","News",new { Id=item.Id.ToString()})">
+                            <li style="width: 20%;"><img src="@ArticleExtensions.GetCoverImage(item.CoverImage)" width="100%" border="0"></li>
+                            <li style="width: 80%;padding-left: 20px;">
+                                <h2 style="font-weight: bold;">@item.Name<span>@item.ReleaseTime.ToString("yyyy.MM.dd") </span></h2>
+                                <p>@item.ShortContent</p>
+                            </li>
+                        </a>
+                    </ul>
+                }
+            }
+
+        }
+
+        <div class="page">
+            @Html.Pager(Model).Options(o => o.SetPagerItemTemplate("{0}&nbsp;"))
+        </div>
+    </div>
+</div>

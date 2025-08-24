@@ -1,0 +1,129 @@
+﻿@model  ManageSystem.Admin.Models.Survey.SurveySurveyModel
+@using ManageSystem.Admin.Extensions;
+@using ManageSystem.Services.Common;
+
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+<script src="~/Content/Scripts/ueditor/ueditor.config.js"></script>
+<script src="~/Content/Scripts/ueditor/ueditor.all.min.js"></script>
+<script src="~/Content/Scripts/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+<link href="~/Content/Scripts/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+<script src="~/Content/Scripts/bootstrap-fileinput/js/fileinput.min.js"></script>
+<script src="~/Content/Scripts/bootstrap-fileinput/js/locales/zh.js"></script>
+
+
+<table class="adminContent">
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Name)
+            @Html.ValidationMessageFor(m => m.Name)
+        </td>
+    </tr>
+
+    @*<tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.QR)：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.QR)
+                @Html.ValidationMessageFor(m => m.QR)
+            </td>
+        </tr>*@
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.StartTime)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.StartTime, new { @class = "form-control input-sm" })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.EndTime)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.EndTime, new { @class = "form-control input-sm" })
+        </td>
+    </tr>
+
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.State)：</td>
+        <td class="adminData">
+            @Html.DropDownList("State", Model.StateList, new { @class = "form-control dropdown" })
+        </td>
+    </tr>
+
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Rood)：</td>
+        <td class="adminData">
+            @Html.DropDownList("Rood", Model.RoodList, new { @class = "form-control dropdown" })
+        </td>
+    </tr>
+
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Sort)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Sort)
+            @Html.ValidationMessageFor(m => m.Sort)
+        </td>
+    </tr>
+
+    <tr style="line-height:normal;">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Remark)：</td>
+        <td class="adminData">
+            <textarea id="Content" name="Remark" runat="server" onblur="setUeditor()" style="width: calc(80% + 24px); min-height: 500px; margin-top:10px; text-align:left;">@Model.Remark</textarea>
+        </td>
+    </tr>
+
+
+    @if (!string.IsNullOrWhiteSpace(Model.QR))
+    {
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.QR)：</td>
+            <td class="adminData">
+                <style>
+                    .qrcode200 {
+                        width: 200px;
+                        height: 200px;
+                    }
+
+                        .qrcode200 > img {
+                            max-height: 100%;
+                            max-width: 100%;
+                        }
+                </style>
+                <div class="flex flex-center qrcode200">
+                    <img class="flex-1" src="@Model.QR" alt="" title="" draggable="false" />
+                </div>
+            </td>
+        </tr>
+    }
+
+
+</table>
+
+<script src="~/Content/Scripts/layer/layer.js"></script>
+<script>
+
+    $("#@Html.FieldIdFor(m=> m.StartTime)").kendoDatePicker({ format: "yyyy/MM/dd HH:mm:ss" });
+    $("#@Html.FieldIdFor(m => m.EndTime)").kendoDatePicker({ format: "yyyy/MM/dd HH:mm:ss" });
+
+    $(document).ready(function () {
+        var editor = new baidu.editor.ui.Editor();
+        editor.render("Content");
+        var ue = UE.getEditor('Content');
+        ue.ready(function () {
+            ue.execCommand('serverparam', {
+            });
+        });
+    });
+
+    function setUeditor() {
+        var myEditor = document.getElementById("Content");
+        myEditor.value = editor.getContent();
+
+        alert(myEditor.value);
+    };
+
+</script>

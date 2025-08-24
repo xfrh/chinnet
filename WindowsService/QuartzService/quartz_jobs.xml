@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This file contains job definitions in schema version 2.0 format -->
+
+<job-scheduling-data xmlns="http://quartznet.sourceforge.net/JobSchedulingData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
+
+  <processing-directives>
+    <overwrite-existing-data>true</overwrite-existing-data>
+  </processing-directives>
+
+  <schedule>
+
+    <job>
+      <name>CheckWebStatusJob</name>
+      <group>CheckWeb</group>
+      <description>上传的医学数据耐药性检查</description>
+      <job-type>QuartzService.Jobs.CheckWebStatusJob,QuartzService</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+    </job>
+
+    <trigger>
+      <cron>
+        <name>CheckWebStatusTrigger</name>
+        <group>CheckWeb</group>
+        <job-name>CheckWebStatusJob</job-name>
+        <job-group>CheckWeb</job-group>
+        <start-time>2015-01-22T00:00:00+08:00</start-time>
+        <cron-expression>0/10 * * * * ? </cron-expression>
+        <!-- 每15分钟一次调度    <cron-expression>0 0/15 * * * ?</cron-expression> -->
+        <!-- 每50秒一次调度<cron-expression>0/50 * * * * ?</cron-expression> -->
+      </cron>
+    </trigger>
+
+    <job>
+      <name>ExecPingfenJob</name>
+      <group>Pingfen</group>
+      <description>评分页面加载数据计算</description>
+      <job-type>QuartzService.Jobs.CheckWebStatusJob,QuartzService</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+    </job>
+    <trigger>
+      <cron>
+        <name>ExecPingfenTrigger</name>
+        <group>Pingfen</group>
+        <job-name>ExecPingfenJob</job-name>
+        <job-group>Pingfen</job-group>
+        <start-time>2020-01-01T00:00:00+08:00</start-time>
+        <cron-expression>0 30 2 * * ? </cron-expression>
+        <!--每天2:30执行-->
+      </cron>
+    </trigger>
+  </schedule>
+</job-scheduling-data>

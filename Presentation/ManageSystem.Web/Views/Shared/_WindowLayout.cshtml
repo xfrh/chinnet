@@ -1,0 +1,71 @@
+﻿@using ManageSystem.Services.Configuration
+@{
+
+    string adminPageTitle = "";
+    if (!String.IsNullOrWhiteSpace(this.ViewBag.Title))
+    {
+        adminPageTitle = this.ViewBag.Title + " / ";
+    }
+
+    adminPageTitle += WebSettingService.WebSEO_Title
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <meta name="keywords" content="@WebSettingService.WebSEO_Key">
+    <meta name="description" content="@WebSettingService.WebSEO_Describe">
+    <title>@adminPageTitle</title>
+
+    <link href="/Content/kendo/2014.1.318/kendo.common.min.css" rel="stylesheet" />
+    <link href="/Content/kendo/2014.1.318/kendo.default.min.css" rel="stylesheet" />
+
+    <link href="~/Content/Css/style.css" rel="stylesheet" />
+    <link href="~/Content/Css/keyan.css" rel="stylesheet" />
+    <link href="~/Content/Css/common.css" rel="stylesheet" />
+
+    <link href="~/Content/Css/pageer.css" rel="stylesheet" />
+
+    <link href="~/Content/Css/swiper-3.3.1.min.css" rel="stylesheet" />
+    <link href="~/Content/Scripts/layer-v2.4/skin/layer.css" rel="stylesheet" />
+    <link href="~/Content/Scripts/layer-v2.4/laydate/skins/dahong/laydate.css" rel="stylesheet" />
+
+    <script src="~/Content/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="/Content/Scripts/jquery.validate.min.js"></script>
+    <script src="/Content/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Content/Scripts/layer-v2.4/layer.js"></script>
+    <script src="~/Content/Scripts/layer-v2.4/laydate/laydate.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            kendo.culture("zh-CN");
+        });
+
+    </script>
+
+    @RenderSection("HeadSection", required: false)
+
+</head>
+<body style="background-color:white;">
+
+    <div>
+        <div> @Html.Partial("Notifications")  </div>
+        @RenderBody()
+    </div>
+
+
+    <script src="~/Content/Scripts/swiper-3.3.1.min.js"></script>
+    <script src="~/Content/Scripts/common.js"></script>
+    <script src="~/Content/Scripts/layer-v2.4/helper.js"></script>
+
+    @RenderSection("FooterSection", required: false)
+
+
+</body>
+</html>

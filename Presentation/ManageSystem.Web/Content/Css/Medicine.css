@@ -1,0 +1,120 @@
+﻿  .doct_center_r .cy-wrap .sl-v-list .active a {
+        color: white !important;
+    }
+
+    .doct_center_r .cy-wrap .sl-v-list li:hover {
+        color: white !important;
+        background-color: #025193 !important;
+    }
+
+    .doct_center_r .cy-wrap .sl-v-list a:hover {
+        color: white !important;
+    }
+
+    .sl-v-list ul li {
+        margin-bottom: 10px;
+        padding: 10px 15px;
+    }
+
+    .item-table td {
+        text-align: center;
+    }
+
+    .table tr td:first-child {
+        background-color: white;
+    }
+
+    .statistics-item-div li {
+        width: 95%;
+        margin-left: 5%;
+    }
+
+    .selector .sl-ext {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        width: 110px;
+        height: auto;
+        line-height: 22px;
+        overflow: hidden;
+        zoom: 1;
+    }
+
+    .sl-ext .sl-e-more {
+        float: left;
+        margin-right: 10px;
+        position: relative;
+        width: 55px;
+        height: 23px;
+        line-height: 23px;
+        padding: 0 7px 0 4px;
+        background: #fff;
+        visibility: hidden;
+        color: #333;
+        border: 1px solid #ddd;
+        font-size: 12px;
+    }
+
+        .sl-ext .sl-e-more i, .selector .sl-ext .sl-e-multiple i {
+            background: url(/Content/Images/more-i.png) no-repeat 9999px 9999px;
+            transition: background-position .15s ease-in-out;
+        }
+
+        .sl-ext .sl-e-more i {
+            position: absolute;
+            top: 1px;
+            right: 2px;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background-position: 4px 7px;
+        }
+
+        .sl-ext .sl-e-more.opened i {
+            background-position: 4px -27px;
+        }
+
+    .js-search-li li:hover {
+        background-color: white;
+    }
+
+        .js-search-li li:hover a {
+            color: white !important;
+        }
+
+    .doct_center_r .cy-wrap .sl-v-list a {
+        color: #818181 !important;
+    }
+
+    .sl-v-list ul li {
+        margin: 3px 3px !important;
+        padding: 0px !important;
+        height: auto !important;
+        width: auto !important;
+    }
+
+        .sl-v-list ul li:hover {
+            background-color: white !important;
+        }
+
+        .sl-v-list ul li a {
+            display: block;
+            margin-bottom: 0px;
+            padding: 10px 15px;
+        }
+
+    .js-search-li {
+        width: 80% !important;
+        float: left !important;
+        margin-left: 0px !important;
+    }
+
+
+        
+.sl-v-list {
+padding-bottom:10px;
+}
+
+    .sl-v-list .sl-key {
+    margin-top:5px;
+    }

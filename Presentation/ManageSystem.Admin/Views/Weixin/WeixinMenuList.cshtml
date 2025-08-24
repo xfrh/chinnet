@@ -1,0 +1,254 @@
+﻿@model  List<ManageSystem.Admin.Models.Weixin.WeixinMenuModel>
+@using ManageSystem.Admin.Extensions;
+@using ManageSystem.Core.Domain.Weixin;
+
+
+
+@{
+    ViewBag.Title = "微信菜单";
+}
+
+<style type="text/css">
+    .bg-img {
+        float: left;
+        width: 356px;
+        height: 613px;
+        background-image: url(/Content/Images/CustomLt.png);
+    }
+
+    .m-content-div {
+        margin-top: 138px;
+        height: 365px;
+        width: 255px;
+        margin-left: 46px;
+        position: absolute;
+    }
+
+    .m-p-div {
+        float: left;
+        width: 255px;
+        height: 47px;
+        position: absolute;
+        bottom: 0px;
+    }
+
+    .m-p-item {
+        width: 100%;
+        height: 100%;
+        padding: 0px;
+    }
+
+    .m-p-div li {
+        float: left;
+        width: 83px;
+        height: 47px;
+        line-height: 47px;
+        text-align: center;
+        margin-left: 2px;
+        display: inline;
+        color: #333;
+        font-size: 12px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .m-c-item ul {
+        width: 100%;
+        float: left;
+        padding: 0px;
+        position: absolute;
+        bottom: 0px;
+    }
+
+    .m-c-item li {
+        float: left;
+        width: 73px;
+        height: 47px;
+        line-height: 47px;
+        text-align: center;
+        margin-left: 2px;
+        display: inline;
+        color: #333;
+        font-size: 8px;
+        cursor: pointer;
+        position: relative;
+        border: 1px solid #ccc;
+        border-bottom-style: none;
+        margin: 0px 10px;
+        overflow: hidden;
+    }
+</style>
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "微信设置", SecondName = "微信菜单", LocationName = this.ViewBag.Title }); }
+}
+<div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                </div>
+                <div class="widget-body " id="BaseDiv" runat="server">
+                    <div class="options add-page-options">
+                     
+                        @{
+                            var url = "/WeixinSet/SyncWeixinMenu";
+                            if (UserinfoExtensions.CheckFunction(url))
+                            {
+                                <input type="button" value="同步菜单到微信" class="btn btn-blue " id="btnAnsy " onclick="SyncMenu()" />
+                            }
+                        }
+
+                    </div>
+                    <div class="add-content ">
+                        <div class="row k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+
+                            <!---- 开始-->
+                            <div class="row  col-sm-6">
+                                <div class="bg-img" style="margin-left: 20%;">
+                                    <div class="m-content-div">
+                                        <div class="m-p-div">
+                                            @{
+                                                <ul class="m-p-item">
+                                                    @if (Model == null || !Model.Any())
+                                                    {
+                                                        <li onclick="AddOpen('0')"> 添加</li>
+                                                    }
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <li onclick="EditOpen('@item.Id')">@item.Name</li>
+                                                    }
+                                                </ul>
+                                            }
+
+                                        </div>
+
+                                        <div class="m-c-item" style="position: absolute;  bottom: 50px;">
+                                            @{
+                                                int index = 0;
+                                                foreach (var item in Model)
+                                                {
+                                                    <ul style="width: 83px;left:@(index++ * 83)px">
+                                                        @if (item.ChildList == null || item.ChildList.Count < 5)
+                                                        {
+                                                          <li style="background-color:#ccc; " onclick="AddOpen('@item.Id')"> 添加</li>
+                                                        }
+
+                                                        @if (item.ChildList != null && item.ChildList.Any())
+                                                        {
+                                                            for (int i = item.ChildList.Count-1 ; i >= 0; i--)
+                                                            {
+                                                                bool isLast = i == 0;
+                                                                <li onclick="EditOpen('@item.ChildList[i].Id')" style="@(isLast? "border-bottom:1px solid #ccc;" : "")">@item.ChildList[i].Name</li>
+                                                            }
+                                                        }
+                                                    </ul>
+                                                }
+                                            }
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <div class="row" style="width:100%; margin:0px auto; margin-top: 50px;   font-size:14px; ">
+                                    <p style="border-bottom:1px solid #ccc; margin:10px 0px;   font-size: 16px; height:30px;line-height:30px;">注意事项</p>
+                                    <div class="widget">
+                                        <div class="widget-header bg-palegreen">
+                                            <div class="widget-buttons">
+                                                <a href="#" data-toggle="collapse">     <i class="fa fa-minus"></i></a>
+                                                <a href="#" data-toggle="dispose">     <i class="fa fa-times"></i>   </a>
+                                            </div>
+                                        </div>
+                                        <div class="widget-body">
+                                            <code>
+                                                1、自定义菜单最多包括3个一级菜单，每个一级菜单最多包含5个二级菜单。
+                                            </code><br><br>
+                                            <code>
+                                                2、一级菜单最多4个汉字，二级菜单最多7个汉字，多出来的部分将会以“...”代替。
+                                            </code><br><br>
+                                            <code>
+                                                3、创建自定义菜单后，菜单的刷新策略是，在用户进入公众号会话页或公众号profile页时，如果发现上一次拉取菜单的请求在5分钟以前，就会拉取一下菜单，如果菜单有更新，就会刷新客户端的菜单。测试时可以尝试取消关注公众账号后再次关注，则可以看到创建后的效果。
+                                            </code><br><br>
+                                            <code>
+                                                4、菜单类型：
+                                                <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;文章推送：在“菜单值”中输入需要推送文章id（查看文章页面可以看到id），多个使用英文逗号分割，第一个文章将以大图显示，从美观而言建议6个。
+                                                <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;网页跳转：在”菜单值“中输入需要跳转的网页完整地址，点击菜单以后会跳转到指定的页面。
+                                            </code><br><br>
+                                            <code>
+                                                5、菜单关键字：全局唯一不能重复
+                                            </code><br><br>
+                                            <code>
+                                                6、点击菜单项可进行编辑
+                                            </code><br>
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!---- 结束 -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/Scripts/layer/layer.js"></script>
+
+<script type="text/javascript">
+
+    //打开编辑微信菜单
+    function EditOpen(id) {
+        //iframe层-父子操作
+        layer.open({
+            type: 2,
+            area: ['1200px', '850px'],
+            fix: false, //不固定
+            maxmin: true,
+            title: "编辑微信菜单",
+            content: '@Url.Action("WeixinMenuEdit", "Weixin")' + "/" + id
+        });
+    }
+
+    //新增微信菜单
+    function AddOpen(parentId) {
+        //iframe层-父子操作
+        layer.open({
+            type: 2,
+            area: ['1200px', '850px'],
+            fix: false, //不固定
+            maxmin: true,
+            title: "添加微信菜单",
+            content: '@Url.Action("WeixinMenuCreate", "Weixin")' + "?parentId=" + parentId
+        });
+    }
+
+    //操作完成菜单以后回调函数
+    function Reload() {
+        location.href = '@Url.Action("WeixinMenuList", "Weixin")';
+    }
+
+    function SyncMenu() {
+        if (confirm("确认同步微信菜单吗？")) {
+            $.ajax({
+                type: "Post",
+                url: "@Url.Action("SyncWeixinMenu")",
+                data: "",
+            dataType: "text",
+            success: function (data) {
+                alert(data);
+            }
+        });
+    }
+    }
+
+</script>
+

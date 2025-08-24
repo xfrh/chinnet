@@ -1,0 +1,165 @@
+﻿@model ManageSystem.Admin.Models.Organism.BacteriaModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+<style type="text/css">
+    .file {
+          position: relative;
+          height: 40px;
+          line-height: 40px;
+    }
+
+        .file label {
+              display: inline-block;
+        }
+
+    .userdefined-file {
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 1;
+          width: 100%;
+          height: 40px;
+          line-height: 40px;
+          font-size: 0; /*应对子元素为 inline-block 引起的外边距*/
+    }
+
+        .userdefined-file input[type="text"] {
+              display: inline-block;
+              vertical-align: middle;
+              padding-right: 14px;
+              padding-left: 14px;
+              width: 77%;
+              box-sizing: border-box;
+              border: 1px solid #ccc;
+              height: 40px;
+              line-height: 40px;
+              font-size: 14px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+        }
+
+        .userdefined-file button {
+            display: inline-block;
+            vertical-align: middle;
+            width: 5%;
+            text-align: center;
+            height: 40px;
+            line-height: 40px;
+            font-size: 14px;
+            background-color: #5db2ff;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+
+    .file input[type="file"] {
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 1;
+          opacity: 0;
+          width: 82%;
+          height: 40px;
+          line-height: 40px;
+          cursor: pointer;
+    }
+
+
+</style>
+<script src="~/Content/Scripts/kendo/2014.1.318/kendo.dropdownlist.min.js"></script>
+
+<table class="adminContent">
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.MedicalOrganismTypeId)：</td>
+        <td class="adminData">
+            @Html.DropDownList("MedicalOrganismTypeId", Model.MedicalOrganismTypeList, new { @class = "form-control dropdown" ,style="width:300px;" })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.MedicalOrganismId)：</td>
+        <td class="adminData">
+            @Html.DropDownList("MedicalOrganismId", Model.MedicalOrganism, new { @class = "form-control dropdown", style = "width:300px;" })
+            @Html.ValidationMessageFor(m => m.MedicalOrganismId)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">
+            <img alt="数据文件" src="/Content/images/ico-help.gif" title="数据文件">
+            <label for="MedicalOrganismType" title="数据文件">数据文件</label>：
+        </td>
+        <td class="adminData">
+            <div class="file">
+                <div class="userdefined-file">
+                    <input type="text" name="userdefinedFile" id="userdefinedFile" value="未选择任何文件">
+                    <button type="button">选择</button>
+
+                </div>
+                <input type="file" name="DataFiles" id="DataFiles" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+            </div>
+            <div>
+                @Html.ValidationMessageFor(m => m.DataFiles, "", new { @id = "DataFilesMsg" })
+            </div>
+
+        </td>
+
+    </tr>
+    <tr>
+        <td class="adminTitle"></td>
+        <td class="adminData">
+            <div class="alert alert-danger fade in" style="height:40px; line-height:20px; margin-top:10px; width:82%;text-align:left;">
+                <i class="fa-fw fa fa-exclamation-triangle"></i>
+                <strong>注：</strong>支持格式：xls | xlsx，
+            </div>
+            <a href="/Content/Files/细菌分类图表导入数据-标准模版.xlsx" target="_blank">点击下载标准模版</a> 
+        </td>
+    </tr>
+</table>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#MedicalOrganismTypeId').on("change", function (item) {
+            var tId = item.currentTarget.selectedOptions[0].value;
+            $.ajax({
+                url: "@Url.Action("GetMedicalOrganism")?typeId=" + tId,
+                type: "GET",
+                dataType: "json",
+                success: function (json) {
+                    if (json == null || json == "") {
+                        return;
+                    }
+                    var content = " <option value=\"0\" >选择细菌</option>";
+                    for (var i = 0; i < json.length; i++) {
+                        content += " <option value=\"" + json[i].Value + "\" >" + json[i].Text + "</option>";
+                    }
+                    $("#MedicalOrganismId").html(content);
+                    $("#MedicalOrganismId").easyDropDown('destroy');
+                    $("#MedicalOrganismId").easyDropDown();
+                }
+            });
+
+        });
+
+        $("#DataFiles").on("change", function () {
+            $("#DataFilesMsg").hide();
+            var filepath = $("#DataFiles").val();
+            var fileArr = filepath.split("\\");
+            var fileTArr = fileArr[fileArr.length - 1].toLowerCase().split(".");
+            var filetype = fileTArr[fileTArr.length - 1];
+            if (filetype != "xls" && filetype != "xlsx") {
+                $("#DataFiles").val("");
+                alert("格式错误，请重新选择!");
+                return;
+            }
+            $("#userdefinedFile").val($("#DataFiles").val());
+
+        });
+    });
+
+</script>

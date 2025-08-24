@@ -1,0 +1,197 @@
+﻿@using ManageSystem.Web.Models.Project
+
+@model CRProjectModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "查看CR项目";
+}
+
+<link href="~/Content/Css/CRProject/Style.css" rel="stylesheet" />
+
+<div class="mbx">
+    <p>当前位置：首页 &gt; CR项目 </p>
+</div>
+<div class="doct_center detail-page" style="padding:10px;">
+    <div>
+        <ul class="nav nav-tabs tabs-flat" id="myTab11" style="font-size: 14px;">
+            <li class="active"><a data-toggle="tab" href="#tabResult">基本信息</a></li>
+            <li class=""><a data-toggle="tab" href="#shangchuanRatio">上传数据</a> </li>
+            <li class=""><a data-toggle="tab" href="#tabFileData">数据记录</a></li>
+            <li class=""><a data-toggle="tab" href="#tabColumnRatio">操作日志</a> </li>
+        </ul>
+
+        <div class="main-content" style="min-height:400px;">
+            <div class="tab-pane active select-item" id="tabResult">
+                <ul class="post_main_ul">
+                    <li class="post_main_li">
+                        <div class="post_main_l_tit"><span>医院名称：</span></div>
+                        <div class="red_outK">
+                            <div class="post_main_r" style="position:relative;">
+                                @Html.TextBoxFor(m => m.HospitalName, new { @class = "post_title post_title_Party" })
+                            </div>
+                            <div class="post_main_note">
+                                <input type="hidden" id="HospitalId" />
+                            </div>
+                        </div>
+                    </li>
+                    <li class="post_main_li">
+                        <div class="post_main_l_tit"><span>医院等级：</span></div>
+                        <div class="red_outK">
+                            <div class="post_main_r" style="position:relative;">
+                                @Html.TextBoxFor(m => m.HospitalGrade, new { @class = "post_title post_title_Party" })
+                            </div>
+                            <div class="post_main_note">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="post_main_li">
+                        <div class="post_main_l_tit"><span>省市区：</span></div>
+                        <div class="red_outK">
+                            <div class="post_main_r" style="position:relative;">
+                                @Html.TextBoxFor(m => m.Area, new { @class = "post_title post_title_Party" })
+                            </div>
+                            <div class="post_main_note">
+                                <input type="hidden" id="ProvinceIds" />
+                                <input type="hidden" id="CityIds" />
+                                <input type="hidden" id="DistrictsIds" />
+                            </div>
+                        </div>
+                    </li>
+                    <li class="post_main_li">
+                        <div class="post_main_l_tit"><span>详细地址：</span></div>
+                        <div class="red_outK">
+                            <div class="post_main_r" style="position:relative;">
+                                @Html.TextBoxFor(m => m.Address, new { @class = "post_title post_title_Party" })
+                            </div>
+                        </div>
+                        <div class="post_main_note">
+                        </div>
+
+                    </li>
+                    <li class="post_main_li">
+                        <div class="post_main_l_tit"><span>上年CRE平均检出率：</span></div>
+                        <div class="red_outK">
+                            <div class="post_main_r" style="position:relative;">
+                                @Html.TextBoxFor(m => m.CREDetectionRate, new { @class = "post_title post_title_Party" })
+                            </div>
+                            <div class="post_main_note">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="post_main_li">
+                        <div class="post_main_l_tit"><span>上年CRAB平均检出率：</span></div>
+                        <div class="red_outK">
+                            <div class="post_main_r" style="position:relative;">
+                                @Html.TextBoxFor(m => m.CREDrugRate, new { @class = "post_title post_title_Party" })
+                            </div>
+                            <div class="post_main_note">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="post_main_li">
+                        <div class="post_main_l_tit"><span>MH平板来源厂家：</span></div>
+                        <div class="red_outK">
+                            <div class="post_main_r" style="position:relative;">
+                                @Html.TextBoxFor(m => m.MHSource, new { @class = "post_title post_title_Party" })
+                            </div>
+                            <div class="post_main_note">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="post_main_li">
+                        <div class="post_main_l_tit"><span>微生物负责人：</span></div>
+                        <div class="red_outK">
+                            <div class="post_main_r" style="position:relative;">
+                                @Html.TextBoxFor(m => m.Name, new { @class = "post_title post_title_Party" })
+                            </div>
+                            <div class="post_main_note">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="post_main_li">
+                        <div class="post_main_l_tit"><span>联系电话：</span></div>
+                        <div class="red_outK">
+                            <div class="post_main_r">
+                                @Html.TextBoxFor(m => m.Phone, new { @class = "post_title post_title_Party" })
+                            </div>
+                            <div class="post_main_note">
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="post_main_li">
+                        <div class="post_main_l_tit"><span>邮箱地址：</span></div>
+                        <div class="red_outK">
+                            <div class="post_main_r">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "post_title post_title_Party" })
+                            </div>
+
+                            <div class="post_main_note">
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-pane active select-item" id="shangchuanRatio">
+
+                <link href="/Content/Scripts/bootstrap-fileinput-master/css/fileinput.css" rel="stylesheet" />
+                <link href="~/Content/Css/Medicine/Upload.css?v=1.81" rel="stylesheet" />
+                <div class="container" style="padding: 10px 20px; width:100%;">
+                    <div class="alert alert-warning ">
+                        <ul style=" ">
+                            <li style="    color: red;   font-weight: bold; margin-bottom: 10px;">重要提醒：</li>
+                            <li><span class="red">1、仅支持后缀名为xls、xlsx的数据文件上传；</span></li>
+                            <li><span class="red" style="word-break:break-all;">2、可多次上传，系统记录最后一次上传数据；</span></li>
+                            <li><span class="red" style="word-break:break-all;">3、上传文件最大支持50M；</span></li>
+                        </ul>
+                    </div>
+
+                    <div id="post_form">
+                        <ul class="post_main_ul">
+                            <li class="post_main_li">
+                                <div class="post_main_l_tit"><b class="red">*</b><span>选择数据文件：</span></div>
+                                <div class="red_outK">
+                                    <div class="post_main_r" id="UploadFileBox" style="position:relative;padding-top:0px;">
+                                        <input id="FilePath" name="FilePath" type="file" multiple class="file-loading" accept=".dbf,.xlsx">
+                                        <input type="hidden" id="UploadFilePath" name="UploadFilePath" />
+                                        <input type="hidden" id="OldeFileName" name="OldeFileName" />
+                                        <input type="hidden" id="OldeFileSize" name="OldeFileSize" />
+                                        <div class="post_main_note file-upload-message" style="width:100%;padding-top:10px; height:auto;font-size: 14px;"></div>
+                                    </div>
+                                    <div style="float: left;margin-top: 10px;">
+                                        <a href="/Content/File/CR复敏-数据采集模板.xlsx" target="_blank" style="color: #428bca; margin-right:30px;font-size: 14px;">点击下载《标准模版文件》</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <input type="hidden" id="UploadMedicineId" data-remark="上传成功以后的数据Id" />
+
+                    <script src="/Content/Scripts/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+                    <script src="/Content/Scripts/bootstrap-fileinput-master/js/fileinput_locale_zh.js"></script>
+                    <script src="~/Content/Scripts/CRProject/Upload.js?v=2"></script>
+
+                    <script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.js"></script>
+                    <link href="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet">
+                    <script src="~/Content/Scripts/Autocomplete/jquery.autocomplete.min.js"></script>
+
+                </div>
+            </div>
+            @Html.Partial("/Views/CRProject/_Detail.Item.cshtml")
+            @Html.Partial("/Views/CRProject/_Detail.Log.cshtml")
+
+        </div>
+    </div>
+
+</div>
+
+<input type="hidden" id="ProjectId" value="@Model.Id.ToString()" />
+
+
+<script src="~/Content/bootstrap-3.3.0/js/bootstrap.min.js"></script>
+<link href="/Content/Scripts/laypage-v1.3/skin/laypage.css" rel="stylesheet" />
+<script src="/Content/Scripts/laypage-v1.3/laypage.js"></script>
+
+<script src="~/Content/Scripts/CRProject/Detail.js?v=1.89"></script>

@@ -1,0 +1,22 @@
+﻿@charset "utf-8";body,dd,dl,dt,h1,h2,h3,h4,html,input,li,p,textarea,ul,ol{margin:0;padding:0;list-style:none;color:#242424}
+body{/*user-select:none;*/ height: 100%; line-height: 1; background: #efefef;box-sizing: border-box;}
+body{font-size:14px;-webkit-tap-highlight-color:transparent;font-family:"微软雅黑",arial,sans-serif}
+html{ height: 100%;}
+img{border:none}
+a{text-decoration:none; color: #818181;}
+a:hover{text-decoration:none;}
+input{border:0;font-size:12px;display:inline-block;font-family:"微软雅黑",arial,sans-serif}
+:focus{outline:0}
+.hide{ display: none !important;}
+
+
+select {
+    border: 1px solid #c8c8c8;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: #fff url(/Content/Images/ico04.jpg) no-repeat right center;
+}
+select::-ms-expand{
+	display: none;
+}

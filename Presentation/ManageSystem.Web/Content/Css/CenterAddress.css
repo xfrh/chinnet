@@ -1,0 +1,109 @@
+﻿
+    .mapcont {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .mapbox {
+        border: 1px #e6e6e6 solid;
+        padding: 15px 25px 12px 45px;
+        background: url(/Content/Images/dzmap_bg.png) repeat-y;
+        position: relative;
+        margin: 20px auto;
+        color: #353535;
+        line-height: 30px;
+    }
+
+        .mapbox h2 {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1f1f1f;
+            width: 100%;
+            overflow: hidden;
+        }
+
+            .mapbox h2 .mrmap {
+                height: 18px;
+                padding: 0 8px;
+                line-height: 18px;
+                background: #f58208;
+                color: #fff;
+                border-radius: 18px;
+                font-weight: normal;
+                font-size: 12px;
+                display: inline-block;
+                margin: 5px 0 0 10px;
+                float: left;
+            }
+
+        .mapbox ul {
+            width: 100%;
+            overflow: hidden;
+            margin-top: 8px;
+            display: block;
+            padding-bottom: 0px;
+        }
+
+            .mapbox ul li {
+                float: left;
+                width: 300px;
+            }
+
+                .mapbox ul li.mapli {
+                    width: 260px;
+                }
+
+        .mapbox .map_rtangle {
+            position: absolute;
+            right: -1px;
+            bottom: -1px;
+            background: url(/Content/Images/map_rtangle.jpg) no-repeat;
+            width: 24px;
+            height: 24px;
+            display: block;
+        }
+
+        .mapbox .map_close {
+            position: absolute;
+            right: 5px;
+            top: 7px;
+            background: url(/Content/Images/map_close.png) no-repeat;
+            width: 9px;
+            height: 9px;
+            display: block;
+        }
+
+        .mapbox .mapuibtn {
+            position: absolute;
+            right: 65px;
+            bottom: 12px;
+        }
+
+            .mapbox .mapuibtn a {
+                margin: 0 18px;
+                color: #9e9e9e;
+                display: inline-block;
+            }
+
+                .mapbox .mapuibtn a:hover {
+                    color: #0066ff;
+                }
+
+        .mapbox.map_bga {
+            background: url(/Content/Images/dzmap_bga.png) repeat-y;
+        }
+
+
+    .user_center_r_b_new .address-item-title {
+        height: 30px;
+        line-height: 30px;
+        border-bottom-style: none;
+    }
+
+        .user_center_r_b_new .address-item-title .item-btn {
+            font-size: 12px;
+            width: 130px;
+            float: right;
+            font-weight: normal;
+            text-align:right;
+        }

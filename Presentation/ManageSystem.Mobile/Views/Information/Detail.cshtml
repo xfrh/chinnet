@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "动态详情";
+    Layout = "/Views/Shared/_MainLayout.cshtml";
+}
+
+<div id="app" class="indexpage">
+    <input type="hidden" hidden="hidden" class="hidden" id="MeetingId" name="MeetingId" value="@ViewData["Id"]" />
+    <div class="middle">
+        <div class="padding-20 scroll">
+            <div class="swiper-container scroll">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide slidescroll">
+                        <div class="fon-32 bold margin-b-20">@ViewData["InfoTitle"]</div>
+                        <div class="flex f-center">
+                            <div class="margin-r-20 c96 fon-22">
+                                <i class="fa fa-clock-o fa-fw" aria-hidden="true" style="margin-right: 0.1rem;"></i>
+                                @ViewData["Date"]
+                            </div>
+                            <div class="c96 fon-22">
+                                <i class="fa fa-eye fa-fw" aria-hidden="true" style="margin-right: 0.1rem;"></i>
+                                @ViewData["ViewCount"]
+                            </div>
+                        </div>
+                        <div id="dt_content" class="dt_content fon-32">
+                            @Html.Raw(ViewData["Content"].ToString())
+                        </div>
+                        <div style="height: 80px;"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @Html.Partial("_FooterNavBar", "动态")
+</div>
+
+@section Styles{
+    <link href="~/Content/Css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Information/Detail.css?v=1.0.0" rel="stylesheet" />
+}
+@section Scripts{
+    <script src="~/Content/Scripts/swiper/swiper.min.js"></script>
+    <script src="~/Content/Scripts/Information/Detail.js?v=1.0.0"></script>
+}

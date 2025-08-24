@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "问卷";
+    Layout = "~/Views/Shared/_SurveyLayout.cshtml";
+    string _version = DateTime.Now.Ticks.ToString();
+}
+
+@section Styles{
+    <link href="~/Content/Css/Survey/Page15.css?v=@_version" rel="stylesheet" />
+}
+@section Scripts{
+    <script src="~/Content/Scripts/Survey/Page15.js?v=@_version"></script>
+}
+
+<div id="app" v-locak>
+    <input id="hidden_id" name="hidden_id" ref="hidden_id" type="hidden" hidden="hidden" value="@ViewContext.RouteData.Values["id"]" />
+    <div id="page" class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide slidescroll">
+                <div class="survey-body">
+                    <article class="cro-page">
+                        <div class="cro-qbox" style="margin-bottom: 0;">
+                            <div class="cro-qbox-title">请完善您的个人信息</div>
+                        </div>
+                        <div class="cro-qbox">
+                            <div class="cro-qbox-title" v-text="Q29.title"></div>
+                            <div class="cro-qbox-awbox">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="flex align-items__baseline">
+                                                    <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q29_hospital')}">
+                                                        <input class="flex-1 cro-qbox__input font-14px" name="Q29_hospital" v-model="Q29.hospital" v-validate="{required: true, min: 1}" type="text" placeholder="请填写医院名称" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="cro-qbox">
+                            <div class="cro-qbox-title" v-text="Q30.title"></div>
+                            <div class="cro-qbox-awbox">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="flex align-items__baseline">
+                                                    <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q30_name')}">
+                                                        <input class="flex-1 cro-qbox__input font-14px" name="Q30_name" v-model="Q30.name" v-validate="{required: true, min: 1}" type="text" placeholder="请填写您的姓名" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="cro-qbox">
+                            <div class="cro-qbox-title" v-text="Q31.title"></div>
+                            <div class="cro-qbox-awbox">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="flex align-items__baseline">
+                                                    <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q31_mobile')}">
+                                                        <input class="flex-1 cro-qbox__input font-14px" name="Q31_mobile" v-model="Q31.mobile" v-validate="{required: true, numeric: true, regex: /^[1][\d]{10}$/}" type="tel" placeholder="请填写手机号码" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <footer class="cre-footer">
+                    <a class="btn btn-primary cre-submit a-btn" href="javascript: void(0);" @@click="onSubmit">提交问卷</a>
+                    <div style="height: 38px;"></div>
+                </footer>
+            </div>
+        </div>
+    </div>
+</div>

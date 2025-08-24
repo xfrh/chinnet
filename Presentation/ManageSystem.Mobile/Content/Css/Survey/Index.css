@@ -1,0 +1,101 @@
+﻿html,
+body {
+    position: relative;
+    height: 100%;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+html {
+    overflow: hidden;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #fff;
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 16px;
+}
+
+#index {
+    height: 100%;
+}
+
+.header-title,
+.article-content {
+    padding: 0.5rem 0.65rem;
+}
+
+.swiper-slide-active {
+    height: auto;
+}
+
+footer.footer {
+    display: none;
+    cursor: pointer;
+}
+
+    footer.footer.flex {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        cursor: pointer;
+    }
+
+footer.footer-fixed {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #005cad;
+    cursor: pointer;
+}
+
+.footer a.btn {
+    cursor: pointer;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    height: 45px;
+    line-height: 45px;
+    font-size: 1rem;
+    background-color: transparent;
+}
+
+@media only screen and (width: 375px) and (height: 690px) {
+    .footer a.btn {
+        height: 100px;
+        line-height: 100px;
+    }
+}
+
+
+@media only screen and (width: 375px) and (height: 812px) {
+    .footer a.btn {
+        height: 100px;
+        line-height: 100px;
+    }
+}
+
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+    .footer a.btn {
+        height: 100px;
+        line-height: 100px;
+    }
+}

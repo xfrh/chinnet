@@ -1,0 +1,159 @@
+﻿
+@{
+    ViewBag.Title = "科室添加";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="/Content/Scripts/bootstrap-fileinput-master/css/fileinput.css" rel="stylesheet" />
+<link href="~/Content/Css/Medicine/Upload.css?v=1.8" rel="stylesheet" />
+<div class="mbx"><p>当前位置：首页 &gt; 会员中心 &gt; 科室配置管理 </p></div>
+
+<div class="cy-wrap">
+    <span class="span-mark-author active">科室添加</span>
+</div>
+<div class="container">
+    <div class="alert alert-warning " style="margin: 20px 0px; width:100%; display:inline-block; padding-top: 20px; padding-bottom: 20px;">
+        <ul class="warning-ul" style="width: 100%;float: left;">
+            <li> <b style="font-size:18px;">填写说明：</b><span>Ward: WHONET对应的 "专业类别中文名称"</span></li>
+            <li><span style="margin-left:90px;">Department_EN: Whonet的科室缩写</span></li>
+            <li><span style="margin-left:90px;">Location: Whonet标准的病房缩写</span></li>
+            <li><span style="margin-left:90px;">Location_Type:Whonet标准的科室类别缩写</span></li>
+        </ul>
+    </div>
+
+    <div class="title-2">
+        <p><span style="color:#b94a48;">【所有显示项均为必填项】</span></p>
+    </div>
+
+
+    <div id="post_form">       
+        <ul class="post_main_ul">
+            <input id="HospitalName" type="hidden" value="@ViewBag.HospitalName" />
+            <input id="Department" type="hidden" value="@ViewBag.Department" />
+            <li class="post_main_li">
+                <div class="post_main_l_tit"><b class="red">*</b><span>所属医院：</span></div>
+                <div class="red_outK">
+                    <div class="post_main_r" style="position:relative;">
+                        <input class="post_title post_title_Party" value="@ViewBag.HospitalName" id="Hospital" readonly="readonly" placeholder="" type="text" style="border:none;padding-top: 2px;" />
+                    </div>
+                </div>
+            </li>
+            <li class="post_main_li">
+                <div class="post_main_l_tit"><b class="red">*</b><span>Ward：</span></div>
+                <div class="red_outK">
+                    <div class="post_main_r" style="position:relative;">
+                        <input class="post_title post_title_Party" id="Ward" value="" style="" name="Ward" placeholder="您数据中的自定义WARD名称" type="text" />
+                    </div>
+                </div>
+            </li>
+            <li class="post_main_li">
+                <div class="post_main_l_tit"><b class="red">*</b><span>Location：</span></div>
+                <div class="red_outK">
+                    <div class="post_main_r">
+                        <input class="post_title post_title_Party" id="Location" value="" style="" name="Location" placeholder="自定义WARD将被转换成的WHOENT标准缩写" type="text" />
+                    </div>
+                </div>
+            </li>
+            @*<li class="post_main_li">
+            <div class="post_main_l_tit"><b class="red">*</b><span>Department_CN：</span></div>
+            <div class="red_outK">
+                <div class="post_main_r" style="position:relative;">
+                    <input class="post_title post_title_Party" id="Department_CN" value="" style="" name="" placeholder="请输入您医院的专业类别" type="text" />
+                </div>
+            </div>
+        </li>*@
+            <li class="post_main_li">
+                <div class="post_main_l_tit"><b class="red">*</b><span>Department：</span></div>
+                <div class="red_outK">
+                    <div class="post_main_r" style="position:relative;">
+                        <input class="post_title post_title_Party" id="Department_EN" value="" style="" name="" placeholder="对应WHOENT标准Department缩写" type="text" />
+                    </div>
+                </div>
+            </li>
+            <li class="post_main_li">
+                <div class="post_main_l_tit"><b class="red">*</b><span>Location_Type：</span></div>
+                <div class="red_outK">
+                    <div class="post_main_r">
+                        <input class="post_title post_title_Party" id="Location_Type" value="" style="" name="Location_Type" placeholder="对应WHOENT标准Ward_Type缩写" type="text" />
+                    </div>
+                </div>
+                <input type="button" class="btn_Post btn-save" value="保存" style="cursor:pointer;margin-top:40px;" onclick="Create()" />
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+
+    $(function () {
+        var HospitalName = $("#HospitalName").val();
+        var Department = $("#Department").val();
+        if (Department != 1)
+        {
+            SuccessWindows("<div style='text-align:center;'>您暂时没有对【" + HospitalName + "】进行科室配置的权限，请联系医院负责人或向我们进行<a style='color:red' href='/Center/Feedback'>反馈</a>，谢谢！", false, "/Medicine/Upload");
+            return;
+        }
+    })
+     function Create()
+     {
+         var Hospital = $("#Hospital").val();
+         var Ward = $("#Ward").val();
+         var Department_EN = $("#Department_EN").val();
+         var Location = $("#Location").val();
+         var Location_Type = $("#Location_Type").val();
+         if (Ward == "")
+         {
+             ErrorWindow('Ward不能为空');
+              return;
+         }          
+           if (Department_EN == "")
+         {
+               ErrorWindow('Department_EN不能为空');
+                return;
+         }
+           if (Location == "")
+         {
+               ErrorWindow('Location不能为空');
+                return;
+         }
+           if (Location_Type == "")
+         {
+               ErrorWindow('Location_Type不能为空');
+                return;
+         }       
+          if (Department_EN.length > 3)
+         {
+             ErrorWindow('请安Whonet标准输入3个字符');
+             return;
+         }
+          if (Location.length > 3)
+         {
+             ErrorWindow('请安Whonet标准输入3个字符');
+             return;
+         }
+          if (Location_Type.length > 3)
+         {
+             ErrorWindow('请安Whonet标准输入3个字符');
+             return;
+         }
+         
+                 $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "/HospitalDepartment/CreateDepartment",
+                    data: { Name: Hospital,Ward:Ward,Department_EN:Department_EN,Location:Location,Location_Type:Location_Type },
+                    dataType: "json",
+                    success: function (json) {
+                        if (json == null || json == "") {
+                            return false;
+                        }
+
+                        if (json.status == "true") {
+                            SuccessWindow("保存成功！", true);
+                        }
+                        else {
+                            ErrorWindow(json.message, true);
+                        }
+                    }
+                });
+    }
+</script>

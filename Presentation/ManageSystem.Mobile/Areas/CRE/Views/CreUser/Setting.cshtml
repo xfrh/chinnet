@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "账户设置";
+    Layout =  "~/Areas/CRE/Views/Shared/_MainLayout.cshtml";
+}
+
+<div id="app" v-cloak class="indexpage">
+    <div class="middle">
+        <div class="padding-lr-40">
+            <div class="flex f-between padding-tb-40 border-b-1" @@click="toPage('@Url.Action("Profile").ToLowerInvariant()')">
+                <div class="fon-28 padding-lr-10">修改个人信息</div>
+                <img class="Lo-left-img" src="/Content/Images/Jian_l_15.jpg" alt="">
+            </div>
+            <div class="flex f-between padding-tb-40 border-b-1" @@click="toPage('@Url.Action("Cipher").ToLowerInvariant()')">
+                <div class="fon-28 padding-lr-10">修改登录密码</div>
+                <img class="Lo-left-img" src="/Content/Images/Jian_l_15.jpg" alt="">
+            </div>
+            <div class="flex f-between padding-tb-40 border-b-1" @@click="toPage('@Url.Action("Authentication").ToLowerInvariant()')">
+                <div class="fon-28 padding-lr-10">我的认证信息</div>
+                <img class="Lo-left-img" src="/Content/Images/Jian_l_15.jpg" alt="">
+            </div>
+            <div class="flex f-between padding-tb-40 border-b-1" @@click="logout('@Url.Action("Login").ToLowerInvariant()')">
+                <div class="fon-28 padding-lr-10" style="color: #d81b60;">退出登录</div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_FooterNavBar", "我的")
+</div>
+
+
+@section Styles{
+    <link href="~/Content/Css/User/Setting.css?v=1.0.0" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Areas/CRE/Content/Scripts/CreUser/Setting.js?v=1.0.0"></script>
+}

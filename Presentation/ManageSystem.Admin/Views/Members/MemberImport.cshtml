@@ -1,0 +1,68 @@
+﻿@model string
+@{
+    //page title
+    ViewBag.Title = "导入会员";
+}
+
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "会员管理", SecondName = "会员管理", LocationName = this.ViewBag.Title }); }
+}
+
+<form action="/Members/MemberImport" method="post" enctype="multipart/form-data">
+
+    @Html.AntiForgeryToken()
+    <div class="page-body">
+        <div class="row add-page">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget ">
+                    <div class="widget-header add-page-titlebox ">
+                        <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                    </div>
+                    <div class="widget-body " id="BaseDiv">
+                        <div class="options add-page-options">
+                            <input type="submit" name="save" class="btn btn-blue " value="保存" />
+                        </div>
+                        <div class="add-content ">
+                            <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+
+                                <table class="adminContent">
+                                    <tr class="insert-time-tr">
+                                        <td class="adminTitle">上传文件：</td>
+                                        <td class="adminData">
+                                            <input type="file" id="excelFile" name="excelFile" />
+                                            <span></span>
+                                        </td>
+                                    </tr>
+                                    <tr class="insert-time-tr">
+                                        <td class="adminTitle"></td>
+                                        <td class="adminData" style="color:red;">
+                                            @Html.Raw(this.ViewBag.Result)
+                                        </td>
+                                    </tr>
+
+                                    <tr class="insert-time-tr">
+                                        <td class="adminTitle"></td>
+                                        <td class="adminData">
+                                            1、支持格式：xlsx、xls <br />
+                                            2、所属医院名称：是后台的医院管理中的医院名称，必须是完整正确的名称，如果不匹配将导入失败<br />
+                                            3、 <a href="~/Content/File/Template/member-import-template.xlsx" target="_blank">下载模版</a>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form> 
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#excelFile").kendoUpload();
+        });
+
+    </script>

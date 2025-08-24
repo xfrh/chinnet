@@ -1,0 +1,50 @@
+﻿@using ManageSystem.Core.Domain.Members
+@using Webdiyer.WebControls.Mvc
+@using ManageSystem.Web.Models.Members
+
+@model CenterInviteModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "邀请会员 ";
+}
+
+@section HeadSection{
+    <link href="~/Content/Css/Center.css" rel="stylesheet" />
+}
+
+<style type="text/css">
+  
+</style>
+
+
+<div class="mbx"><p>当前位置：首页 &gt; 邀请会员 </p></div>
+<div class="user_center invite-list-page">
+    @*<div>
+      @Html.Action("_Menu", "Center")
+    </div>*@
+    <div class="user_center_r">
+        <div class="user_center_r_a center-title">
+            <h2>
+                <span class="span-item span-item-action" onclick="location.href='@Url.Action("Invite", "Center")'">邀请好友</span>
+                <span class="span-item " onclick="location.href='@Url.Action("InviteList", "Center")'">邀请记录</span>
+            </h2>
+        </div>
+
+        <div class="user_center_r_b_new">
+            <p class="invite-title">邀请流程：</p>
+            <div style="margin-top: 20px;"><img src="~/Content/Images/tuijainliucheng.jpg" /></div>
+            <p class="invite-title-p">邀请方式：</p>
+            <div class="invite-content">
+                <div class="invbd_box2 invbd_line">
+                    <p>您可以将以下链接分享到您的QQ群或朋友圈等，朋友注册成为会员。</p>
+                    <div class="linkid">
+                        <input type="text" class="form-control" value="@Model.InviteUrl" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

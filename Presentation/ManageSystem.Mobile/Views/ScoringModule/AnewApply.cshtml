@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewBag.Title = "重评申请";
+    Layout = "/Views/Shared/_MainLayout.cshtml";
+}
+
+@section Styles{
+    <link href="~/Content/Css/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/ScoringModule/AnewApply.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/vee-validate/vee-validate.min.js"></script>
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/swiper/swiper.min.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/fx.js"></script>
+    <script src="~/Content/Scripts/fx_methods.js"></script>
+    <script src="~/Content/Scripts/ScoringModule/AnewApply.js?v=1.0.0"></script>
+}
+<div id="app" v-cloak class="indexpage">
+    <input ref="hidden_id" type="hidden" hidden="hidden" value="@ViewContext.RouteData.Values["id"]" />
+    <div ref="middle" class="middle">
+        <div ref="swiper_container" class="swiper-container scroll">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide slidescroll">
+                    <header class="text-center header-title fon-32 bg-color-white padding-tb-40 margin-b-15px">
+                        <h4>@ViewData["ScoreTitle"]</h4>
+                        <h5>@ViewData["HospitalName"]</h5>
+                    </header>
+
+                    <div class="flex fon-30 padding-20 f-center f-between bg-color-white">
+                        <div class="flex-1">申请理由:</div>
+                    </div>
+                    <div class="flex padding-20 margin-b-35 f-center f-between bg-color-white">
+                        <div class="flex-1">
+                            <textarea :class="{'form-control': true, 'has-error': errors.has('reason')}" name="reason" v-model="reason" v-validate="'required'" style="width: 100%; padding: 0.2rem; min-height: 6rem; resize: none;" placeholder="请输入重评原因"></textarea>
+                        </div>
+                    </div>
+                    <div class="flex f-center f-between bg-color-white" style="width: 100%; position: fixed; bottom: 0; left: 0;">
+                        <div class="flex-1">
+                            <a class="btn btn-footer flex flex-center ladda-button" ref="btnSubmit" data-style="zoom-in" @@click="onSubmit" href="javascript:void(0);" style="font-size:0.4rem;">提交申请</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ref="failToast" id="failToast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_toast" style="font-size: 1.65rem;"></i>
+            <p class="weui-toast__content fon-32" v-text="resFailMessage" style="margin-top: 0.25rem;"></p>
+        </div>
+    </div>
+
+    <div ref="loadingToast" id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32" v-html="loadingText">123456</p>
+        </div>
+    </div>
+
+    <div ref="iosDialog" id="iosDialog" class="js_dialog" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd" v-html="dialogContent"></div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:void(0);" @@click="closeDialog" class="weui-dialog__btn weui-dialog__btn_primary" style="color: #005cad;">知道了</a>
+            </div>
+        </div>
+    </div>
+</div>

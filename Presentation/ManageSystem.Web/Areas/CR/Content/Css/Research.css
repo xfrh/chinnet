@@ -1,0 +1,154 @@
+﻿    .research-page .field-validation-error {
+        display: inline-block;
+        color: #eb6877;
+        line-height: 30px;
+        float: left;
+        margin-left: 5px;
+        font-size: 12px;
+        background-image: url("/Content/Images/tan_icon.png");
+        background-repeat: no-repeat;
+        padding-left: 20px;
+        margin-left: 0px;
+        background-position-y: center;
+    }
+
+            .research-page .field-validation-error span {
+          margin: 0px;
+    padding: 0px;
+    height: 20px;
+    line-height: 20px;
+    display: block;
+        }
+
+    .research-page .input-validation-error {
+        /*border-color: red;*/
+    }
+
+    .research-page .btn_Post {
+        display: inline-block;
+        width: 213px;
+        height: 45px;
+        line-height: 45px;
+        margin-right: 10px;
+        text-align: center;
+        font-size: 18px;
+        color: #FFF;
+        background-color: #0099e9;
+    }
+
+    .research-page .txt2 {
+    width: 100%;
+    line-height: 34px;
+    padding-left: 15px;
+    color: #444;
+    border: 1px solid #d9d9d9;
+    }
+    .post_main_ul .post_main_li .post_main_r select {
+        color: #444;
+    }
+
+    .select-area-ddl {
+        width: 32% !important;
+    }
+
+    .posterimg_add_btn {
+        text-align: center;
+        display: inline-block;
+        width: 138px;
+        height: 34px;
+        line-height: 32px;
+        border-radius: 3px;
+        font-size: 14px;
+        background-color: #0099e9;
+        color: #FFF;
+        float: left;
+    }
+
+    .uploadifyQueue {
+        float: right;
+        width: 100%;
+        margin: 10px 0px;
+    }
+
+    .uploadifyQueueItem {
+        display: none;
+    }
+
+    .uploadifyQueue .cancel {
+        display: none;
+    }
+
+    .upload-image-box {
+        width: 400px;
+        float: left;
+        height: 123px;
+        padding-left: 40px;
+    }
+
+        .upload-image-box .btn-div {
+            width: 100%;
+            height: 40px;
+            padding-top: 25px;
+        }
+
+        .upload-image-box .title-div {
+            padding-top: 15px;
+            line-height: 20px;
+            color: #666;
+        }
+
+
+
+          .research-page #nav-box li {
+        cursor: pointer;
+    }
+
+    .research-page .remark-box {
+        margin: 10px 0px;
+        font-size: 14px;
+    }
+
+        .research-page .remark-box p {
+            line-height: 25px;
+        }
+
+    .research-page .content-box {
+        margin: 10px 0px;
+        font-size: 14px;
+            overflow: hidden;
+    }
+
+        .research-page .content-box p {
+            line-height: 25px;
+        }
+
+    .research-page .center_keyan_txt_ky div {
+        margin-top: 0px;
+    }
+
+    .research-page #dt_review .comment-item .h-image {
+        width: 8%;
+    }
+
+    .research-page #dt_review .comment-item .m-detail {
+        width: 90%;
+    }
+
+    .research-page #dt_review .comment-item {
+        margin-bottom: 10px;
+    }
+
+    .research-page #dt_review_form_content {
+        border: 1px solid #f1f1f1;
+        padding: 5px;
+        box-sizing: border-box;
+        height: 60px;
+    }
+
+    .research-page .h-image img {
+        float: left;
+    }
+
+
+
+

@@ -1,0 +1,284 @@
+﻿@using ManageSystem.Web.Models.DataInput;
+@using Webdiyer.WebControls.Mvc;
+@using ManageSystem.Web.Extensions;
+@model OLProjectModel
+@{
+    ViewBag.Title = "折点-项目管理";
+    Layout = "~/Areas/DataInput/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Areas/DataInput/Content/css/OLDataInput.css" rel="stylesheet" />
+    <div class="W">
+
+        <div class="my_title">
+            当前位置： 首页 / 折点数据上传 / 项目管理
+        </div>   
+        <div class="ol_table">
+           
+            @{
+                if (ViewBag.Median == true)
+                {
+                    <div class="ol_left">
+                        <ul>
+                            <li style="background-color:#dceef6"><a href="/DataInput/OLDataInput/OLproject">项目管理</a></li>
+                            <li><a href="/DataInput/OLDataInput/OLtemplate">字段模板</a></li>
+                            <li><a href="/DataInput/OLDataInput/ProjectStatistics">项目统计</a></li>
+                        </ul>
+                    </div>
+                }
+            }
+
+            <!-- 项目管理模块 开始 -->
+            <div class="ol_right">
+                @{
+                    if (ViewBag.Median == true)
+                    {
+                        <div class="my_btns">
+
+
+                            <div class="cbtn" onclick="Deletelist()">删除数据</div>
+                            <div class="cbtn"><a href="/DataInput/OLDataInput/CreateOLproject" class="my_a_style" style="">添加项目</a></div>
+                            <div class="cbtn" onclick="exports()">导出项目</div>
+
+                        </div>
+                    }
+                }
+                <table cellpadding="0" cellspacing="0" width="100%" class="no-collapse" style="font-size:14px;">
+                    <thead>
+                        <tr style="text-align:center;background-color: #42a3ce;height:35px;color: #fff;">
+                            <th style="text-align:center;width:auto;padding-left:24px;">
+                                <label for="checkall">
+                                    <input class="" id="checkall" name="data-items" type="checkbox" value="0" />
+                                </label> 全选
+                            </th>
+                            <th style="text-align:center;width:auto">项目名称</th>
+                            @if (ViewBag.Median == true)
+                            {
+                                <th style="text-align:center;width:auto">字段模板</th>
+                                <th style="text-align:center;width:auto">字段代码</th>
+                            }
+                            @*<th style="text-align:center;width:auto">开始时间</th>*@
+                            <th style="text-align:center;width:auto">结束时间</th>
+                            @*<th style="text-align:center;width:auto">创建时间</th>*@
+                            @if (ViewBag.Median == false)
+                            {
+                                <th style="text-align:center;width:auto">状态</th>
+                            }
+                            <th style="text-align:center;width:auto">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (Model != null && Model.PageList.Any())
+                            {
+                                foreach (var item in Model.PageList)
+                                {
+                                    <tr style="text-align:center;background-color: #fff;height:38px;color: #000;" :key="index">
+                                        <td style="width: auto;">
+                                            <label for="data-item-@(item.Id)">
+                                                <input class="" id="data-item-@(item.Id)" type="checkbox" name="data-item" onclick="monitorCheck()" project="@item.project_name" value="@item.Id" />
+                                                <span class="text"></span>
+                                            </label>
+                                        </td>
+                                        <td style="width: auto;">@item.project_name</td>
+                                        @if (ViewBag.Median == true)
+                                        {
+                                            <td style="width: auto;">@item.templateId</td>
+                                            <td style="width: auto;">@item.field_code</td>
+                                        }
+                                        @*<td style="width: auto;">@item.starttime</td>*@
+                                        <td style="width: auto;">@item.endtime</td>
+                                        @* <td style="width: auto;">@item.InsertTime</td>*@
+                                        @if (ViewBag.Median == false)
+                                        {
+                                            <td style="width: auto;">@item.state</td>
+                                        }
+                                        <td style="width: auto;">
+                                            <div style="position: relative;">
+
+                                                @if (ViewBag.Median == true)
+                                                {
+                                                    <a class="opera_btn" onclick="shuju('@item.Id')">数据</a>
+                                                    <a class="opera_btn" href="/DataInput/OLDataInput/CreateOLproject?Id=@item.Id">编辑</a>
+                                                    <a class="opera_btn" href="/DataInput/OLDataInput/MemberList?Id=@item.Id" data-id="1">用户分配</a>
+                                                    <a class="opera_btn" onclick="delproject('@item.Id.ToString()',&quot;@item.project_name&quot;)">删除</a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="opera_btn" onclick="shuju('@item.Id')">数据输入</a>
+                                                }
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9" class="text-danger" style="text-align:center">暂无数据~</td>
+                                </tr>
+
+                            }
+                        }
+                    </tbody>
+                </table>
+                <input id="DataCount" type="hidden" value="@Model.PageList.Count" />
+                <div id="page-box" class="page">
+                    @Html.Pager(Model.PageList, MvcPagerExtensions.GetPagerOptions())
+                </div>
+
+                <input id="Median" type="hidden" value="@ViewBag.Median.ToString()" />
+            </div>
+            <!-- 项目管理模块 结束 -->
+
+        </div>
+
+    </div>
+<script>
+    //var Median = $("#Median").val();
+    //if (Median != "" && Median != null && Median != true) {
+    //    SuccessWindows("<div style='text-align:center;'>对不起您没有访问该页面的权限！", false, "/Data/AntibioticDrugFast");
+    //    return;
+    //}
+    $("[name='data-items']").click(function () {
+
+        if ($("[name='data-items']").prop("checked") == true) {
+            $("[name='data-item']").prop("checked", true)
+
+        }
+        else {
+            $("[name='data-item']").prop("checked", false)
+        }
+    })
+    function delproject(id,project_name)
+    {      
+        if (id) {
+            //询问框
+            layer.confirm('您确认要删除该数据吗？', {
+                title: '系统提示',
+                btn: ['确认', '取消'] //按钮
+            }, function () {               
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "/DataInput/OLDataInput/deleteOLproject",
+                    data: { ids: id, project_name: project_name},
+                    dataType: "json",
+                    success: function (json) {
+                        if (json == null || json == "") {
+                            return false;
+                        }
+
+                        if (json.status == "true") {
+                            SuccessWindow("删除成功！", true);
+                        }
+                        else {
+                            ErrorWindow(json.message, true);
+                        }
+                    }
+                });
+            });
+        }
+        return false;
+    }
+    function Deletelist() {
+        var ids = "";
+        var project_name=""
+        $("input[name='data-item']:checked").each(function () {
+            ids += $(this).val() + ","
+            project_name += $(this).attr("project") + ","
+        });
+        if (ids == "" || ids.length <= 0) {
+            MessageWindow("请选择要删除的数据");
+        }
+        else {
+            layer.confirm('您确认要删除该数据吗？', {
+                title: '系统提示',
+                btn: ['确认', '取消'] //按钮
+            }, function () {
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "/DataInput/OLDataInput/deleteOLproject",
+                    data: { ids: ids, project_name: project_name },
+                    dataType: "json",
+                    success: function (json) {
+                        if (json == null || json == "") {
+                            return false;
+                        }
+
+                        if (json.status == "true") {
+                            SuccessWindow("删除成功！", true);
+                            location.reload();
+                        }
+                        else {
+                            ErrorWindow(json.message, true);
+                        }
+                    }
+                });
+            })
+        }
+    }
+    function exports() {
+        var ids = "";  
+        
+        $("input[name='data-item']:checked").each(function () {
+            if (ids == "") {
+                ids = $(this).val();
+            } else {
+                ids += "," + $(this).val();
+            }
+        });
+        if (ids == "" || ids.length <= 0) {
+            MessageWindow("请选择要导出的数据");
+        } else if (ids.split(',').length > 2)
+        {
+            MessageWindow("只能单个项目导出");
+        }
+        else {
+            location.href = "/DataInput/OLDataInput/DownloadNewData?Id=" + ids + "";               
+        }
+    }
+
+    function shuju(id)
+    {
+
+        //location.href = "/DataInput/OLDataInput/OLDataInput?Id=" + id;
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "/DataInput/OLDataInput/GetProjecttems",
+            data: { Id: id},
+            dataType: "json",
+            success: function (json) {
+                if (json == null || json == "") {
+                    return false;
+                }
+
+                if (json.status == "true") {
+                    location.href = "/DataInput/OLDataInput/OLDataInput?Id=" + id;
+                }
+                else {
+                    ErrorWindow(json.message, true);
+                }
+            }
+        });
+    }
+
+    //监听单个checkbox选择时，全选框
+    function monitorCheck() {
+        var DataCount = $("#DataCount").val();
+        var i = 0;
+        $("input[name='data-item']:checked").each(function () {
+            i++;
+        });
+        if (i == DataCount) {
+            $("[name='data-items']").prop("checked", true)
+        } else {
+            $("[name='data-items']").prop("checked", false)
+        }
+    }
+</script>
+
+

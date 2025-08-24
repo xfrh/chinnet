@@ -1,0 +1,42 @@
+﻿
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+   
+    font-family: "微软雅黑"; 
+    font-size:16px;
+}
+
+
+.f-16 {
+font-size:16px !important; 
+}
+
+.template-box img {
+ height:200px; width:100%;
+}
+
+.template-box .temp-iamge {
+padding:10px; border:2px solid #FBFBFB;  margin: 10px 0px; cursor:pointer;
+}
+
+    .template-box .temp-iamge p {
+    text-align:center;
+    }
+
+    .bs-callout {
+padding: 20px;
+margin: 20px 0;
+border: 1px solid #eee;
+border-left-width: 5px;
+border-radius: 3px;
+}
+
+    .bs-callout-warning {
+border-left-color: #E46F61;
+}
+
+.p-all50 {
+padding-left: 50px;
+padding-right: 50px;
+}
+
+

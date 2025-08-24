@@ -1,0 +1,399 @@
+﻿@using ManageSystem.Core.Domain.SHChart
+@using ManageSystem.Core.Extensions
+
+@model ManageSystem.Admin.Models.SHChart.SHBarChartModel
+@{
+    ViewBag.Title = "上海细菌真菌耐药监测网添加柱状图报表";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "上海网图表管理", SecondName = "柱状图管理", LocationName = this.ViewBag.Title }); }
+}
+
+@section HeadSection{
+    <link href="~/Content/Scripts/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/MgtChart/SHBarChar/Create.css" rel="stylesheet" />
+}
+
+@using (Html.BeginForm("SHBarChartCreate", "MgtSHChart", FormMethod.Post, new { enctype = "multipart/form-data", id = "BarChartForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="page-body">
+        <div class="row add-page">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget ">
+                    <div class="widget-header add-page-titlebox ">
+                        <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                    </div>
+                    <div class="widget-body " id="BaseDiv" runat="server" style="overflow: hidden; ">                       
+                        <div class="add-content ">
+                            <div class="k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                                @Html.Partial("SHBarChart_CreatePartial", Model)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div id="modal_title_toptip" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="TitleToptipLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="flex flex-center">
+                    <img src="~/Content/Images/barchart_u4221.png" alt="" title="" draggable="false" />
+                </div>
+            </div>
+            <div class="modal-footer text-center" style="text-align: center;">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">知道了</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-tablecell" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="TableCellModalLabel" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="MultipleCreateTableCellForm">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="TableCellModalLabel" style="font-size: 16px;">添加数据列</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <div class="input-group">
+                            <span class="input-group-addon">抗生素</span>
+                            <input id="MultipleAntibioticName" name="MultipleAntibioticName" type="text" class="form-control" placeholder="请输入抗生素名称" />
+                        </div>
+                        <div id="MultipleAntibioticNameError" class="input-group" style="display: none;">
+                            <i style="padding: 6px 12px; display: table-cell; width: 1%; white-space: nowrap; vertical-align: middle; font-size: 14px; font-weight: 400; line-height: 1; border: 1px solid #fff;">&emsp;&emsp;&emsp;</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button id="btnMultipleTableCellSubmit" class="btn btn-primary ladda-button" data-style="zoom-in" onclick="onSubmitMultipleTableCell(); return false;" type="button">确认</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="modal-tablecell-delete" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="TableCellModalLabel" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="TableCellModalLabel" style="font-size: 16px;">操作提醒</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button id="btnMultipleTableCellDelete" class="btn btn-primary ladda-button" data-style="zoom-in" onclick="onSubmitMultipleTableCellDelete(); return false;" type="button">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal_preview" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myPreviewLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myPreviewLabel">效果预览</h4>
+            </div>
+            <div class="modal-body">
+                <div id="chartmain" style="min-height: 500px;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="singleExcelModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="mySingleExcelModalLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="mySingleExcelModalLabel">单数据导入</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group clearfix">
+                            <label class="control-label col-md-3"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&ensp;选择EXCEL文件：</label>
+                            <div class="col-md-9">
+                                <input id="excelFile" name="excelFile" type="file" accept=".xls,.xlsx" placeholder="选择文件">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group clearfix">
+                            <label class="control-label col-md-3"><i class="fa fa-bookmark-o" aria-hidden="true"></i>&ensp;导入说明：</label>
+                            <div class="col-md-9">
+                                <ul class="list-group">
+                                    <li class="list-group-item">1. 请下载&emsp;<a target="_blank" href="/Content/Files/柱状图单数据导入模板.xlsx"><i class="fa fa-download" aria-hidden="true"></i>&ensp;柱状图单数据导入模板.xlsx</a>&emsp;并按要求填写数据，数值范围0-100内的浮点数，最多2位小数；</li>
+                                    <li class="list-group-item">2. 请勿编辑模板中的表头信息；</li>
+                                    <li class="list-group-item">3. 请使用下载的<a target="_blank" href="/Content/Files/柱状图单数据导入模板.xlsx">柱状图单数据导入模板.xlsx</a>上传数据；</li>
+                                    <li class="list-group-item">4. 上传提交过程等待时间可能稍长，请勿离开或刷新本页面。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group clearfix">
+                            <label class="control-label col-md-3">&ensp;</label>
+                            <div class="col-md-9">
+                                <button id="btnSingleExcelSubmit" class="btn btn-primary ladda-button" data-style="zoom-in" onclick="onSingleExcelSubmit(); return false;" type="button"><i class="fa fa-upload" aria-hidden="true"></i>&ensp;导入数据</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="multipleExcelModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myMultipleExcelModalLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myMultipleExcelModalLabel">多数据导入</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group clearfix">
+                            <label class="control-label col-md-3"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&ensp;选择EXCEL文件：</label>
+                            <div class="col-md-9">
+                                <input id="excelFile" name="excelFile" type="file" accept=".xls,.xlsx" placeholder="选择文件">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group clearfix">
+                            <label class="control-label col-md-3"><i class="fa fa-bookmark-o" aria-hidden="true"></i>&ensp;导入说明：</label>
+                            <div class="col-md-9">
+                                <ul class="list-group">
+                                    <li class="list-group-item">1. 请下载&emsp;<a target="_blank" href="/Content/Files/柱状图多数据导入模板.xlsx"><i class="fa fa-download" aria-hidden="true"></i>&ensp;柱状图多数据导入模板.xlsx</a>&emsp;并按要求填写数据，数值范围0-100内的浮点数，最多2位小数；</li>
+                                    <li class="list-group-item">2. 请勿编辑模板中的表头信息；</li>
+                                    <li class="list-group-item">3. 请使用下载的<a target="_blank" href="/Content/Files/柱状图多数据导入模板.xlsx">柱状图多数据导入模板.xlsx</a>上传数据；</li>
+                                    <li class="list-group-item">4. 上传提交过程等待时间可能稍长，请勿离开或刷新本页面。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group clearfix">
+                            <label class="control-label col-md-3">&ensp;</label>
+                            <div class="col-md-9">
+                                <button id="btnMultipleExcelSubmit" class="btn btn-primary ladda-button" data-style="zoom-in" onclick="onMultipleExcelSubmit(); return false;" type="button"><i class="fa fa-upload" aria-hidden="true"></i>&ensp;导入数据</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 单数据添加数据行 -->
+<script id="template_singletable_tbody" type="text/html">
+    {{each data}}
+    <tr id="list-item-{{$value.uuid}}">
+        <td>
+            <input id="list-item_name-{{$value.uuid}}" name="ItemModel[{{$value.uuid}}].Name" value="{{$value.name}}" data-val="true" data-val-required="请输入数据项名称" data-val-length-min="2" data-val-length-max="20" data-val-length="数据项名称在2-20个字符之间" class="form-control" type="text" data-val-unique_dataitem_name-type="1" data-val-unique_dataitem_name="此数据项名称已经存在" />
+            <span data-valmsg-for="ItemModel[{{$value.uuid}}].Name" data-valmsg-replace="true"></span>
+        </td>
+        <td class="text-center">
+            <input id="list-item_value-{{$value.uuid}}" name="ItemModel[{{$value.uuid}}].Value" value="{{$value.value}}" class="form-control text-center" type="tel" placeholder="" data-val="true" data-val-required="请输入数值,浮点数,最多2位小数" data-val-number="只能输入浮点数,最多2位小数" data-val-range-min="0" data-val-range="数值必须大于或等于0" />
+            <span data-valmsg-for="ItemModel[{{$value.uuid}}].Value" data-valmsg-replace="true"></span>
+        </td>
+        <td class="text-center">
+            <select id="list-item_display-{{$value.uuid}}" name="ItemModel[{{$value.uuid}}].Display" class="form-control">
+                {{if $value.display }}
+                <option value="True" selected="selected">显&emsp;示</option>
+                <option value="False">不显示</option>
+                {{else}}
+                <option value="True">显&emsp;示</option>
+                <option value="False" selected="selected">不显示</option>
+                {{/if}}
+            </select>
+        </td>
+        <td class="text-center">
+            <input id="list-item_sort-{{$value.uuid}}" name="ItemModel[{{$value.uuid}}].Sort" value="{{$value.sort}}" class="form-control text-center" type="tel" placeholder="" data-val="true" data-val-required="请录入排序值" data-val-digits="显示顺序只能是大于或等于1的整数" data-val-range-min="1" data-val-range="显示顺序只能是大于或等于1的整数" />
+            <span data-valmsg-for="ItemModel[{{$value.uuid}}].Sort" data-valmsg-replace="true"></span>
+        </td>
+        <td @*class="text-center"*@>
+            <a class="btn btn-delete" style="float:left;margin-left:60px;" data-tagid="{{$value.uuid}}" href="javascript: onDeleteItem('#list-item-{{$value.uuid}}');">删&ensp;除</a>
+            <a class="btn btn-delete" style="float:left;margin-left:30px;" data-tagid="{{$value.uuid}}" href="javascript: onAddItemRow1('#list-item-{{$value.uuid}}');">插&ensp;入</a>
+        </td>
+    </tr>
+    {{/each}}
+</script>
+
+<!-- 多数据新增表头模板 -->
+<script id="template_table_thead" type="text/html">
+    {{each antibiotics}}
+    <input type="hidden" hidden="hidden" value="{{$value.Guid}}" name="Antibiotics[0].Guid" data-value="{{$value.Name}}">
+    <input type="hidden" hidden="hidden" value="{{$value.Name}}" name="Antibiotics[0].Name" id="{{$value.Guid}}">
+    <span>{{$value.Name}}</span>
+    <button type="button" class="btn btn-trash" data-cell="{{$value.Guid}}" onclick="onTableDeleteCol(this);">
+        <span class="typcn typcn-delete-outline text-danger"></span>
+    </button>
+    {{/each}}
+</script>
+
+<!-- 多数据新增列模板 -->
+<script id="template_table_insertCol" type="text/html">
+    <input type="hidden" hidden="hidden" name="ItemModel[{{uuid}}].Antibiotics[{{uuid}}].Guid" value="{{uuid}}">
+    <input id="ant{{uuid}}" name="ItemModel[{{uuid}}].Antibiotics[{{uuid}}].Value" value="" class="form-control text-center" type="tel" placeholder="" data-val="true" data-val-required="请输入数值,浮点数,最多2位小数" data-val-number="只能输入浮点数,最多2位小数" data-val-range-min="0" data-val-range="数值必须大于或等于0" />
+    <span data-valmsg-for="ItemModel[{{uuid}}].Antibiotics[{{uuid}}].Value" data-valmsg-replace="true"></span>
+</script>
+
+<!-- 多数据删除列提示 -->
+<script id="tpl_multiple_tablecell_delete" type="text/html">
+    <div class="table-responsive">
+        <div class="flex flex-vertical-center">
+            <span class="fa fa-exclamation-triangle" aria-hidden="true" style="font-size: 35px; top: 0; color: #e46f61;"></span>
+            <span style="margin-left: 15px;">确定要删除数据列【{{antibiotic}}】？</span>
+            <input type="hidden" hidden="hidden" id="multiple_tablecell_delete_uuid" value="{{uuid}}" />
+        </div>
+    </div>
+</script>
+
+<!-- 多数据新增数据行 -->
+<script id="tpl_multiple_table_addrow" type="text/html">
+    <td class="text-center">
+        <a class="btn btn-delete" onclick="onDeleteMultipleTableRow('#list-item-{{uuid}}'); return false;" href="#">删&ensp;除</a>
+    </td>
+    <td>
+        <input class="form-control" id="list-item_name-{{uuid}}" name="ItemModel[{{uuid}}].Name" type="text" value="" data-val="true" data-val-required="请输入数据名称" data-val-length-min="2" data-val-length-max="20" data-val-length="数据名称需在2-20个字符之间" data-val-unique_dataitem_name-type="2" data-val-unique_dataitem_name="此数据名称已经存在" />
+        <span data-valmsg-for="ItemModel[{{uuid}}].Name" data-valmsg-replace="true"></span>
+    </td>
+    <td>
+        <input class="form-control" id="list-item_color-{{uuid}}" name="ItemModel[{{uuid}}].BarColor" type="color" value="{{color}}" />
+    </td>
+    <td>
+        <select class="form-control" id="list-item_display-{{uuid}}" name="ItemModel[{{uuid}}].Display">
+            <option value="True" selected="selected">显&emsp;示</option>
+            <option value="False">不显示</option>
+        </select>
+    </td>
+    <td>
+        <select class="form-control" id="list-item_chartType-{{uuid}}" name="ItemModel[{{uuid}}].ChartType">
+            <option value="@((byte)SHChartTypeEnum.Bar)">@(EnumExtension.GetDescription(SHChartTypeEnum.Bar))</option>
+            <option value="@((byte)SHChartTypeEnum.Line)">@(EnumExtension.GetDescription(SHChartTypeEnum.Line))</option>
+        </select>
+    </td>
+    {{each antibiotics}}
+    <td data-cell="{{$value}}">
+        <input type="hidden" hidden="hidden" name="ItemModel[{{uuid}}].Antibiotics[{{$value}}].Guid" value="{{$value}}" />
+        <input id="ant{{$value}}" name="ItemModel[{{uuid}}].Antibiotics[{{$value}}].Value" value="" class="form-control text-center" type="tel" placeholder="" data-val="true" data-val-required="请输入数值,浮点数,最多2位小数" data-val-number="只能输入浮点数,最多2位小数" data-val-range-min="0" data-val-range="数值必须大于或等于0" />
+        <span data-valmsg-for="ItemModel[{{uuid}}].Antibiotics[{{$value}}].Value" data-valmsg-replace="true"></span>
+    </td>
+    {{/each}}
+</script>
+
+<!-- 多数据导入生成整个table -->
+<script id="template_multipletable_table" type="text/html">
+    <thead>
+        <tr>
+            <th class="text-center" style="width: 75px; min-width: 75px;">操作</th>
+            <th style="width: 150px; min-width: 150px">数据名称</th>
+            <th class="text-center" style="width: 65px; min-width:65px;">颜色</th>
+            <th style="width: 100px; min-width: 100px;">是否显示</th>
+            <th style="width: 100px; min-width: 100px;">类型</th>
+            {{each antibiotics}}
+            <th id="th{{$value.Guid}}" data-cell="{{$value.Guid}}" class="text-center pos-rel user-select-no cursor-pointer nowrap {{$value.Name.gblen() <= 8 ? "w8char" : $value.Name.gblen() <= 13 ? "w12char" : "w15char"}}">
+                <input type="hidden" hidden="hidden" value="{{$value.Guid}}" name="Antibiotics[0].Guid" data-value="{{$value.Name}}">
+                <input type="hidden" hidden="hidden" value="{{$value.Name}}" name="Antibiotics[0].Name" id="{{$value.Guid}}">
+                <span>{{$value.Name}}</span>
+                <button type="button" class="btn btn-trash" data-cell="{{$value.Guid}}" onclick="onTableDeleteCol(this);">
+                    <span class="typcn typcn-delete-outline text-danger"></span>
+                </button>
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+    <tbody id="multitem_tbody">
+        {{each data}}
+        <tr id="list-item-{{$value.uuid}}">
+            <td class="text-center">
+                <a class="btn btn-delete" onclick="onDeleteMultipleTableRow('#list-item-{{$value.uuid}}'); return false;" href="#">删&ensp;除</a>
+            </td>
+            <td>
+                <input class="form-control" id="list-item_name-{{$value.uuid}}" name="ItemModel[{{$value.uuid}}].Name" type="text" value="{{$value.name}}" data-val="true" data-val-required="请输入数据名称" data-val-length-min="2" data-val-length-max="20" data-val-length="数据名称需在2-20个字符之间" data-val-unique_dataitem_name-type="2" data-val-unique_dataitem_name="此数据名称已经存在" />
+                <span data-valmsg-for="ItemModel[{{$value.uuid}}].Name" data-valmsg-replace="true"></span>
+            </td>
+            <td>
+                <input class="form-control" id="list-item_color-{{$value.uuid}}" name="ItemModel[{{$value.uuid}}].BarColor" type="color" value="{{$value.color}}">
+            </td>
+            <td>
+                <select class="form-control" id="list-item_display-{{$value.uuid}}" name="ItemModel[{{$value.uuid}}].Display">
+                    {{if $value.display }}
+                    <option value="True" selected="selected">显&emsp;示</option>
+                    <option value="False">不显示</option>
+                    {{else}}
+                    <option value="True">显&emsp;示</option>
+                    <option value="False" selected="selected">不显示</option>
+                    {{/if}}
+                </select>
+            </td>
+            <td>
+                <select class="form-control" id="list-item_chartType-{{$value.uuid}}" name="ItemModel[{{$value.uuid}}].ChartType">
+
+                    {{if $value.chartType === 2 || $value.chartType === '2'}}
+                    <option value="2" selected="selected">柱状图</option>
+                    <option value="3">折线图</option>
+                    {{else}}
+                    <option value="2">柱状图</option>
+                    <option value="3" selected="selected">折线图</option>
+                    {{/if}}
+                </select>
+            </td>
+            {{each antibiotics _antibiotic _antibioticsIndex}}
+            <td data-cell="{{_antibiotic.Guid}}">
+                <input type="hidden" hidden="hidden" name="ItemModel[{{$value.uuid}}].Antibiotics[{{_antibiotic.Guid}}].Guid" value="{{_antibiotic.Guid}}">
+                <input id="ant{{_antibiotic.Guid}}" name="ItemModel[{{$value.uuid}}].Antibiotics[{{_antibiotic.Guid}}].Value" value="{{$value.values.find(item => item.Guid === _antibiotic.Guid).Value}}" class="form-control text-center" type="tel" placeholder="" data-val="true" data-val-required="请输入数值,浮点数,最多2位小数" data-val-number="只能输入浮点数,最多2位小数" data-val-range-min="0" data-val-range="数值必须大于或等于0" />
+                <span data-valmsg-for="ItemModel[{{$value.uuid}}].Antibiotics[{{_antibiotic.Guid}}].Value" data-valmsg-replace="true"></span>
+            </td>
+            {{/each}}
+        </tr>
+        {{/each}}
+    </tbody>
+</script>
+@section FooterSection{
+    <script src="~/Content/Scripts/toastr/toastr.js"></script>
+    <script src="~/Content/Scripts/utils.min.js"></script>
+    <script src="~/Content/Scripts/underscore-min.js"></script>
+    <script src="~/Content/Scripts/underscore.string.min.js"></script>
+    <script src="~/Content/Scripts/template-web.js"></script>
+    <script src="~/Content/Scripts/echarts/echarts.min.js"></script>
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/jsstore/jsstore.min.js"></script>
+    <script src="~/Content/Scripts/MgtChart/SHBarChart/Common.js"></script>
+    <script src="~/Content/Scripts/MgtChart/SHBarChart/Create.js?v=@DateTime.Now.Ticks"></script>
+}

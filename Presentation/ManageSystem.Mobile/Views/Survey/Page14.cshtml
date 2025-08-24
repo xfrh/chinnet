@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "问卷";
+    Layout = "~/Views/Shared/_SurveyLayout.cshtml";
+    string _version = DateTime.Now.Ticks.ToString();
+}
+
+@section Styles{
+    <link href="~/Content/Css/Survey/Page14.css?v=@_version" rel="stylesheet" />
+}
+@section Scripts{
+    <script src="~/Content/Scripts/Survey/Page14.js?v=@_version"></script>
+}
+
+<div id="app" v-locak>
+    <input id="hidden_id" name="hidden_id" ref="hidden_id" type="hidden" hidden="hidden" value="@ViewContext.RouteData.Values["id"]" />
+    <div id="page" class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide slidescroll">
+                <div class="survey-body">
+                    <article class="cro-page">
+                        <div class="cro-qbox">
+                            <div class="cro-qbox-title" v-text="Q27.title"></div>
+                            <div class="cro-qbox-awbox">
+                                <table>
+                                    <tbody>
+                                        <tr v-for="(item, index) in Q27.options" :class="{'has-error': errors.has(item.name)}">
+                                            <td style="width: 1.55rem;">
+                                                <div class="radio-control">
+                                                    <input :id="item.id" v-model="Q27.answer" class="radio-control-input" type="radio" :name="item.name" :value="item.value" v-validate="{required: true}" v-if="index === 0" />
+                                                    <input :id="item.id" v-model="Q27.answer" class="radio-control-input" type="radio" :name="item.name" :value="item.value" v-if="index > 0" />
+                                                    <label :for="item.id" class="radio-control-label"></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div :class="{'flex cro-qbox-awbox__other q27_input_box': true, 'has-error': errors.has(item.name_input)}">
+                                                    <label :for="item.id" v-text="item.text"></label>
+                                                    <input class="flex-1 cro-qbox__input font-14px" :name="item.name_input" v-model="item.rate" v-validate="{required: Q27.answer === item.value, min: 1, decimal: 2}" type="tel" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="cro-qbox">
+                            <div class="cro-qbox-title" v-text="Q28.title"></div>
+                            <div class="cro-qbox-awbox">
+                                <table>
+                                    <tbody>
+                                        <tr v-for="(item, index) in Q28.options" :class="{'has-error': errors.has(item.name)}">
+                                            <td style="width: 1.55rem;">
+                                                <div class="checkbox-control">
+                                                    <input :id="item.id" v-model="Q28.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: [1, Q28.options.length]}" v-if="index === 0" />
+                                                    <input :id="item.id" v-model="Q28.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                                    <label :for="item.id" class="checkbox-control-label"></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <label :for="item.id" v-text="item.text"></label>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <footer class="cre-footer">
+                    <a class="btn btn-primary cre-submit a-btn" href="javascript: void(0);" @@click="onSubmit">下一页</a>
+                    <div style="height: 38px;"></div>
+                </footer>
+            </div>
+        </div>
+    </div>
+</div>

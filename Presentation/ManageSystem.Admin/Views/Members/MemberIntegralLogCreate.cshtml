@@ -1,0 +1,131 @@
+﻿@model ManageSystem.Admin.Models.Members.MemberIntegralLogModel
+@{
+    //page title
+    ViewBag.Title ="添加用户积分使用记录";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "会员管理", SecondName = "积分使用明细", LocationName = this.ViewBag.Title }); }
+}
+
+@using (Html.BeginForm())
+{
+  @Html.AntiForgeryToken()
+
+ <div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                </div>
+                <div class="widget-body " id="BaseDiv" runat="server">
+                    <div class="options add-page-options">
+                    <input type="submit" name="save" class="btn btn-blue " value="保存" />
+                </div>
+                    <div class="add-content ">
+                        <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                            @Html.ValidationSummary(true)
+                            @Html.HiddenFor(model => model.Id)
+
+                            <table class="adminContent">
+                                <tr class="member-id-tr add-display-block" >
+                                    <td class="adminTitle"><img alt="所属会员" src="/Content/images/ico-help.gif" title="所属会员"><label for="MemberId" title="所属会员">所属会员</label>：</td>
+                                    <td class="adminData TrMemberId">
+                                        @Html.TextBoxFor(m => m.MemberId, new { @class = "text-box single-line", style = "width:200px;float: left;" })
+                                        <input type="button" onclick="SelectMember()" name="save" class="btn btn-blue " style="float: left;margin: 0px 20px;" value="选择会员">
+                                        @Html.ValidationMessageFor(m => m.MemberId)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">@Html.NopLabelFor(m => m.MemberName)：</td>
+                                    <td class="adminData">
+                                        <div  id="SpanMemberId">@Model.MemberName</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">@Html.NopLabelFor(m => m.Value)：</td>
+                                    <td class="adminData">
+                                        @Html.EditorFor(m => m.Value)
+                                        @Html.ValidationMessageFor(m => m.Value)
+                                        <span style="color:red;">积分数量规则：不允许等于0，如果操作数量是负数前面加 -（例如:-100，表示扣除100积分） </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">@Html.NopLabelFor(m => m.Type)：</td>
+                                    <td class="adminData">
+                                        @Html.DropDownList("Type", Model.TypeList, new { @class = "form-control dropdown" })
+                                        @Html.ValidationMessageFor(m => m.Type)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">@Html.NopLabelFor(m => m.Remark)：</td>
+                                    <td class="adminData">
+                                        @Html.TextAreaFor(model => model.Remark, new { @class = "form-control txt", cols = "30", rows = "3", style = "margin-bottom: 10px;" })
+                                        @Html.ValidationMessageFor(m => m.Remark)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">@Html.NopLabelFor(m => m.Describe)：</td>
+                                    <td class="adminData">
+                                        @Html.TextAreaFor(model => model.Describe, new { @class = "form-control txt", cols = "30", rows = "3" })
+                                        @Html.ValidationMessageFor(m => m.Describe)
+                                    </td>
+                                </tr>
+                            </table>
+                           </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}
+
+
+
+<script src="~/Content/Scripts/layer/layer.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#MemberId").val("");
+        $("#Value").val("");
+    })
+
+    //选择所属会员
+    function SelectMember() {
+        OpenSelectMemberWindow("选择所属会员", "/Members/MemberSelect?temp=MemberId");
+    }
+
+    //打开选择会员的窗口
+    function OpenSelectMemberWindow(title, url) {
+        //iframe层-父子操作
+        layer.open({
+            type: 2,
+            area: ['1200px', '800px'],
+            fix: false, //不固定
+            maxmin: true,
+            title: "" + title + "",
+            content: "" + url + ""
+        });
+    }
+
+    //选择会员以后的回调函数  id 会员id，name会员姓名，temp页面的元素
+    function SaveSelectMemberData(id, name, temp) {
+        if (id == null || id.length <= 0) {
+            alert("选择会员数据错误，请重试");
+            return;
+        }
+        $("#" + temp + "").val(id);
+        $("#Span" + temp + "").html(name);
+        $(".Tr" + temp + " span").html("");
+        $(".Tr" + temp + " span").addClass("field-validation-valid");
+        $(".Tr" + temp + " span").removeClass("field-validation-error");
+    }
+
+
+
+
+</script>

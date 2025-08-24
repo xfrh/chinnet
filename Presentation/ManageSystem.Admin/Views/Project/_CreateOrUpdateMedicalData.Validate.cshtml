@@ -1,0 +1,26 @@
+﻿<div class="tab-pane  select-item" id="tabFileData" style="margin-top:15px;">
+
+    <div style="margin: 20px 0px;">
+        <button type="button" class="btn btn-default" style="margin-right: 10px;" onclick="ShowErrorAll()">显示全部</button>
+        <button type="button" class="btn btn-info" style="margin-right: 10px;" onclick="ShowErrorInfo()">仅显示提醒</button>
+        <button type="button" class="btn btn-warning" style="margin-right: 10px;" onclick="ShowErrorWarning()">仅显示警告</button>
+        <button type="button" class="btn btn-danger" onclick="ShowErrorDanger()">仅显示错误</button>
+        <input type="hidden" id="ValidateLevelValue" value="0" />
+    </div>
+    <table class="table table-bordered  table-hover table2 ">
+        <thead>
+            <tr>
+                <td style="width:5%;">序号</td>
+                <td style="width:10%;">Excel行号</td>
+                <td style="width:10%;">提示类型</td>
+                <td style="width:15%;">字段名称</td>
+                <td style="width:75%;">描述</td>
+            </tr>
+        </thead>
+        <tbody id="validateDataTbody"></tbody>
+    </table>
+
+    <div id="divIncomeIntegral" class="page-btn-main " style="text-align:center;"></div>
+</div>
+
+<script src="~/Content/Scripts/Medicine/_Detail.Validate.js?v=1223"></script>

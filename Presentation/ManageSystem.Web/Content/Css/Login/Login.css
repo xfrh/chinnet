@@ -1,0 +1,57 @@
+﻿.login .input-login {
+    margin-right: 2%;
+    width: 98%;
+    text-indent: 16px;
+    color: #757575;
+}
+
+.login .input-code {
+    width: 100%;
+    text-indent: 16px;
+    color: #757575;
+}
+
+.login .field-validation-error {
+    color: red;
+}
+
+.login .btn {
+    cursor: pointer;
+}
+
+.dropdown {
+    height: 44px;
+    line-height: 44px;
+    border-style: none;
+    width: 110px;
+    background-color: #e3effb;
+    color: #757575 !important;
+    float: right;
+}
+
+    .dropdown .selected, .dropdown li {
+        color: #757575;
+    }
+
+    .dropdown.open {
+        background-color: #e3effb;
+    }
+
+    .dropdown.focus {
+        background-color: #e3effb !important;
+    }
+
+    .dropdown .selected, .dropdown li {
+        padding: 14px 12px;
+    }
+
+    .dropdown div {
+        background-color: #e3effb;
+    }
+
+.login .input-login {
+    margin-right: 0px;
+    width: 100%;
+    text-indent: 16px;
+    color: #757575;
+}

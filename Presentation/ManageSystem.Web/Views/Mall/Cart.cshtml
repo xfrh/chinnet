@@ -1,0 +1,98 @@
+﻿@using ManageSystem.Services.Products
+@using ManageSystem.Web.Models.Products
+@using ManageSystem.Web.Models.Members
+@using ManageSystem.Services.Products
+@model List<MemberCartModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "购物车";
+}
+
+
+
+<link href="~/Content/Css/cart.css" rel="stylesheet" />
+
+<div class="mbx">
+    <p>当前位置：首页 &gt; 购物车 </p>
+</div>
+
+
+<div class="center_keyan">
+    <div class="cart-box">
+        @{
+                if (Model != null && Model.Any())
+                {
+                    decimal cartAmount = 0; //购物车总金额
+                    int productCount = 0; //购买商品的数量
+
+                <table style="width:100%;" class="table-content">
+                    <thead class="cart-list-head">
+                        <tr>
+                            <td style="width:6%;text-align:left;"><input type="checkbox" class="chkAll" checked="checked" onchange="SelectAll()" />&nbsp;&nbsp;全选</td>
+                            <td style="width:10%;">图片</td>
+                            <td style="text-align:left;">商品名称</td>
+                            <td style="width:15%">单价</td>
+                            <td style="width:10%;">数量</td>
+                            <td style="width:10%">小计</td>
+                            <td style="width:10%">操作</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (var item in Model)
+                            {
+                           
+                                <tr class="item-@item.Id  cart-item" DataId ="@item.Id.ToString()">
+                                    <td style="text-align:left;">
+                                        @{
+                                            if (item.Status)
+                                            {
+                                                <text><input type="checkbox" checked="checked"  class="chkItem"  onchange="SetCartData()"  /></text>
+                                                productCount++;
+
+                                                cartAmount += item.Count * item.MarketPrice;
+                                            }
+                                            else {
+                                                <text><span style="color:red;">@item.StatusMessage</span></text>
+                                            }
+                                        }
+                                    </td>
+                                    <td><img src="@( ProductExtensions.GetProductImage(item.ProductImage ))" width="80" height="80" /></td>
+                                    <td style="text-align:left;">@item.ProductName</td>
+                                    <td>@item.MarketPrice 元</td>
+                                    <td>  <input type="text" value="@item.Count" @(item.Status?"":"disabled='disabled'")  Price="@item.MarketPrice"  onchange="CheckCount(this)" class="txt-count">   </td>
+                                    <td><span class="item-amount">@item.Amount</span> 元</td>
+                                    <td><a href="javascript:DeleteCart('@item.Id.ToString()')">删除</a></td>
+                                </tr>
+                               }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7">
+                                <div class="cart-footer">
+                                    <div class="cart-footer-content"><a href="@Url.Action("Index","Mall")"> 继续购物</a> 
+                                    <span style="margin-left:30px;">共 <spa class="e1">@productCount</spa> 件商品，已选择 <span class="e1 product-count"> @productCount </span> 件</span></div>
+                                    <div class="cart-footer-btnbox">
+                                        <div class="cart-footer-btnbox2">
+                                            合计：
+                                            <spa class="e1 cart-amount" style="font-size:20px;">@Math.Round(cartAmount, 2) 元</spa>
+
+                                            <input type="button" class="btn btn-info" value="去结算" onclick="CartSettlement()" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                }
+
+        }
+
+    </div>
+
+</div>
+
+<script src="~/Content/Scripts/Mall/Cart.js"></script>

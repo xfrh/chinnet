@@ -1,0 +1,83 @@
+﻿@model ManageSystem.Core.Domain.Cre.Toconfigure
+@{
+    //page title
+    ViewBag.Title = "CRE数据详情";
+}
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "CRE专项检测", SecondName = "数据管理列表", LocationName = this.ViewBag.Title }); }
+
+}
+<div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                </div>
+                <div class="widget-body " id="BaseDiv" runat="server">
+                    <div class="options add-page-options">
+                    </div>
+                    <div class="add-content ">
+                        <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                            @Html.Partial("_CreProjectdetails", Model)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(function () {
+            GetDistrictLists(0, 1);
+            function GetDistrictLists(parentId, location) {
+
+                $.ajax({
+                    url: "/PartialView/GetDistrictList",
+                    type: "Post",
+                    dataType: "json",
+                    data: { parentId: parentId },
+                    success: function (json) {
+
+                        if (json == null || json == "") {
+                            return;
+                        }
+
+                        var content = " <option value=\"0\" >-- 请选择 --</option>";
+                        for (var i = 0; i < json.length; i++) {
+                            content += " <option value=\"" + json[i].Id + "\" >" + json[i].Name + "</option>";
+                        }
+
+                        switch (location) {
+                            case 1:
+                                //绑定省份
+                                $("#ddlProvince").html(content);
+                                break;
+                            case 2:
+                                //绑定市
+                                $("#ddlCity").html(content);
+                                break;
+                            case 3:
+                                //绑定区县
+                                $("#ddlArea").html(content);
+                                break;
+
+                            default:
+
+
+                        }
+                        SetDistrictSelect($("#Province_id").val(), $("#City_id").val(), $("#District_id").val());
+
+                    },
+
+                    error: function (x, e) { },
+                    complete: function (x) { }
+                });
+            }
+            var Year = $("#Data_year").val();
+            var Ession = $("#Data_season").val();
+            $("#year").val(Year);
+            $("#season").val(Ession);
+        })
+</script>
+@Html.Partial("~/Views/Common/_ViewPageJs.cshtml")

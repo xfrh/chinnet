@@ -1,0 +1,416 @@
+/**
+ * 通用样式
+ * 作者：蒋一笑
+ * 时间：2019.01.25
+ */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC","Helvetica Neue",STHeiti,"Microsoft Yahei",Tahoma,Simsun,sans-serif;
+    position: relative;
+}
+
+body, button, dd, dl, dt, h1, h2, h3, h4, html, input, li, p, textarea, ul, ol, span, a, input, i {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: #282828;
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+    body > .body-content {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+img {
+    display: block;
+    border: 0;
+    max-width: 100%;
+}
+
+input:focus {
+    outline: none
+}
+
+.bold {
+    font-weight: bold;
+}
+
+a {
+    color: #333;
+    text-decoration: none
+}
+
+select {
+    /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+    border: none;
+    outline: none;
+    text-align: right;
+    /*很关键：将默认的select选择框样式清除*/
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    /*在选择框的最右侧中间显示小箭头图片*/
+    background: url('/Content/images/Jian_l_15.jpg') no-repeat scroll right center transparent;
+    /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+    padding-right: 0.6rem;
+    background-size: contain;
+    background-position-y: 2px;
+}
+
+[v-cloak] {
+    display: none !important;
+}
+
+input::-webkit-input-placeholder {
+    /* placeholder颜色  */
+    color: #969696;
+    /* placeholder字体大小  */
+    /* font-size: .24rem; */
+    /* placeholder位置  */
+}
+
+.Yuan {
+    border-radius: 50%;
+}
+
+.red {
+    color: #f50b2c;
+}
+
+.white {
+    color: #fff;
+}
+/* 隐藏 */
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/* flex布局 */
+.flex {
+    display: flex;
+    display: -webkit-flex;
+}
+
+.f-wrap {
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    word-break: break-all; /* 支持IE和chrome，FF不支持*/
+    word-wrap: break-word; /* 以上三个浏览器均支持 */
+}
+
+.f-center {
+    align-items: center;
+    -webkit-align-items: center;
+}
+
+.f-between {
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+}
+
+.f-jcenter {
+    justify-content: center;
+    -webkit-justify-content: center;
+}
+
+.f-around {
+    justify-content: space-around;
+    -webkit-justify-content: space-around;
+}
+
+.flex1 {
+    flex: 1;
+    -webkit-flex: 1;
+}
+
+.f-end {
+    justify-content: flex-end;
+    -webkit-justify-content: flex-end;
+}
+
+.t-right {
+    text-align: right;
+}
+/* 结构 */
+.indexpage {
+    display: -webkit-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-box-orient: vertical;
+    height: 100%;
+    width: 100%;
+}
+
+.middle {
+    height: 100%;
+    width: 100%;
+    background-color: #fff;
+    position: relative;
+    -webkit-box-flex: 1;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+    z-index: 0;
+}
+
+.t-center {
+    text-align: center;
+}
+
+.bold {
+    font-weight: bold;
+}
+/* 字体大小 */
+.fon-20 {
+    font-size: .266rem;
+}
+
+.fon-22 {
+    font-size: .293rem;
+}
+
+.fon-24 {
+    font-size: .32rem;
+}
+
+.fon-26 {
+    font-size: 0.34rem;
+}
+
+.fon-28 {
+    font-size: 0.37rem;
+}
+
+.fon-30 {
+    font-size: 0.4rem;
+}
+
+.fon-32 {
+    font-size: 0.43rem;
+}
+
+.fon-36 {
+    font-size: 0.48rem;
+}
+
+.fon-34 {
+    font-size: 0.61rem;
+}
+
+.fon-38 {
+    font-size: 0.506rem;
+}
+
+.fon-64 {
+    font-size: .8rem;
+}
+
+.border-b-1 {
+    border-bottom: 1px solid #ddd;
+}
+
+.margin-b-40 {
+    margin-bottom: 0.5rem;
+}
+/* padding */
+/* margin */
+.margin-t-20 {
+    margin-top: .26rem
+}
+
+.margin-t-10 {
+    margin-top: .13rem
+}
+
+.margin-t-40 {
+    margin-top: .53rem
+}
+
+.margin-b-5 {
+    margin-bottom: 5px;
+}
+
+.margin-b-10 {
+    margin-bottom: .13rem;
+}
+
+.margin-r-10 {
+    margin-right: .13rem;
+}
+
+.margin-b-20 {
+    margin-bottom: .26rem;
+}
+
+.margin-b-25 {
+    margin-bottom: .35rem;
+}
+
+.margin-l-20 {
+    margin-left: .26rem;
+}
+
+.margin-b-35 {
+    margin-bottom: .45rem;
+}
+
+.margin-b-40 {
+    margin-bottom: .53rem
+}
+
+.margin-t-80 {
+    margin-top: 1.06rem
+}
+
+.margin-l-10 {
+    margin-left: .13rem;
+}
+
+.margin-l-20 {
+    margin-left: .23rem;
+}
+
+.margin-r-20 {
+    margin-right: .26rem;
+}
+/* padding */
+.padding-1 {
+    padding: 0 1%;
+}
+
+.padding-20 {
+    padding: .26rem;
+}
+
+.padding-t-20 {
+    padding-top: .26rem;
+}
+
+.padding-lr-20 {
+    padding-right: .26rem;
+    padding-left: .26rem;
+}
+
+.padding-lr-40 {
+    padding-right: .52rem;
+    padding-left: .52rem;
+}
+
+.padding-40 {
+    padding: 0.52rem;
+}
+
+.padding-tb-40 {
+    padding-top: 0.52rem;
+    padding-bottom: 0.52rem;
+}
+
+.padding-tb-20 {
+    padding-top: .26rem;
+    padding-bottom: .26rem;
+}
+
+.padding-lr-10 {
+    padding-right: .13rem;
+    padding-left: .13rem;
+}
+
+.padding-t-10 {
+    padding-top: 0.13rem;
+}
+
+.padding-b-10 {
+    padding-bottom: 0.13rem;
+}
+
+.padding-b-25 {
+    padding-bottom: .35rem;
+}
+
+.padding-tb-10 {
+    padding-top: .13rem;
+    padding-bottom: .13rem;
+}
+
+.padding-t-40 {
+    padding-top: .52rem;
+}
+
+.padding-b-40 {
+    padding-bottom: .52rem;
+}
+
+.padding-b-20 {
+    padding-bottom: .26rem;
+}
+
+.c96 {
+    color: #969696;
+}
+/*  */
+.btn {
+    width: 100%;
+    height: 1.1rem;
+    font-size: 0.5rem;
+    font-weight: bold;
+    background-color: #005cad;
+    border: 0;
+    color: #fff;
+}
+
+.bg-blue {
+    background-color: #005cad;
+}
+
+.blue {
+    color: #005cad;
+}
+
+.border-b-2 {
+    border-bottom: 2px solid #000;
+}
+/* 底部 */
+.footer {
+    padding-bottom: 0.1rem;
+}
+
+    .footer .div {
+        font-size: 0.35rem;
+        text-align: center;
+    }
+
+    .footer img {
+        width: 0.6rem;
+        margin: 0 auto;
+        margin-bottom: 0.1rem;
+    }
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.flex-none {
+    -webkit-box-flex: 0;
+    -webkit-flex: none;
+    -moz-box-flex: 0;
+    -ms-flex: none;
+    flex: none;
+}

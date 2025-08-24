@@ -1,0 +1,50 @@
+﻿@model  ArticleModel
+@using ManageSystem.Web.Models.Articles
+@using ManageSystem.Core.Domain.Articles
+@using ManageSystem.Services.Articles
+@using ManageSystem.Core.Infrastructure;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = Model.Name;
+}
+
+<div class="mbx"><p>当前位置：首页 &gt; 资讯中心 </p></div>
+<div class="news_xx">
+    <div class="news_txt" style="width: 100%;  margin-right: 20px; margin-left:0px;">
+        <h2>
+        @Model.Name<br>
+            <span>@Model.InsertTime.ToString("yyyy-MM-dd HH:mm") 作者：@Model.Author</span>
+            <p>&nbsp;</p>
+        </h2>
+        <p>@Html.Raw(Model.Content)</p>
+    </div>
+    <div class="news_nav" style="float: right;width: 230px; display:none;">
+
+        @{
+            var listData = this.ViewBag.RightListData as Dictionary<ArticleTypeModel, List<ArticleModel>>;
+            if (listData != null && listData.Any())
+            {
+                foreach (var item in listData.Keys)
+                {
+                    <ul>
+                        <h2 onclick="location.href='@Url.Action("Index","News",new { type= item.Id.ToString()})'"> @item.Name</h2>
+                        @{
+                            var articleList = listData[item];
+                            if (articleList != null && articleList.Any())
+                            {
+                                foreach (var article in articleList)
+                                {
+                                    <li style="padding-left:10px; padding-right:10px;" ><a  title="@article.Name" href="@Url.Action("Detail","News",new { id= article.Id.ToString()})"><span>•</span> @article.Name</a></li>
+                                }
+                            }
+                        }
+                    </ul>
+                }
+            }
+
+        }
+      
+      
+    </div>
+</div>

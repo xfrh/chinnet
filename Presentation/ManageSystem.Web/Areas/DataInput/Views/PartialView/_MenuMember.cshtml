@@ -1,0 +1,23 @@
+﻿@{
+    this.Layout = null;
+}
+
+@{
+    if (this.ViewBag.IsLogin)
+    {
+        <li class="r">
+            <span><img src="@ViewBag.Img" alt="" style="max-width:40px; max-height:40px;" /></span>
+            <span>欢迎光临 @ViewBag.Name</span>
+            <span><a href="/Login/Out"><img src="/Content/Images/03.jpg" alt="" style="max-width: 15px; position: relative; top: -2px;" /></a></span>
+        </li>
+    }
+    else
+    {
+        <li class="r">
+            <span><a href="/?type=login&returnUrl=">登录 </a></span>
+            <span style="padding-left: 6px; color: #999;">|</span>
+            <span style="padding-left: 6px;"><a href="/?type=regist&returnUrl=">注册 </a></span>
+        </li>
+    }
+
+}

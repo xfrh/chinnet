@@ -1,0 +1,58 @@
+﻿@using ManageSystem.Core.Domain.Members
+@using Webdiyer.WebControls.Mvc
+@using ManageSystem.Services.Articles
+@using ManageSystem.Web.Models.Orders
+@using ManageSystem.Services.Products
+
+@model PagedList<MemberIntegralLog>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "积分明细 ";
+}
+
+@section HeadSection{
+    <link href="~/Content/Css/Center.css" rel="stylesheet" />
+}
+
+
+<div class="mbx"><p>当前位置：首页 &gt; 积分明细 </p></div>
+<div class="user_center integral-list-page">
+    @*<div>
+       @Html.Action("_Menu", "Center")
+    </div>*@
+    <div class="user_center_r" style="width: 100%;padding-right: 10px;padding-left: 10px;">
+        <h2>积分明细</h2>
+        <div class="user_center_r_b_new" style="margin-top:20px;">
+            <table class="table table-bordered order-item-title">
+                <tr style="background-color:#ededed; font-weight:bold;">
+                    <td style="width:80px">积分</td>
+                    <td style="width:80px">变动类型</td>
+                    <td style="width:70px">变动详情</td>
+                    <td style="width:80px">变动日期</td>
+                </tr>
+                @{
+                    if (Model != null && Model.Any())
+                    {
+                        foreach (var node in Model)
+                        {
+                            <tr class="order-item-tr">
+                                <td style="width:80px; ">@node.Value</td>
+                                <td style="width:70px;  ">@node.Type</td>
+                                <td style="width:80px; ">@node.Remark</td>
+                                <td style="width:80px; ">@node.InsertTime.ToString("yyyy-MM-dd HH:mm")</td>
+                            </tr>
+                        }
+                    }
+                }
+            </table>
+            <div id="page-box" class="page">
+                @Html.Pager(Model, MvcPagerExtensions.GetPagerOptions())
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+</script>

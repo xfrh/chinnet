@@ -1,0 +1,103 @@
+﻿@using ManageSystem.Framework.MvcCaptcha;
+@{
+    ViewBag.Title = "登录";
+}
+
+<div id="app" v-cloak class="indexpage">
+    @*<div style=" height: 40px;color: red;  text-align: center;font-size: 0.34rem; padding:0px 5%; padding-top:20px;">
+        通知：CHINET服务器将于2019年9月12日下午5点开始进行升级，期间您将无法访问。给您带来不便深表歉意。
+    </div>*@
+    <input ref="hidden_ret_url" type="hidden" hidden="hidden" value="@Request["ret_url"]" />
+
+    <img class="Lo-topimg" src="/Content/Images/icon_03.jpg" alt="" style="width: 5rem; margin-top: 1.5rem;">
+    <div class="Lo-mid">
+        <div :class="{'flex f-center margin-b-40 border-b-1': true, 'has-error': errors.has('mobile')}">
+            <img class="Lo-left-img" src="/Content/Images/left_phone_07.jpg" alt="">
+            <input class=" flex1 Lo-Input" placeholder="请输入手机号码/用户名" type="text" name="mobile" v-model="mobile" v-validate="'required|min:4'" />
+        </div>
+        <div v-if="setting_password" :class="{'flex f-center margin-b-40 border-b-1': true, 'has-error': errors.has('new_password')}">
+            <img class="Lo-left-img" src="/Content/Images/left_suo_11.jpg" alt="">
+            <input class=" flex1 Lo-Input" placeholder="请设置登录密码" type="password" autocomplete="new-password" name="new_password" v-model="new_password" v-validate="'required|min:6'" />
+        </div>
+        <div v-if="setting_password" :class="{'flex f-center margin-b-40 border-b-1': true, 'has-error': errors.has('cfm_password')}">
+            <img class="Lo-left-img" src="/Content/Images/left_suo_11.jpg" alt="">
+            <input class=" flex1 Lo-Input" placeholder="请再次设置登录密码" type="password" autocomplete="new-password" name="cfm_password" v-model="cfm_password" v-validate="'required|min:6'" />
+        </div>
+        <div v-if="!setting_password" :class="{'flex f-center margin-b-40 border-b-1': true, 'has-error': errors.has('password')}">
+            <img class="Lo-left-img" src="/Content/Images/left_suo_11.jpg" alt="">
+            <input class=" flex1 Lo-Input" placeholder="请输入密码" type="password" name="password" v-model="password" v-validate="'required'" autocomplete="new-password" />
+        </div>
+        @*<div :class="{'flex f-center margin-b-40 border-b-1': true, 'has-error': errors.has('ValidationCode')}" style="margin-bottom: 0.25rem; position: relative;">
+            <img class="Lo-left-img" src="/Content/Images/left_l_14.jpg" alt="">
+            <input type="text" class="flex1 Lo-Input" id="ValidationCode" name="ValidationCode" placeholder="请输入验证码" v-model="validationCode" v-validate="'required|min:4'" autocomplete="off" style="padding-right: 60%; z-index: 888;" />
+            <span style="display: inline-block; position: absolute; top: -1px; right: 1px; z-index: 999;">
+                @Html.MvcCaptcha(new MvcCaptchaOptions { ValidationInputBoxId = "Captcha", CaptchaImageContainerId = "captchaImage", ReloadLinkText = "", Height = 20, Width = 100 })
+            </span>
+        </div>*@
+        <div class="row" style="margin-bottom:50px; margin-top:15px;">          
+            <div class="fon-28 red f-end col-lg-5" style="cursor: pointer; float:left;" @@click="toPage('@Url.Action("EmailForgetPassword","User").ToLowerInvariant()')">*忘记密码 </div>
+            <div class="fon-28 f-end col-lg-7" style=" float: right;"><a class="blue"  href="javascript:void(0);" @@click="toPage('@Url.Action("Register", "User" ).ToLowerInvariant()')">去注册</a></div>          
+        </div>
+        <div class="row">
+            <div class="col-lg-12"><a ref="btnLogin" class="btn margin-b-20 ladda-button" data-style="zoom-in" href="javascript:void(0);" @@click="onLogin">登录</a></div>
+        </div>
+        
+    </div>
+    <div class="fon-26 Lo-footer t-center">
+        @*<div class="margin-b-20"><a class="blue" href="javascript:void(0);" @@click="toPage('@Url.Action("Register", "User" ).ToLowerInvariant()')">去注册</a></div>*@
+        <div>
+            CHINET中国细菌耐药监测网
+        </div>
+        <div>
+            China Antimicrobial Surveillance Network
+        </div>
+
+        <div class="js_dialog" ref="iosDialog" style="display: none;">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__bd" v-html="dialogContent"></div>
+                <div class="weui-dialog__ft">
+                    <a href="javascript:void(0);" @@click="closeDialog" class="weui-dialog__btn weui-dialog__btn_primary" style="color: #005cad;">知道了</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="successToast" ref="successToast" style="display: none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+                <p class="weui-toast__content fon-32" v-text="resSuccessMessage"></p>
+            </div>
+        </div>
+        <div id="failToast" ref="failToast" style="display: none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-icon-warn weui-icon_toast" style="font-size: 1.65rem;"></i>
+                <p class="weui-toast__content fon-32" v-text="resFailMessage" style="margin-top: 0.25rem;"></p>
+            </div>
+        </div>
+        <div id="submitToast" ref="submitToast" style="display:none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-loading weui-icon_toast"></i>
+                <p class="weui-toast__content fon-32">数据提交中</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    <link href="~/Content/Css/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/User/SmsLogin.css?v=1.0.0" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/vee-validate/vee-validate.min.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/fx.js"></script>
+    <script src="~/Content/Scripts/fx_methods.js"></script>
+    <script src="~/Content/Scripts/User/Login.js?v=1.0.2"></script>
+}

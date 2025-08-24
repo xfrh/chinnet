@@ -1,0 +1,123 @@
+﻿@model ManageSystem.Admin.Models.Articles.ArticleModel
+
+<div class="row upload-file">
+    <h3 style="margin-bottom: 20px;">上传附件</h3>
+    <div class="col-lg-10">
+        <div class="form-group">
+            <input id="file-Portrait1" type="file" multiple class="file-loading">
+            <script type="text/javascript">
+
+                $(document).ready(function () {
+                    initFileInput("file-Portrait1", "/Articles/UploadArticleFile?articleId=@Model.Id");
+                });
+
+                //初始化fileinput控件（第一次初始化）
+                function initFileInput(ctrlName, uploadUrl) {
+                    var control = $('#' + ctrlName);
+
+                    control.fileinput({
+                        language: 'zh', //设置语言
+                        uploadUrl: uploadUrl, //上传的地址
+                        allowedFileExtensions: ['jpg', 'png', 'gif', 'txt', 'doc', 'docx', 'xlsx', 'xls', 'rar', 'zip', '7z', 'mp4', 'mp3', 'flv'],//接收的文件后缀
+                        showUpload: true, //是否显示上传按钮
+                        showCaption: true,//是否显示标题
+                        maxFileCount: 100,
+                        enctype: 'multipart/form-data',
+                        browseClass: "btn btn-primary", //按钮样式
+                        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+                    })
+                    .on("fileuploaded", function (e, data) {
+
+                        var res = data.response;
+                        if (res != "") {
+                            var message = res.message;
+                            if (res.status == "true") {
+                     
+                                var content = " <tr class='att-" + res.attachmentId + "'>"
+                                                      + " <td>&nbsp;</td>"
+                                                      + "<td>" + res.fileName + "</td>"
+                                                     + " <td>  <a href='" + res.filePath + "' target='_blank'>查看</a> &nbsp; &nbsp;<a href='javascript:DeleteFile('" + res.attachmentId + "')' target='_blank'>删除</a></td>"
+                                                  + " </tr>"
+
+                                $(".attachment-list").append(content);
+
+                                alert('上传成功');
+                            } else {
+                                alert('上传失败，原因：' + message);
+                            }
+                        }
+                        else {
+                            alert('上传失败')
+                        }
+                    });
+                }
+            </script>
+        </div>
+    </div>
+
+</div>
+
+<div class="row" style="margin-top:30px; margin-bottom:50px;">
+    <h4 style="margin-bottom: 20px;">已经上传的附件</h4>
+    <div class="col-lg-10">
+        <table class="table">
+            <tr>
+                <th style="width:5%;">&nbsp;</th>
+                <th style="width:80%;">文件名称</th>
+                <th style="width:15%;">操作</th>
+            </tr>
+            <tbody class="attachment-list">
+                @{
+                    if (Model.ArticleAttachmentList != null && Model.ArticleAttachmentList.Any())
+                    {
+                        foreach (var item in Model.ArticleAttachmentList)
+                        {
+                            <tr class="att-@item.Id">
+                                <td>&nbsp;</td>
+                                <td>@item.Name</td>
+                                <td>
+                                    <a href="@item.Path" target="_blank">查看</a> &nbsp; &nbsp;
+                                    <a href="javascript:DeleteFile('@item.Id')" target="_blank">删除</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    function DeleteFile(id) {
+        if (confirm("确定要删除？删除后数据将无法恢复！")) {
+
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "@Url.Action("ArticleAttachmentDelete", "Articles")",
+                data: "articlesId=@Model.Id.ToString()&attachmentId=" + id,
+                dataType: "json",
+                success: function (result) {
+                    if (result == null || result == "") {
+                        alert('删除失败，请重试！');
+                        return;
+                    }
+
+                    if (result.status == "true") {
+                        //成功
+                        $(".att-" + id).remove();
+                        alert("删除成功！");
+
+                    } else {
+                        alert('删除失败，' + result.message);
+                    }
+                }
+            });
+        }
+    }
+
+
+</script>

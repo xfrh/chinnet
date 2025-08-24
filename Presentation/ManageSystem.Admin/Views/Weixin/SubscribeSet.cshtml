@@ -1,0 +1,324 @@
+﻿@model ManageSystem.Admin.Models.Configuration.SettingModel
+@using ManageSystem.Admin.Models.Weixin;
+
+
+@{
+    //page title
+    ViewBag.Title = "微信关注推送";
+}
+
+
+<style type="text/css">
+    .item-ul {
+        padding: 10px 0px;
+    }
+
+        .item-ul li {
+            list-style: none;
+            margin: 5px 0px;
+        }
+
+    .question-div {
+        margin: 10px 0px;
+        width: 900px;
+    }
+
+        .question-div .thead td {
+            padding: 0px 3px;
+            background-color: #dbdbdb;
+        }
+
+        .question-div table {
+            border-left: 1px solid #ccc;
+            border-top: 1px solid #ccc;
+        }
+
+            .question-div table td {
+                border-right: 1px solid #ccc;
+                border-bottom: 1px solid #ccc;
+                padding: 2px 5px;
+            }
+
+            .question-div table .delete-label {
+                color: #428bca;
+                cursor: pointer;
+            }
+</style>
+
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "微信设置", SecondName = "微信关注推送", LocationName = this.ViewBag.Title }); }
+}
+
+
+@using (Html.BeginForm("SubscribeSet", "Weixin", FormMethod.Post, new { id = "form1" }))
+{
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.Value)
+    @Html.HiddenFor(model => model.Describe)
+
+    @Html.AntiForgeryToken()
+
+    <div class="page-body">
+        <div class="row add-page">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget ">
+                    <div class="widget-header add-page-titlebox ">
+                        <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                    </div>
+                    <div class="widget-body " id="BaseDiv">
+                        <div class="options add-page-options">
+                            <input type="button" name="save" onclick="Save()" class="btn btn-blue " value="保存" />
+                        </div>
+                        <div class="add-content ">
+                            <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+
+
+                                <table class="adminContent">
+                                    <tr>
+                                        <td class="adminTitle"><img alt="推送文章" src="/Content/images/ico-help.gif" title="推送方式"><label for="Value" title="推送方式">推送方式</label>：</td>
+                                        <td class="adminData">
+                                            <select id="type" name="type" class="form-control dropdown" onchange="ChanceType()">
+                                                <option value="1" @(Model.Describe.Equals("1") ? "selected='selected'   " : "")>推送文字</option>
+                                                <option value="2" @(Model.Describe.Equals("2") ? "selected='selected'   " : "")>推送文章</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="type-article" style="display:none;">
+                                        <td class="adminTitle"><img alt="推送文章" src="/Content/images/ico-help.gif" title="选择文章"><label for="Value" title="选择文章">选择文章</label>：</td>
+                                        <td class="adminData">
+                                            <a class="btn btn-purple" href="javascript:Open();" id="parentIframe">选择文章</a>
+                                            <div class="question-div" style="">
+                                                <table>
+                                                    <thead>
+                                                        <tr class="thead">
+                                                            <td style="width:75%;">文章名称</td>
+                                                            <td style="width:15%;">排序编号（正序）</td>
+                                                            <td style="width:10%;">操作</td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="question-content">
+                                                        @{
+                                                            List<ArticleItemModel> articleItemList = ViewBag.ArticleItemList as List<ArticleItemModel>;
+                                                            if (articleItemList != null && articleItemList.Any())
+                                                            {
+                                                                foreach (var item in articleItemList)
+                                                                {
+                                                                    <tr class="a-item">
+                                                                        <td>  <input type="hidden" id="ArticleId" value="@item.ArticleId">    <label>@item.Name</label>       </td>
+                                                                        <td> <input type="text" class="text-box single-line question-txtItem" value="@item.Sort" style="width:50%;" onchange="ChangeSort(this)"></td>
+                                                                        <td><label onclick="DeleteItem(this)" class="delete-label">删 除</label>  </td>
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                        }
+                                                    </tbody>
+
+                                                </table>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr class="type-text">
+                                        <td class="adminTitle"><img alt="文字内容" src="/Content/images/ico-help.gif" title="文字内容"><label for="Value" title="文字内容">文字内容</label>：</td>
+                                        <td class="adminData">
+                                            <textarea class="form-control txt valid" cols="28" id="Text" name="Text" rows="8" style="width:82%;">@{ if (Model.Describe.Equals("1")) {<text>@Html.Raw(Model.Value)</text> }} </textarea>
+                                        </td>
+                                    </tr>
+                                </table>
+
+
+                                <div class="row" style="width:70%; margin:0px auto; margin-top: 50px;   font-size:14px; ">
+                                    <p style="border-bottom:1px solid #ccc; margin:10px 0px;   font-size: 16px; height:30px;line-height:30px;">注意事项</p>
+                                    <div class="widget">
+                                        <div class="widget-header bg-palegreen">
+                                            <div class="widget-buttons">
+                                                <a href="#" data-toggle="collapse">     <i class="fa fa-minus"></i></a>
+                                                <a href="#" data-toggle="dispose">     <i class="fa fa-times"></i>   </a>
+                                            </div>
+                                        </div>
+                                        <div class="widget-body">
+                                            <code>
+                                                1、微信规定推送的文章个数不能超过10个，为保持美观建议最多8个。
+                                            </code><br><br>
+                                            <code>
+                                                2、如果未设置文章，默认关注以后显示“欢迎关注！”。
+                                            </code><br><br>
+                                            <code>
+                                                3、设置以后需要重新关注才能看到效果。
+                                            </code><br><br>
+                                            <code>
+                                                4、推送文字使用"&lt;br&gt;"表示换行。
+                                            </code><br><br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                            }
+
+
+<script src="~/Content/Scripts/layer/layer.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function (){
+        Init();
+
+    });
+    //页面加载设置相关值
+    function Init()
+    {
+        var type = '@Model.Describe';
+
+        if (type == "1") {
+            //文字推送
+            $(".type-article").css("display", "none");
+            $(".type-text").css("display", "table-row");
+
+       
+
+        } else {
+            //文章推送
+            $(".type-article").css("display", "table-row");
+            $(".type-text").css("display", "none");
+        }
+
+    }
+
+
+    //选择不同的推送类型，这里设置相关的显示和隐藏
+    function ChanceType() {
+        var type = $("#type").val();
+
+        if (type == "1") {
+            //文字推送
+            $(".type-article").css("display", "none");
+            $(".type-text").css("display", "table-row");
+
+        } else {
+            //文章推送
+            $(".type-article").css("display", "table-row");
+            $(".type-text").css("display", "none");
+        }
+    }
+
+    //选择文章以后的回调函数
+    function ConfirmSelectArticle(ids) {
+        if (ids == "") return;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetArticleListByIds", "Articles")",
+            data: { ids: ids },
+            dataType: "json",
+            success: function (data) {
+                if (data == "" || data == null) return;
+
+                for (var i = 0; i < data.length; i++) {
+
+                    var html = "<tr class='a-item'>" +
+                        "  <td><input type=\"hidden\" id=\"ArticleId\" value=\"" + data[i].Id + "\" /> <label>" + data[i].Name + "</label>      </td>" +
+                        "<td><input type=\"text\" class=\"text-box single-line question-txtItem\" value=\"100\"  style=\"width:50%;\"  onchange=\"ChangeSort(this)\" /></td>" +
+                        "<td><label onclick='DeleteItem(this)' class='delete-label' >删 除</label></td>" +
+                        "</tr>";
+
+                    $(".question-content").append(html);
+                }
+            }
+        });
+
+    }
+
+    //删除单个文章
+    function DeleteItem(obj) {
+        $(obj).closest(".a-item").remove();
+    }
+
+    //检查输入的排序格式是否合法
+    function ChangeSort(obj) {
+        var value = $(obj).val();
+        var ex = /^\d+$/;
+        if (value == null || value == "" || !ex.test(value)) {
+            alert("格式不合法！");
+            $(obj).val(100);
+        }
+    }
+
+    //打开选择文章的弹窗
+    function Open() {
+        //iframe层-父子操作
+        layer.open({
+            type: 2,
+            area: ['1200px', '850px'],
+            fix: false, //不固定
+            maxmin: true,
+            title: "选择文章",
+            content: '@Url.Action("ArticleSelectList", "Articles")'
+        });
+    }
+
+
+    //保存
+    function Save() {
+
+        var type = $("#type").val();
+        var value = "";
+        var describe = "";
+
+        if (type == "1") {
+            //文字推送
+            value = $("#Text").val().replace("\"", "'");
+           var  re = new RegExp("\"", "g");
+           value = value.replace(re, "'");
+
+            describe = "1";
+        } else {
+            //文章推送
+            //文章才计算选择的文章id
+            describe = "2";
+            var data = new Array();
+            var itemTr = $(".question-content tr");
+            if (itemTr != null && itemTr.length > 0) {
+
+                if (itemTr != null && itemTr.length > 10) {
+                    alert("保存失败，微信推送文章个数不能大于10个！");
+                    return;
+                }
+
+                for (var i = 0; i < itemTr.length; i++) {
+                    var id = $(itemTr[i]).find("#ArticleId").val();
+                    var sort = $(itemTr[i]).find(".question-txtItem").val();
+
+                    if (id == null || id == "") continue;
+
+                    data.push({ ArticleId: id, Sort: sort });
+                }
+
+                if (data == null || data.length <= 0) return "";
+
+                value = JSON.stringify(data);
+            }
+        }
+
+        if (value == null || value == "")
+        {
+            alert("请选择文章或者输入内容！");
+            return;
+        }
+
+        $("#@Html.FieldIdFor(m=>m.Value)").val(value);
+        $("#@Html.FieldIdFor(m=>m.Describe)").val(describe);
+
+        $("#form1").submit();
+    }
+
+</script>

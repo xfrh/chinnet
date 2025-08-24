@@ -1,0 +1,492 @@
+﻿@model DataQuality_Score
+@{
+    ViewBag.Title = "查看评比信息";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "评分管理", SecondName = "评分管理", LocationName = ViewBag.Title }); }
+}
+
+@section HeadSection{
+    <link href="~/Content/Scripts/layui-v2.5.4/css/layui.css" rel="stylesheet" />
+    <link href="~/Content/Scripts/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <style>
+        #BaseDataDiv .flex {
+            display: flex;
+        }
+
+            #BaseDataDiv .flex > label {
+                margin: 0;
+                margin-right: 25px;
+                display: inline-table;
+            }
+
+        .filtrate-title {
+            width: 75px;
+            text-align: right;
+        }
+
+        #data-grid td .btn {
+            padding: 6px 5px 6px 7px;
+        }
+
+        select.form-control {
+            box-sizing: border-box;
+        }
+
+        #sr-data-grid td > a,
+        #sr-data-grid td > a:link,
+        #sr-data-grid td > a:visited,
+        #sr-data-grid td > a:hover,
+        #sr-data-grid td > a:active {
+            text-decoration: none;
+            color: #3c8dbc;
+        }
+    </style>
+}
+
+@Html.HiddenFor(m => m.Id)
+
+<div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@ViewBag.Title</span>
+                </div>
+                <div class="widget-body">
+                    <div class="add-content ">
+                        <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                            <div class="widget-main">
+                                <div class="tabbable">
+                                    <ul class="nav nav-tabs tabs-flat" id="myTab11" style="font-size: 14px;">
+                                        <li class="active">
+                                            <a data-toggle="tab" href="#tabBaseInfo">基本信息 </a>
+                                        </li>
+                                        <li class="">
+                                            <a data-toggle="tab" href="#tabScoreRecord">评分记录 </a>
+                                        </li>
+                                        <li class="">
+                                            <a data-toggle="tab" href="#tabLog">操作日志 </a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content tabs-flat" style="background-color: white; padding: 30px 12px; min-height: 350px;">
+                                        <div class="tab-pane active" id="tabBaseInfo">
+                                            <div class="row clearfix">
+                                                <div class="col-sm-12">
+                                                    <h4 style="font-size:14px; font-weight: 600 !important;">评比基本信息</h4>
+                                                    <hr style="margin: 15px 0;" />
+                                                </div>
+                                            </div>
+                                            <div class="row clearfix">
+                                                <div class="col-sm-12">
+                                                    <table class="adminContent">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="adminTitle">
+                                                                    <img alt="评比名称" src="/Content/images/ico-help.gif" title="评比名称" />
+                                                                    <label for="Title" title="评比名称">评比名称</label>：
+                                                                </td>
+                                                                <td>
+                                                                    <input class="text-box single-line" data-val="true" data-val-required="请输入评比名称" id="Title" name="Title" type="text" placeholder="请输入评比名称" autocomplete="off" value="@Model.Title" readonly="readonly" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="adminTitle">
+                                                                    <img alt="评比时间" src="/Content/images/ico-help.gif" title="评比时间" />
+                                                                    <label for="Title" title="评比时间">评比时间</label>：
+                                                                </td>
+                                                                <td>
+                                                                    <div class="flex">
+                                                                        <label class="" for="BeginDateTime">
+                                                                            <input class="text-box single-line" data-val="true" data-val-required="请选择开始时间" id="BeginDateTime" name="BeginTime" type="text" placeholder="请选择开始时间" autocomplete="off" readonly="readonly" value="@Model.BeginTime.ToString("yyyy-MM-dd HH:mm:ss")" />
+                                                                        </label>
+                                                                        <label class="" for="EndDateTime">
+                                                                            <input class="text-box single-line" data-val="true" data-val-required="请选择结束时间" id="EndDateTime" name="EndTime" type="text" placeholder="请选择结束时间" autocomplete="off" readonly="readonly" value="@Model.EndTime.ToString("yyyy-MM-dd HH:mm:ss")" />
+                                                                        </label>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="adminTitle">
+                                                                    <img alt="说明信息" src="/Content/images/ico-help.gif" title="说明信息" />
+                                                                    <label for="Title" title="说明信息">说明信息</label>：
+                                                                </td>
+                                                                <td>
+                                                                    <textarea class="text-box single-line" id="Intro" name="Intro" data-val="true" data-val-required="请输入说明信息" placeholder="请输入说明信息" style="resize: none; width: 80%; height: 100px;" autocomplete="off" readonly="readonly">@Model.Intro</textarea>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="row clearfix">
+                                                <div class="col-sm-12">
+                                                    <div class="flex flex-vertical-center clearfix">
+                                                        <h4 class="flex-1" style="font-size:14px; font-weight: 600 !important;">参与评比医院</h4>
+                                                    </div>
+                                                    <hr style="margin: 15px 0;" />
+                                                </div>
+                                            </div>
+
+                                            <div class="row clearfix">
+                                                <div class="col-sm-12">
+                                                    <div class="table table-striped table-bordered dataTable no-footer table-select" id="ManageTableDiv" aria-describedby="editabledatatable_info">
+                                                        <div id="data-grid"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="tabScoreRecord">
+                                            <div class="row clearfix">
+                                                <div class="col-sm-12">
+                                                    <div class="flex">
+                                                        <div class="form-inline">
+                                                            <label class="m-b0">评委姓名：</label>
+                                                            <input class="form-control" id="sr_user" style="max-width: 150px;" />
+                                                        </div>
+                                                        <div class="form-inline" style="margin-left: 15px;">
+                                                            <label class="m-b0">医院名称：</label>
+                                                            <input class="form-control" id="sr_hospital" />
+                                                        </div>
+                                                        <div class="form-inline flex flex-vertical-center" style="margin-left: 15px; min-width: 320px;">
+                                                            <label class="m-b0">评分时间：</label>
+                                                            <div style="min-width: 225px;">
+                                                                <input class="form-control" id="sr_begin_tiem" placeholder="请选择日期" type="text" style="width: 100px;" readonly="readonly" />
+                                                                <input class="form-control" id="sr_end_tiem" placeholder="请选择日期" type="text" style="width: 100px;" readonly="readonly" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-inline" style="margin-left: 15px;">
+                                                            <button id="btn_sr_search" class="btn btn-primary" type="button"><i class="fa fa-search" aria-hidden="true"></i> 查询</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row clearfix">
+                                                <div class="col-sm-12">
+                                                    <div class="table table-striped table-bordered dataTable no-footer table-select" aria-describedby="editabledatatable_info">
+                                                        <div id="sr-data-grid"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="tabLog">
+                                            <div class="row clearfix">
+                                                <div class="col-sm-12">
+                                                    <div class="flex">
+                                                        <div class="form-inline">
+                                                            <label class="m-b0">操&ensp;作&ensp;人：</label>
+                                                            <input class="form-control" id="log_user" />
+                                                        </div>
+                                                        <div class="form-inline" style="margin-left: 15px;">
+                                                            <label class="m-b0">操作类型：</label>
+                                                            <select id="log_action" class="form-control">
+                                                                <option value="null">全部</option>
+                                                                <option value="新增">新增</option>
+                                                                <option value="编辑">编辑</option>
+                                                                <option value="删除">删除</option>
+                                                                <option value="评分">评分</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-inline flex flex-vertical-center" style="margin-left: 15px; width: 420px;">
+                                                            <label class="m-b0">操作时间：</label>
+                                                            <div>
+                                                                <input class="form-control" id="log_begin_time" placeholder="请选择日期" type="text" style="width: 120px;" readonly="readonly" />
+                                                                <input class="form-control" id="log_end_time" placeholder="请选择日期" type="text" style="width: 120px;" readonly="readonly" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row clearfix" style="margin-top: 15px;">
+                                                <div class="col-lg-12">
+                                                    <div class="flex">
+                                                        <div class="form-inline">
+                                                            <label class="m-b0">操作内容：</label>
+                                                            <input class="form-control" id="log_content" style="width: 452px;" />
+                                                        </div>
+                                                        <div class="form-inline" style="margin-left: 15px;">
+                                                            <button id="btn_log_search" class="btn btn-primary" type="button"><i class="fa fa-search" aria-hidden="true"></i> 查询</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row clearfix">
+                                                <div class="col-sm-12">
+                                                    <div class="table table-striped table-bordered dataTable no-footer table-select" aria-describedby="editabledatatable_info">
+                                                        <div id="log-data-grid"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section FooterSection{
+
+    <script id="sortTemplate" type="text/x-kendo-template">
+        <span>#=Sort.Value#</span>
+    </script>
+
+    <script id="explainTemplate" type="text/x-kendo-template">
+        <span>#=Explain.Value#</span>
+    </script>
+    <script id="juryTemplate" type="text/x-kendo-template">
+        <span>#=Jury.Value#</span>
+    </script>
+
+    <script id="TotalScoreTemplate" type="text/x-kendo-template">
+        <span>#=TotalScore#</span>
+        <a href="/ScoringModule/RecoreDetail/#=Id#" style="margin-left: 15px;">查看评分详情</a>
+    </script>
+
+    <script src="~/Content/Scripts/layui-v2.5.4/layui.js"></script>
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/admin.listpage.js"></script>
+
+    <script>
+
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+            laydate.render({ elem: '#sr_begin_tiem' });
+            laydate.render({ elem: '#sr_end_tiem' });
+            laydate.render({ elem: '#log_begin_time' });
+            laydate.render({ elem: '#log_end_time' });
+        });
+
+        $("#data-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: '/ScoringModule/CreateWithCheckedHospitalList',
+                        type: "POST",
+                        dataType: "json",
+                        data: { id: $('#Id').val() }
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 30, 50]
+            },
+            scrollable: false,
+            groupable: false,
+            dataBound: onDataBound,
+            columns: [
+                {
+                    field: "HospitalName",
+                    title: "医院名称",
+                    width: 200
+                },
+                {
+                    field: "Contacts",
+                    title: '联系人',
+                    width: 100
+                },
+
+                {
+                    field: "ContactWay",
+                    title: '联系方式',
+                    width: 100
+                },
+                {
+                    field: "Sort",
+                    title: "显示顺序",
+                    width: 100,
+                    template: kendo.template(document.getElementById('sortTemplate').innerHTML)
+                },
+                {
+                    field: "Jury",
+                    title: "评委",
+                    width: 100,
+                    template: kendo.template(document.getElementById('juryTemplate').innerHTML)
+                },
+                {
+                    field: "Explain",
+                    title: "参与说明",
+                    width: 320,
+                    template: kendo.template(document.getElementById('explainTemplate').innerHTML)
+                }
+            ]
+        });
+
+        $('#sr-data-grid').kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: '/ScoringModule/RecordToList',
+                        type: "POST",
+                        dataType: "json",
+                        data: function () {
+                            var data = {
+                                id: $('#Id').val(),
+                                juryName: $("#tabScoreRecord #sr_user").val(),
+                                hospital: $("#tabScoreRecord #sr_hospital").val(),
+                                begin: $("#tabScoreRecord #sr_begin_tiem").val(),
+                                end: $("#tabScoreRecord #sr_end_tiem").val()
+                            };
+                            addAntiForgeryToken(data);
+                            return data;
+                        }
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 30, 50]
+            },
+            scrollable: false,
+            groupable: false,
+            dataBound: onDataBound,
+            columns: [
+                {
+                    field: "MarkingTime",
+                    title: "评分时间",
+                    width: 120
+                },
+                {
+                    field: "JuryName",
+                    title: '评委姓名',
+                    width: 100
+                },
+
+                {
+                    field: "HospitalName",
+                    title: '评价医院',
+                    width: 100
+                },
+                {
+                    field: "TotalScore",
+                    title: "总评分",
+                    width: 100,
+                    template: kendo.template(document.getElementById('TotalScoreTemplate').innerHTML)
+                },
+                {
+                    field: "Comment",
+                    title: "评语",
+                    width: 320
+                }
+            ]
+        });
+
+        $('#log-data-grid').kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: '/ScoringModule/ActionLogToList',
+                        type: "POST",
+                        dataType: "json",
+                        data: function () {
+                            var data = {
+                                id: $('#Id').val(),
+                                userName: $("#tabLog #log_user").val(),
+                                actionType: $("#tabLog #log_action").val(),
+                                begin: $("#tabLog #log_begin_time").val(),
+                                end: $("#tabLog #log_end_time").val(),
+                                content: $("#tabLog #log_content").val()
+                            };
+                            addAntiForgeryToken(data);
+                            return data;
+                        }
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 30, 50]
+            },
+            scrollable: false,
+            groupable: false,
+            dataBound: onDataBound,
+            columns: [
+                {
+                    field: "ActionTime",
+                    title: "操作时间",
+                    width: 120
+                },
+                {
+                    field: "UserName",
+                    title: '操作人',
+                    width: 100
+                },
+
+                {
+                    field: "ActionType",
+                    title: '操作类型',
+                    width: 80
+                },
+                {
+                    field: "ActionLog",
+                    title: "操作内容",
+                    width: 350
+                }
+            ]
+        });
+
+        $('#btn_sr_search').on('click', function () {
+            var grid = $('#sr-data-grid').data('kendoGrid');
+            grid.dataSource.page(1);
+            return false;
+        });
+
+        $('#btn_log_search').on('click', function () {
+            var grid = $('#log-data-grid').data('kendoGrid');
+            grid.dataSource.page(1);
+            return false;
+        });
+    </script>
+}

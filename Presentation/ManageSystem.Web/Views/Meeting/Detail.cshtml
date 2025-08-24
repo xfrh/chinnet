@@ -1,0 +1,243 @@
+﻿@using ManageSystem.Web.Models.Meetings
+@using ManageSystem.Core.Domain.Members
+@using ManageSystem.Core.Utility;
+@using ManageSystem.Services.Members;
+@using ManageSystem.Services.Meetings
+
+@model MeetingDetailModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = Model.MeetingEntity.Name;
+}
+
+<link href="~/Content/Css/Meeting.css?v=1.4" rel="stylesheet" />
+
+<div class="mbx">
+    <p>当前位置：首页 &gt; 信息动态 </p>
+</div>
+<div id="post_form" style="margin-top: 30px;">
+
+    <div class="container">
+        <div class="wrap-left" style="width: 100%;">
+            <div class="left-top-content">
+                @*<div class="left-image">
+                        <img class="left-im" src="@(MeetingServiceExtensions.GetCoverImage(Model.MeetingEntity.CoverImage))" />
+                    </div>*@
+                <div class="left-content">
+                    <div class="detail_time_attr_join">
+                        <div class="detail_time_attr_join_gray">
+                            <div class="detail_title">
+                                <h2 class="detail_title_h1" id="dt_title">@Model.MeetingEntity.Name</h2>
+                                <div class="yhName">
+                                    @Model.MeetingEntity.Author&nbsp;&nbsp;&nbsp;@Model.MeetingEntity.InsertTime.ToString("yyyy-MM-dd HH:mm")
+                                </div>
+                            </div>
+                            <div class="detail_Time" style="margin-top: 20px; display:none;">
+                                <div class="detail_Time_t">
+                                    <p>
+                                        @Model.MeetingEntity.StartTime.ToString("MM-dd HH:mm") 至
+                                        @Model.MeetingEntity.EndTime.ToString("MM-dd HH:mm")&nbsp;
+                                    </p>
+                                </div>
+                                <div class="detail_Time_b" style="display:none;">
+                                    <p></p>
+                                </div>
+                            </div>
+
+                            <div class="detail_Attr" style=" display:none;">
+                                <a href="#" class="dt_address_item" ontouchstart="">
+                                    <div class="detail_Attr_K">
+                                        <p class="addressP">@(Model.MeetingEntity.AreaFullName + " " + Model.MeetingEntity.Address)</p>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="detail_Joinnum" id="detail_Joinnum" style=" display:none;">
+                                <div class="detail_Joinnum_t">
+                                    <p>已有<span>@Model.MeetingEntity.ApplyCount</span>人报名</p>
+                                </div>
+                                <div class="detail_Joinnum_b" style=" display:none;">
+                                    @{ if (Model.MeetingEntity.PersonMaxCount > 0)
+                                        {
+                                            <p>限<span>@Model.MeetingEntity.PersonMaxCount</span>人报名</p>
+                                        }}
+                                </div>
+                            </div>
+
+                            <div class="detail_party_xian" style=" display:none;"></div>
+                            <div class="detail_join_ticket" style=" display:none;">
+                                <div class="detail_join_ticket_con">
+                                    <ul class="join clearfix">
+                                        <li class="show">
+                                            <div name="detail_t_join" class="detail_t_join">
+                                                @{
+                                                    if (Model.MeetingEntity.PersonMaxCount > 0 && Model.MeetingEntity.ApplyCount >= Model.MeetingEntity.PersonMaxCount)
+                                                    {
+                                                        <a href="javascript:#" ontouchstart="">名额已满</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        if (Model.IsApply)
+                                                        {
+                                                            <a href="javascript:void(0)">已经报名</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="javascript:OpenApplyWindow()">我要报名</a>
+                                                        }
+                                                    }
+                                                }
+
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--时间、地址、报名数 end-->
+            <!--活动详情-->
+            <div class="dt_content_top" style="display:none;"></div>
+
+            <div id="dt_content" class="dt_content">
+                @Html.Raw(Model.MeetingEntity.Content)
+            </div>
+
+            <!--赞-->
+            @*<div class="detail_zan">
+                <div class="dt_zan">
+                    <a class="gray" href="@Url.Action("Feedback","Center")" target="_blank">举报</a>
+                </div>
+                <div class="dt_like" id="dt_like" ontouchstart="">
+                    <a id="a_mettingcollect_btn" href="javascript:@(Model.IsCollect?"CancelMettingCollect()":"SetMettingCollect()")">
+                        <p ontouchstart="" class="dt_like_p_Tit"><i id="like_p_i_text">@(Model.IsCollect ? "已收藏" : "收藏")</i><b>(</b><span id="dt_like_count">@Model.MeetingEntity.CollectCount</span><b>)</b></p>
+                        <span class="zanWk" ontouchstart="">
+                            <img id="img_dt_like" src="/Content/Images/dt_xin_heart.png" alt="">
+                            <img id="icon_zan_ok2" class="zanIcon" src="/Content/Images/dt_like6_red_200.png" alt="" style="display:none;">
+                        </span>
+                    </a>
+                </div>
+            </div>*@
+
+            <!--报名列表 -->
+            @*<a name="a_join_list"></a>
+                <div class="dt_join_menu_bg" id="dt_join_menu_bg">
+                    <div ontouchstart="" class="dt_join_top">
+                        <p id="dt_join_count" class="dt_join_topL">
+                            <span id="join_total">@Model.MeetingEntity.ApplyCount</span>人已完成报名
+                        </p>
+                    </div>
+
+                    <ul style="" class="dt_list_main" id="apply_list_main"></ul>
+
+                   <div class="dt_join_more" id="join_loading" style="display: block;">
+                            <a class="moreBtn font03"><span>展开更多报名</span></a>
+                        </div>
+                </div>*@
+
+            <!--评论-->
+            @*<div class="dt_review" id="dt_review">
+                <a name="dt_review_up" id="dt_review_up"></a>
+                <div class="dt_review_top">
+                    <p id="dt_review_count" class="dt_review_topL">快来发表你的评论</p>
+                </div>
+                <div class="dt_review_edit">
+                    <div name="discuss_icon_0" class="dt_review_edit_l">
+                        <p class="dt_review_edit_pic">
+                            <a class="dt_review_edit_pic_A" onclick="_user._toLogin()" href="#">
+                                @{
+                                    if (Model.MemberEntity == null || Model.MemberEntity.Id <= 0)
+                                    {
+                                        <img class="dt_review_edit_pic_img" src="" alt="">
+                                    }
+                                    else
+                                    {
+                                        <img class="dt_review_edit_pic_img" src="@MemberExtensions.GetHeadImage(Model.MemberEntity.HeadImage)" alt="">
+                                    }
+                                }
+
+                            </a>
+                        </p>
+                    </div>
+
+                    <div class="dt_review_edit_c" style=" width: 500px;">
+                        <p><textarea name="" cols="" rows="" id="dt_review_form_content" class="dt_review_form_content" placeholder="讨论：" style="width:410px"></textarea></p>
+                    </div>
+
+                    <div class="dt_review_edit_r submit-btn">
+                        <input Comment="0" type='button' class='dt_review_post_A' onclick="AddComment()" value='发表讨论' />
+                    </div>
+
+                </div>
+                <ul style="" class="dt_review_main" id="dt_review_main"></ul>
+                <div class="dt_review_more" id="review_loading" style="display: block;  ">
+                    <div class="loading-content">
+                        <div style="width:auto; float:left;"><img src="~/Content/Images/loading2.gif" /></div>
+                        <div style="width:80px; float:left;">正在加载...</div>
+                    </div>
+                </div>
+
+                <div class="center_keyan_txt_pl">
+
+                    <ul class="comment-ul" style="margin:20px 10px;"></ul>
+                </div>
+            </div>*@
+        </div>
+
+        @*@Html.Action("_RightSidebar", "Meeting")*@
+
+    </div>
+</div>
+
+<input type="hidden" id="MeetingIndex" value="@Model.MeetingEntity.Id.ToString()" />
+
+
+
+<!-- 报名弹窗 -->
+<div class="tc_c2 apply-window" id="join_box" style="display: none; ">
+    <div class="join_box_Xq_out">
+        <div class="tc_c_close">
+            <p>请填写报名信息</p>
+        </div>
+        <div class="tc_c_info">
+            <div class="tc_c_info_con"><p class="join_detail">确认报名信息</p></div>
+        </div>
+        <div class="join_box_Xq">
+            <ul id="ul_join_property" class="pop_massage">
+                <li type="danH">
+                    <div class="optionsName">姓名</div>
+                    <div class="inpoutK">
+                        <input value="@(Model.MemberEntity != null ? Model.MemberEntity.Name:"")" type="text" maxlength="40" class="font0 apply_name" id="input_pro_id_1">
+                    </div>
+                </li>
+                <li type="danH">
+                    <div class="optionsName">手机</div>
+                    <div class="inpoutK">
+                        <input value="@(Model.MemberEntity != null ? Model.MemberEntity.Phone:"")" type="text" maxlength="40" class="font0  apply_phone" id="input_pro_id_2">
+                    </div>
+                </li>
+
+                <li type="danH">
+                    <div class="optionsName">邮箱：</div>
+                    <div class="inpoutK">
+                        <input value="@(Model.MemberEntity != null ? Model.MemberEntity.Email:"")" type="text" maxlength="40" class="font0  apply_email" id="input_pro_id_47760">
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tc_c_btn2" id="xdBtn">
+            <div class="join_Btn"><a id="a_submit" class="blueBtn font02" href="javascript:void(0);" onclick="SaveApplyMeeting()">立即报名</a></div>
+        </div>
+
+    </div>
+</div>
+
+
+<script src="~/Content/Scripts/Meeting/Detail.js?v=@DateTime.Now.Ticks"></script>

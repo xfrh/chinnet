@@ -1,0 +1,64 @@
+﻿@model ManageSystem.Admin.Models.Members.FeedbackModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+<table class="adminContent">
+    <tr class="insert-time-tr" style="display:none;">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.InsertTime)：</td>
+        <td class="adminData">
+            @Model.InsertTime.ToString("yyyy-MM-dd HH:mm")
+        </td>
+    </tr>
+    <tr class="insert-time-tr" style="display:none;">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.UpdateTime)：</td>
+        <td class="adminData">
+            @Model.UpdateTime.ToString("yyyy-MM-dd HH:mm")
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.MemberId)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.MemberId, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.MemberId)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.MemberName)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.MemberName, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.MemberName)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Status)：</td>
+        <td class="adminData">
+            @(Model.Status?"已查看":"未查看")
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Name)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Content)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Content, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Content)
+        </td>
+    </tr>
+</table>
+
+<script src="/Content/Scripts/TranTextBox.js"></script>
+
+<script type="text/javascript">
+
+
+
+
+</script>

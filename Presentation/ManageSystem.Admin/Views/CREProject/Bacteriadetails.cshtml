@@ -1,0 +1,72 @@
+﻿
+@model ManageSystem.Core.Domain.Cre.Cre_germ_types
+@{
+    //page title
+    ViewBag.Title = "CRE细菌详情";
+}
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "CRE专项检测", SecondName = "细菌管理列表", LocationName = this.ViewBag.Title }); }
+
+}
+    <div class="page-body">
+        <div class="row add-page">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget ">
+                    <div class="widget-header add-page-titlebox ">
+                        <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                    </div>
+                    <div class="widget-body " id="BaseDiv" runat="server">
+                        <div class="options add-page-options">
+                            <input type="submit" name="save" class="btn btn-blue" id="btn-update" value="保存" />
+                        </div>
+                        <div class="add-content ">
+                            <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                                <table class="adminContent">
+                                    <tbody>
+                                        <tr>
+                                            <td class="adminTitle">细菌名称：</td>
+                                            <td class="adminData">@Model.Germ_name</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="adminTitle">细菌上传名称：</td>
+                                            <td class="adminData">@Model.Germ_upload_name</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="adminTitle">耐药名称：</td>
+                                            <td class="adminData">@Model.Cr_name</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="adminTitle">耐药Code：</td>
+                                            <td class="adminData">@Model.Ger_code</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="adminTitle">排序：</td>
+                                            <td class="adminData">@Model.Sortid</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="adminTitle">是否允许数据上传：</td>
+                                            <td class="adminData">@(Model.Allow_data_upload ? "是" : "否")</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="adminTitle">是否允许修改：</td>
+                                            <td class="adminData">@(Model.allow_edit ? "是" : "否")</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="adminTitle">是否在热图显示：</td>
+                                            <td class="adminData">@(Model.Allow_report_display ? "是" : "否")</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="adminTitle">创建时间</td>
+                                            <td class="adminData">@Model.InsrtTime.ToString()</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@Html.Partial("~/Views/Common/_ViewPageJs.cshtml")

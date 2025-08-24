@@ -1,0 +1,292 @@
+﻿@model  ManageSystem.Admin.Models.MICPermissionapplication
+
+@{
+    /**/
+
+    ViewBag.Title = "MIC申请访问记录";
+}
+
+@section HeadSection {
+    <style>
+
+        #a {
+            width: 300px;
+            height: 100px;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            margin: auto;
+            border: 1px solid black;
+            visibility: hidden;
+            background: white;
+        }
+
+        ul.dataTables_filter,
+        ul.dataTables_filter li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        ul.dataTables_filter {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            -moz-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+
+            ul.dataTables_filter li {
+                margin-right: 15px;
+                margin-bottom: 10px;
+            }
+
+                ul.dataTables_filter li:last-child {
+                    margin-right: 0;
+                }
+    </style>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { LocationName = this.ViewBag.Title }); }
+}
+
+@Html.AntiForgeryToken()
+<div class="page-body">
+
+    <div class="row manage-page">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-yellow manage-title-box">
+                    <span class="widget-caption manage-title"><i class="glyphicon glyphicon-th "></i>@ViewBag.Title </span>
+                    <div class="widget-buttons">
+                        <a href="#" data-toggle="maximize"><i class="fa fa-expand"></i></a>
+                        <a href="#" data-toggle="collapse"><i class="fa fa-minus"></i></a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+
+                        <div id="searchable_filter" class="dataTables_filter manage-but-box">
+                            <div style="width: 100%;">
+                                <div class="dataTables_filter manage-but-box">
+                                    <label class="lb-left">姓名：</label>
+                                    <label class="lb-right"><input type="text" id="Name" class="form-control input-sm  search" style="width:100%;" /></label>
+                                    <label class="lb-left">手机号：</label>
+                                    <label class="lb-right"><input type="text" id="Phone" class="form-control input-sm  search" style="width:100%;" /></label>
+                                    <label class="lb-left">单位名称：</label>
+                                    <label class="lb-right"><input type="text" id="CompanyName" class="form-control input-sm  search" style="width:100%;" /></label>
+                                    <label> <input type="button" id="btn-search" class="btn btn-blue" value="查 询" /></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table table-striped table-bordered dataTable no-footer table-select" id="ManageTableDiv" aria-describedby="editabledatatable_info">
+                            <div id="data-grid"></div>
+                        </div>
+                        <div id="a">
+                            <textarea id="rejectReason" cols="30" rows="4"></textarea>
+                            <a style="cursor:pointer" onclick="CloseDiv()">取消</a>
+                            <a style="cursor:pointer" onclick="RejectWithReason()">确定</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+<script src="~/Content/Scripts/layer/layer.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        $("#data-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("MICIndex1","MICapply"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: MICData
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 100,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 30, 50,70,90,100]
+            },
+            scrollable: true,
+            groupable: true,
+            dataBound: onDataBound,
+            columns: [
+    	    {
+		        field: "Name",
+		        title: "真实姓名",
+		        width: 60
+		    },
+		    {
+		        field: "Phone",
+		        title: "手机号",
+		        width: 110
+		    },
+            {
+                field: "CompanyName",
+		        title: "单位名称",
+		        width: 230
+		    },
+    	    {
+                field: "Department",
+                title: "科室",
+                width: 150
+            },
+            {
+                field: "Provincesandcities",
+                title: "省市",
+                attributes: { style: "text-align:center" },
+                width: 100
+            },
+            {
+                field: "Position",
+                title: "职称",
+                attributes: { style: "text-align:center" },
+                width: 100
+             },
+            {
+                field: "Email",
+                title: "E-mail地址",
+                width: 120
+            },
+            {
+               field: "Applicationtime",
+               title: "申请时间",
+               width: 120
+            },
+            {
+                field: "Applicationstate",
+                title: "申请状态",
+                width: 60,
+                    template: "#if(Applicationstate ==0){#"
+                        + "已同意" + "#}else if(Applicationstate == 1){#"
+                        + "已驳回"+"#}else if(Applicationstate == -1) {#"
+                        + " 未审批"+"#}#"
+             }
+            ,
+            {
+                field: "Smid",
+                title: "操作",
+                width: 120,
+                template: " @Html.Raw("#=PassAction#") @Html.Raw("#=RejectAction#")"
+                /*template: kendo.template(document.getElementById('kendo_template_option').innerHTML)*/
+            }]
+        });
+    });
+
+    //设置查询参数
+    function MICData() {
+        var data = {
+            Name: $("#Name").val(),
+            Phone: $("#Phone").val(),
+            CompanyName: $("#CompanyName").val()
+        };
+        addAntiForgeryToken(data);
+        console.log(data);
+        return data;
+    }
+
+
+</script>
+<script>
+    function CloseDiv() {
+        document.getElementById("a").style.visibility = "hidden";
+    }
+
+    function Agree(Smid) {
+        console.log(Smid);
+     $.ajax({
+            url: '@Url.Action("Agree", "MICapply")',
+            type: "POST",
+            dataType: "json",
+            data: { Smid: Smid },
+            success: function myfunction() {
+
+            }
+        })
+        location.reload();
+    }
+
+    function Reject(Smid) {
+
+        itemId = Smid;
+
+        //document.getElementById("a").style.visibility = "visible";
+        //iframe层-父子操作
+        layer.open({
+            type: 2,
+            area: ['650px', '380px'],
+            fix: false, //不固定
+            maxmin: true,
+            title: "驳回MIC申请",
+            content: '/MICapply/MICRejectView?Smid=' + Smid
+        });
+    }
+
+      function RejectWithReason()
+    {
+        if ($('#rejectReason').val() == "")
+        {
+            alert("请填写驳回原因！");
+            return;
+        }
+        /*  console.log(itemId);*/
+        $.ajax({
+            url: '@Url.Action("Reject", "MICapply")',
+            type: "POST",
+            dataType: "json",
+            data: { Smid: itemId },
+            success: function myfunction() {
+                $('#rejectReason').val("");
+            }
+        })
+        location.reload();
+    }
+    function ReloadPage() {
+        location.reload();
+    }
+
+</script>
+<script src="~/Content/Scripts/admin.listpage.js"></script>
+
+

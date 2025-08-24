@@ -1,0 +1,135 @@
+﻿@using ManageSystem.Web.Models.Medicine;
+@using Webdiyer.WebControls.Mvc;
+@using ManageSystem.Services.Articles;
+
+@model CenterMedicineManageModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "医学数据管理 ";
+}
+
+@section HeadSection{
+    <link href="~/Content/Css/Center.css" rel="stylesheet" />
+}
+
+
+<div class="mbx"><p>当前位置：首页 &gt; 医学数据管理 </p></div>
+<div class="user_center">
+    @*<div>
+        @Html.Action("_Menu", "Center")
+            </div>*@
+    <div class="user_center_r" style="width: 100%;padding-right: 10px;padding-left: 10px;">
+        <div class="user_center_r_a">
+            @using (Html.BeginForm("MedicineManage", "Center", FormMethod.Get))
+            {
+                @Html.TextBoxFor(m => m.FileName, new { style = "background: #fff; color: #000000; width: 203px; height: 26px; border: 1px solid #BBBBBB;margin-right:10px;", @class = "some_class", placeholder = "文件名称" })
+                @Html.DropDownListFor(model => model.Year, Model.YearList, new { @class = "" })
+                @Html.DropDownListFor(model => model.Quarter, Model.QuarterList, new { @class = "", style = "width:150px;" })
+                <input type="submit" value="搜索" style="margin-right:10px;">
+                <input type="button" onclick="location.href='/Medicine/Upload'" style="background: #88b87e;" value="上传数据">
+            }
+        </div>
+        <div class="user_center_r_b">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <thead>
+                    <tr style="text-align:center;">
+                        <th width="10%" style="text-align:center;">文件名称</th>
+                        <th width="5%" style="text-align:center;">年度</th>
+                        <th width="10%" style="text-align:center;">季度</th>
+                        <th width="10%" style="text-align:center;">文件大小</th>
+                        <th width="10%" style="text-align:center;">上传时间</th>
+                        <th width="5%" style="text-align:center;">状态</th>
+                        <th width="8%" style="text-align:center;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model != null && Model.PageList != null && Model.PageList.Any())
+                        {
+                            foreach (var item in Model.PageList)
+                            {
+                                <tr>
+                                    <td>@item.FileName</td>
+                                    <td>@item.Year</td>
+                                    <td>
+                                        @switch (item.Quarter)
+                                        {
+                                            case 1:
+                                                <span>第一季度</span>
+                                                break;
+                                            case 2:
+                                                <span>第二季度</span>
+                                                break;
+                                            case 3:
+                                                <span>第三季度</span>
+                                                break;
+                                            case 4:
+                                                <span>第四季度</span>
+                                                break;
+                                            case 5:
+                                                <span>全年</span>
+                                                break;
+                                            case 6:
+                                                <span>上半年（1月 - 6月）</span>
+                                                break;
+                                            case 7:
+                                                <span>下半年（7月 - 12月）</span>
+                                                break;
+                                            default:
+                                                <span>缺省</span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td>@item.FileSize</td>
+                                    <td>@item.InsertTime.ToString("yyyy-MM-dd HH:mm")</td>
+                                    <td>@item.StatusName</td>
+                                    <td>
+                                        <a class='td-aclass' href='@Url.Action("Detail", "Medicine")/@item.Id' target='_blank'>查看</a>&nbsp;
+                                        <a class='td-aclass' href="#" onclick="Delete('@item.Id.ToString()'); return false;">删除</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+            </table>
+            <div id="page-box" class="page">
+                @Html.Pager(Model.PageList, MvcPagerExtensions.GetPagerOptions())
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function Delete(id) {
+        if (id) {
+            //询问框
+            layer.confirm('您确认要删除该数据吗？', {
+                title: '系统提示',
+                btn: ['确认', '取消'] //按钮
+            }, function () {
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "/Center/DelelteMedicine",
+                    data: { id: id },
+                    dataType: "json",
+                    success: function (json) {
+                        if (json == null || json == "") {
+                            return false;
+                        }
+
+                        if (json.status == "true") {
+                            SuccessWindow("删除成功！", true);
+                        }
+                        else {
+                            ErrorWindow(json.message, true);
+                        }
+                    }
+                });
+            });
+        }
+        return false;
+    }
+</script>
+

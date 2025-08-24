@@ -1,0 +1,32 @@
+﻿@model ManageSystem.Admin.Models.Researches.ResearchTypeModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+		<table class="adminContent">
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Name, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.Name)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Sort)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Sort, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.Sort)
+			</td>
+			</tr>
+
+		</table>
+
+        <script src="/Content/Scripts/TranTextBox.js"></script>
+<script type="text/javascript">
+
+
+
+   
+</script>

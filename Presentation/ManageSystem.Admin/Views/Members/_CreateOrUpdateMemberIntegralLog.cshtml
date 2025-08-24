@@ -1,0 +1,82 @@
+﻿@model ManageSystem.Admin.Models.Members.MemberIntegralLogModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+<table class="adminContent">
+    <tr class="insert-time-tr" style="display:none;">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.InsertTime)：</td>
+        <td class="adminData">
+            @Model.InsertTime.ToString("yyyy-MM-dd HH:mm")
+        </td>
+    </tr>
+    <tr class="insert-time-tr" style="display:none;">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.UpdateTime)：</td>
+        <td class="adminData">
+            @Model.UpdateTime.ToString("yyyy-MM-dd HH:mm")
+        </td>
+    </tr>
+    <tr class="member-id-tr add-display-block" style="display:none;">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.MemberId)：</td>
+        <td class="adminData">
+            @Html.TextBoxFor(m => m.MemberId, new { @class = "text-box single-line", style = "width:200px;float: left;" })
+            <div style="float:left;margin: 0px 20px;" id="SpanMemberId">@Model.MemberLoginId</div>
+            <input type="button" onclick="SelectMember()" name="save" class="btn btn-blue " style="float: left;margin: 0px 20px;" value="选择会员">
+            @Html.ValidationMessageFor(m => m.MemberId)
+        </td>
+    </tr>
+    <tr class="add-display-none">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.MemberLoginId)：</td>
+        <td class="adminData">
+            @Model.MemberLoginId
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.MemberName)：</td>
+        <td class="adminData">
+            @Model.MemberName
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Value)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Value, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Value)
+        </td>
+    </tr>
+    <tr class="display-view">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Type)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Type, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Type)
+        </td>
+    </tr>
+
+    <tr class="display-view">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Source)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Source, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Source)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Remark)：</td>
+        <td class="adminData">
+            @Html.TextAreaFor(model => model.Remark, new { @class = "form-control txt", cols = "30", rows = "3", style = "margin-bottom: 10px;" })
+            @Html.ValidationMessageFor(m => m.Remark)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Describe)：</td>
+        <td class="adminData">
+            @Html.TextAreaFor(model => model.Describe, new { @class = "form-control txt", cols = "30", rows = "3" })
+            @Html.ValidationMessageFor(m => m.Describe)
+        </td>
+    </tr>
+</table>
+<script src="/Content/Scripts/TranTextBox.js"></script>
+
+

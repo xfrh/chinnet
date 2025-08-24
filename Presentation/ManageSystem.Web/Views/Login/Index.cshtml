@@ -1,0 +1,86 @@
+﻿@model ManageSystem.Web.Models.Login.LoginModel
+@using ManageSystem.Web.Extensions;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+
+    <link href="~/Content/Css/style.css" rel="stylesheet" />
+    <link href="~/Content/Css/common.css" rel="stylesheet" />
+
+    <script src="/Content/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="/Content/Scripts/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/Content/Scripts/jquery.validate.min.js"></script>
+    <script src="/Content/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/Content/Scripts/layer-v2.4/layer.js"></script>
+    <script src="~/Content/Scripts/layer-v2.4/helper.js"></script>
+    <link href="~/Content/Css/easydropdown.css" rel="stylesheet" />
+    <link href="~/Content/Css/Login/Login.css" rel="stylesheet" />
+
+    <script src="~/Content/Scripts/common-validate.js"></script>
+
+    <title>CHINET - 登录</title>
+
+</head>
+
+<body style="background: url(/Content/Images/bj.jpg) no-repeat center center; background-size: 100% 100%; position: relative;">
+
+    <div> @Html.Partial("Notifications")  </div>
+
+    <div class="login_logo"><img src="/Content/Images/logo.png" width="100%" /></div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="login">
+
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:12%">
+                        <select class="ddl1 dropdown" onchange="SelectLoginMode()" id="LoginMode" >
+                            <option value="1">账号登录</option>
+                            <option value="2">短信登录</option>
+                        </select>
+                    </td>
+                    <td style="width:22%">
+                        @Html.TextBoxFor(m => m.LoginId, new { placeholder = "用户名/手机号码", @class = "input-login" })
+                    </td>
+                    <td style="width:22%">
+                        @Html.TextBoxFor(m => m.ValidateCode, new { placeholder = "密码", @class = "input-code",type="password" })
+                    </td>
+
+                    <td style="width:24%">
+                        <input type="button" value="获取验证码" class="yzm  btn" style="width:40%; margin-right:10px; display:none;" onclick="SendValidateCode()" />
+                        <input type="button" onclick="Login()" value="登录" class="login-btn btn" style="width:80%;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+
+        </div>
+    }
+
+    <input type="hidden" id="returnUrl" value="@this.Request.QueryString["returnUrl"]" />
+
+    <script src="~/Content/Scripts/jquery.easydropdown.js"></script>
+    <script src="~/Content/Scripts/Login/Login.js?v=12"></script>
+
+</body>
+</html>

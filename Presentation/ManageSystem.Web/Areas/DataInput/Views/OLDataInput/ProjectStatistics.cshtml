@@ -1,0 +1,160 @@
+﻿
+@{
+    ViewBag.Title = "折点-项目统计";
+    Layout = "~/Areas/DataInput/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Areas/DataInput/Content/css/OLDataInput.css" rel="stylesheet" />
+<style>
+    .mo_table tr td:last-child,
+    .mo_table tr td:first-child,
+    .mo_table tr td,
+    .mo_table tr {
+        border: none;
+    }
+</style>
+    <div class="W">
+        <div class="my_title">
+            当前位置： 首页 / 折点数据上传 / 项目统计
+        </div>
+        <div class="ol_table">
+            @{
+                if (ViewBag.Median == true)
+                {
+                    <div class="ol_left">
+                        <ul>
+                            <li><a href="/DataInput/OLDataInput/OLproject">项目管理</a></li>
+                            <li><a href="/DataInput/OLDataInput/OLtemplate">字段模板</a></li>
+                            <li style="background-color:#dceef6"><a href="/DataInput/OLDataInput/ProjectStatistics">项目统计</a></li>
+                        </ul>
+                    </div>
+                }
+            }
+
+            <!-- 项目统计模板 开始 -->
+        <div class="ol_right">
+            <div class="read">
+                <p>未完成(复核/阅读)</p>
+            </div>
+            <div class="statistic_main" id="div1" style="min-height:198px;">
+
+            </div>
+            <div class="read">
+                <p>已完成(复核/阅读)</p>
+            </div>
+            <div class="statistic_main" id="div2" style="min-height:198px;">
+
+            </div>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="margin-top:200px; margin-left:300px;">
+                <div class="modal-dialog">
+                    <div class="modal-content" style="width:400px;">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-hidden="true">
+                                ×
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                项目病原菌：
+                            </h4>
+                        </div>
+                        <div align="center">
+                            <table id="tab1" class="mo_table" style="color:#000000;text-align:center; width:400px;"cellpadding="0" cellspacing="0">
+                            </table>
+                        </div>
+                  
+                        <div class="modal-footer">
+                            @*<button type="button" class="btn btn-default"
+                                    data-dismiss="modal">
+                                关闭
+                            </button>*@
+                            <button type="button"  data-dismiss="modal" class="btn btn-primary">
+                                确认
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div>
+            <!-- 项目统计模板 结束 -->
+        </div>
+         <input id="Median" type="hidden" value="@ViewBag.Median.ToString()" />
+    </div>
+<script src="~/Areas/DataInput/Content/js/jquery.min.js"></script>
+<script>
+    var Median = $("#Median").val();
+    if (Median != "" && Median != null && Median != "True") {
+        location.href = "/DataInput/OLDataInput/index";
+    }
+    $.ajax({
+        type: 'POST',
+        url: "/DataInput/OLDataInput/Projectlist",
+        dataType: 'json',
+        data: {},
+        success: function (result) {
+            //绑定页面的数据
+            if (result.length > 0) {
+                var html1 = "";
+                var html2 = "";
+                for (var i = 0; i < result.length; i++) {
+                    if (result[i].projectsums != 0) {
+                        if (result[i].auditorsums < result[i].projectsums) {
+                            //var aaa = "";
+                            //for (var i = 0; i < result[i].GermList.length; i++) {
+                            //    aaa += "<span>" + result[i].GermList[i].germname + "</span>";
+                            //}
+
+                            html1 += "<div class='the_box'>" +
+                                "<div class='txt'>" +
+                                "<span>" + result[i].auditorsums + "/" + result[i].projectsums + "</span>" +
+                                "<img src='/Areas/DataInput/Content/images/u628.svg' alt=''></div>" +
+                                "<div style='margin-top:30px; color:#fff'><span style='margin-left:10px;'>" + result[i].Name + "</span></div>" +
+                                "<span>" + result[i].project_name + "</span>" +
+                                "<div class='butn'>" +
+                                "<a href='/DataInput/OLDataInput/OLDataInput?Id=" + result[i].Id + "&createdId=" + result[i].createdId+"'>项目数据</a>" +
+                                "<a style='cursor: pointer; text-decoration: none;' onclick=getgream('" + result[i].Id + "','" + result[i].createdId + "') data-toggle='modal' data-target='#myModal'>病原菌</a>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>"
+                        } else {
+
+                            html2 += "<div class='the_box'>" +
+                                "<div class='txt'>" +
+                                "<span>" + result[i].auditorsums + "/" + result[i].projectsums + "</span>" +
+                                "<img src='/Areas/DataInput/Content/images/u628.svg' alt=''></div>" +
+                                "<div style='margin-top:30px; color:#fff'><span style='margin-left:10px;'>" + result[i].Name + "</span></div>" +
+                                "<span>" + result[i].project_name + "</span>" +
+                                "<div class='butn'>" +
+                                "<a href='/DataInput/OLDataInput/OLDataInput?Id=" + result[i].Id + "&createdId=" + result[i].createdId +"'>项目数据</a>" +
+                                "<a style='cursor: pointer; text-decoration: none;' onclick=getgream('" + result[i].Id + "','" + result[i].createdId + "') data-toggle='modal' data-target='#myModal'>病原菌</a>" +
+                                "</div> " +
+                                "</div>" +
+                                "</div>"
+                        }
+                    }
+                }
+                $("#div1").html(html1);
+                $("#div2").html(html2);
+            }
+
+        }
+    });
+
+    function getgream(Id, createdId)
+    {
+        var html = "<tr style='line-height:25px;'>";
+        $.ajax({
+            type: 'POST',
+            url: "/DataInput/OLDataInput/Getgerm",
+            dataType: 'json',
+            data: { projectid: Id, createdId: createdId },
+            success: function (result) {
+                var n = 1;
+                for (var i = 0; i < result.length; i++) {
+                    html += "<td align='left' style='width:50px;padding-left:30px;'>" + n + "." + result[i].germname + "</td>" +
+                        "<td style='width:50px;'>【数量：" + result[i].sums + "】</td>" + "</tr>"
+                    n++;
+                }
+                $("#tab1").html(html);
+            }
+        })
+    }
+</script>

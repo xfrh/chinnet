@@ -1,0 +1,97 @@
+﻿@using ManageSystem.Web.Models.Researches
+    @using ManageSystem.Core.Domain.SystemSet
+    @using ManageSystem.Services.Researches
+    @using Webdiyer.WebControls.Mvc;
+
+    @model PagedList<ResearchModel>
+
+    @{
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        this.ViewBag.Title = "我发布的科研合作";
+    }
+
+    @section HeadSection{
+        <link href="~/Content/Css/Center.css" rel="stylesheet" />
+    }
+
+    <style type="text/css">
+        .btn-box a {
+            color: #0099e9;
+        }
+    </style>
+
+    <div class="mbx"><p>当前位置：首页 &gt; 我发布的活动 </p></div>
+    <div class="user_center">
+        @*<div>
+          @Html.Action("_Menu", "Center")
+        </div>*@
+        <div class="user_center_r" style="width:100%;padding-right: 10px;padding-left: 10px;border-left-style:none;">
+
+            <div class="user_center_r_a center-title">
+                <h2>
+                    <span class="span-item  " onclick="location.href='@Url.Action("MeetingList", "Center")'">信息动态</span>
+                    <span class="span-item span-item-action" onclick="location.href='@Url.Action("ResearchList", "Center")'">科研合作</span>
+                </h2>
+            </div>
+
+            <div class="user_center_r_b">
+                @{
+                    if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <div class="mod-b mod-art"  style="width:100%;">
+                                <div class="mod-thumb"  style="width:16%;">
+                                    <a class="transition" href="@Url.Action("Detail","Research",new {  id=item.Id.ToString()})" >
+                                        <img class="lazy" src="@(ResearchServiceExtensions.GetCoverImage(item.CoverImage))" width="100%" height="100%" style="display: inline;">
+                                    </a>
+                                </div>
+
+                                <div class="mob-ctt"  style="width:80%;">
+                                    <h3><a href="@Url.Action("Detail","Research",new {  id=item.Id.ToString()})" class="transition" >@item.Name</a></h3>
+                                    <div class="mob-author">@item.StartTime.ToString("yyyy-MM-dd HH:mm")</div>
+                                    <div class="mob-sub">@item.AreaName</div>
+                                    <div class="mob-cent">
+                                        <span>发布时间：@item.InsertTime.ToString("yyyy-MM-dd")</span>
+                                        <span style="margin-left:20px;">状态：@item.StatusName</span>
+                                        <span class="btn-box"><a href="@Url.Action("ResearchDetail","Center")/@item.Id.ToString()">管理活动</a>&nbsp;|&nbsp;@item.ApplyCount&nbsp;报名&nbsp;|&nbsp;@(item.ViewCount)&nbsp;浏览</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+                <div id="page-box" class="page">
+                    @Html.Pager(Model, MvcPagerExtensions.GetPagerOptions())
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        function Delete(id) {
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "/Center/DelelteResearchApply",
+                data: {
+                    id: '' + id + '',
+                },
+                dataType: "json",
+                success: function (json) {
+
+                    if (json == null || json == "")
+                        return;
+
+                    if (json.status == "true") {
+                        SuccessWindow("取消成功！", true);
+                    }
+                    else {
+                        ErrorWindow(json.message, true);
+                    }
+                }
+            });
+        }
+    </script>

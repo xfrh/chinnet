@@ -1,0 +1,42 @@
+﻿
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        //基本样式
+        $(".adminContent input").attr("disabled", "disabled");
+        $(".adminContent textarea").attr("disabled", "disabled");
+        $(".adminContent select").attr("disabled", "disabled");
+        $(".adminContent .k-picker-wrap  .k-select").css("display", "none");
+        $(".adminContent .selected").attr("disabled", "disabled");
+        $(".insert-time-tr").css("display", "table-row");
+        $(".adminContent input").addClass("input-no");
+        $(".adminContent textarea").addClass("input-no");
+        $(".adminContent textarea").css("padding-left","0px");
+
+        $(".display-none").css("display", "none");
+        $(".display-block").css("display", "table-row");
+
+        //上传文件
+        $(".adminData .upload-file").css("display", "none");
+        $(".adminData .upload-file").html("");
+
+       //日期控件
+        $(".adminData .k-datepicker").addClass("input-no");
+        $(".adminData .k-datepicker .k-picker-wrap").css("background-color", "white");
+
+        //下拉框
+        $(".adminData .dropdown .old").remove();
+        $(".adminData .dropdown .carat").remove();
+        $(".adminData .dropdown div").remove();
+        $(".adminData .dropdown").addClass("open-no");
+        $(".dropdown .selected, .dropdown li").css("padding-right", "0px");
+        $(".dropdown .selected, .dropdown li").css("padding-left", "0px");
+
+        //上传图片
+        $(".image-none").css("display", "none");
+
+        $(".display-view").css("display", "table-row");
+        $(".display-no-view").css("display", "none");
+    });
+</script>

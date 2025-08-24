@@ -1,0 +1,28 @@
+﻿.header {
+    width: 100%;
+    height: 40px;
+    line-height: 45px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 999;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+}
+
+img.Dn-l-img + div.flex-1 {
+    height: 2.2rem;
+    overflow: hidden;
+}
+
+.middle {
+    width: auto;
+}
+
+.item-date-bar {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    background: #FFF;
+    padding-top: 2px;
+}

@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "问卷";
+    Layout = "~/Views/Shared/_SurveyLayout.cshtml";
+    string _version = DateTime.Now.Ticks.ToString();
+}
+
+@section Styles{
+    <link href="~/Content/Css/Survey/Page3.css?v=@_version" rel="stylesheet" />
+}
+@section Scripts{
+    <script src="~/Content/Scripts/Survey/Page3.js?v=@_version"></script>
+}
+
+<div id="app" v-locak>
+    <input id="hidden_id" name="hidden_id" ref="hidden_id" type="hidden" hidden="hidden" value="@ViewContext.RouteData.Values["id"]" />
+    <div id="page" class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide slidescroll">
+                <div class="survey-body">
+                    <article class="cro-page">
+                        <div class="cro-qbox">
+                            <div class="cro-qbox-title" v-html="Q5.title"></div>
+                            <div :class="{'cro-qbox-awbox': true, 'has-error': errors.has(Q5.name)}">
+                                <input class="cro-qbox__input" :name="Q5.name" v-model="Q5.answer" v-validate="{required: true, decimal: 0}" type="tel" :placeholder="Q5.placeholder" />
+                            </div>
+                        </div>
+                        <div class="cro-qbox">
+                            <div class="cro-qbox-title" v-html="Q6.title"></div>
+                            <div :class="{'cro-qbox-awbox': true, 'has-error': errors.has(Q6.name)}">
+                                <input class="cro-qbox__input" :name="Q6.name" v-model="Q6.answer" v-validate="{required: true, decimal: 0}" type="tel" :placeholder="Q5.placeholder" />
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <footer class="cre-footer">
+                    <a class="btn btn-primary cre-submit a-btn" href="javascript: void(0);" @@click="onSubmit">下一页</a>
+                    <div style="height: 38px;"></div>
+                </footer>
+            </div>
+        </div>
+    </div>
+</div>

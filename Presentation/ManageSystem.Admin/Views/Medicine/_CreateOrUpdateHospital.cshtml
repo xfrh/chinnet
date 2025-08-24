@@ -1,0 +1,75 @@
+﻿@model ManageSystem.Admin.Models.Medicine.HospitalModel
+@using ManageSystem.Admin.Extensions;
+@using ManageSystem.Services.Common;
+
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+<table class="adminContent">
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Name)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Sort)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Sort, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Sort)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.State)：</td>
+        <td class="adminData">
+            @Html.CheckBoxFor(m => m.State, new { @class = "n-chk" })
+            @Html.ValidationMessageFor(m => m.State)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ProvinceId)：</td>
+        <td class="adminData">
+            @Html.DropDownList("ProvinceId", Model.ProvinceList, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.ProvinceList)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Address)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Address, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Address)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ContactsUser)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.ContactsUser, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.ContactsUser)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ContactsTel)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.ContactsTel, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.ContactsTel)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Describe)：</td>
+        <td class="adminData">
+            @Html.TextAreaFor(model => model.Describe, new { @class = "form-control txt", cols = "30", rows = "3" })
+            @Html.ValidationMessageFor(m => m.Describe)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle"></td>
+        <td class="adminData"></td>
+    </tr>
+</table>
+<script src="/Content/Scripts/TranTextBox.js"></script>

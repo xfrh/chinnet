@@ -1,0 +1,259 @@
+﻿.item-container {
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 25px;
+}
+
+.multitem-container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+    .item-container .item-header,
+    .multitem-container .item-header {
+        border-bottom: 1px solid #dedede;
+        padding: 10px 0;
+        margin-bottom: 20px;
+    }
+
+    .item-container .item-active,
+    .multitem-container .item-active {
+        font-weight: bold;
+        font-size: 14px;
+        margin-right: 8%;
+    }
+
+.item-container .item-preview {
+}
+
+.item-container .btn-excel,
+.multitem-container .btn-excel {
+    margin: 0;
+    padding: 4px 12px;
+}
+
+.item-container table.item-table {
+    width: 100%;
+}
+
+.multitem-container table.item-table {
+    min-width: 100%;
+}
+
+.item-container table.item-table {
+}
+
+    .item-container table.item-table > thead > tr > th,
+    .item-container table.item-table > tbody > tr > td,
+    .multitem-container table.item-table > thead > tr > th,
+    .multitem-container table.item-table > tbody > tr > td {
+        vertical-align: top;
+        padding: 8px;
+    }
+
+    .item-container table.item-table > thead > tr > th,
+    .multitem-container table.item-table > thead > tr > th {
+        background-color: #efefef;
+    }
+
+    .item-container table.item-table.table-bordered,
+    .item-container table.item-table.table-bordered > tbody > tr > td,
+    .multitem-container table.item-table.table-bordered,
+    .multitem-container table.item-table.table-bordered > tbody > tr > td {
+        border-style: solid;
+    }
+
+        .item-container table.item-table .table-bordered th,
+        .item-container table.item-table .table-bordered td,
+        .multitem-container table.item-table .table-bordered th,
+        .multitem-container table.item-table .table-bordered td {
+            border: 1px solid #ddd !important;
+        }
+
+.item-container .text-box,
+.multitem-container .text-box {
+    outline: none;
+    box-sizing: border-box;
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+}
+
+.item-container input.input-validation-error,
+.multitem-container input.input-validation-error {
+    border-color: #dd3d31;
+    color: #dd3d31;
+}
+
+.item-container span.field-validation-error,
+.multitem-container span.field-validation-error {
+    margin-bottom: 0;
+    font-size: 12px;
+}
+
+.item-container a.btn-delete,
+.multitem-container a.btn-delete {
+    margin: 0;
+    font-size: 12px;
+    padding: 3px 12px;
+    color: #e74b37;
+    border-color: #e74b37;
+    display: block;
+    width: 55px;
+    margin: 0 auto;
+}
+
+.k-content .adminContent .adminTitle,
+.k-content .adminContent .adminData {
+    width: auto;
+    vertical-align: top;
+    padding-right: inherit;
+}
+
+.k-content .adminContent .adminTitle {
+    min-width: 140px;
+}
+
+.k-content .adminContent .adminData {
+    width: 35%;
+}
+
+table input.text-box,
+table select {
+    width: 100% !important;
+    display: inline-block !important;
+    box-sizing: border-box !important;
+    height: auto;
+}
+
+.field-validation-error {
+    height: initial;
+}
+
+.nav-tabs > li.dataitem-tip > a,
+.nav-tabs > li.dataitem-tip > a:focus {
+    color: #a94442;
+    padding-left: 45px;
+}
+
+.ChartTypeLabel,
+.BarColorLabel {
+    margin: 0;
+}
+
+.ChartTypeLabel {
+    width: 70px;
+}
+
+#ChartType {
+    width: 80px;
+}
+
+.BarColorLabel {
+    width: 45px;
+    text-align: right;
+    margin-left: 25px;
+}
+
+#BarColor {
+    height: 33px;
+}
+
+.multiple-colbar {
+    width: 90%;
+    margin: -10px 0 10px;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: reverse;
+    -moz-box-orient: horizontal;
+    -moz-box-direction: reverse;
+    -ms-flex-direction: row-reverse;
+    flex-direction: row-reverse;
+}
+
+.multitem-container .tfootbar {
+    width: 90%;
+    margin: 15px 0;
+}
+
+#modal_table_insertCol input.field-validation-error {
+    margin: 0 !important;
+}
+
+#modal_table_insertCol span[for="MultipleAntibioticName"] {
+    margin-bottom: 0;
+}
+
+.user-select-no {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.pos-rel {
+    position: relative;
+}
+
+.multitem-container .btn-trash {
+    background-color: transparent;
+    border: 0;
+    box-shadow: none;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    outline: none;
+}
+
+    .multitem-container .btn-trash:focus,
+    .multitem-container .btn-trash:active:focus,
+    .multitem-container .btn-trash.active:focus {
+        outline: none;
+    }
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.multiple_datatable-container {
+    overflow-x: auto;
+    padding-bottom: 6px;
+}
+
+#multiple_datatable {
+    table-layout: fixed;
+}
+
+.multitem-container .table select {
+    padding: 6px;
+}
+
+.multitem-container .typcn {
+    margin-right: 0;
+}
+
+.multitem-container .table .w8char {
+    width: 100px;
+    text-indent: -22px;
+    text-align: center;
+}
+
+.multitem-container .table .w12char {
+    width: 130px;
+    text-indent: -22px;
+    text-align: center;
+}
+
+.multitem-container .table .w15char {
+    width: 165px;
+    text-indent: -24px;
+    text-align: center;
+}
+
+#modal_title_toptip .flex img {
+    max-width: 100%;
+    max-height: 100%;
+}

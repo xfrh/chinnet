@@ -1,0 +1,336 @@
+﻿@using ManageSystem.Web.Models.Medicine;
+@using Webdiyer.WebControls.Mvc;
+@using ManageSystem.Services.Articles;
+
+@model ClinicalTrialReportManageModel
+@{
+    ViewBag.Title = "临床试验上报";
+    Layout = "~/Areas/DataInput/Views/Shared/_Layout.cshtml";
+}
+
+@section HeadSection{
+    <link href="~/Content/Css/Center.css" rel="stylesheet" />
+    <style type="text/css">
+        #a {
+            overflow: hidden;
+            position: fixed;
+            top: 25%;
+            left: 25%;
+            margin: auto;
+            visibility: hidden;
+            z-index: 9999;
+            /*flex 布局*/
+            display: flex;
+            /*实现垂直居中*/
+            align-items: center;
+            /*实现水平居中*/
+            justify-content: center;
+        }
+
+        #b {
+            overflow: hidden;
+            position: fixed;
+            left: 850px;
+            height: 50px;
+            width: 250px;
+            bottom: 10px;
+            margin: auto;
+            visibility: hidden;
+            z-index: 9999;
+        }
+    </style>
+
+}
+
+
+<div class="mbx"><p>当前位置：首页 &gt; 临床试验在线审核 </p></div>
+<div class="user_center">
+    @*<div>
+        @Html.Action("_Menu", "Center")
+            </div>*@
+    <div id="a">
+        <input type="button" value="搜索" style="right:0px;top:0px;background-color:red">
+        <img src="" />
+    </div>
+    <div id="b" class="user_center_r_a">
+        <input onclick="lastpicture();" value="上一张" style="margin-left: 10px; margin-top: 10px; margin-right: 10px; cursor: pointer; ">
+        @*<input onclick="amplifypicture();" value="放大" style="margin-right: 10px; cursor: pointer;">
+            <input onclick="reducepicture();" value="缩小" style="margin-right: 10px; cursor: pointer;">*@
+        <input onclick="nextpicture();" value="下一张" style="margin-left: 10px; margin-top: 10px; margin-right: 10px; cursor: pointer; ">
+    </div>
+    <div class="user_center_r" style="width: 100%;padding-right: 10px;padding-left: 10px;">
+        <div class="user_center_r_a">
+            @using (Html.BeginForm("OnlineAudit", "ClinicalTrialReport", FormMethod.Get))
+            {
+                @Html.DropDownListFor(model => model.ProjectName, Model.ProjectList, new { @class = "" })
+                @*@Html.DropDownListFor(model => model.Quarter, Model.QuarterList, new { @class = "", style = "width:150px;" })*@
+                <input type="submit" value="搜索" style="margin-right:10px;">
+                @*<input type="button" onclick="location.href='/Medicine/Upload'" style="background: #88b87e;" value="上传数据">*@
+            }
+        </div>
+        <div class="user_center_r_b">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <thead>
+                    <tr style="text-align:center;">
+                        @*<th style="text-align:center;">项目名称</th>*@
+                        <th style="text-align:center;">所属医院</th>
+                        <th style="text-align:center;">菌株编号</th>
+                        <th style="text-align:center;">细菌名称</th>
+                        <th style="text-align:center;">实验时间</th>
+                        <th style="text-align:center;">药物名称</th>
+                        <th style="text-align:center;">在药敏板中位置</th>
+                        <th style="text-align:center;">最高浓度(mg/L)</th>
+                        <th style="text-align:center;">MIC值(mg/L)</th>
+                        @*<th width="9%" style="text-align:center;">阅读者</th>*@
+                        <th style="text-align:center;">复核MIC值(mg/L)</th>
+                        @*<th width="9%" style="text-align:center;">复核者</th>*@
+                        <th style="text-align:center;">药敏结果图</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model != null && Model.PageList != null && Model.PageList.Any())
+                        {
+                            foreach (var item in Model.PageList)
+                            {
+                                <tr>
+                                    @*<td>@item.ProjectName</td>*@
+                                    <td>@item.HospitalName</td>
+                                    <td>@item.StrainNo</td>
+                                    <td>@item.BacterialName </td>
+                                    <td>@item.ExperimentTime</td>
+                                    <td>@item.DrugName</td>
+                                    <td>@item.Position</td>
+                                    <td>@item.HighstPotency</td>
+                                    <td>@item.MicValue</td>
+                                    <td><input type="text" value="@item.ReviewMicValue" style="border:none;border-bottom:1px solid #000" id="@item.Id.ToString()" onchange="TextLostFoucus(this)"></td>
+                                    @*<td>@item.ReviewMicValue</td>*@
+                                    <td>
+                                        @*<img src="@item.PicturePath" onclick="ShowPicture('@item.PicturePath')" style="width: 100%;height:100%;object-fit: cover;" />*@
+                                        <a id='@item.Id.ToString()1' onclick="ShowPicture('@item.Id.ToString()1 ','@item.PicturePath')" style="cursor:pointer">查看</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+            </table>
+            <div id="page-box" class="page">
+                @Html.Pager(Model.PageList, MvcPagerExtensions.GetPagerOptions())
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //拖动已开始
+    function drag(ev) {
+        ev.dataTransfer.setData("Text", ev.target.id);
+    }
+    // 拖动过程
+    function drop(ev) {
+        //允许其他元素拖到此处
+        ev.preventDefault();
+        // 获取要拖放的元素的id
+        var id = ev.dataTransfer.getData("Text");
+        // 将一个标签添加到另一个标签中，可以使用appendChild
+        ev.target.appendChild(document.getElementById(id));
+    }
+    // 拖动结束
+    function allowDrag(ev) {
+        //允许其他元素拖到此处
+        ev.preventDefault()
+    }
+
+
+    let pop = document.getElementById("a")
+    //定义开关变量,用于控制图片是否跟随鼠标移动
+    let canMove = false;
+    //在开始拖拽时,就保存鼠标距div左上角的相对位置
+    let offsetX, offsetY;
+    //当在pop上按下鼠标时
+    pop.onmousedown = function (e) {
+        //可以开始拖动
+        canMove = true;
+        offsetX = e.offsetX;
+        offsetY = e.offsetY;
+    }
+    //当鼠标在窗口移动时
+    window.onmousemove = function (e) {
+        //只有当pop可以移动时
+        if (canMove == true) {
+            //让pop跟随鼠标移动
+            //开始拖拽时，立刻获得鼠标距图片左上角的相对位置
+            //求pop的top和left
+            let left = e.clientX - offsetX;
+            let top = e.clientY - offsetY;
+            //设置pop的top和left属性
+            pop.style.left = left + "px";
+            pop.style.top = top + "px";
+        }
+    }
+    //当在pop上抬起鼠标按键时
+    pop.onmouseup = function () {
+        //停止拖拽
+        canMove = false
+    }
+
+
+
+
+    var pictureFileList = [];
+    var idList = [];
+    var pictureIndex;
+    var nowPicture;
+
+    $(function () {
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "/ClinicalTrialReport/ReturnPictureFileList",
+            dataType: "json",
+            success: function (json) {
+                console.log(json);
+                for (var i = 0; i < json.length; i++) {
+                    pictureFileList.push(json[i].split(",")[0]);
+                    idList.push(json[i].split(",")[1]);
+                }
+                console.log(pictureFileList);
+                console.log(idList);
+            }
+        });
+    })
+
+
+    function Delete(id) {
+        if (id) {
+            //询问框
+            layer.confirm('您确认要删除该数据吗？', {
+                title: '系统提示',
+                btn: ['确认', '取消'] //按钮
+            }, function () {
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "/Center/DelelteMedicine",
+                    data: { id: id },
+                    dataType: "json",
+                    success: function (json) {
+                        if (json == null || json == "") {
+                            return false;
+                        }
+
+                        if (json.status == "true") {
+                            SuccessWindow("删除成功！", true);
+                        }
+                        else {
+                            ErrorWindow(json.message, true);
+                        }
+                    }
+                });
+            });
+        }
+        return false;
+    }
+    var count = 10;
+    function picture() {
+        count = Counting(count);
+        ResizeCount(count);
+    }
+
+    function Counting(count) {
+        if (event.wheelDelta > 120) {
+            count++;
+        }
+        else if (event.wheelDelta < 120) {
+            count--;
+        }
+        return count;
+    }
+
+    function ResizeCount(count) {
+        picture_id.style.zoom = count + '0%';
+    }
+
+    function amplifypicture() {
+        console.log("fangfa");
+        count += 10;
+        picture_id.style.zoom = count + '0%';
+    }
+
+    function reducepicture() {
+        console.log("fangfa");
+        count -= 10;
+        picture_id.style.zoom = count + '0%';
+    }
+
+    function lastpicture() {
+        pictureIndex = pictureFileList.indexOf(nowPicture);
+        if (pictureIndex - 1 < 0) {
+            alert("第一张图片！");
+            return;
+        }
+        $('#a').html("<input type='button' value='X ' style='text-align: center;position: absolute; top:0px;right:0px; background-color:red' onclick='CloseDiv()'> <img id='picture_id' src=" + pictureFileList[pictureIndex - 1] + "   style='object-fit: cover;display: block' />");
+        nowPicture = pictureFileList[pictureIndex - 1];
+        $("#" + pictureId).attr("style", "cursor: pointer;");
+        pictureId = idList[pictureIndex - 1] + "1";
+        $("#" + pictureId).css("color", "red");
+    }
+
+    function nextpicture() {
+        pictureIndex = pictureFileList.indexOf(nowPicture);
+        if ((pictureIndex + 1) == pictureFileList.length) {
+            alert("最后一张图片！");
+            return;
+        }
+        $('#a').html("<input type='button' value='X ' style='text-align: center;position: absolute; top:0px;right:0px; background-color:red' onclick='CloseDiv()'> <img id='picture_id' src=" + pictureFileList[pictureIndex + 1] + "  style='object-fit: cover;display: block' />");
+        nowPicture = pictureFileList[pictureIndex + 1];
+        $("#" + pictureId).attr("style", "cursor: pointer;");
+        pictureId = idList[pictureIndex + 1] + "1";
+        $("#" + pictureId).css("color", "red");
+
+
+    }
+
+    function TextLostFoucus(e) {
+        //alert(e.id + " " + e.value);
+
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "/ClinicalTrialReport/UpdateMIC",
+            data: { id: e.id, value: e.value },
+            dataType: "json",
+            success: function (json) {
+                console.log(json);
+                location.reload();
+            }
+        });
+    }
+    var pictureId;
+
+    function ShowPicture(id, e) {
+        pictureId = id;
+        $("#" + id).css("color", "red");
+        nowPicture = e;
+        document.getElementById("a").style.visibility = "visible";
+        document.getElementById("b").style.visibility = "visible";
+        $('#a').html("<input type='button' value='X ' style='text-align: center;position: absolute; top:0px;right:0px; background-color:red' onclick='CloseDiv()'> <img id='picture_id' src=" + e + "  style='object-fit: cover;display: block' />");
+
+        // $('#a').html(" <img id='picture_id' src=" + e + "  onclick='CloseDiv()'  onmousewheel='return picture();' style='margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;object-fit: cover;display: block' />");
+    }
+
+    function UpdateMIC() {
+
+    }
+
+
+    function CloseDiv() {
+        document.getElementById("a").style.visibility = "hidden";
+        document.getElementById("b").style.visibility = "hidden";
+        //$('#' + pictureId).removeAttr("style");
+        //$("#" + id).css("cursor", "pointer");
+        $("#" + pictureId).attr("style", "cursor: pointer;");
+        $('#main_div').unbind("click")
+    }
+</script>
+

@@ -1,0 +1,275 @@
+﻿
+
+
+.pagination {
+    display: inline-block;
+    padding-left: 0;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+    .pagination>li {
+    display: inline;
+}
+
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    z-index: 2;
+    color: #fff;
+    cursor: default;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+
+.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
+    color: #777;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd;
+}
+
+.pagination li a, .pagination li span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+
+
+
+
+.k-grid table {
+    clear: both;
+  max-width: none !important;
+  background-color: #fff;
+  margin-bottom: 0;
+  border: 1px solid #ddd;
+  width: 100%;
+  margin:10px 0px;
+      border-spacing: 0px;
+      border-collapse:collapse;
+      border-style:none;
+}
+
+    .k-grid table thead {
+    box-sizing: border-box;
+    }
+
+        .k-grid table thead tr {
+          background-color: #eee;
+  background-image: -webkit-linear-gradient(top,#f2f2f2 0,#fafafa 100%);
+  background-image: -moz-linear-gradient(top,#f2f2f2 0,#fafafa 100%);
+  background-image: -o-linear-gradient(top,#f2f2f2 0,#fafafa 100%);
+  background-image: linear-gradient(to bottom,#f2f2f2 0,#fafafa 100%);
+  font-size: 12px;
+        }
+
+
+.k-button {
+  
+    cursor: pointer;
+  vertical-align: middle;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+  color: #fff;
+  -webkit-box-shadow: 0 1px 0 rgba(0,0,0,.05);
+  -moz-box-shadow: 0 1px 0 rgba(0,0,0,.05);
+  box-shadow: 0 1px 0 rgba(0,0,0,.05);
+  -webkit-transition: all .15s ease;
+  -moz-transition: all .15s ease;
+  -o-transition: all .15s ease;
+  transition: all .15s ease;
+  -webkit-border-radius: 2px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 2px;
+  -moz-background-clip: padding;
+  border-radius: 2px;
+  background-clip: padding-box;
+  font-size: 13px;
+    display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+   background-color: #5db2ff!important;
+  border-color: #5db2ff;
+  color: #fff;
+}
+
+.k-upload-button {
+    margin-left: 0px !important;
+}
+
+.k-grid {
+width:100%;
+border-style:none;
+}
+
+.k-grid-delete {
+  color: #fff !important;
+  background-color: #d9534f !important;
+  border-color: #d43f3a !important;
+}
+
+.k-grid-delete:hover {
+  background-color: #d73d32!important ;
+  border-color: #d73d32 !important;
+  color: #fff !important;
+}
+
+.k-content table {
+width:100%;
+}
+
+.k-grid-p-title {
+padding:5px;
+  border-bottom: 2px solid #5db2ff!important;
+  width:90%;
+  margin:0px auto;
+  font-size: 14px;
+  margin-bottom: 20px;
+
+}
+
+.field-validation-error {
+
+color: red;
+  height: 20px;
+  line-height: 20px;
+  margin: 5px 0px;
+  float: left;
+  width:100%;
+  margin-bottom: 10px;
+}
+
+.manage-page .manage-but-box  {
+ margin:10px 0px;}
+
+.k-button:hover {
+      background-color: #5db2ff!important;
+  border-color: #5db2ff !important;
+     color: #fff !important;
+}
+
+.k-grid-delete:hover {
+  background-color: #d73d32!important;
+  border-color: #d73d32 !important;
+  color: #fff !important;
+}
+
+.k-grid-edit:hover {
+    color: #fff !important;
+}
+
+
+
+
+.headerstyle th {
+ height:30px;  line-height:30px;    padding: 2px 5px;
+}
+
+.headerstyle .adminInput {
+  height:30px;  line-height:30px;    padding: 2px 5px;
+}
+
+.k-grouping-header {
+padding:5px;
+}
+
+
+.k-datepicker {
+    margin: 0px !important;
+    height: 100% !important;
+    padding:0px;
+    width:250px;
+}
+
+
+.k-picker-wrap {
+        padding: 0px !important;
+    margin: 0px !important;
+    border-style: none !important;
+   
+}
+
+    .k-picker-wrap .k-input {
+        width: 238px  !important;
+    height: 22px;
+    line-height: 22px;
+    padding: 6px 12px;
+    padding-right:0px;
+    }
+
+.k-grid-header .k-header {
+    border-style: none;
+    font-weight:bold;
+          border-bottom:1px solid #ccc;
+}
+
+.k-grid th {
+    background-color: white;
+    border-bottom:1px solid #ccc;
+}
+    .k-grid td ,  .k-grid th {
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    word-break: break-all;
+        border-left-width: 0;
+    height: 35px;
+    line-height: 35px;
+    padding: 2px 8px;
+       border-style: none;
+
+}
+
+.k-pager-wrap {
+ width:100%;
+ background-color: white;
+ border-style: none;
+}
+
+    .k-pager-wrap a {
+    
+    }
+
+.k-grid .k-pager-numbers {
+     border-style: none;
+         margin: 0px;
+    padding: 0px;
+}
+
+    .k-grid .k-pager-numbers li {
+        margin: 0px;
+    padding: 0px;
+    text-align: center;
+    }
+
+.k-pager-numbers li .k-state-selected {
+height: 26px !important;
+    width: 26px !important;
+    margin: 0px;
+    padding: 0px;
+    line-height: 26px !important;
+    text-align: center !important;
+}
+
+
+.k-grid td  .td-aclass {
+ color:#0099e9 !important;
+}

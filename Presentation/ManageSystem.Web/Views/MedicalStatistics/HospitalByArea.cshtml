@@ -1,0 +1,74 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    this.ViewBag.Title = "医院数据统计 - 按省份统计";
+}
+
+@{
+    var breadcrumb = this.Request.QueryString["breadcrumb"];
+    if (string.IsNullOrWhiteSpace(breadcrumb) || !breadcrumb.Equals("hidden"))
+    {
+        <div class="mbx">
+            <p>当前位置：首页 &gt; 医学数据统计 &gt; 按省份统计 </p>
+        </div>
+    }
+    else
+    {
+        <div class="mbx" style="height:15px;">  </div>
+    }
+}
+
+<div class="doct_center">
+
+    <div id="main" style="width: 90%;height:90%; margin:0px auto;"> </div>
+</div>
+    <script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main'));
+
+            option = {
+                title: {
+                    text: '世界人口总量',
+                    subtext: '数据来自网络'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                legend: {
+                    data: ['2011年', '2012年']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    boundaryGap: [0, 0.01]
+                },
+                yAxis: {
+                    type: 'category',
+                    data: [@Html.Raw(this.ViewBag.PageText)],
+                },
+                series: [
+                    {
+                        name: '总医院数量：',
+                        type: 'bar',
+                        data: [@Html.Raw(this.ViewBag.PageValue)]
+                    }
+                ]
+            };
+
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        });
+
+    </script>

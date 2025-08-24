@@ -1,0 +1,83 @@
+﻿@model ManageSystem.Core.Domain.Members.Member
+
+<div class="nav">
+    <li style="width: 75px;margin-right: 40px;padding-left:0px;"><a href="/Special/Data/Project1">拉氧头孢</a></li>
+    @*<li onmouseover="SelectMenuItemOver(this)" onmouseout="SelectMenuItemOut(this)" class="menu-dropdown" style="    margin-right: 10px;">
+            <a href="javascript:void(0)" class="menu-item-a">数据分析<img src="/Content/Images/06.jpg" alt="" /></a>
+            <div class="dropdown-content">
+                <div class="row-fluid" style="width:230px; left:-50px;">
+                    <div id="block-block-1" class="block block-block no-title">
+                        <div class="block-inner clearfix" style="margin-bottom:-15px">
+                            <ul id="country_list_dropdown  menu-medicine" class="country_list_dropdown">
+                                <li>
+                                    <a href="/Shanghai/Data/Year">柱状图</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li><a href="/Data/Monitor">主动监测</a></li>
+        <li><a href="/Meeting">信息动态</a></li>
+        <li style="margin-right: 30px;padding-left: 0px;"><a href="http://www.eucast.org/mic_distributions_and_ecoffs/" target="_blank">流行病学折点</a></li>
+        <li><a href="/Medicine/Upload">上传数据</a></li>
+        <li><a href="/Document">资料下载</a></li>
+        <li><a href="/Team">成员单位</a></li>
+        <li onmouseover="SelectMenuItemOver(this)" onmouseout="SelectMenuItemOut(this)" class="menu-dropdown">
+            <a href="javascript:void(0)">会员中心<img src="/Content/Images/06.jpg" alt="" /></a>
+            <div class="dropdown-content">
+                <div class="row-fluid" style="width:380px;left:-130px;">
+                    <div id="block-block-1" class="block block-block no-title">
+                        <div class="block-inner clearfix" style="margin-bottom:-15px">
+                            <ul id="country_list_dropdown  menu-usercenter" class="country_list_dropdown">
+                                <li>
+                                    <a href="@Url.Action("Index", "Center")">个人中心</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("MeetingCollection", "Center")">我的收藏</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Feedback", "Center")"> 建议反馈 </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Upload", "Medicine")">上传医学数据</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("MedicineManage", "Center")">医学数据管理</a>
+                                </li>
+                                @{
+                                    if (Model != null && !String.IsNullOrWhiteSpace(Model.ProjectItem))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("ProjectDataManage","Center")">项目数据管理</a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li onmouseover="SelectMenuItemOver(this)" onmouseout="SelectMenuItemOut(this)" class="menu-dropdown" style="display:none;">
+            <a href="javascript:void(0);">更多<img src="/Content/Images/05.jpg" alt="" /></a>
+            <div class="dropdown-content">
+                <div class="row-fluid" style="width:190px;left:-50px;">
+                    <div id="block-block-1" class="block block-block no-title">
+                        <div class="block-inner clearfix" style="margin-bottom:-15px">
+                            <ul id="country_list_dropdown  menu-medicine" class="country_list_dropdown">
+                                <li>
+                                    <a href="/News">资讯中心</a>
+                                </li>
+                                <li>
+                                    <a href="/Research">科研合作</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>*@
+</div>

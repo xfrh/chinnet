@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{106DD3F6-7667-41B9-9BD3-BC8EEF776AE4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ManageSystem.Data</RootNamespace>
+    <AssemblyName>ManageSystem.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.Extended, Version=6.0.0.0, Culture=neutral, PublicKeyToken=05b7e29bdd433584, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.Extended.6.1.0.168\lib\net45\EntityFramework.Extended.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DapperHelper.cs" />
+    <Compile Include="DapperPageHelper.cs" />
+    <Compile Include="EfRepository.cs" />
+    <Compile Include="IDbContext.cs" />
+    <Compile Include="ManageSystemContext.cs" />
+    <Compile Include="Mapping\Articles\ArticleAttachmentMap.cs" />
+    <Compile Include="Mapping\Articles\ArticleMap.cs" />
+    <Compile Include="Mapping\Articles\ArticleTypeMap.cs" />
+    <Compile Include="Mapping\Articles\ArticleViewMap.cs" />
+    <Compile Include="Mapping\Chart\BarChartMap.cs" />
+    <Compile Include="Mapping\Chart\BarChartWithItemDataMap.cs" />
+    <Compile Include="Mapping\Chart\DataSegmentMap.cs" />
+    <Compile Include="Mapping\Chart\HeatmapItemMap.cs" />
+    <Compile Include="Mapping\Chart\HeatmapMap.cs" />
+    <Compile Include="Mapping\Chart\TrendChartMap.cs" />
+    <Compile Include="Mapping\Chart\TrendChartWithItemDataMap.cs" />
+    <Compile Include="Mapping\ClinicalTrialReportMap.cs" />
+    <Compile Include="Mapping\Configuration\SettingMap.cs" />
+    <Compile Include="Mapping\CRE\Toconfigure.cs" />
+    <Compile Include="Mapping\CRProjects\CRProjectLogMap.cs" />
+    <Compile Include="Mapping\CRs\CRItemMap.cs" />
+    <Compile Include="Mapping\CRs\CRLogMap.cs" />
+    <Compile Include="Mapping\CRs\CRMap.cs" />
+    <Compile Include="Mapping\DataInput\OLDataInputMap.cs" />
+    <Compile Include="Mapping\DataInput\OLFieldmodelMap.cs" />
+    <Compile Include="Mapping\DataInput\OLProjectMap.cs" />
+    <Compile Include="Mapping\DataInput\OLTemplateMap.cs" />
+    <Compile Include="Mapping\Datas\DataGermYearMap.cs" />
+    <Compile Include="Mapping\Datas\DataAntibioticDrugFastMap.cs" />
+    <Compile Include="Mapping\Documents\DocumentDownloadLogMap.cs" />
+    <Compile Include="Mapping\Documents\DocumentMap.cs" />
+    <Compile Include="Mapping\Integrals\IntegralSettingMap.cs" />
+    <Compile Include="Mapping\LogData\ActionLogMap.cs" />
+    <Compile Include="Mapping\LogData\SystemLogMap.cs" />
+    <Compile Include="Mapping\ManageSystemEntityTypeConfiguration.cs" />
+    <Compile Include="Mapping\Media\DownloadMap.cs" />
+    <Compile Include="Mapping\Media\PictureMap.cs" />
+    <Compile Include="Mapping\Medicine\BacteriaTypeMap.cs" />
+    <Compile Include="Mapping\Medicine\DoctorTitleMap.cs" />
+    <Compile Include="Mapping\Medicine\HospitalDepartmentMap.cs" />
+    <Compile Include="Mapping\Medicine\HospitalWardLocationMap.cs" />
+    <Compile Include="Mapping\Medicine\MedicalAntibioticMap.cs" />
+    <Compile Include="Mapping\Medicine\MedicalAntibioticRuleMap.cs" />
+    <Compile Include="Mapping\Medicine\MedicalAntibioticResultMap.cs" />
+    <Compile Include="Mapping\Medicine\MedicalDataDisposeLogMap.cs" />
+    <Compile Include="Mapping\Medicine\MedicalDataProjectMap.cs" />
+    <Compile Include="Mapping\Medicine\MedicalOrganismMap.cs" />
+    <Compile Include="Mapping\Medicine\MedicalOrganismTypeMap.cs" />
+    <Compile Include="Mapping\Medicine\MedicalSpecTypeMap.cs" />
+    <Compile Include="Mapping\Medicine\MedicalDepartmentTypeMap.cs" />
+    <Compile Include="Mapping\Medicine\MedicalDataWardTypeMap.cs" />
+    <Compile Include="Mapping\Medicine\MedicalDataItemValidateMap.cs" />
+    <Compile Include="Mapping\Medicine\HospitalMap.cs" />
+    <Compile Include="Mapping\Medicine\MedicalDataItemMap.cs" />
+    <Compile Include="Mapping\Medicine\MedicalDataMap.cs" />
+    <Compile Include="Mapping\Medicine\SpecimenMap.cs" />
+    <Compile Include="Mapping\Meetings\MeetingApplyMap.cs" />
+    <Compile Include="Mapping\Meetings\MeetingCollectMap.cs" />
+    <Compile Include="Mapping\Meetings\MeetingCommentMap.cs" />
+    <Compile Include="Mapping\Meetings\MeetingMap.cs" />
+    <Compile Include="Mapping\Meetings\MeetingTypeMap.cs" />
+    <Compile Include="Mapping\Meetings\MeetingViewMap.cs" />
+    <Compile Include="Mapping\Members\FeedbackMap.cs" />
+    <Compile Include="Mapping\Members\MemberAddressMap.cs" />
+    <Compile Include="Mapping\Members\MemberAttestationMap.cs" />
+    <Compile Include="Mapping\Members\MemberCartMap.cs" />
+    <Compile Include="Mapping\Members\MemberIntegralLogMap.cs" />
+    <Compile Include="Mapping\Members\MemberMap.cs" />
+    <Compile Include="Mapping\Messages\MeetingApplyMap.cs" />
+    <Compile Include="Mapping\MICappiy\MICapplyMap.cs" />
+    <Compile Include="Mapping\MicdataDistribution\ddGermMap.cs" />
+    <Compile Include="Mapping\MicdataDistribution\ddYearMap.cs" />
+    <Compile Include="Mapping\Orders\OrderAddressMap.cs" />
+    <Compile Include="Mapping\Orders\OrderItemMap.cs" />
+    <Compile Include="Mapping\Orders\OrderLogMap.cs" />
+    <Compile Include="Mapping\Orders\OrderMap.cs" />
+    <Compile Include="Mapping\Organism\BacteriaDetailedDataMap.cs" />
+    <Compile Include="Mapping\Products\ProductBrandMap.cs" />
+    <Compile Include="Mapping\Products\ProductCategoryMap.cs" />
+    <Compile Include="Mapping\Products\ProductImageMap.cs" />
+    <Compile Include="Mapping\Products\ProductMap.cs" />
+    <Compile Include="Mapping\CRProjects\CRProjectItemMap.cs" />
+    <Compile Include="Mapping\CRProjects\CRProjectMap.cs" />
+    <Compile Include="Mapping\Researches\ResearchCommentMap.cs" />
+    <Compile Include="Mapping\Researches\ResearchApplyMap.cs" />
+    <Compile Include="Mapping\Researches\ResearchCollectMap.cs" />
+    <Compile Include="Mapping\Researches\ResearchViewMap.cs" />
+    <Compile Include="Mapping\Researches\ResearchMap.cs" />
+    <Compile Include="Mapping\Researches\ResearchTypeMap.cs" />
+    <Compile Include="Mapping\SatelliteMenuRoleMap.cs" />
+    <Compile Include="Mapping\SatelliteMenuMap.cs" />
+    <Compile Include="Mapping\SatelliteRoleMap .cs" />
+    <Compile Include="Mapping\SatelliteUserMap.cs" />
+    <Compile Include="Mapping\SatelliteMap.cs" />
+    <Compile Include="Mapping\ScoringModule\DataQualityActionLogMap.cs" />
+    <Compile Include="Mapping\ScoringModule\DataQualityHospitalMap.cs" />
+    <Compile Include="Mapping\ScoringModule\DataQualityHospitalPageInitMap.cs" />
+    <Compile Include="Mapping\ScoringModule\DataQualityJuryMap.cs" />
+    <Compile Include="Mapping\ScoringModule\DataQualityReevaluationApplyMap.cs" />
+    <Compile Include="Mapping\ScoringModule\DataQualityScoreDetailMap.cs" />
+    <Compile Include="Mapping\ScoringModule\DataQualityScoreMap.cs" />
+    <Compile Include="Mapping\ScoringModule\DataQualityScoreRecordMap.cs" />
+    <Compile Include="Mapping\SHChart\SHBarChartMap.cs" />
+    <Compile Include="Mapping\SHChart\SHBarChartWithItemDataMap.cs" />
+    <Compile Include="Mapping\SHChart\SHDataSegmentMap.cs" />
+    <Compile Include="Mapping\survey\SurveyRecordMap.cs" />
+    <Compile Include="Mapping\survey\SurveySubjectMap.cs" />
+    <Compile Include="Mapping\survey\SurveySubjectOptionMap.cs" />
+    <Compile Include="Mapping\survey\SurveySurveyMap.cs" />
+    <Compile Include="Mapping\SystemSet\AreaMap.cs" />
+    <Compile Include="Mapping\SystemSet\AutoCodeMap.cs" />
+    <Compile Include="Mapping\SystemSet\FunctionMap.cs" />
+    <Compile Include="Mapping\SystemSet\RoleFunctionMap.cs" />
+    <Compile Include="Mapping\SystemSet\RoleMap.cs" />
+    <Compile Include="Mapping\SystemSet\SystemConfigMap.cs" />
+    <Compile Include="Mapping\SystemSet\UserRoleMap.cs" />
+    <Compile Include="Mapping\SystemSet\ValidateCodeMap.cs" />
+    <Compile Include="Mapping\Tasks\ScheduleTaskMap.cs" />
+    <Compile Include="Mapping\Teams\Team_CREContentMap.cs" />
+    <Compile Include="Mapping\Users\UserinfoMap.cs" />
+    <Compile Include="Mapping\Weixin\WeixinMenuMap.cs" />
+    <Compile Include="Mapping\Weixin\WeixinUserMap.cs" />
+    <Compile Include="Migrations\201512090530231_InitialCreate.cs" />
+    <Compile Include="Migrations\201512090530231_InitialCreate.Designer.cs">
+      <DependentUpon>201512090530231_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711221626019_AddBacteriaDetailedData.cs" />
+    <Compile Include="Migrations\201711221626019_AddBacteriaDetailedData.Designer.cs">
+      <DependentUpon>201711221626019_AddBacteriaDetailedData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpringSqlParameters.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ManageSystem.Core\ManageSystem.Core.csproj">
+      <Project>{cf99c5e9-aae4-4feb-abb4-e5338e5d2008}</Project>
+      <Name>ManageSystem.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201512090530231_InitialCreate.resx">
+      <DependentUpon>201512090530231_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711221626019_AddBacteriaDetailedData.resx">
+      <DependentUpon>201711221626019_AddBacteriaDetailedData.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

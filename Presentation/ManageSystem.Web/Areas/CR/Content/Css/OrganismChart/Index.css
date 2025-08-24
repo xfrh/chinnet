@@ -1,0 +1,207 @@
+﻿ li {
+        list-style-type: none;
+    }
+
+    .tongji {
+        width: 100%;
+        padding-left: 4%;
+        background: #fff;
+    }
+
+        .tongji h2 {
+            padding-top: 30px;
+            color: #0c91e3;
+        }
+
+        .tongji li {
+            overflow: hidden;
+        }
+
+            .tongji li img {
+                width: 100%;
+            }
+
+            .tongji li span {
+                width: 70px;
+                text-align: center;
+                float: left;
+                cursor: pointer;
+            }
+
+                .tongji li span.bt1 {
+                    margin-right: 40px;
+                    height: 30px;
+                    line-height: 30px;
+                    background: #eeeeee;
+                }
+
+                .tongji li span.bt2 {
+                    height: 30px;
+                    line-height: 30px;
+                    background: #cccccc;
+                }
+
+                .tongji li span.help {
+                    float: right;
+                    width: 70px;
+                }
+
+    .list {
+        background: #fff;
+        overflow: hidden;
+        margin: 0;
+        padding-bottom: 70px;
+    }
+
+        .list h2, .laiyuan h2 {
+            position: relative;
+            font-size: 16px;
+            height: 30px;
+            line-height: 30px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #cccccc;
+        }
+
+            .list h2 a {
+                width: 30px;
+                height: 30px;
+                text-align: center;
+                float: right;
+            }
+
+            .list h2 i, .laiyuan h2 i {
+                position: absolute;
+                left: -10px;
+                top: 50%;
+                width: 4px;
+                height: 7px;
+                margin-top: -3px;
+                background: #119cdf;
+            }
+
+        .list li {
+            float: left;
+            margin-bottom: 8px;
+            line-height: 1;
+            margin-right: 50px;
+        }
+
+    .laiyuan {
+        overflow: hidden;
+    }
+
+        .laiyuan h2 {
+            color: #129be1;
+        }
+
+        .laiyuan li {
+            float: left;
+            margin-bottom: 8px;
+            line-height: 1;
+            margin-right: 100px;
+        }
+
+    .foot {
+        margin-top: 30px;
+        height: 72px;
+        line-height: 72px;
+        border-top: 1px solid #c6c4c5;
+        text-align: center;
+    }
+
+     .layui-table-body {
+        /*overflow: hidden !important;*/
+    }
+
+    label {
+        font-weight: normal !important;
+    }
+
+    select {
+        line-height: 18px;
+        border: 1px solid #e2e2e2 !important;
+        appearance: none !important;
+        -moz-appearance: none !important;
+        -webkit-appearance: none !important;
+        /* background: #fff url(/Content/Images/ico04.jpg) no-repeat right center; */
+        background-image: none !important;
+    }
+
+    .Title {
+        font-weight: 600;
+        color: #01AAED;
+    }
+
+        .Title ul {
+            margin: auto;
+            width: 900px;
+        }
+
+            .Title ul li {
+                float: left;
+                margin: auto 50px;
+                color: #01AAED;
+            }
+
+        .Title .mic {
+            margin: auto;
+            width: 900px;
+            display: block;
+        }
+
+    .row {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        float: left;
+        width: 100%;
+    }
+
+    .list-li a {
+        color: #818181;
+    }
+
+    .chart-head {
+        height: 50px;
+        width: 100%;
+        background-color: rgb(255, 255, 255);
+        box-shadow: rgba(51, 51, 51, 0.1) 0px 0px 5px 1px;
+        margin-bottom: 20px;
+    }
+
+    .chart-logo {
+        height: 50px;
+        float: left;
+        width: 300px;
+        line-height: 50px;
+        margin: 0px auto;
+    }
+
+    .chart-nav-logo {
+        width: 143px;
+        height: 19px;
+        width: 143px;
+        height: 19px;
+        margin: 0px auto;
+        margin-left: 50px;
+    }
+
+    .chart-nav {
+        background: #129bdf;
+        height: 50px;
+        line-height: 50px;
+        width: calc(100% - 300px);
+        float: left;
+    }
+
+    .chart-nav-content {
+    width:300px;float:right; height:50px; line-height:50px;    padding-right: 10px;
+    }
+
+    .nav-user-photo {
+    height:40px;width:40px; margin-right: 5px;
+    }
+
+.layui-table-cell {
+padding:0px 3px;
+font-size: 12px;
+}

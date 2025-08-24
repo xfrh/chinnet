@@ -1,0 +1,166 @@
+﻿@using ManageSystem.Web.Models.Products
+@using ManageSystem.Core.Domain.SystemSet
+@using ManageSystem.Services.Products
+@using Webdiyer.WebControls.Mvc;
+
+@model IndexModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "积分兑换";
+}
+
+<style type="text/css">
+    .dt_bestEvents_li {
+        margin-bottom: 20px;
+    }
+</style>
+<div class="mbx">
+    <p>当前位置：首页 &gt; 积分兑换 </p>
+</div>
+
+<div class="cy-wrap">
+    <span class="span-mark-author active">礼品筛选</span>
+    <div class="sl-v-list" style="height:auto;">
+        <div class="sl-key">分类	</div>
+
+        <ul class="js-search-li" data-type="tag" id="search-category-ul">
+            <li SearchValue="" class="@(Model.SearchModel.Category ==0 ? "active":"" ) "><a href="javascript:">全部</a></li>
+            @{
+
+                if (Model.SearchProductCategoryList != null && Model.SearchProductCategoryList.Any())
+                {
+                    foreach (var item in Model.SearchProductCategoryList)
+                    {
+                        <li SearchValue="@item.Id.ToString()" class="@(Model.SearchModel.Category ==item.Id ?"active":"" )">
+                            <a href="javascript:">@item.Name</a>
+                        </li>
+                    }
+                }
+            }
+        </ul>
+    </div>
+    <div class="sl-v-list" style="height:auto;">
+        <div class="sl-key">品牌</div>
+        <ul class="js-search-li" data-type="city" id="search-brand-ul">
+            <li SearchValue="" class="@(Model.SearchModel.Brand ==0 ? "active":"" ) "><a href="javascript:">全部</a></li>
+            @{
+
+                if (Model.SearchProductBrandList != null && Model.SearchProductBrandList.Any())
+                {
+                    foreach (var item in Model.SearchProductBrandList)
+                    {
+                        <li SearchValue="@item.Id.ToString()" class="@(Model.SearchModel.Brand == item.Id ? "active":"" )">
+                            <a href="javascript:">@item.Name</a>
+                        </li>
+                    }
+                }
+            }
+        </ul>
+    </div>
+
+    <div class="sl-v-list">
+        <div class="sl-key">
+            排序：
+        </div>
+        <ul class="js-search-li" data-type="rongzi" id="search-order-ul">
+            @{
+                if (Model.SearchOrderList != null && Model.SearchOrderList.Any())
+                {
+                    foreach (var item in Model.SearchOrderList)
+                    {
+                        <li SearchValue="@item.Value" class="@(Model.SearchModel.Order  == item.Value ?"active":"" )">
+                            <a href="javascript:">@item.Text</a>
+                        </li>
+                    }
+                }
+            }
+        </ul>
+    </div>
+
+
+    <input type="hidden" id="SearchCategory" value="@Model.SearchModel.Category" />
+    <input type="hidden" id="SearchBrand" value="@Model.SearchModel.Brand" />
+    <input type="hidden" id="SearchOrderBy" value="@Model.SearchModel.Order" />
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#search-category-ul li").click(function () {
+                $("#search-category-ul li").removeClass("active");
+                $(this).addClass("active")
+
+                $("#SearchCategory").val($(this).attr("SearchValue"));
+
+                Search();
+            })
+
+            $("#search-brand-ul li").click(function () {
+
+                $("#search-brand-ul li").removeClass("active");
+                $(this).addClass("active")
+
+                $("#SearchBrand").val($(this).attr("SearchValue"));
+
+                Search();
+            })
+
+            $("#search-order-ul li").click(function () {
+
+                $("#search-order-ul li").removeClass("active");
+                $(this).addClass("active")
+
+                $("#SearchOrderBy").val($(this).attr("SearchValue"));
+
+                Search();
+            })
+
+        })
+
+        function Search() {
+            var category = $("#SearchCategory").val();
+            var brand = $("#SearchBrand").val();
+            var order = $("#SearchOrderBy").val();
+
+            location.href = "/Mall/Index?category=" + category + "&brand=" + brand + "&order=" + order;
+        }
+
+    </script>
+
+
+</div>
+
+<div class="search_result_content_right clearfix" style="padding-top: 10px;">
+@{
+    if (Model.PageList != null && Model.PageList.Any())
+    {
+        foreach (var item in Model.PageList)
+        {
+            <div class="fl src_right01" style="height:350px;">
+                <div class="productdetail_content_l clearfix">
+                    <div class="productdetail_big_img" style="margin-bottom: 10px;">
+                        <a href="@Url.Action("Item","Mall",new { id=item.Id.ToString()})">
+                            <img src="@( ProductExtensions.GetProductImage(item.ProductImage ))" style="width:226px; height:226px;">
+                        </a>
+                    </div>
+                </div>
+                <a href="@Url.Action("Item","Mall",new { id=item.Id.ToString()})" class="beyond_ellipsis2"  title="@item.Name">
+                   @item.Name
+                </a>
+                <p>
+                    <span class="fl price">
+                        积分：<i>@item.MarketPrice</i>
+                    </span>
+                </p>
+            </div>
+        }
+    }
+}
+
+
+</div>
+
+<div id="pageDiv" class="page">
+    @Html.Pager(Model.PageList, new PagerOptions() { CssClass = "pagination", CurrentPagerItemTemplate = "<li class=\"active\"><a href=\"#\">{0}</a></li>", DisabledPagerItemTemplate = "<li class=\"disabled\"><a>{0}</a></li>", PagerItemTemplate = "<li>{0}</li>" })
+</div>
+

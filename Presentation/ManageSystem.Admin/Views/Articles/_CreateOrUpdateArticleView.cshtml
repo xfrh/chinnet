@@ -1,0 +1,58 @@
+﻿@model ManageSystem.Admin.Models.Articles.ArticleViewModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+		<table class="adminContent">
+            <tr class="insert-time-tr">
+                <td class="adminTitle">@Html.NopLabelFor(m => m.InsertTime)：</td>
+                <td class="adminData">
+                    @Model.InsertTime.ToString("yyyy-MM-dd HH:mm")
+                </td>
+            </tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.UserinfoId)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.UserinfoId)
+				@Html.ValidationMessageFor(m => m.UserinfoId)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.UserinfoName)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.UserinfoName)
+				@Html.ValidationMessageFor(m => m.UserinfoName)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.ArticleId)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.ArticleId)
+				@Html.ValidationMessageFor(m => m.ArticleId)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.ArticleName)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.ArticleName)
+				@Html.ValidationMessageFor(m => m.ArticleName)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Describe)：</td>
+				<td class="adminData">
+                    @Html.TextAreaFor(model => model.Describe, new { @class = "form-control txt", cols = "30", rows = "3" })
+				@Html.ValidationMessageFor(m => m.Describe)
+			</td>
+			</tr>
+		</table>
+
+
+<script type="text/javascript">
+
+
+
+   
+</script>

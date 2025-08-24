@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = "热图";
+    Layout = "~/Areas/CRE/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .active {
+        color: red;
+    }
+</style>
+<div id="app" v-cloak class="indexpage">
+    <div id="header" class="header flex padding-tb-20 fon-30 bold f-around top-nav">
+        <div class="border-b-2" @@click="toPage('@Url.Action("HeatMap", "CreData").ToLowerInvariant()')">热图</div>
+        <div @@click="toPage('@Url.Action("GermWithBar", "CreData").ToLowerInvariant()')">柱状图</div>
+        <div id="upload" @@click="toPage('@Url.Action("Dataupload", "CreUploadData").ToLowerInvariant()')">数据上传</div>
+    </div>
+    <div ref="middle" class="middle">
+        <div ref="swiper_container" class="swiper-container scroll">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide slidescroll">
+                    <div style="width: 100%; display: block; overflow: hidden;" class="main-content">
+                        <div class="padding-lr-20" style="font-size: 0.4rem; text-align: center;  margin-bottom: 5px;margin-top: 0.4rem;" id="pageContentTitle">各省市碳青霉烯类耐药肺炎克雷伯菌碳青霉烯酶基因检出率（2020）</div>
+                        <div style="font-size: 0.37rem; text-align: center;  margin-bottom: 10px;" v-text="pageContentSubTitle"></div>
+                        <button id="back" style="margin-left:20px;  width: 11%;height: 0.9rem;font-size: 0.3rem;font-weight: bold;background-color: #005cad; border: 0;color: #fff; border-radius:4px;">返回</button>
+                        <div id="main" style="overflow: hidden; width: 100%; height: 8rem; display: block; margin-bottom: 0px;">
+
+                        </div>
+                    </div>
+                    <div class="">
+                        @foreach (var item in ViewBag.tite)
+                        {
+                        <div class="sjd-list-group">
+                            @if (item.Cr_name.Contains("CR-ECO"))
+                            {
+                                <h4 class="">各省市碳青霉烯类耐药大肠埃希菌碳青霉烯酶基因检出率</h4>
+                            }
+                            else if (item.Cr_name.Contains("CR-KPN"))
+                            {
+                                <h4 class="">各省市碳青霉烯类耐药肺炎克雷伯菌碳青霉烯酶基因检出率</h4>
+                            }
+                            else if (item.Cr_name.Contains("CR-ECL"))
+                            {
+                                <h4 class="">各省市碳青霉烯类耐药阴沟肠杆菌碳青霉烯酶基因检出率</h4>
+                            }
+                            else if (item.Cr_name.Contains("CR-SMA"))
+                            {
+                                <h4 class="">各省市碳青霉烯类耐药粘质沙雷菌碳青霉烯酶基因检出率</h4>
+                            }
+                            @*<h4 class="">各省市 @item.Cr_name 检出率</h4>*@
+                            <ul class="flex list-group">
+                                @foreach (var ame in ViewBag.year)
+                                {
+                                    //var year = DateTime.Now.Year.ToString();
+                                    if (item.Germ_id == ame.Germ_id)
+                                    {
+                                        if (ame.Data_year == ViewBag.datayear && item.Germ_id == ViewBag.Germ_id)
+                                        {
+                                            <li id="listitem" class="list-item"><a class="active" data-year="@ame.Data_year" cateogry_id="@item.Germ_id" data-code="@item.Ger_code">@ame.Data_year 年</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li id="listitem" class="list-item"><a data-year="@ame.Data_year" cateogry_id="@item.Germ_id" data-code="@item.Ger_code">@ame.Data_year 年</a></li>
+                                        }
+                                    }
+                                }
+                            </ul>
+                        </div>
+                        }
+                        <div style="height: 25px;"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    @Html.Partial("_FooterNavBar", "首页")
+
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_toast" style="font-size: 1.65rem;"></i>
+            <p class="weui-toast__content fon-32" v-text="weui_toast_content"></p>
+        </div>
+    </div>
+
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32">数据加载中</p>
+        </div>
+    </div>
+
+
+</div>
+@section Styles{
+    <link href="~/Content/Css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Data/HeatMap.css?v=@DateTime.Now.Ticks" rel="stylesheet" />
+}
+
+@section Scripts{
+    @*<script src="~/Content/Scripts/Echarts/asset/js/html5shiv.js"></script>*@
+    <script src="~/Content/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/swiper/swiper.min.js"></script>
+    <script src="~/Areas/CRE/Content/echartsjs/echarts.min.js"></script>
+    <script src="~/Areas/CRE/Content/Scripts/china.js"></script>
+    <script src="~/Areas/CRE/Content/Scripts/CreHeatMapScript.js"></script>
+    <script src="~/Areas/CRE/Content/Scripts/CreClickHeatMap.js"></script> 
+    <script>
+         $(function () {
+             var token = localStorage.getItem('token');
+             if (token == null) {
+            $("#upload").hide();
+             }
+             else {
+                    $.post("/CreData/Getmember", { token: token }, function (data) {
+                        if (data != "2")
+                        {
+                             $("#upload").hide();
+                        }
+                    })
+             }
+          })
+    </script>
+}

@@ -1,0 +1,189 @@
+﻿@using ManageSystem.Web.Models.Orders
+@using ManageSystem.Web.Models.Products
+@using ManageSystem.Web.Models.Members
+@using ManageSystem.Services.Products
+@using ManageSystem.Core.Extensions
+@model OrderDetailModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "订单详细页";
+}
+
+<link href="~/Content/Css/cart.css" rel="stylesheet" />
+<style type="text/css">
+    .no-border tbody tr {
+    border-bottom-style:none;
+    }
+    .no-border tbody td {
+    padding-bottom:0px;
+    text-align:left;
+    }
+
+    .pay-table td {
+        border-style: none;
+        border-top-style: none !important;
+        font-size: 14px;
+    }
+
+    .btn-pay {
+        width: 200px;
+        height: 40px;
+        line-height: 40px;
+        padding: 0px;
+    }
+</style>
+<div class="mbx">
+    <p>当前位置：首页 &gt; 订单详细页 </p>
+</div>
+
+<div class="center_keyan">
+    @{
+        if (Model != null)
+        {
+            <div class="cart-box">
+                <div class="settlement-address" style="margin-bottom: 30px;width: 100%;float: left;">
+                    <div  class="col-lg-6" style="padding-left:0px;">
+                        <h4 style="padding: 10px 0px;border-bottom: 2px solid #00A1B1;">订单信息</h4>
+                        <div style="padding-left:20px;">
+                            <table style="width:100%;" class="table-content no-border">
+                                <tbody>
+                                    <tr>
+                                        <td style="width:20%;">订单编号：</td>
+                                        <td style="width:80%;">@Model.OrderModel.SN</td>
+                                    </tr>
+                                    <tr>
+                                        <td>订单状态：</td>
+                                        <td>@Model.OrderModel.StatusName</td>
+                                    </tr>
+                                    <tr>
+                                        <td>下单时间：</td>
+                                        <td>@Model.OrderModel.InsertTime.ToString("yyyy-MM-dd HH:mm")</td>
+                                    </tr>
+                                    <tr>
+                                        <td>支付方式：</td>
+                                        <td>@Model.OrderModel.PayType</td>
+                                    </tr>
+                                 
+                                    <tr>
+                                        <td>订单金额：</td>
+                                        <td style="height:30px; line-height:30px; color:#EF3F41; font-size:20px;">￥@Model.OrderModel.Amount</td>
+                                    </tr>
+                                    <tr>
+                                    <td style="vertical-align:top;">订单备注：</td>
+                                    <td>@Model.OrderModel.Remark</td>
+                                </tr>
+                                   
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" style="padding-right:0px;">
+                        <h4 style="padding: 10px 0px;border-bottom: 2px solid #00A1B1;">收货信息</h4>
+                        <div style="padding-left:20px;">
+                            @{
+                                if (Model.AddressModel != null && Model.AddressModel.Id > 0)
+                                {
+                                    <table style="width:100%;" class="table-content no-border">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width:20%;">收货人：</td>
+                                                <td style="width:80%;">@Model.AddressModel.Name</td>
+                                            </tr>
+                                            <tr>
+                                                <td>手机号码：</td>
+                                                <td>@Model.AddressModel.Phone</td>
+                                            </tr>
+                                            <tr>
+                                                <td>固定电话：</td>
+                                                <td>@Model.AddressModel.Tel</td>
+                                            </tr>
+                                            <tr>
+                                                <td>邮箱地址：</td>
+                                                <td>@Model.AddressModel.Email</td>
+                                            </tr>
+                                            <tr>
+                                                <td>详细地址：</td>
+                                                <td> @Model.AddressModel.Area  @Model.AddressModel.Address</td>
+                                            </tr>
+                                            <tr>
+                                                <td>快递公司：</td>
+                                                <td>@Model.OrderModel.ExpressCompany</td>
+                                            </tr>
+                                            <tr>
+                                                <td>快递单号：</td>
+                                                <td>@Model.OrderModel.ExpressSN</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                }
+                            }
+                          
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settlement-product" style="margin-bottom: 30px;">
+                    <h4 style="padding: 10px 0px;border-bottom: 2px solid #00A1B1;">商品信息</h4>
+
+                    <div>
+                        <table style="width:100%;" class="table-content">
+
+                            <thead class="cart-list-head">
+                                <tr>
+                                    <td style="width:10%;">图片</td>
+                                    <td style="text-align:left;">商品名称</td>
+                                    <td style="width:15%">单价</td>
+                                    <td style="width:10%;">数量</td>
+                                    <td style="width:15%">小计</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    if (Model != null && Model.OrderItemList != null && Model.OrderItemList.Any())
+                                    {
+                                        foreach (var item in Model.OrderItemList)
+                                        {
+                                            <tr class="cart-item" >
+                                                <td><img src="@item.ProductImage" width="80" height="80"></td>
+                                                <td style="text-align:left;"><a href="/Mall/Item/@item.ProductId" >@item.ProductName</a></td>
+                                                <td style="text-align:center;">￥@item.MarketPrice</td>
+                                                <td  style="text-align:center;"> @item.Count</td>
+                                                <td  style="text-align:center;">￥@item.Amount</td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div class="settlement-pay" style="margin-bottom: 30px;">
+                    <div>
+                        <table style="width: 210px; margin-left: 700px; margin-top:20px;" class="table pay-table">
+                            <tr>
+                                <td style="width:90px;">商品种类：</td>
+                                <td style="width:120px; text-align:right;">@Model.OrderModel.OrderProductCount 种</td>
+                            </tr>
+                            <tr>
+                                <td style="width:90px;">商品件数：</td>
+                                <td style="width:120px; text-align:right;">@Model.OrderModel.OrderProductItemCount 件</td>
+                            </tr>
+                            <tr>
+                                <td style="height:30px; line-height:30px;">订单总额：</td>
+                                <td style="height:30px; line-height:30px; text-align:left; color:#EF3F41; font-size:20px;">￥@Model.OrderModel.Amount</td>
+                            </tr>
+                         
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+       }
+    }
+
+</div>
+

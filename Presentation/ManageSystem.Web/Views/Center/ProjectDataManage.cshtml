@@ -1,0 +1,189 @@
+﻿@using ManageSystem.Core.Extensions;
+@using ManageSystem.Web.Models.Medicine;
+@using Webdiyer.WebControls.Mvc;
+
+@model ProjectDataManageManageModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "项目数据管理 ";
+}
+
+@section HeadSection{
+    <link href="~/Content/Css/Center.css" rel="stylesheet" />
+    <style type="text/css">
+
+        .txt12 {
+            background: #fff !important;
+            color: #000000 !important;
+            width: 203px !important;
+            height: 26px !important;
+            border: 1px solid #BBBBBB !important;
+            margin-right: 10px !important;
+        }
+    </style>
+}
+
+@section FooterSection{
+    <script>
+
+        //function getItemIds() {
+        //    var items = [];
+        //    $('table input[type="checkbox"][name="data-item"][id!="checkall"]:checked').each(function (i, item) {
+        //        items.push(item.value);
+        //    });
+        //    return items;
+        //}
+
+        $('body').on('click', '#btn-org', function (event) {
+            var length = $('table input[type="checkbox"][name="data-item"][id!="checkall"]:checked').length;
+            if (length === 0) {
+                //layer.alert('请先选择您要下载的数据');
+                layer.confirm('是否导出全部数据？<br />数量较多的时候可能速度比较慢!', {
+                    btn: ['确定', '取消'] //按钮
+                }, function () {
+                    $('#form-download-full #input-download-type').val(0);
+                    $('#form-download-full').submit();
+                });
+                return false;
+            }
+            event.preventDefault();
+            $('table input[type="checkbox"][name="data-item"][id!="checkall"]:checked').each(function (i, item) {
+                if (item.value) {
+                    $('#form-download-ids').append('<input type="hidden" hidden="hidden" id="input-download-ids" name="ids[]" value="' + item.value + '" />');
+                }
+            });
+            $('#form-download-ids #input-download-type').val(0);
+            $('#form-download-ids').submit();
+            return false;
+        });
+
+        $('body').on('click', '#btn-roc', function (event) {
+            var length = $('table input[type="checkbox"][name="data-item"][id!="checkall"]:checked').length;
+            if (length === 0) {
+                layer.confirm('是否导出全部数据？<br />数量较多的时候可能速度比较慢!', {
+                    btn: ['确定', '取消'] //按钮
+                }, function () {
+                    $('#form-download-full #input-download-type').val(1);
+                    $('#form-download-full').submit();
+                });
+                return false;
+            }
+
+            event.preventDefault();
+            $('table input[type="checkbox"][name="data-item"][id!="checkall"]:checked').each(function (i, item) {
+                if (item.value) {
+                    $('#form-download-ids').append('<input type="hidden" hidden="hidden" id="input-download-ids" name="ids[]" value="' + item.value + '" />');
+                }
+            });
+            $('#form-download-ids #input-download-type').val(1);
+            $('#form-download-ids').submit();
+            return false;
+        });
+
+        $('table').on('click', 'input[type="checkbox"][name="data-item"]', function (event) {
+            if (event.currentTarget.id === 'checkall') {
+                $('table input[type="checkbox"][name="data-item"]').prop('checked', $(event.currentTarget).prop('checked'));
+            }
+            else {
+                var length_1 = $('table input[type="checkbox"][name="data-item"][id!="checkall"]').length,
+                    length_2 = $('table input[type="checkbox"][name="data-item"][id!="checkall"]:checked').length;
+                $('table input[type="checkbox"][name="data-item"][id="checkall"]').prop('checked', length_1 === length_2);
+            }
+        });
+    </script>
+}
+<div class="mbx"><p>当前位置：首页 &gt; 会员中心 &gt; 项目数据管理 </p></div>
+
+<div class="user_center">
+    <div class="user_center_r" style="width: 100%;padding-right: 10px;padding-left: 10px;">
+        <div class="user_center_r_a" style="margin-bottom: 10px;">
+            <button id="btn-org" class="btn btn-primary" type="button" style="border-radius: 0; padding: 4px 12px; font-size: 12px;">批量下载原始文件</button>
+            <button id="btn-roc" class="btn btn-primary" type="button" style="border-radius: 0; padding: 4px 12px; font-size: 12px; margin-left: 8px;">批量下载容错文件</button>
+        </div>
+        <div class="user_center_r_a">
+            @using (Html.BeginForm("ProjectDataManage", "Center", FormMethod.Get))
+            {
+                @Html.TextBoxFor(m => m.Hospital, new { @class = "some_class txt12", placeholder = "医院名称" })
+                @Html.TextBoxFor(m => m.FileName, new { @class = "some_class txt12", placeholder = "文件名称" })
+                @Html.DropDownListFor(model => model.Project, Model.ProjectList, new { @class = "" })
+                @Html.DropDownListFor(model => model.Year, Model.YearList, new { @class = "" })
+                @Html.DropDownListFor(model => model.Status, Model.StatusList, new { @class = "" })
+                <input type="submit" value="搜索" style="margin-right:10px;">
+            }
+        </div>
+        <div class="user_center_r_b">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <thead>
+                    <tr style="text-align:center;">
+                        <th width="3%" style="text-align:center;">
+                            <label for="checkall">
+                                <input class="" id="checkall" name="data-item" type="checkbox" value="0" />
+                            </label>
+                        </th>
+                        <th width="10%" style="text-align:center;">医院名称</th>
+                        <th width="10%" style="text-align:center;">所属项目</th>
+                        <th width="14%" style="text-align:center;">文件名称</th>
+                        <th width="8%" style="text-align:center;">文件大小</th>
+                        <th width="8%" style="text-align:center;">数据时间段</th>
+                        <th width="8%" style="text-align:center;">上传时间</th>
+                        <th width="5%" style="text-align:center;">状态</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model != null && Model.PageList!=null && Model.PageList.Any())
+                        {
+                            foreach (var item in Model.PageList)
+                            {
+                                <tr>
+                                    <td class="text-center">
+                                        <label for="data-item-@(item.Id)">
+                                            <input class="" id="data-item-@(item.Id)" type="checkbox" name="data-item" value="@item.Id" />
+                                            <span class="text"></span>
+                                        </label>
+                                    </td>
+                                    <td>@item.Hospital</td>
+                                    <td>@item.ProjectName</td>
+                                    <td><a href="/Medicine/Detail/@item.Id.ToString()" target="_blank">@item.FileName</a></td>
+                                    <td>@item.FileSize</td>
+                                    <td>@item.Time</td>
+                                    <td>@item.InsertTime.ToString("yyyy-MM-dd HH:mm")</td>
+                                    <td>@item.StatusName</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8" class="text-danger">暂无数据~</td>
+                            </tr>
+                        }
+
+
+}
+            </table>
+            <div id="page-box" class="page">
+                @if (Model.PageList != null)
+                {
+                    @Html.Pager(Model.PageList, MvcPagerExtensions.GetPagerOptions())
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@*下载数据*@
+@using (Html.BeginForm("ProjectDataDownload", "Center", FormMethod.Post, new { id = "form-download-ids" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" hidden="hidden" id="input-download-type" name="downloadEvent" />
+}
+
+
+@*下载全部数据*@
+@using (Html.BeginForm("ProjectDataFullDownload", "Center", FormMethod.Post, new { id = "form-download-full" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" hidden="hidden" id="input-download-type" name="downloadEvent" />
+}

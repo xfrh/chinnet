@@ -1,0 +1,69 @@
+﻿@using ManageSystem.Core.Domain.CRProjects
+@model CRProject
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "上传数据";
+}
+
+<link href="/Content/Scripts/bootstrap-fileinput-master/css/fileinput.css" rel="stylesheet" />
+<link href="~/Content/Css/Medicine/Upload.css?v=1.81" rel="stylesheet" />
+<link href="~/Content/Css/CRProject/Style.css?v=1.2" rel="stylesheet" />
+
+<div class="mbx">    <p>当前位置：首页 &gt; 上传数据 </p></div>
+<div class="user_center center-index-page ">
+    <div class="cr-title-mes">《微生物实验室细菌诊断及替加环素药敏操作规范培训公益项目》</div>
+    <div class="user_center_r">
+        <ul class="wz-nav-off wz-icon-inline wz-classic">
+            <li class="col-xs-3 bg-mint ">
+                <a href="@Url.Action("Edit", "CRProject")" aria-expanded="true">
+                    <span class="icon-wrap icon-wrap-xs">1</span> <span class="tab-item-mes">信息填写</span>
+                </a>
+            </li>
+            <li class="col-xs-3 bg-mint active">
+                <a href="@Url.Action("Upload", "CRProject")">
+                    <span class="icon-wrap icon-wrap-xs">2</span> <span class="tab-item-mes">上传数据</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="container" style="padding: 10px 20px; width:100%;">
+            <div class="alert alert-warning ">
+                <ul class="alert-warning-ul">
+                    <li style=" font-size:18px; font-weight: bold; margin-bottom: 10px;">重要提醒：</li>
+                    <li>1、仅支持后缀名为xls、xlsx的数据文件上传；</li>
+                    <li>2、可多次上传，系统记录最后一次上传数据；</li>
+                    <li>3、上传文件最大支持50M；</li>
+                    <li>4、<a class="aa" href="/Content/File/CR复敏-数据采集模板.xlsx" style="color:red;">下载数据模板</a>；</li>
+                </ul>
+            </div>
+            <div id="post_form">
+                <ul class="post_main_ul">
+                    <li class="post_main_li">
+                        <div class="post_main_l_tit"><b class="red">*</b><span>选择数据文件：</span></div>
+                        <div class="red_outK">
+                            <div class="post_main_r" id="UploadFileBox" style="position:relative;padding-top:0px;">
+                                <input id="FilePath" name="FilePath" type="file" multiple class="file-loading" accept=".xls,.xlsx">
+                                <input type="hidden" id="UploadFilePath" name="UploadFilePath" />
+                                <input type="hidden" id="OldeFileName" name="OldeFileName" />
+                                <input type="hidden" id="OldeFileSize" name="OldeFileSize" />
+                                <div class="post_main_note file-upload-message" style="width:100%;padding-top:10px; height:auto;font-size: 14px;"></div>
+                            </div>
+                           
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <input type="hidden" id="UploadMedicineId" data-remark="上传成功以后的数据Id" />
+            <script src="/Content/Scripts/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+            <script src="/Content/Scripts/bootstrap-fileinput-master/js/fileinput_locale_zh.js"></script>
+            <script src="~/Content/Scripts/CRProject/Upload.js?v=1.891"></script>
+
+            <script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.js"></script>
+            <link href="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet">
+            <script src="~/Content/Scripts/Autocomplete/jquery.autocomplete.min.js"></script>
+
+        </div>
+    </div>
+    </div>

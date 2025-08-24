@@ -1,0 +1,244 @@
+﻿@using ManageSystem.Web.Models.Meetings
+@model MeetingModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "发布会议";
+}
+
+<script src="~/Content/Scripts/ueditor1_4_3_3/ueditor.config.js"></script>
+<script src="~/Content/Scripts/ueditor1_4_3_3/ueditor.all.min.js"></script>
+<script src="~/Content/Scripts/ueditor1_4_3_3/lang/zh-cn/zh-cn.js"></script>
+
+<script src="~/Content/Scripts/uploadify/jquery.uploadify.js"></script>
+<link href="~/Content/Css/MeetingCss.css" rel="stylesheet" />
+
+<div class="meeting-page">
+    <div class="mbx">
+        <p>当前位置：首页 &gt; 发布会议 </p>
+    </div>
+
+    <div id="post_form">
+        @using (Html.BeginForm("Create", "Meeting", FormMethod.Post, new { id = "form1" }))
+        {  
+            @Html.AntiForgeryToken()
+
+            @Html.HiddenFor(model => model.Id)
+            <ul class="post_main_ul">
+
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>会议主题：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "post_title post_title_Party", placeholder = "请输入研究名称", maxlength = "70" })
+                            @Html.ValidationMessageFor(m => m.Name)
+                            <div class="post_main_note"></div>
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>会议海报：</span></div>
+                    <div id="post_main_r_K_poster" class="red_outK">
+                        <div class="post_main_r" style="height:123px; width:auto;">
+                            <div class="posterimg_outside  meeting-cover-image">
+                            <img class="posterImg_pic image-div" ></div>
+                            <div class="upload-image-box">
+                                <div class="btn-div">
+                                    <input type="file" name="uploadify" id="uploadify" />
+                                </div>
+                                <div class="title-div">温馨提示：图片尺寸建议为：900*525，<br />图片小于2M，文件类型：jpg,jpeg,bmp,png</div>
+                            </div>
+                        </div>
+                        <div class="post_main_note">
+                            <div style="width:0px; height:0px;">@Html.TextBoxFor(m => m.CoverImage, new { style = " height:0px;" })</div>
+                            @Html.ValidationMessageFor(m => m.CoverImage)
+                        </div>
+                    </div>
+                </li>
+
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>会议时间：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative; width:500px;">
+                            <div style="width:50%; float:left;">
+                                @Html.TextBoxFor(m => m.StartTime, new { @class = "post_title post_title_Party laydate-icon", placeholder = "开始时间", style = "width: 200px;" })&nbsp;-&nbsp;
+                                @Html.ValidationMessageFor(m => m.StartTime)
+                            </div>
+                            <div style="width:50%; float:left;">
+                                @Html.TextBoxFor(m => m.EndTime, new { @class = "post_title post_title_Party laydate-icon", placeholder = "结束时间", style = "width: 200px;" })
+                                @Html.ValidationMessageFor(m => m.EndTime)
+                            </div>
+
+                        </div>
+
+                        <div class="post_main_note">
+                            <p></p>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>会议地点：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="width:100%;">
+                            <div style="width:63%; float:left;">
+                                @Html.Partial("~/Views/PartialView/_SelectArea.cshtml")
+                                @Html.TextBoxFor(model => model.AreaId, new { style = "width:1px; height:0px;" })
+                                @Html.ValidationMessageFor(m => m.AreaId)
+                            </div>
+                            <div style="width:37%; float:left;">
+                                @Html.TextBoxFor(m => m.Address, new { @class = "post_title post_title_Party ", placeholder = "活动地址", style = "width:  100%;" })
+                                @Html.ValidationMessageFor(m => m.Address)
+                            </div>
+
+                        </div>
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>会议类型：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.DropDownListFor(m => m.MeetingTypeParentId, Model.MeetingTypeParentList, new { onchange = "SelectMettingType()" })
+                            @Html.DropDownListFor(m => m.MeetingTypeId, Model.MeetingTypeList)
+                        </div>
+                        <div style="float: left;width: 100%;">@Html.ValidationMessageFor(m => m.MeetingTypeId)</div>
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+
+                <li class="post_main_li hdRichtext">
+                    <div class="post_main_l_tit"><b class="red"></b><span>会议详情：</span></div>
+                    <div class="red_outK">
+                        @Html.TextAreaFor(m => m.Content, new { onblur = "setUeditor()", style = "width:100%; min-height: 300px; margin-top:10px; text-align:left;" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Content)
+                    <div class="post_main_note">
+                    </div>
+                </li>
+
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>会议费用：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            <input type="button" name="" id="" value="收费" class="price-item price-item-yes" onclick="SelectPrice('price-item-yes') ">
+                            <input type="button" name="" id="" value="免费" class="price-item price-item-no active" onclick="SelectPrice('price-item-no')">
+                            <input type="hidden" id="Type" name="Type" value="2" />
+                        </div>
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li price-item-price" style="display:none;">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>收费金额：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.TextBoxFor(m => m.Price, new { @class = "post_title post_title_Party", placeholder = "收费金额" })
+                        </div>
+                        <div style="float: left;width: 100%;">@Html.ValidationMessageFor(m => m.Price)</div>
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>人数上限：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.TextBoxFor(m => m.PersonMaxCount, new { @class = "post_title post_title_Party", placeholder = "报名人数，0表示不限制", maxlength = "70" })
+                        </div>
+                        <div style="float: left;width: 100%;">@Html.ValidationMessageFor(m => m.PersonMaxCount)</div>
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>主办方联系方式：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.TextBoxFor(m => m.Contact, new { @class = "post_title post_title_Party", placeholder = "请输入11为手机号码，如座机，请输入：区号-电话号码-分机号", maxlength = "70" })
+                        </div>
+                        <div style="float: left;width: 100%;">@Html.ValidationMessageFor(m => m.Contact)</div>
+
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul style="text-align: center; color: #0099e9; margin-bottom: 20px; padding-top: 20px; border-top: 1px solid #aeaeae">
+                <label>
+                    @Html.CheckBoxFor(m => m.Agreement)&nbsp;&nbsp;<a href="@Url.Action("Agreement","Home")" target="_blank" style="color:#428bca;">同意会议发布协议</a>
+                </label>
+            </ul>
+            <ul class="fb_Btn">
+                <input type="submit" class="btn_Post" value="发布"  style="cursor:pointer;" />
+                <a class="btn_Post" href="javascript:F()" style="background: #60c8fd; " >预览</a>
+            </ul>
+        }
+    </div>
+</div>
+
+<script src="~/Content/Scripts/Meeting/Create.js"></script>
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        //加载省份下拉列表框的数据
+        GetDistrictList(0, 1);
+    });
+
+    $(document).ready(function () {
+
+        $("#StartTime").val("@DateTime.Now.ToString("yyyy-MM-dd 00:00")");
+        $("#EndTime").val("");
+
+        laydate({
+            elem: '#StartTime',
+            format: 'YYYY-MM-DD hh:mm',
+            min: laydate.now(), //设定最小日期为当前日期
+            max: '2099-06-16 23:59', //最大日期
+            istime: true,
+            istoday: false,
+            choose: function (datas) {
+                EndTime.min = datas; //开始日选好后，重置结束日的最小日期
+                EndTime.start = datas //将结束日的初始值设定为开始日
+
+                if (EndTime.value != "" && EndTime.value < StartTime.value) {
+                    StartTime.value = "";
+                    EndTime.value = "";
+
+                    ErrorWindow("结束日期必须大于等于开始日期");
+                }
+            }
+        });
+        laydate({
+            elem: '#EndTime',
+            format: 'YYYY-MM-DD hh:mm',
+            min: laydate.now(),
+            max: '2099-06-16 23:59',
+            istime: true,
+            istoday: false,
+            choose: function (datas) {
+                StartTime.max = datas; //结束日选好后，重置开始日的最大日期
+                if (EndTime.value < StartTime.value) {
+                    EndTime.value = "";
+                    ErrorWindow("结束日期必须大于等于开始日期");
+                }
+            }
+        });
+
+        var ue = UE.getEditor('Content', {
+            toolbars: [
+                ['fontsize', 'forecolor', 'bold', 'underline', 'simpleupload', 'insertimage', 'fullscreen']
+            ],
+            elementPathEnabled: false,
+            autoHeightEnabled: true,
+            autoFloatEnabled: true,
+            maximumWords: 10000
+        });
+    });
+</script>

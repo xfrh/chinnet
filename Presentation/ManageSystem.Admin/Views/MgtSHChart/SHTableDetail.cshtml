@@ -1,0 +1,168 @@
+﻿@using ManageSystem.Core.Domain.SHChart
+@using ManageSystem.Core.Extensions
+
+@model ManageSystem.Admin.Models.SHChart.SHBarChartTableModel
+@{
+    ViewBag.Title = "上海细菌真菌耐药监测网添加柱状图报表";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "上海网图表管理", SecondName = "柱状图管理", LocationName = this.ViewBag.Title }); }
+}
+
+@section HeadSection{
+    <link href="~/Content/Scripts/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/MgtChart/Heatmap/Create.css" rel="stylesheet" />
+    <style>
+        .adminData {
+            width: 300px;
+            padding-bottom: 15px;
+        }
+    </style>
+}
+
+@using (Html.BeginForm("SHBarChartCreateTable", "MgtSHChart", FormMethod.Post, new { id = "SHBarChartForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="page-body">
+        <div class="row add-page">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget ">
+                    <div class="widget-header add-page-titlebox ">
+                        <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                    </div>
+                    <div class="widget-body " id="BaseDiv" runat="server" style="overflow: hidden; ">
+                        <div class="options add-page-options">
+                            <a class="btn btn-default" href="@Url.Action("SHBarChartList")">返回</a>
+                        </div>
+                        <div class="add-content ">
+                            <div class="k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                                <div style="width:20%;float:left">
+                                    <table>
+                                        <tr>
+                                            <td class="adminData">
+                                                @Html.NopLabelFor(m => m.DataSegmentId)：
+                                                @Html.DropDownListFor(m => m.DataSegmentId, Model.DropDataSegment, new { data_val_number = "请选择所属数据段", data_val_range_min = "1", data_val_range = "请选择所属数据段", @readonly = "readonly", disabled = "disabled", style = "background: transparent;" })
+                                                @Html.ValidationMessageFor(m => m.DataSegmentId)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="adminData">
+                                                @Html.NopLabelFor(m => m.Name)：
+                                                @Html.EditorFor(m => m.Name, new { htmlAttributes = new { placeholder = "请输入报表名称", @readonly = "readonly", disabled = "disabled" } })
+                                                @Html.ValidationMessageFor(m => m.Name)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="adminData">
+                                                @Html.NopLabelFor(m => m.Title)：
+                                                @Html.EditorFor(m => m.Title, new { htmlAttributes = new { placeholder = "请输入报表名称", @readonly = "readonly", disabled = "disabled" } })
+                                                @Html.ValidationMessageFor(m => m.Title)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="adminData">
+                                                @Html.NopLabelFor(m => m.Sort)：
+                                                @Html.EditorFor(m => m.Sort, new { htmlAttributes = new { placeholder = "排序必须大于等于1，且值越小越靠前", data_val_number = "排序必须大于等于1，且值越小越靠前", data_val_range_min = "1", data_val_range = "排序必须大于等于1，且值越小越靠前", @readonly = "readonly", disabled = "disabled" } })
+                                                @Html.ValidationMessageFor(m => m.Sort)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="adminData">
+                                                @Html.NopLabelFor(m => m.Display)：
+                                                @Html.DropDownListFor(m => m.Display, Model.DropDisplay, new { @readonly = "readonly", disabled = "disabled" })
+                                                @Html.ValidationMessageFor(m => m.Display)
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <section class="item-container" style="width:80%;float:right">
+                                    <div class="flex flex-vertical-center item-header">
+                                        <div class="flex-1">
+                                            <span class="item-active">报表数据项</span>
+                                        </div>
+                                    </div>
+                                    <table class="table table-bordered item-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" style="width: auto;">抗真菌药物</th>
+                                                <th class="text-center" style="width: auto;">MIC范围</th>
+                                                <th class="text-center" style="width: auto;">MIC<sub>50</sub></th>
+                                                <th class="text-center" style="width: auto;">MIC<sub>90</sub></th>
+                                                <th class="text-center" style="width: auto;">敏感</th>
+                                                <th class="text-center" style="width: auto;">剂量依赖敏感</th>
+                                                <th class="text-center" style="width: auto;">中介</th>
+                                                <th class="text-center" style="width: auto;">耐药</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="item_tbody">
+                                            @if (Model.Antibiotics != null)
+                                            {
+                                                foreach (var item in Model.Antibiotics)
+                                                {
+                                                    <tr id="@Model.Id">
+                                                        <td class="text-center">
+                                                            <input id="{{input_id}}" class="text-box single-line text-center" name="{{input_name}}" readonly="readonly" MICNames="MICName" data-val="true" data-val-required="请录入数值" data-val-number="请录入正确的数值" value="@item.Name" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input id="{{input_id}}" class="text-box single-line text-center" name="{{input_name}}" readonly="readonly" MIC_Ranges="MIC_Range" data-val="true" data-val-required="请录入数值" data-val-number="请录入正确的数值" value="@item.MIC_Range" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input id="{{input_id}}" class="text-box single-line text-center" name="{{input_name}}" readonly="readonly" MIC50s="MIC50" data-val="true" data-val-required="请录入数值" data-val-number="请录入正确的数值" value="@item.MIC50" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input id="{{input_id}}" class="text-box single-line text-center" name="{{input_name}}" readonly="readonly" MIC90s="MIC90" data-val="true" data-val-required="请录入数值" data-val-number="请录入正确的数值" value="@item.MIC90" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input id="{{input_id}}" class="text-box single-line text-center" name="{{input_name}}" readonly="readonly" Ss="S" data-val="true" data-val-required="请录入数值" data-val-number="请录入正确的数值" value="@item.S" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input id="{{input_id}}" class="text-box single-line text-center" name="{{input_name}}" readonly="readonly" SDDs="SDD" data-val="true" data-val-required="请录入数值" data-val-number="请录入正确的数值" value="@item.SDD" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input id="{{input_id}}" class="text-box single-line text-center" name="{{input_name}}" readonly="readonly" Is="I" data-val="true" data-val-required="请录入数值" data-val-number="请录入正确的数值" value="@item.I" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input id="{{input_id}}" class="text-box single-line text-center" name="{{input_name}}" readonly="readonly" Rs="R" data-val="true" data-val-required="请录入数值" data-val-number="请录入正确的数值" value="@item.R" />
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section FooterSection{
+    <script src="~/Content/Scripts/toastr/toastr.js"></script>
+    <script src="~/Content/Scripts/utils.min.js"></script>
+    <script src="~/Content/Scripts/underscore-min.js"></script>
+    <script src="~/Content/Scripts/underscore.string.min.js"></script>
+    <script src="~/Content/Scripts/template-web.js"></script>
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=CA6ec345eb03c609a8738322aa89905c"></script>
+    <script src="~/Content/Scripts/echarts/echarts.min.js"></script>
+    <script src="~/Content/Scripts/echarts/map/js/china.js"></script>
+    <script src="~/Content/Scripts/echarts/extension/bmap.min.js"></script>
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/MgtChart/SHBarChart/Create1.js"></script>
+    @*<script src="~/Content/Scripts/MgtChart/Heatmap/Create.js?v=@DateTime.Now.Ticks"></script>*@
+    <script>
+
+        $.validator.addMethod('owners', function (value, element, params) {
+            return value !== 'undefined' && typeof (value) !== 'undefined';
+        });
+
+        $.validator.unobtrusive.adapters.add("owners", function (options) {
+            options.rules["owners"] = {};
+            options.messages["owners"] = options.message;
+        });
+    </script>
+}

@@ -1,0 +1,16 @@
+﻿@model ManageSystem.Core.Domain.Members.Member
+
+@{
+    if (Model != null && Model.Id > 0)
+    {
+        <input type="hidden" id="IsHavelogin" value="1" />
+        <ul class="user">  @Model.LoginId，欢迎登录， <a href="@Url.Action("Login", "Home")" style="color:#242424">退出</a></ul>
+    }
+    else
+    {
+        <input type="hidden" id="IsHavelogin" value="0" />
+    }
+}
+
+
+

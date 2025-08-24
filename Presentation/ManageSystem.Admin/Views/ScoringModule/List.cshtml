@@ -1,0 +1,651 @@
+﻿@using ManageSystem.Services.Common;
+
+@{
+    ViewBag.Title = "评比管理";
+    bool IsEdit = UserinfoExtensions.CheckFunction(Url.Action("Edit"));
+    bool IsView = UserinfoExtensions.CheckFunction(Url.Action("Detail"));
+}
+
+@section HeadSection {
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "评比管理", SecondName = "评比管理", LocationName = this.ViewBag.Title }); }
+}
+
+@Html.AntiForgeryToken()
+
+<div class="page-body">
+
+    <div class="row manage-page">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-yellow manage-title-box">
+                    <span class="widget-caption manage-title"><i class="glyphicon glyphicon-th "></i>@ViewBag.Title </span>
+                    <div class="widget-buttons">
+                        <a href="#" data-toggle="maximize"><i class="fa fa-expand"></i></a>
+                        <a href="#" data-toggle="collapse"><i class="fa fa-minus"></i></a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+
+                        <div id="searchable_filter" class="dataTables_filter manage-but-box">
+                            <div style="width: 100%;">
+                                @Html.ButtonHtml(HtmlButtonType.Add, "Create", "ScoringModule")
+                                @Html.ButtonHtml(HtmlButtonType.Delete, "Delete", "ScoringModule")
+                            </div>
+                            <div style="width: 100%;">
+                                <div class="dataTables_filter manage-but-box">
+                                    <label class="lb-left" style="margin-left: 0;">评比名称：</label>
+                                    <label class="lb-right">
+                                        <input type="text" id="searchTitle" class="form-control input-sm  search" aria-controls="searchable" name="searchTitle" />
+                                    </label>
+                                    <label class="lb-left">状态：</label>
+                                    <div class="form-control ddl lb-right " style="width: 10%;">
+                                        @Html.DropDownList("DropSatus", (IEnumerable<SelectListItem>)ViewData["DropSatusEnum"], new { @class = "form-control dropdown" })
+                                    </div>
+                                    <label class="lb-left">说明：</label>
+                                    <label class="lb-right">
+                                        <input type="text" id="searchIntro" class="form-control input-sm  search" aria-controls="searchable" name="searchIntro" />
+                                    </label>
+                                    <label> <input type="button" id="btn-search" class="btn btn-blue" value="查 询" /> </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table table-striped table-bordered dataTable no-footer table-select" id="ManageTableDiv" aria-describedby="editabledatatable_info">
+                            <div id="data-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@*删除数据的表单*@
+@using (Html.BeginForm("Delete", "ScoringModule", FormMethod.Post, new { id = "delete-selected-form" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="selectedIds" name="selectedIds" value="" />
+}
+
+@*删除数据的表单*@
+@using (Html.BeginForm("ChangeDataQualityScoreStatus", "ScoringModule", FormMethod.Post, new { id = "changedataqualityscorestatus-form" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="ChangeDataQualityScoreStatus_Id" name="id" value="" />
+    <input type="hidden" id="ChangeDataQualityScoreStatus_Status" name="status" value="" />
+}
+
+<!-- 发送通知确认modal -->
+<div id="modal_email_notify" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="notifyLabel" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 650px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="notifyLabel">发送通知</h4>
+            </div>
+            <div class="modal-body" style="height: 500px; overflow-y: scroll;">
+                <input id="modal_email_notify_hidden_id" type="hidden" hidden="hidden" />
+                <div class="">
+                    <h3 style="color: #d73d32;">确认给评委们发送以下格式的活动通知邮件？</h3>
+                    邮件预览：
+                </div>
+                <div class="email-preview">
+                    <style type="text/css">
+                        .email-preview * {
+                            margin: 0;
+                            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                            box-sizing: border-box;
+                            font-size: 14px
+                        }
+
+                        .email-preview img {
+                            max-width: 100%
+                        }
+
+                        .email-preview {
+                            -webkit-font-smoothing: antialiased;
+                            -webkit-text-size-adjust: none;
+                            width: 100% !important;
+                            height: 100%;
+                            line-height: 1.6em
+                        }
+
+                            .email-preview table td {
+                                vertical-align: top
+                            }
+
+                        .email-preview {
+                            background-color: #ecf0f5;
+                            color: #6c7b88
+                        }
+
+                            .email-preview .body-wrap {
+                                background-color: #ecf0f5;
+                                width: 100%
+                            }
+
+                            .email-preview .container {
+                                display: block !important;
+                                max-width: 600px !important;
+                                margin: 0 auto !important;
+                                clear: both !important
+                            }
+
+                            .email-preview .content {
+                                max-width: 600px;
+                                margin: 0 auto;
+                                display: block;
+                                padding: 20px
+                            }
+
+                            .email-preview .main {
+                                background-color: #fff;
+                                border-bottom: 2px solid #d7d7d7
+                            }
+
+                            .email-preview .content-wrap {
+                                padding: 20px
+                            }
+
+                            .email-preview .content-block {
+                                padding: 0 0 20px
+                            }
+
+                            .email-preview .header {
+                                width: 100%;
+                                margin-bottom: 20px
+                            }
+
+                            .email-preview .footer {
+                                width: 100%;
+                                clear: both;
+                                color: #999;
+                                padding: 20px
+                            }
+
+                                .email-preview .footer p, .footer a, .footer td {
+                                    color: #999;
+                                    font-size: 12px
+                                }
+
+                            .email-preview h1, .email-preview h2, .email-preview h3 {
+                                font-family: "Helvetica Neue", Helvetica,Arial, "Lucida Grande", sans-serif;
+                                color: #1a2c3f;
+                                margin: 30px 0 0;
+                                line-height: 1.2em;
+                                font-weight: 400
+                            }
+
+                            .email-preview h1 {
+                                font-size: 32px;
+                                font-weight: 500
+                            }
+
+                            .email-preview h2 {
+                                font-size: 24px
+                            }
+
+                            .email-preview h3 {
+                                font-size: 18px
+                            }
+
+                            .email-preview h4 {
+                                font-size: 14px;
+                                font-weight: 600
+                            }
+
+                            .email-preview p, .email-preview ul, .email-preview ol {
+                                margin-bottom: 10px;
+                                font-weight: normal
+                            }
+
+                                .email-preview p li, .email-preview ul li, .email-preview ol li {
+                                    margin-left: 5px;
+                                    list-style-position: inside
+                                }
+
+                            .email-preview a {
+                                color: #348eda;
+                                text-decoration: underline
+                            }
+
+                            .email-preview .btn-primary {
+                                text-decoration: none;
+                                color: #FFF;
+                                background-color: #42A5F5;
+                                line-height: 1.5em;
+                                text-align: center;
+                                cursor: pointer;
+                                display: inline-block;
+                                text-transform: capitalize;
+                                margin-right: 30px;
+                                padding: 10px;
+                                font-size: 12px
+                            }
+
+                            .email-preview .last {
+                                margin-bottom: 0
+                            }
+
+                            .email-preview .first {
+                                margin-top: 0
+                            }
+
+                            .email-preview .aligncenter {
+                                text-align: center
+                            }
+
+                            .email-preview .alignright {
+                                text-align: right
+                            }
+
+                            .email-preview .alignleft {
+                                text-align: left
+                            }
+
+                            .email-preview .clear {
+                                clear: both
+                            }
+
+                            .email-preview .alert {
+                                font-size: 16px;
+                                color: #fff;
+                                font-weight: 500;
+                                padding: 20px;
+                                text-align: center
+                            }
+
+                                .email-preview .alert a {
+                                    color: #fff;
+                                    text-decoration: none;
+                                    font-weight: 500;
+                                    font-size: 16px
+                                }
+
+                                .email-preview .alert.alert-warning {
+                                    background-color: #FFA726
+                                }
+
+                                .email-preview .alert.alert-bad {
+                                    background-color: #ef5350
+                                }
+
+                                .email-preview .alert.alert-good {
+                                    background-color: #8BC34A
+                                }
+
+                            .email-preview .invoice {
+                                margin: 25px auto;
+                                text-align: left;
+                                width: 100%
+                            }
+
+                                .email-preview .invoice td {
+                                    padding: 5px 0
+                                }
+
+                                .email-preview .invoice .invoice-items {
+                                    width: 100%
+                                }
+
+                                    .email-preview .invoice .invoice-items td {
+                                        border-top: #eee 1px solid
+                                    }
+
+                                    .email-preview .invoice .invoice-items .total td {
+                                        border-top: 2px solid #6c7b88;
+                                        font-size: 18px
+                                    }
+                    </style>
+                    <table class="body-wrap">
+                        <tr>
+                            <td></td>
+                            <td class="container" style="width: 600px;">
+                                <div class="content">
+                                    <table class="main" style="width: 100%; border-spacing: 0; border-collapse: collapse;">
+                                        <tr>
+                                            <td class="content-wrap">
+                                                <meta itemprop="name" content="Confirm Email" />
+                                                <table style="width: 100%; border-spacing: 0; border-collapse: collapse;">
+                                                    <tr>
+                                                        <td>
+                                                            <div style="text-align: center;margin-bottom: 20px;">
+                                                                <img src="http://chinets.com/Content/Images/logo_2.png" draggable="false" alt="CHINET数据云" />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="content-block" style="border-bottom: #eee 1px solid; padding-bottom: 15px;">
+                                                            <h3 id="email_notify_preview_title">评分通知</h3>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="content-block" style="padding-top: 20px;">#评委姓名#&ensp;您好：</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="content-block">
+                                                            【CHINET数据云】邀请您为以下单位进行评分。<br />
+                                                            &ensp;1.&ensp;#单位名称#;<br />
+                                                            &ensp;2.&ensp;#单位名称#;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="content-block" style="padding-bottom: 10px;">
+                                                            请登录移动端&ensp;<strong style="font-weight: 600; color: #6c7b88;">CHINET数据云</strong>，在&ensp;<strong style="font-weight: 600; color: #6c7b88;">我的</strong>&ensp;>&ensp;<strong style="font-weight: 600; color: #6c7b88;">评分系统</strong>&ensp;中进行操作。<br />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="content-block">
+                                                            您也可以通过手机浏览器直接访问以下链接并操作：<br />
+                                                            <a href="http://m.chinets.com/scoringmodule/hospitallist/#活动标识#" target="_blank">http://m.chinets.com/scoringmodule/hospitallist/#活动标识#</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>感谢您对CHINET数据云的支持！</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="footer">
+                                        <table style="width: 100%;">
+                                            <tr>
+                                                <td class="aligncenter content-block">
+                                                    <a href="http://chinets.com/" target="_blank">CHINET 数据云</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <div style="height: 25px;">&ensp;</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary ladda-button" data-style="zoom-in" id="btnSubmitEmailNotify" onclick="onSubmitEmailNotify(); return false;">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section FooterSection{
+    <script src="~/Content/Scripts/admin.listpage.js"></script>
+    <script src="~/Content/Scripts/layui-v2.5.4/layui.js"></script>
+
+    <script id="DateTimeRangeTemplate" type="text/x-kendo-template">
+        <span>起：#=DateTimeRange.Begin#</span>
+        <br />
+        <span>止：#=DateTimeRange.End#</span>
+    </script>
+
+    <script id="OperationTemplate" type="text/x-kendo-template">
+        @if (IsEdit)
+        {
+            <a href="@Url.Action("Edit")/#=Id#">编辑</a>
+            <i>&ensp;</i>
+        }
+
+        @if (IsView)
+        {
+            <a href="@Url.Action("Detail")/#=Id#">查看</a>
+            <i>&ensp;</i>
+        }
+        # if (Status === '待开始') { #
+        <a href="javascript: void(0);" data-val="#=Id#" onclick="onChangeStatus('#=Id#', @((int)DataQuality_Score_Status.Underway)); return false;">开始</a>
+        # } else if (Status === '进行中') { #
+        <a href="javascript: void(0);" data-val="#=Id#" onclick="onChangeStatus('#=Id#', @((int)DataQuality_Score_Status.Finish)); return false;">结束</a>
+        # } #
+        #if(Status === '进行中'||Status === '待开始'){#
+        <i>&ensp;</i>
+        <a href="javascript: void(0);" data-val="#=Id#" onclick="SetMessage('#=Id#'); return false;">发送通知</a>
+        <input id="email_preview_title_#=Id#" type="hidden" hidden="hidden" value="#=Title#" />
+        #}#
+
+    </script>
+
+
+    <script>
+        layui.use('layer');
+
+        $(document).ready(function () {
+
+            $("#data-grid").kendoGrid({
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: {
+                            url: "/ScoringModule/List",
+                            type: "POST",
+                            dataType: "json",
+                            data: additionalData
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        total: "Total",
+                        errors: "Errors"
+                    },
+                    error: function (e) {
+                        display_kendoui_grid_error(e);
+                        // Cancel the changes
+                        this.cancelChanges();
+                    },
+                    pageSize: 10,
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true
+
+                },
+                pageable: {
+                    refresh: true,
+                    pageSizes: [10, 30, 50]
+                },
+                scrollable: false,
+                groupable: true,
+                dataBound: onDataBound,
+                columns: [
+                    {
+                        field: "Id",
+                        headerTemplate: "  <div class='' style='text-align: center;'>    <label><input type='checkbox' id='mastercheckbox' /><span class='text'></span> </label>   </div>",
+                        headerAttributes: { style: "text-align:center" },
+                        attributes: { style: "text-align:center" },
+                        template: " <div class='' style='text-align: center;'>    <label><input type='checkbox' class='checkboxGroups'  value='#=Id#' /><span class='text'></span> </label>   </div> ",
+                        width: 50
+                    },
+                    {
+                        field: "InsertTime",
+                        title: "添加时间",
+                        width: 120
+                    },
+                    {
+                        field: "Title",
+                        title: "评比名称",
+                        width: 180
+                    },
+                    {
+                        field: "Status",
+                        title: "状态",
+                        width: 80
+                    },
+
+                    {
+                        field: "DateTimeRange",
+                        title: "评分时间",
+                        width: 150,
+                        template: kendo.template(document.getElementById('DateTimeRangeTemplate').innerHTML)
+                    },
+                    {
+                        field: "HospitalTotal",
+                        title: "参与医院总数",
+                        width: 80
+                    },
+                    {
+                        field: "Intro",
+                        title: "说明",
+                        width: 180
+                    },
+                    {
+                        field: "Id",
+                        title: "操作",
+                        width: 150,
+                        template: kendo.template(document.getElementById('OperationTemplate').innerHTML)
+                    }
+                ]
+            });
+
+            $('#data-grid').off('click', 'table input[class="checkboxGroups"][type="checkbox"]');
+            $('#data-grid').off('click', 'table input[id="mastercheckbox"][type="checkbox"]');
+
+            $('#data-grid').on('click', 'table input[class="checkboxGroups"][type="checkbox"]', function () {
+                setTimeout(function () {
+                    var checkeds = $('#data-grid').find('input[class="checkboxGroups"][type="checkbox"]:checked'),
+                        totalLength = $('#data-grid').find('input[class="checkboxGroups"][type="checkbox"]').length;
+
+                    if (totalLength > 0 && totalLength === checkeds.length) {
+                        $('#data-grid').find('input[id="mastercheckbox"][type="checkbox"]').prop('checked', true);
+                    }
+                    else {
+                        $('#data-grid').find('input[id="mastercheckbox"][type="checkbox"]').prop('checked', false);
+                    }
+                }, 50);
+            });
+
+            $('#data-grid').on('click', 'table input[id="mastercheckbox"][type="checkbox"]', function () {
+                var $this = $(this);
+                setTimeout(function () {
+                    if ($this.prop('checked')) {
+                        $('#data-grid').find('input[class="checkboxGroups"][type="checkbox"]').prop('checked', true);
+                    }
+                    else {
+                        $('#data-grid').find('input[class="checkboxGroups"][type="checkbox"]').prop('checked', false);
+                    }
+                }, 50);
+            });
+
+            $('#btn-delete').off('click');
+            $('#btn-delete').on('click', function (e) {
+                var checkedItems = $('#data-grid').find('input[class="checkboxGroups"][type="checkbox"]:checked');
+                if (checkedItems === null || checkedItems.length <= 0) {
+                    alert("请勾选需要删除的数据！");
+                    return false;
+                }
+
+                if (confirm("不可恢复操作，确认删除吗？")) {
+                    e.preventDefault();
+                    selectedIds = [];
+                    $('#data-grid').find('input[class="checkboxGroups"][type="checkbox"]:checked').each(function (i, item) {
+                        selectedIds.push(item.value);
+                    });
+
+                    var ids = selectedIds.join(",");
+                    $('#delete-selected-form #selectedIds').val(ids);
+                    $('#delete-selected-form').submit();
+                    return false;
+                }
+            });
+
+        });
+
+
+        //设置查询参数
+        function additionalData() {
+            var data = {
+                title: $("#searchTitle").val(),
+                status: $("#DropSatus").val(),
+                intro: $("#searchIntro").val()
+            };
+            if (!data.status || data.status === 'null' || data.status === null, typeof (data.status) === 'undefined') {
+                data.status = null;
+            }
+
+            addAntiForgeryToken(data);
+            return data;
+        }
+
+        function onChangeStatus(id, status) {
+            if (id && status) {
+                var statusText = '';
+                switch (status) {
+                    case 2:
+                        statusText = '开始';
+                        break;
+                    case 5:
+                        statusText = '结束';
+                        break;
+                    default:
+                        return false;
+                }
+                layui.use('layer', function () {
+                    layer.confirm('评比信息状态变更为：【<span style="color: #e2293c; font-weight: 600;">' + statusText + '</span>】？', {
+                        btn: ['确定', '取消'] //按钮
+                    }, function () {
+                        $('#changedataqualityscorestatus-form #ChangeDataQualityScoreStatus_Id').val(id);
+                        $('#changedataqualityscorestatus-form #ChangeDataQualityScoreStatus_Status').val(status);
+                        $('#changedataqualityscorestatus-form').submit();
+                        return false;
+                    });
+                });
+            }
+        }
+
+        function SetMessage(id) {
+            if (id) {
+                var $modal = $('#modal_email_notify');
+                if ($('#email_preview_title_' + id).val()) {
+                    $modal.find('#email_notify_preview_title').text($('#email_preview_title_' + id).val() + '活动通知');
+                }
+                else {
+                    $modal.find('#email_notify_preview_title').text('活动通知');
+                }
+                $modal.find('#modal_email_notify_hidden_id').val(id);
+                $modal.modal('show');
+            }
+            return false;
+        }
+
+        function onSubmitEmailNotify() {
+            var $modal = $('#modal_email_notify');
+            $modal.modal('hide');
+            var layer_loading;
+            $.ajax({
+                url: '/ScoringModule/SetMessage',
+                data: { Id: $modal.find('#modal_email_notify_hidden_id').val() },
+                type: 'post',
+                dataType: 'Json',
+                beforeSend: function () {
+                    layer_loading = layui.layer.msg('发送中', { icon: 16, time: 0, shade: 0.01 });
+                },
+                complete: function () {
+                    layui.layer.close(layer_loading);
+                },
+                success: function (res) {
+                    if (res == "" || res == null) return;
+                    if (res.status == "true") {
+                        layui.layer.alert(res.message);
+                    } else {
+                        layui.layer.alert(res.message);
+                    };
+                },
+                error: function (res) {
+                    layui.layer.alert('邮件发送失败');
+                    console.info(res);
+                }
+            })
+        }
+    </script>
+}
+
+
+
+
+

@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "关于CHINET";
+    Layout = "/Views/Shared/_MainLayout.cshtml";
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/Home/About.js?v=1.0.0"></script>
+}
+
+<div id="app" class="indexpage">
+    <div class="middle">
+        <img class="In-topimg" src="/Content/Images/index_01_03.jpg" alt="">
+        <div class="fon-30  margin-tb-20 t-center">(CHINET成员单位分布图)</div>
+        <div class="fon-26 line-50 padding-40 ">
+            2004年9月，由复旦大学附属华山医院抗生素研究所汪复教授联合国内已开展细菌耐药性监测工作多年的8所医院，共同组建“CHINET中国细菌耐药监测网（China Antimicrobial Surveillance Network, CHINET）”。目前监测网73家成员单位来自全国29个省、市和自治区，包括53家综合性医院和20儿童医院，其中三级医院57家，二级医院16家。
+        </div>
+    </div>
+    @Html.Partial("_FooterNavBar", "首页")
+</div>

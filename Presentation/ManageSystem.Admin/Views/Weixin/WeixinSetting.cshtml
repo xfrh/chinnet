@@ -1,0 +1,149 @@
+﻿@model ManageSystem.Admin.Models.Weixin.WeixinSettingModel
+
+@{
+    ViewBag.Title = "微信设置";
+}
+
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "微信管理", SecondName = "微信设置", LocationName = this.ViewBag.Title }); }
+}
+
+<div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                </div>
+                <div class="widget-body add-content " style="padding-top: 30px;">
+                    <div class="form-horizontal bv-form">
+
+                        @using (Html.BeginForm("WeixinSetting", "Weixin", FormMethod.Post, new { id = "form1", enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div>
+                                <div class="widget-main ">
+                                    <div class="tabbable">
+                                        <ul class="nav nav-tabs tabs-flat" id="myTab11" style="font-size: 14px;">
+                                            <li class="active">
+                                                <a data-toggle="tab" href="#SystemDiv">
+                                                    基本设置
+                                                </a>
+                                            </li>
+                                            <li class="">
+                                                <a data-toggle="tab" href="#WeiPayDiv">
+                                                    微信支付设置
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                        <div class="tab-content tabs-flat" style="background-color: white; padding: 30px 12px; min-height: 350px;">
+
+                                            <!-- 基本设置 -->
+                                            <div id="SystemDiv" class="tab-pane active">
+                                                <div class="col-lg-10 col-sm-12">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">微信帐号类型</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.DropDownList("AccountType", Model.AccountTypeList, new { @class = "form-control dropdown" })
+                                                                    @Html.ValidationMessageFor(m => m.AccountType)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-sm-12 ">
+                                                            <div class="form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">微信Token</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextBox("WeixinToken", Model.WeixinToken, new { @class = "form-control txt", placeholder = "" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class=" form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">微信AppId</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextBox("WeixinAppId", Model.WeixinAppId, new { @class = "form-control txt", placeholder = "" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">微信AppSecret</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextBox("WeixinAppSecret", Model.WeixinAppSecret, new { @class = "form-control txt", placeholder = "" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- 微信支付设置 -->
+                                            <div id="WeiPayDiv" class="tab-pane ">
+                                                <div class="col-lg-10 col-sm-12">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">微信支付商户id</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextBox("WeixinPayMchId", Model.WeixinPayMchId, new { @class = "form-control txt", placeholder = "" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group has-feedback">
+                                                                <label class="col-lg-2 control-label"> 商户支付密钥Key</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextBox("WeixinPayKey", Model.WeixinPayKey, new { @class = "form-control txt", placeholder = "" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">微信支付通知地址</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextBox("WeixinPayNotify", Model.WeixinPayNotify, new { @class = "form-control txt", placeholder = "" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-offset-2 col-lg-10" style="text-align:right">
+                                    <input type="submit" value="保 存" class="btn btn-blue btn-lg" />
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,242 @@
+﻿@model ManageSystem.Admin.Models.Orders.OrderModel
+@using ManageSystem.Admin.Extensions
+@using ManageSystem.Services.Products
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+<style type="text/css">
+    .order-item-table td {
+        border: 1px solid #ddd !important;
+        padding: 2px 5px;
+        text-align: center;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-6">
+        <h4 style="padding: 10px 0px;border-bottom: 2px solid #00A1B1;">订单信息</h4>
+        <table style="width:100%;" class="table-content no-border adminContent">
+            <tbody>
+                <tr>
+                    <td class="adminTitle" style="width:30%;">@Html.NopLabelFor(m => m.CreateTime)：</td>
+                    <td class="adminData" style="width:70%;">
+                        @Model.CreateTime.ToString("yyyy-MM-dd HH:mm")
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.SN)：</td>
+                    <td class="adminData">
+                        @Model.SN
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.MemberLoginId)：</td>
+                    <td class="adminData">
+                        @Model.MemberLoginId
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.Status)：</td>
+                    <td class="adminData">
+                        @Model.StatusName
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.StatusTime)：</td>
+                    <td class="adminData">
+                        @Model.StatusTime.ToString("yyyy-MM-dd HH:mm")
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.PayType)：</td>
+                    <td class="adminData">
+                        @Model.PayType
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.Amount)：</td>
+                    <td class="adminData" style="height:30px; line-height:30px; color:#EF3F41; font-size:20px;">
+                        @Model.Amount
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.ReceivedAmount)：</td>
+                    <td class="adminData" style="height:30px; line-height:30px; color:#EF3F41; font-size:20px;">
+                        @Model.ReceivedAmount
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.Remark)：</td>
+                    <td class="adminData">
+                        @Model.Remark
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.Describe)：</td>
+                    <td class="adminData">
+                        @Html.TextAreaFor(model => model.Describe, new { @class = "form-control txt", cols = "30", rows = "2" })
+                        @Html.ValidationMessageFor(m => m.Describe)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-6">
+        <h4 style="padding: 10px 0px;border-bottom: 2px solid #00A1B1;">收货信息</h4>
+        <table style="width:100%;" class="table-content no-border adminContent">
+            <tbody>
+
+                <tr>
+                    <td class="adminTitle" style="width:30%;">@Html.NopLabelFor(m => m.AddressName)：</td>
+                    <td class="adminData" style="width:70%;">
+                        @Html.EditorFor(m => m.AddressName, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                        @Html.ValidationMessageFor(m => m.AddressName)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.AddressPhone)：</td>
+                    <td class="adminData">
+                        @Html.EditorFor(m => m.AddressPhone, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                        @Html.ValidationMessageFor(m => m.AddressPhone)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.AddressTel)：</td>
+                    <td class="adminData">
+                        @Html.EditorFor(m => m.AddressTel, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                        @Html.ValidationMessageFor(m => m.AddressTel)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.AddressEmail)：</td>
+                    <td class="adminData">
+                        @Html.EditorFor(m => m.AddressEmail, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                        @Html.ValidationMessageFor(m => m.AddressEmail)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.AddressArea)：</td>
+                    <td class="adminData">
+                        @Model.AddressArea
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.AddressAddress)：</td>
+                    <td class="adminData">
+                        @Html.EditorFor(m => m.AddressAddress, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                        @Html.ValidationMessageFor(m => m.AddressAddress)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div class="row" style="margin-top:20px;">
+    <div class="col-lg-6">
+        <h4 style="padding: 10px 0px;border-bottom: 2px solid #00A1B1;">发货信息</h4>
+        <table style="width:100%;" class="table-content no-border adminContent">
+            <tbody>
+
+                <tr>
+                    <td class="adminTitle" style="width:30%;">@Html.NopLabelFor(m => m.ExpressCompany)：</td>
+                    <td class="adminData" style="width:70%;">
+                        @Html.EditorFor(m => m.ExpressCompany)
+                        @Html.ValidationMessageFor(m => m.ExpressCompany)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.ExpressSN)：</td>
+                    <td class="adminData">
+                        @Html.EditorFor(m => m.ExpressSN)
+                        @Html.ValidationMessageFor(m => m.ExpressSN)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="adminTitle">@Html.NopLabelFor(m => m.ExpressRemark)：</td>
+                    <td class="adminData">
+                        @Html.TextAreaFor(model => model.ExpressRemark, new { @class = "form-control txt", cols = "30", rows = "2" })
+                        @Html.ValidationMessageFor(m => m.ExpressRemark)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row" style="margin-top:20px;">
+    <h4 style="padding: 10px 0px;border-bottom: 2px solid #00A1B1;">订单明细</h4>
+    <table style="width:100%;" class="table-content no-border table-bordered adminContent order-item-table">
+        <thead class="cart-list-head" style="font-weight: bold;">
+            <tr>
+                <td style="width:12%;">商品Id</td>
+                <td style="width:10%;">商品编码</td>
+                <td style="width:10%;">图片</td>
+                <td style="text-align:left;">商品名称</td>
+                <td style="width:8%">单价</td>
+                <td style="width:8%;">数量</td>
+                <td style="width:8%">小计</td>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.OrderItemList != null && Model.OrderItemList.Any())
+                {
+                    foreach (var item in Model.OrderItemList)
+                    {
+                        <tr class="cart-item">
+                            <td>@item.ProductId</td>
+                            <td>@item.ProductCode</td>
+                            <td><img src="@ProductExtensions.GetProductImage(item.ProductImage)" width="80" height="80"></td>
+                            <td style="text-align:left;">@item.ProductName</td>
+                            <td>￥@item.MarketPrice</td>
+                            <td> @item.Count</td>
+                            <td>￥@item.Amount</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="row" style="margin-top:20px; margin-bottom:50px;">
+    <h4 style="padding: 10px 0px;border-bottom: 2px solid #00A1B1;">订单操作日志</h4>
+    <table style="width:100%;" class="table-content no-border table-bordered adminContent order-item-table">
+        <thead class="cart-list-head" style="font-weight: bold;">
+            <tr>
+                <td style="width:12%;">操作时间</td>
+                <td style="width:10%;">操作类型</td>
+                <td style="width:10%; ">操作来源</td>
+                <td style="width:13%">操作人姓名</td>
+                <td style="text-align:left;">操作内容</td>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.OrderLogList != null && Model.OrderLogList.Any())
+                {
+                    foreach (var item in Model.OrderLogList)
+                    {
+                        <tr class="cart-item">
+                            <td>@item.InsertTime.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>@item.Type</td>
+                            <td>@item.Source</td>
+                            <td >@item.UserName</td>
+                            <td style="text-align:left;">@item.Content</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<script src="/Content/Scripts/TranTextBox.js"></script>
+<script type="text/javascript">
+ 
+</script>

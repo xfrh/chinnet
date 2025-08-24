@@ -1,0 +1,77 @@
+﻿.header {
+    width: 100%;
+    height: 40px;
+    line-height: 45px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 999;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+}
+
+.middle {
+    width: auto;
+}
+
+.null-h-50 {
+    height: 50px;
+    width: 100%;
+}
+
+.UP-list {
+    padding: 0.2rem 0.4rem;
+    margin-bottom: 0.3rem;
+}
+
+.bg-blues {
+    background-color: #005cad;
+}
+
+.bg-gay {
+    background-color: #cacaca;
+}
+
+.bg-yellow {
+    background-color: #f8ac59 !important;
+}
+
+.invalid-status {
+    width: 1.5rem;
+    text-align: center;
+}
+
+.wait-status {
+    width: 1.75rem;
+    text-align: center;
+}
+
+.scroll {
+    height: 100%;
+}
+
+.slidescroll {
+    height: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.PI-Input {
+    border: 0;
+}
+
+.weui-actionsheet__cell {
+    cursor: pointer;
+    font-size: 0.37rem;
+}
+
+
+
+.list-null {
+    margin: 0 auto;
+    width: 25%;
+    height: 65%;
+    background-image: url('/Content/Images/data_list_null_x128.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}

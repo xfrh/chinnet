@@ -1,0 +1,292 @@
+﻿@model ManageSystem.Admin.Models.Weixin.WeixinMenuModel
+@using ManageSystem.Admin.Extensions;
+@using ManageSystem.Core.Domain.Weixin;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.ArticleItemListStr)
+@Html.HiddenFor(model => model.Value)
+
+<style type="text/css">
+    .item-ul {
+        padding: 10px 0px;
+    }
+
+        .item-ul li {
+            list-style: none;
+            margin: 5px 0px;
+        }
+
+    .question-div {
+        margin: 10px 0px;
+        width: 900px;
+    }
+
+        .question-div .thead td {
+            padding: 0px 3px;
+            background-color: #dbdbdb;
+        }
+
+        .question-div table {
+            border-left: 1px solid #ccc;
+            border-top: 1px solid #ccc;
+        }
+
+            .question-div table td {
+                border-right: 1px solid #ccc;
+                border-bottom: 1px solid #ccc;
+                padding: 2px 5px;
+            }
+
+            .question-div table .delete-label {
+                color: #428bca;
+                cursor: pointer;
+            }
+</style>
+
+
+<table class="adminContent">
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Name)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Key)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Key, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Key)
+        </td>
+    </tr>
+    <tr class="parent-h">
+        <td class="adminTitle ">@Html.NopLabelFor(m => m.Type)：</td>
+        <td class="adminData">
+            @Html.DropDownList("Type", Model.MenuTypeList, new { @class = "form-control dropdown", onchange = "ChanceType()" })
+            @Html.ValidationMessageFor(m => m.Type)
+        </td>
+    </tr>
+
+    <tr class="type-article parent-h type-item type-item-1" style="display:@(Model.Type == (int)WeixinMenuType.click ? "table-row;" : " none;") ">
+        <td class="adminTitle"><img alt="所选文章" src="/Content/images/ico-help.gif" title="所选文章"><label for="Value" title="所选文章">所选文章</label>：</td>
+        <td class="adminData">
+            <a class="btn btn-purple" href="javascript:Open();" id="parentIframe">选择文章</a>
+            <div class="question-div" style="">
+                <table>
+                    <thead>
+                        <tr class="thead">
+                            <td style="width:75%;">文章名称</td>
+                            <td style="width:15%;">排序编号（正序）</td>
+                            <td style="width:10%;">操作</td>
+                        </tr>
+                    </thead>
+                    <tbody class="question-content">
+                        @{
+                            if (Model.ArticleItemList != null && Model.ArticleItemList.Any())
+                            {
+                                foreach (var item in Model.ArticleItemList)
+                                {
+                                    <tr class="a-item">
+                                        <td>  <input type="hidden" id="ArticleId" value="@item.ArticleId">    <label>@item.Name</label>       </td>
+                                        <td> <input type="text" class="text-box single-line question-txtItem" value="@item.Sort" style="width:50%;" onchange="ChangeSort(this)"></td>
+                                        <td><label onclick="DeleteItem(this)" class="delete-label">删 除</label>  </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </td>
+    </tr>
+
+
+    <tr class="type-url parent-h type-item type-item-2" style="display:@(Model.Type == (int)WeixinMenuType.view ? "table-row;" : "none; ") ">
+        <td class="adminTitle"><img alt="链接地址" src="/Content/images/ico-help.gif" title="链接地址"><label for="Value" title="链接地址">链接地址</label>：</td>
+        <td class="adminData">
+            <input class="text-box single-line" id="ViewValue" name="ViewValue" type="text" value="@(Model.Type == (int)WeixinMenuType.view ? ""+Model.Value+"" : "")">
+        </td>
+    </tr>
+
+    <tr class="type-url parent-h type-item type-item-3" style="display:@(Model.Type == (int)WeixinMenuType.text ? "table-row;" : "none; ") ">
+        <td class="adminTitle"><img alt="文字内容" src="/Content/images/ico-help.gif" title="文字内容"><label for="Value" title="文字内容">文字内容</label>：</td>
+        <td class="adminData">
+            <textarea class="form-control txt valid" cols="28" id="TextValue" name="TextValue" rows="8" style="width:83%;">@(Model.Type == (int)WeixinMenuType.text ? "" + Html.Raw(Model.Value) + "" : "")</textarea>
+            <span><code>推送文字使用"&lt;br&gt;"表示换行</code></span>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Sort)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Sort, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Sort)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ParentId)：</td>
+        <td class="adminData">
+            @Html.DropDownListFor(model => model.ParentId, Model.MenuList, new { @class = "form-control dropdown", onchange = "ParentMenuChange()" })
+            @Html.ValidationMessageFor(m => m.ParentId)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Describe)：</td>
+        <td class="adminData">
+            @Html.TextAreaFor(model => model.Describe, new { @class = "form-control txt", cols = "30", rows = "3" })
+            @Html.ValidationMessageFor(m => m.Describe)
+        </td>
+    </tr>
+</table>
+
+
+<script src="~/Content/Scripts/layer/layer.js"></script>
+<script src="/Content/Scripts/TranTextBox.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        ParentMenuChange();
+    });
+
+    //选择父级菜单的时候，如果是顶级菜单隐藏部分内容
+    function ParentMenuChange() {
+        var value = $("#ParentId").val();
+        if (value == "0") {
+            //选择了顶级功能
+            $(".parent-h").css("display", "none");
+        } else {
+            ChanceType();
+            //  $(".parent-h").css("display", "table-row");
+
+        }
+
+    }
+
+    //选择不同的菜单类型，这里设置相关的显示和隐藏
+    function ChanceType() {
+        var type = $("#@Html.FieldIdFor(m=>m.Type)").val();
+
+        $(".type-item").css("display", "none");
+        $(".type-item-" + type).css("display", "table-row");
+
+    }
+
+
+    //选择文章以后的回调函数
+    function ConfirmSelectArticle(ids) {
+        if (ids == "") return;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetArticleListByIds", "Articles")",
+            data: { ids: ids },
+            dataType: "json",
+            success: function (data) {
+                if (data == "" || data == null) return;
+
+                for (var i = 0; i < data.length; i++) {
+
+                    var html = "<tr class='a-item'>" +
+                        "  <td><input type=\"hidden\" id=\"ArticleId\" value=\"" + data[i].Id + "\" /> <label>" + data[i].Name + "</label>      </td>" +
+                        "<td><input type=\"text\" class=\"text-box single-line question-txtItem\" value=\"100\"  style=\"width:50%;\"  onchange=\"ChangeSort(this)\" /></td>" +
+                        "<td><label onclick='DeleteItem(this)' class='delete-label' >删 除</label></td>" +
+                        "</tr>";
+
+                    $(".question-content").append(html);
+                }
+            }
+        });
+
+    }
+
+    //删除单个文章
+    function DeleteItem(obj) {
+        $(obj).closest(".a-item").remove();
+    }
+
+    //检查输入的排序格式是否合法
+    function ChangeSort(obj) {
+        var value = $(obj).val();
+        var ex = /^\d+$/;
+        if (value == null || value == "" || !ex.test(value)) {
+            alert("格式不合法！");
+            $(obj).val(100);
+        }
+    }
+
+    //打开选择文章的弹窗
+    function Open() {
+        //iframe层-父子操作
+        layer.open({
+            type: 2,
+            area: ['1000px', '750px'],
+            fix: false, //不固定
+            maxmin: true,
+            title: "选择文章",
+            content: '@Url.Action("ArticleSelectList", "Articles")'
+        });
+    }
+
+
+    //保存 选择的文章数据
+    function SaveArticleData() {
+
+        var type = $("#@Html.FieldIdFor(m=>m.Type)").val();
+        var parentId = $("#ParentId").val();
+        var valueObj = $("#@Html.FieldIdFor(m=>m.Value)");
+
+        var resultValue = "";
+
+        if (parentId != "0") {
+
+            //顶级功能不计算
+            if (type == "1") {
+                //文章推送
+                var data = new Array();
+                var itemTr = $(".question-content tr");
+                if (itemTr == null || itemTr.length <= 0) {
+                    return "请设置具体的推送文章";
+                }
+
+                for (var i = 0; i < itemTr.length; i++) {
+                    var id = $(itemTr[i]).find("#ArticleId").val();
+                    var sort = $(itemTr[i]).find(".question-txtItem").val();
+
+                    if (id == null || id == "") continue;
+                    data.push({ ArticleId: id, Sort: sort });
+                }
+
+                if (data == null || data.length <= 0) {
+                    return "请设置具体的推送文章";
+                }
+
+                resultValue = JSON.stringify(data);
+
+                if (resultValue == null || resultValue == "" || resultValue.trim().length <= 0)
+                    return "请设置具体的推送文章";
+
+            } else if (type == "2") {
+                //网页地址推送
+                resultValue = $("#ViewValue").val();
+                if (resultValue == null || resultValue == "" || resultValue.trim().length <= 0)
+                    return "请设置网页地址";
+
+            } else if (type == "3") {
+                //纯文字推送
+                resultValue = $("#TextValue").val();
+                if (resultValue == null || resultValue == "" || resultValue.trim().length <= 0)
+                    return "请设置推送的文字内容";
+            }
+        }
+        $(valueObj).val(resultValue);
+        //文章才计算选择的文章id
+
+        return "ok";
+    }
+
+
+
+</script>

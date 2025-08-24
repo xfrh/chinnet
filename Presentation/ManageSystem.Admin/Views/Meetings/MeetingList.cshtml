@@ -1,0 +1,187 @@
+﻿@model  ManageSystem.Admin.Models.Meetings.MeetingSeachModel
+
+@{
+    ViewBag.Title = "信息动态管理";
+    bool IsEdit = UserinfoExtensions.CheckFunction(Url.Action("MeetingEdit"));
+    bool IsView = UserinfoExtensions.CheckFunction(Url.Action("MeetingView"));
+}
+
+@section HeadSection {
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "信息动态管理", SecondName = "会议管理", LocationName = this.ViewBag.Title }); }
+}
+
+@Html.AntiForgeryToken()
+
+<div class="page-body">
+
+    <div class="row manage-page">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-yellow manage-title-box">
+                    <span class="widget-caption manage-title"><i class="glyphicon glyphicon-th "></i>@ViewBag.Title </span>
+                    <div class="widget-buttons">
+                        <a href="#" data-toggle="maximize"><i class="fa fa-expand"></i></a>
+                        <a href="#" data-toggle="collapse"><i class="fa fa-minus"></i></a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+
+                        <div id="searchable_filter" class="dataTables_filter manage-but-box">
+                            <div style="width: 100%;">
+                                @Html.ButtonHtml(HtmlButtonType.Add, "MeetingCreate", "Meetings")
+                                @Html.ButtonHtml(HtmlButtonType.Delete, "MeetingDelete", "Meetings")
+                            </div>
+                            <div style="width: 100%;">
+                                <div class="dataTables_filter manage-but-box">
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.Name)：</label>
+                                    <label class="lb-right"><input type="text" id="input-search" class="form-control input-sm  search" aria-controls="searchable" name="searchKey" /></label>
+                                    <label class="lb-left">@Html.NopLabelFor(m => m.MeetingTypeId)：</label>
+                                    <div class="form-control ddl lb-right " style="width: 10%;">
+                                        @Html.DropDownList("MeetingTypeId", Model.MeetingTypeList, new { @class = "form-control dropdown" })
+                                    </div>
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.MemberName)：</label>
+                                    <label class="lb-right">@Html.EditorFor(m => m.MemberName, new { @class = "form-control input-sm" }) </label>
+                                </div>
+
+                                    <div class="dataTables_filter manage-but-box">
+                                        <label class="lb-left">@Html.NopLabelFor(model => model.StartTime)：</label>
+                                        <label class="lb-right">@Html.EditorFor(m => m.StartTime, new { @class = "form-control input-sm" }) </label>
+                                        <label class="lb-left">@Html.NopLabelFor(model => model.EndTime)：</label>
+                                        <label class="lb-right">@Html.EditorFor(m => m.EndTime, new { @class = "form-control input-sm" }) </label>
+                                        <label> <input type="button" id="btn-search" class="btn btn-blue" value="查 询" /> </label>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="table table-striped table-bordered dataTable no-footer table-select" id="ManageTableDiv" aria-describedby="editabledatatable_info">
+                            <div id="data-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*删除数据的表单*@
+@using (Html.BeginForm("MeetingDelete", "Meetings", FormMethod.Post, new { id = "delete-selected-form" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="selectedIds" name="selectedIds" value="" />
+
+}
+
+<script>
+    $(document).ready(function () {
+
+        $("#data-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("MeetingList"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 30, 50]
+            },
+            scrollable: false,
+            groupable: true,
+            dataBound: onDataBound,
+            columns: [{
+                field: "Id",
+                headerTemplate: "  <div class='' style='text-align: center;'>    <label><input type='checkbox' id='mastercheckbox' /><span class='text'></span> </label>   </div>",
+                headerAttributes: { style: "text-align:center" },
+                attributes: { style: "text-align:center" },
+                template: " <div class='' style='text-align: center;'>    <label><input type='checkbox' class='checkboxGroups'  value='#=Id#' /><span class='text'></span> </label>   </div> ",
+                width: 50
+            },
+          	{
+          	    field: "Name",
+          	    title: "会议主题"
+          	},
+        	{
+        	    field: "InsertTime",
+        	    title: "发布时间",
+        	    width: 130
+        	},
+		{
+		    field: "MeetingType",
+		    title: "会议类型",
+		    width: 100
+		},
+		{
+		    field: "MemberName",
+		    title: "发布人",
+		    width: 120
+		},
+        {
+            field: "ViewCount",
+            title: "查看次数",
+            template: "<a   target='_blank' href='/Meetings/MeetingApplyList?MeetingId=#=Id#'>#=ViewCount#</a>",
+            width: 80
+        },
+               {
+                   field: "CollectCount",
+                   title: "收藏次数",
+                   template: "<a  target='_blank' href='/Meetings/MeetingCollectList?MeetingId=#=Id#'>#=CollectCount#</a>",
+                   width: 80
+               },
+            {
+                field: "Id",
+                title: "操作",
+                width: 80,
+                template: "@Html.KendoUIEditAndView(IsView, "MeetingView", IsEdit, "MeetingEdit")"
+            }]
+        });
+    });
+
+
+    //设置查询参数
+    function additionalData() {
+        var data = {
+            Name: $("#input-search").val(),
+            MeetingTypeId: $("#MeetingTypeId").val(),
+            Type: $("#Type").val(),
+            MemberName: $("#@Html.FieldIdFor(m=>m.MemberName)").val(),
+            Contact: $("#@Html.FieldIdFor(m=>m.Contact)").val(),
+            StartTime: $("#@Html.FieldIdFor(m=>m.StartTime)").val(),
+            EndTime: $("#@Html.FieldIdFor(m=>m.EndTime)").val(),
+        };
+
+        addAntiForgeryToken(data);
+        return data;
+    }
+
+    $("#@Html.FieldIdFor(m=> m.StartTime)").kendoDatePicker({ format: "yyyy-MM-dd HH:mm" });
+    $("#@Html.FieldIdFor(m => m.EndTime)").kendoDatePicker({ format: "yyyy-MM-dd HH:mm" });
+
+</script>
+
+
+<script src="~/Content/Scripts/admin.listpage.js"></script>

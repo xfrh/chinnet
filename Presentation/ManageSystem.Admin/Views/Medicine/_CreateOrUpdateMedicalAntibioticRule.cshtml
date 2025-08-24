@@ -1,0 +1,123 @@
+﻿@model ManageSystem.Admin.Models.Medicine.MedicalAntibioticRuleModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+<table class="adminContent">
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.OrganismId)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.OrganismId, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.OrganismId)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.OrganismName)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.OrganismName, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.OrganismName)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.OrganismCode)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.OrganismCode, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.OrganismCode)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.AntibioticId)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.AntibioticId, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.AntibioticId)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.AntibioticName)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.AntibioticName, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.AntibioticName)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.AntibioticCode)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.AntibioticCode, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.AntibioticCode)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.CheckType)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.CheckType, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.CheckType)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Code)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Code, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Code)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.SensitivityMin)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.SensitivityMin, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.SensitivityMin)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.SensitivityMax)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.SensitivityMax, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.SensitivityMax)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.IntermediaryMin)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.IntermediaryMin, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.IntermediaryMin)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.IntermediaryMax)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.IntermediaryMax, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.IntermediaryMax)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ResistanceMin)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.ResistanceMin, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.ResistanceMin)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ResistanceMax)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.ResistanceMax, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.ResistanceMax)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Remark)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Remark, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Remark)
+        </td>
+    </tr>
+</table>
+
+
+<script src="/Content/Scripts/TranTextBox.js"></script>
+<script type="text/javascript">
+
+
+
+
+</script>

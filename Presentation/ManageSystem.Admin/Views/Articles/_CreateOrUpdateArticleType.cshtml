@@ -1,0 +1,37 @@
+﻿@model ManageSystem.Admin.Models.Articles.ArticleTypeModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+		<table class="adminContent">
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Name)
+				@Html.ValidationMessageFor(m => m.Name)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Sort)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Sort)
+				@Html.ValidationMessageFor(m => m.Sort)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Describe)：</td>
+				<td class="adminData">
+               @Html.TextAreaFor(model => model.Describe, new { @class = "form-control txt", cols = "30", rows = "3" })
+				@Html.ValidationMessageFor(m => m.Describe)
+			</td>
+			</tr>
+		</table>
+
+
+<script type="text/javascript">
+
+
+
+   
+</script>

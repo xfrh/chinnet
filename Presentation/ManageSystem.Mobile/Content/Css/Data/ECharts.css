@@ -1,0 +1,186 @@
+﻿.germ-year {
+    margin-top: 0.25rem;
+    padding: 0.1rem 0.35rem;
+    font-size: 0.32rem;
+    border-bottom: 1px solid #eee;
+}
+
+    .germ-year > h4 {
+        font-size: 0.32rem;
+        font-weight: normal;
+    }
+
+    .germ-year .list-group {
+        flex-wrap: wrap;
+        margin-top: 0.25rem;
+    }
+
+        .germ-year .list-group li {
+            border: 1px solid #eee;
+            border-radius: 4px;
+            padding: 0.1rem 0.25rem;
+            margin: 0 0.25rem 0.25rem 0;
+        }
+
+    .germ-year li.active {
+        color: #d81b60;
+        border-color: #d81b60;
+    }
+
+.germyear-pagecontenttitle {
+    font-size: 0.4rem;
+    text-align: center;
+    margin-bottom: 0.25rem;
+    margin-top: 0.5rem;
+    line-height: 0.5rem;
+    padding-left: 0.35rem;
+    padding-right: 0.35rem;
+}
+
+.germ-year-data {
+    font-size: 0.32rem;
+}
+
+.germ-year-data-header {
+    font-size: 0.32rem;
+    padding: 0.35rem;
+    border-bottom: 1px solid #eee;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 0.4rem;
+}
+
+    .germ-year-data-header:before,
+    .germ-year-data-header::before {
+        content: " ";
+        display: block;
+        width: 0.15rem;
+        height: 0.5rem;
+        background: #2e479b;
+        margin-right: 0.2rem;
+    }
+
+.germ-year-data .list-group {
+    padding: 0.25rem 0.35rem 0.4rem;
+}
+
+.germ-year-data li {
+    padding: 0.15rem 0;
+    margin-bottom: 0.15rem;
+}
+
+    .germ-year-data li:active {
+        color: #d81b60;
+        background-color: #efefef;
+    }
+
+    .germ-year-data li.active {
+        color: #d81b60;
+    }
+
+
+
+.germ-bar__class,
+.germ-bar__antibiotic,
+.germ-bar__year,
+.germ-bar__hospital {
+    font-size: 0.32rem;
+}
+
+.germ-bar__header {
+    font-size: 0.32rem;
+    padding: 0.35rem;
+    border-bottom: 1px solid #eee;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 0.4rem;
+}
+
+    .germ-bar__header:before,
+    .germ-bar__header::before {
+        content: " ";
+        display: block;
+        width: 0.15rem;
+        height: 0.5rem;
+        background: #2e479b;
+        margin-right: 0.2rem;
+    }
+
+.germ-bar__class .list-group,
+.germ-bar__antibiotic .list-group,
+.germ-bar__year .list-group,
+.germ-bar__hospital .list-group {
+    flex-flow: wrap;
+    padding: 0.25rem 0;
+}
+
+.germ-bar__class li {
+    text-align: center;
+    margin-bottom: 0.25rem;
+    padding: 0.15rem 0.25rem;
+    cursor: pointer;
+}
+
+.germ-bar__antibiotic li {
+    text-align: center;
+    margin-bottom: 0.25rem;
+    padding: 0.15rem 0.25rem;
+    cursor: pointer;
+}
+
+.germ-bar__year li {
+    text-align: left;
+    margin-bottom: 0.25rem;
+    padding: 0.15rem 0.25rem;
+    cursor: pointer;
+}
+
+.germ-bar__hospital li {
+    text-align: left;
+    margin-bottom: 0.25rem;
+    padding: 0.15rem 0.25rem;
+    cursor: pointer;
+}
+
+    .germ-bar__class li:active,
+    .germ-bar__antibiotic li:active,
+    .germ-bar__year li:active,
+    .germ-bar__hospital li:active {
+        color: #d81b60;
+        background-color: #efefef;
+    }
+
+    .germ-bar__class li.active,
+    .germ-bar__antibiotic li.active,
+    .germ-bar__year li.active,
+    .germ-bar__hospital li.active {
+        color: #d81b60;
+    }
+
+.weui-skin_android .weui-actionsheet {
+    width: 95%;
+}
+
+.text-maroon {
+    color: #d81b60 !important;
+}
+
+#heatmap-container .img-dv small {
+    display: block;
+}

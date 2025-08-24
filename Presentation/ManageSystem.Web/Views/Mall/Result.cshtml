@@ -1,0 +1,41 @@
+﻿@using ManageSystem.Web.Models.Mall
+@using ManageSystem.Web.Models.Products
+@using ManageSystem.Web.Models.Members
+@using ManageSystem.Services.Products
+@model SettlementModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "订单提交结果";
+}
+
+<link href="~/Content/Css/cart.css" rel="stylesheet" />
+<style type="text/css">
+ .result-main{
+     width:300px; height:100px; margin:0px auto; margin-top:100px;
+ }
+
+    .result-main p {
+    padding: 5px 0px;
+    }
+</style>
+<div class="mbx">
+    <p>当前位置：首页 &gt; 订单提交结果 </p>
+</div>
+
+<div class="center_keyan">
+    @{
+        string sn = this.Request.QueryString["sn"];
+        if (!string.IsNullOrWhiteSpace(sn))
+        {
+            <div class="result-main" style="">
+                <p style="font-size: 24px; margin-bottom:15px;">订单提交成功！</p>
+                <p>订单号： <a href="/Center/OrderDetail?sn=@sn">@sn</a></p>
+                <p>我们会尽快为您安排发货，请耐心等待。</p>
+            </div>
+        }
+    }
+   
+</div>
+
+

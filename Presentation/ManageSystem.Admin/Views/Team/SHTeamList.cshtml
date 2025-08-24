@@ -1,0 +1,213 @@
+﻿
+@model ManageSystem.Admin.Models.Team.TeamModel
+@{
+
+    ViewBag.Title = "数据列表";
+}
+@section HeadSection {
+    <style>
+        ul.dataTables_filter,
+        ul.dataTables_filter li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        ul.dataTables_filter {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            -moz-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+
+            ul.dataTables_filter li {
+                margin-right: 15px;
+                margin-bottom: 10px;
+            }
+
+                ul.dataTables_filter li:last-child {
+                    margin-right: 0;
+                }
+    </style>
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "成员单位管理", SecondName = "数据管理列表", LocationName = this.ViewBag.Title }); }
+}
+
+@Html.AntiForgeryToken()
+
+<div class="page-body">
+
+    <div class="row manage-page">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-yellow manage-title-box">
+                    <span class="widget-caption manage-title"><i class="glyphicon glyphicon-th "></i>@ViewBag.Title </span>
+                    <div class="widget-buttons">
+                        <a href="#" data-toggle="maximize"><i class="fa fa-expand"></i></a>
+                        <a href="#" data-toggle="collapse"><i class="fa fa-minus"></i></a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+
+                        <div id="searchable_filter" class="dataTables_filter manage-but-box">
+                            <div style="width: 100%;">
+                                @Html.ButtonHtml(HtmlButtonType.Add, "TeamCreate", "Team")
+                                @Html.ButtonHtml(HtmlButtonType.Delete, "DeleteSHTeam", "Team")
+                            </div>
+                            <div style="width: 100%;">
+                                <div class="dataTables_filter manage-but-box">
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.Title)：</label>
+                                    <label class="lb-right"><input type="text" id="title" class="form-control input-sm  search" style="width:100%;" /></label>
+                                    <label> <input type="button" id="btn-search" class="btn btn-blue" value="查 询" /> </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table table-striped table-bordered dataTable no-footer table-select" id="ManageTableDiv" aria-describedby="editabledatatable_info">
+                            <div id="data-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*删除数据的表单*@
+@using (Html.BeginForm("DeleteSHTeam", "Team", FormMethod.Post, new { id = "delete-selected-form" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="selectedIds" name="selectedIds" value="" />
+
+}
+
+@*下载数据*@
+@*@using (Html.BeginForm("Exportexcel", "CREProject", FormMethod.Post, new { id = "form-download-ids" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" hidden="hidden" id="input-download-type" name="downloadEvent" value="" />
+    }*@
+<script>
+    $(document).ready(function () {
+
+        $("#data-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("SHTeamList"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 30, 50]
+            },
+            scrollable: true,
+            groupable: true,
+            dataBound: onDataBound,
+            columns: [{
+                field: "Id",
+                headerTemplate: "  <div class='' style='text-align: center;'><label><input type='checkbox' id='mastercheckbox' /><span class='text'></span> </label></div>",
+                headerAttributes: { style: "text-align:center" },
+                attributes: { style: "text-align:center" },
+                template: " <div class='' style='text-align: center;'><label><input type='checkbox' class='checkboxGroups'  value='#=Id#' /><span class='text'></span> </label></div> ",
+                width: 50
+            },
+
+            {
+                field: "title",
+                title: "显示的医院名称",
+                width: 90
+            },
+            {
+                field: "Hospital",
+                title: "关联的医院名",
+                width: 150
+            },
+            {
+                field: "project_code",
+                title: "项目代码",               
+                width: 80
+             },
+            {
+                field: "People",
+                title: "负责人",
+                width: 80
+            },
+             {
+                field: "image",
+                title: "<div style='text-align: center;'>简介图片</div>",
+                attributes: { style: "text-align:center" },
+                width: 120,
+                 template: '<div class="flex flex-center qrcode64"><img class="flex-1" style="height:68px; object-fit:contain;" src="#=image#" alt="" draggable="false"></div>'
+              },
+            {
+                field: "Displayimages",
+                title: "<div style='text-align: center;'> 是否显示</div>",
+                attributes: { style: "text-align:center" },
+                width: 70
+                },
+            {
+                field: "InsertTime",
+                title: "<div style='text-align: center;'> 添加时间</div>",
+                attributes: { style: "text-align:center" },
+                width: 80
+                },
+                {
+                    field: "username",
+                    title: "添加者",
+                    width: 80
+                },
+            {
+                field: "document_id",
+                title: "<div style='text-align: center;'>操作</div>",
+                width: 110,
+                template: "<div style='text-align: center;'><a href='/Team/TeamEdit/#=Id#'>编辑</a></div>"
+            }
+            ]
+        });
+    });
+        //设置查询参数
+    function additionalData() {
+        var data = {
+            Title: $("#title").val(),
+        };
+
+        addAntiForgeryToken(data);
+        return data;
+    }
+</script>
+<script src="~/Content/Scripts/admin.listpage.js"></script>

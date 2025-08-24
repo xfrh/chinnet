@@ -1,0 +1,490 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CF99C5E9-AAE4-4FEB-ABB4-E5338E5D2008}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ManageSystem.Core</RootNamespace>
+    <AssemblyName>ManageSystem.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc">
+      <HintPath>..\..\packages\Autofac.Mvc5.3.3.4\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPPlus.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPPlus.Extensions.1.0.0.0\lib\net40\EPPlus.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NPOI.2.1.3.1\lib\net40\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NPOI.2.3.0\lib\net40\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NPOI.2.3.0\lib\net40\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NPOI.2.3.0\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NPOI.2.3.0\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="OfficeOpenXml.Core.ExcelPackage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\OfficeOpenXml.Core.ExcelPackage.1.0.0\lib\netstandard1.6\OfficeOpenXml.Core.ExcelPackage.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StackExchange.Redis, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\StackExchange.Redis.1.1.603\lib\net45\StackExchange.Redis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ThoughtWorks.QRCode, Version=1.0.4778.30637, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ThoughtWorks.QRCode.1.1.0\lib\ThoughtWorks.QRCode.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Account.cs" />
+    <Compile Include="BaseEntity.cs" />
+    <Compile Include="Caching\CacheExtensions.cs" />
+    <Compile Include="Caching\ICacheManager.cs" />
+    <Compile Include="Caching\IRedisConnectionWrapper.cs" />
+    <Compile Include="Caching\MemoryCacheManager.cs" />
+    <Compile Include="Caching\NopNullCache.cs" />
+    <Compile Include="Caching\PerRequestCacheManager.cs" />
+    <Compile Include="Caching\RedisCacheManager.cs" />
+    <Compile Include="Caching\RedisConnectionWrapper.cs" />
+    <Compile Include="Domain\Articles\ArticleApply.cs" />
+    <Compile Include="Domain\Articles\ArticleAttachment.cs" />
+    <Compile Include="Domain\Articles\ArticleAttachmentType.cs" />
+    <Compile Include="Domain\Articles\ArticleView.cs" />
+    <Compile Include="Domain\Chart\ChartTypeEnum.cs" />
+    <Compile Include="Domain\Chart\Chart_BarChart.cs" />
+    <Compile Include="Domain\Chart\Chart_BarChartWithItemData.cs" />
+    <Compile Include="Domain\Chart\Chart_DataSegment.cs" />
+    <Compile Include="Domain\Chart\Chart_Heatmap.cs" />
+    <Compile Include="Domain\Ctr\ClinicalTrialReport.cs" />
+    <Compile Include="Domain\MIC\MICPermissionapplication.cs" />
+    <Compile Include="Domain\Sate\Satellite.cs" />
+    <Compile Include="Domain\Sate\SatelliteUser.cs" />
+    <Compile Include="Domain\SHChart\Chart_SHTableData.cs" />
+    <Compile Include="Domain\SHChart\SHChartTypeEnum.cs" />
+    <Compile Include="Domain\SHChart\Chart_SHBarChart.cs" />
+    <Compile Include="Domain\SHChart\Chart_SHBarChartWithItemData.cs" />
+    <Compile Include="Domain\SHChart\Chart_SHDataSegment.cs" />
+    <Compile Include="Domain\Chart\Chart_TrendChart.cs" />
+    <Compile Include="Domain\Chart\Chart_TrendChartWithItemData.cs" />
+    <Compile Include="Domain\Chart\DataSegmentEnum.cs" />
+    <Compile Include="Domain\Configuration\WeixinAccountType.cs" />
+    <Compile Include="Domain\Cre\Cre_Colormatching.cs" />
+    <Compile Include="Domain\Cre\Cre_contact.cs" />
+    <Compile Include="Domain\Cre\Cre_data.cs" />
+    <Compile Include="Domain\Cre\Cre_data_percentage.cs" />
+    <Compile Include="Domain\Cre\Cre_data_period.cs" />
+    <Compile Include="Domain\Cre\Cre_germ_types.cs" />
+    <Compile Include="Domain\Cre\CreProject_log.cs" />
+    <Compile Include="Domain\Cre\Toconfigure.cs" />
+    <Compile Include="Domain\CRs\CRData.cs" />
+    <Compile Include="Domain\CRs\CRDownloadEnum.cs" />
+    <Compile Include="Domain\CRs\CRItem.cs" />
+    <Compile Include="Domain\CRs\CRItemValidate.cs" />
+    <Compile Include="Domain\CRs\CRLog.cs" />
+    <Compile Include="Domain\CRs\CRviews.cs" />
+    <Compile Include="Domain\DataInput\MemberHospital.cs" />
+    <Compile Include="Domain\DataInput\OLDataInput.cs" />
+    <Compile Include="Domain\DataInput\OLFieldmodel.cs" />
+    <Compile Include="Domain\DataInput\OLGermname.cs" />
+    <Compile Include="Domain\DataInput\OLProject.cs" />
+    <Compile Include="Domain\DataInput\OLTemplate.cs" />
+    <Compile Include="Domain\DataInput\OLUserproject.cs" />
+    <Compile Include="Domain\Datas\DataGermYear.cs" />
+    <Compile Include="Domain\Datas\DataAntibioticDrugFast.cs" />
+    <Compile Include="Domain\Documents\DocumentDownloadLog.cs" />
+    <Compile Include="Domain\Documents\Document.cs" />
+    <Compile Include="Domain\Integrals\IntegralSetting.cs" />
+    <Compile Include="Domain\Integrals\IntegralSettingTypeEnum.cs" />
+    <Compile Include="Domain\CRProjects\CRProjectLog.cs" />
+    <Compile Include="Domain\LogData\ActionLog.cs" />
+    <Compile Include="Domain\LogData\ActionSource.cs" />
+    <Compile Include="Domain\LogData\ActionType.cs" />
+    <Compile Include="Domain\LogData\SystemLog.cs" />
+    <Compile Include="Domain\LogData\SystemLogLevel.cs" />
+    <Compile Include="Domain\CRProjects\CRProject.cs" />
+    <Compile Include="Domain\CRProjects\CRProjectEnum.cs" />
+    <Compile Include="Domain\CRProjects\CRProjectItem.cs" />
+    <Compile Include="Domain\Medicine\BacteriaType.cs" />
+    <Compile Include="Domain\Medicine\HospitalWardLocation.cs" />
+    <Compile Include="Domain\Medicine\MedicalAntibiotic.cs" />
+    <Compile Include="Domain\Medicine\MedicalAntibioticResult.cs" />
+    <Compile Include="Domain\Medicine\MedicalDataProject.cs" />
+    <Compile Include="Domain\Medicine\MedicalDataAntibioticResultStatueEnum.cs" />
+    <Compile Include="Domain\Medicine\MedicalAntibioticResultValueEnum.cs" />
+    <Compile Include="Domain\Medicine\MedicalAntibioticRule.cs" />
+    <Compile Include="Domain\Medicine\MedicalDataDisposeLog.cs" />
+    <Compile Include="Domain\Medicine\MedicalDataDisposeLogStatusEnum.cs" />
+    <Compile Include="Domain\Medicine\MedicalDataDownloadEnum.cs" />
+    <Compile Include="Domain\Medicine\MedicalDataProjectTypeEnum.cs" />
+    <Compile Include="Domain\Medicine\MedicalDataItemValidateLevelEnum.cs" />
+    <Compile Include="Domain\Medicine\MedicalDataItemValidate.cs" />
+    <Compile Include="Domain\Medicine\DoctorTitle.cs" />
+    <Compile Include="Domain\Medicine\Hospital.cs" />
+    <Compile Include="Domain\Medicine\HospitalDepartment.cs" />
+    <Compile Include="Domain\Medicine\MedicalData.cs" />
+    <Compile Include="Domain\Medicine\MedicalDataItem.cs" />
+    <Compile Include="Domain\Medicine\MedicalDataEnum.cs" />
+    <Compile Include="Domain\Medicine\MedicalOrganism.cs" />
+    <Compile Include="Domain\Medicine\MedicalOrganismType.cs" />
+    <Compile Include="Domain\Medicine\MedicalSpecType.cs" />
+    <Compile Include="Domain\Medicine\MedicalDepartmentType.cs" />
+    <Compile Include="Domain\Medicine\MedicalDataWardType.cs" />
+    <Compile Include="Domain\Medicine\Specimen.cs" />
+    <Compile Include="Domain\Medicine\Statistics\MedicalByAntibioticResult.cs" />
+    <Compile Include="Domain\Medicine\Statistics\MedicalByBacteriaInSpecimen.cs" />
+    <Compile Include="Domain\Medicine\Statistics\MedicalByGramNegativeBacteria.cs" />
+    <Compile Include="Domain\Medicine\Statistics\MedicalBySpecimen.cs" />
+    <Compile Include="Domain\Medicine\Statistics\MedicalByGramPositiveBacteria.cs" />
+    <Compile Include="Domain\Medicine\Statistics\StatisticsMedicalOrganism.cs" />
+    <Compile Include="Domain\Medicine\Statistics\MedicalByYear.cs" />
+    <Compile Include="Domain\Medicine\Statistics\MedicalByYearAndQuarter.cs" />
+    <Compile Include="Domain\Medicine\Statistics\MedicalByArea.cs" />
+    <Compile Include="Domain\Medicine\Statistics\HospitalByArea.cs" />
+    <Compile Include="Domain\Medicine\Statistics\StatisticsMedicalSpecTypeModel.cs" />
+    <Compile Include="Domain\Meetings\Meeting.cs" />
+    <Compile Include="Domain\Meetings\MeetingApply.cs" />
+    <Compile Include="Domain\Meetings\MeetingApplyPayMethodEnum.cs" />
+    <Compile Include="Domain\Meetings\MeetingCollect.cs" />
+    <Compile Include="Domain\Meetings\MeetingComment.cs" />
+    <Compile Include="Domain\Meetings\MeetingCommentTypeEnum.cs" />
+    <Compile Include="Domain\Meetings\MeetingType.cs" />
+    <Compile Include="Domain\Meetings\MeetingStatusEnum.cs" />
+    <Compile Include="Domain\Meetings\MeetingApplyStatusEnum.cs" />
+    <Compile Include="Domain\Meetings\MeetingTypeEnum.cs" />
+    <Compile Include="Domain\Meetings\MeetingView.cs" />
+    <Compile Include="Domain\Members\Feedback.cs" />
+    <Compile Include="Domain\Members\MemberAddress.cs" />
+    <Compile Include="Domain\Members\MemberAttestation.cs" />
+    <Compile Include="Domain\Members\MemberAttestationStatus.cs" />
+    <Compile Include="Domain\Members\MemberCart.cs" />
+    <Compile Include="Domain\Members\MemberIntegralLog.cs" />
+    <Compile Include="Domain\Members\MemberSex.cs" />
+    <Compile Include="Domain\Members\MemberStatus.cs" />
+    <Compile Include="Domain\Members\MemberType.cs" />
+    <Compile Include="Domain\Messages\MessageEmail.cs" />
+    <Compile Include="Domain\MicdataDistribution\ddAntibiotic.cs" />
+    <Compile Include="Domain\MicdataDistribution\ddCategory.cs" />
+    <Compile Include="Domain\MicdataDistribution\ddCategoryValue.cs" />
+    <Compile Include="Domain\MicdataDistribution\ddDataTable.cs" />
+    <Compile Include="Domain\MicdataDistribution\ddDocument.cs" />
+    <Compile Include="Domain\MicdataDistribution\ddDocumentItem.cs" />
+    <Compile Include="Domain\MicdataDistribution\ddGerm.cs" />
+    <Compile Include="Domain\MicdataDistribution\ddYear.cs" />
+    <Compile Include="Domain\Organism\BacteriaDetailedData.cs" />
+    <Compile Include="Domain\Orders\Order.cs" />
+    <Compile Include="Domain\Orders\OrderAddress.cs" />
+    <Compile Include="Domain\Orders\OrderItem.cs" />
+    <Compile Include="Domain\Orders\OrderLog.cs" />
+    <Compile Include="Domain\Orders\OrderStatusEnum.cs" />
+    <Compile Include="Domain\Products\ProductStatusEnum.cs" />
+    <Compile Include="Domain\Products\Product.cs" />
+    <Compile Include="Domain\Products\ProductBrand.cs" />
+    <Compile Include="Domain\Products\ProductCategory.cs" />
+    <Compile Include="Domain\Products\ProductImage.cs" />
+    <Compile Include="Domain\CRProjects\CRProjectItemValidate.cs" />
+    <Compile Include="Domain\CRProjects\CRProjectDownloadEnum.cs" />
+    <Compile Include="Domain\Researches\ResearchComment.cs" />
+    <Compile Include="Domain\Researches\ResearchCommentTypeEnum.cs" />
+    <Compile Include="Domain\Researches\ResearchApply.cs" />
+    <Compile Include="Domain\Researches\ResearchApplyStatusEnum.cs" />
+    <Compile Include="Domain\Researches\ResearchCollect.cs" />
+    <Compile Include="Domain\Researches\ResearchView.cs" />
+    <Compile Include="Domain\Researches\ResearchStatusEnum.cs" />
+    <Compile Include="Domain\Researches\Research.cs" />
+    <Compile Include="Domain\Researches\ResearchType.cs" />
+    <Compile Include="Domain\ScoringModule\DataQuality_Action_Log.cs" />
+    <Compile Include="Domain\ScoringModule\DataQuality_Hospital.cs" />
+    <Compile Include="Domain\ScoringModule\DataQuality_Hospital_PageInit.cs" />
+    <Compile Include="Domain\ScoringModule\DataQuality_Jury.cs" />
+    <Compile Include="Domain\ScoringModule\DataQuality_Reevaluation_Apply.cs" />
+    <Compile Include="Domain\ScoringModule\DataQuality_Score.cs" />
+    <Compile Include="Domain\ScoringModule\DataQuality_Score_Detail.cs" />
+    <Compile Include="Domain\ScoringModule\DataQuality_Score_Record.cs" />
+    <Compile Include="Domain\ScoringModule\Enum\DataQuality_Score_Status.cs" />
+    <Compile Include="Domain\ScoringModule\Statistics\DataQuality_Score_MedicalAntibioticResult_Statistic.cs" />
+    <Compile Include="Domain\SHChart\SHDataSegmentEnum.cs" />
+    <Compile Include="Domain\survey\Survey_Record.cs" />
+    <Compile Include="Domain\survey\Survey_Subject.cs" />
+    <Compile Include="Domain\survey\Survey_SubjectOption.cs" />
+    <Compile Include="Domain\survey\Survey_Survey.cs" />
+    <Compile Include="Domain\SystemSet\AutoCode.cs" />
+    <Compile Include="Domain\SystemSet\AutoCodeType.cs" />
+    <Compile Include="Domain\SystemSet\Area.cs" />
+    <Compile Include="Domain\SystemSet\SatelliteMenu .cs" />
+    <Compile Include="Domain\SystemSet\SatelliteMenuRole.cs" />
+    <Compile Include="Domain\SystemSet\SMSApiResult.cs" />
+    <Compile Include="Domain\SystemSet\SatelliteRole.cs" />
+    <Compile Include="Domain\SystemSet\ValidateCode.cs" />
+    <Compile Include="Domain\SystemSet\ValidateCodeSource.cs" />
+    <Compile Include="Domain\SystemSet\ValidateCodeType.cs" />
+    <Compile Include="Domain\Tasks\ScheduleTask.cs" />
+    <Compile Include="Domain\Teams\HospitalTeamList.cs" />
+    <Compile Include="Domain\Teams\Team.cs" />
+    <Compile Include="Domain\Teams\Teamclassify.cs" />
+    <Compile Include="Domain\Teams\Team_CREContent.cs" />
+    <Compile Include="Domain\Weixin\WeixinUserSex.cs" />
+    <Compile Include="DynamicLinq\DynamicLinqExpressions.cs" />
+    <Compile Include="SpringJsonResult.cs" />
+    <Compile Include="Utility\CommonHelper.cs" />
+    <Compile Include="ComponentModel\GenericListTypeConverter.cs" />
+    <Compile Include="ComponentModel\WriteLockDisposable.cs" />
+    <Compile Include="Configuration\ManageSystemConfig.cs" />
+    <Compile Include="Data\IRepository.cs" />
+    <Compile Include="Configuration\ISettings.cs" />
+    <Compile Include="Domain\Articles\ArticleState.cs" />
+    <Compile Include="Domain\Articles\Article.cs" />
+    <Compile Include="Domain\Articles\ArticleType.cs" />
+    <Compile Include="Domain\Configuration\Setting.cs" />
+    <Compile Include="Domain\Configuration\WebConfig.cs" />
+    <Compile Include="Domain\Media\Download.cs" />
+    <Compile Include="Domain\Media\MediaSettings.cs" />
+    <Compile Include="Domain\Media\Picture.cs" />
+    <Compile Include="Domain\Media\PictureType.cs" />
+    <Compile Include="Domain\Members\Member.cs" />
+    <Compile Include="Domain\Seo\PageTitleSeoAdjustment.cs" />
+    <Compile Include="Domain\Seo\WwwRequirement.cs" />
+    <Compile Include="Domain\SystemSet\FunctionType.cs" />
+    <Compile Include="Domain\SystemSet\Function.cs" />
+    <Compile Include="Domain\SystemSet\Role.cs" />
+    <Compile Include="Domain\SystemSet\RoleFunction.cs" />
+    <Compile Include="Domain\SystemSet\SystemConfig.cs" />
+    <Compile Include="Domain\SystemSet\UserRole.cs" />
+    <Compile Include="Domain\Users\Userinfo.cs" />
+    <Compile Include="Domain\Users\UserinfoExtensions.cs" />
+    <Compile Include="Domain\Users\UserinfoState.cs" />
+    <Compile Include="Domain\Users\UserLoginResults.cs" />
+    <Compile Include="Domain\Weixin\WeixinMenu.cs" />
+    <Compile Include="Domain\Weixin\WeixinMenuType.cs" />
+    <Compile Include="Domain\Weixin\WeixinUser.cs" />
+    <Compile Include="Extensions\DateExtensions.cs" />
+    <Compile Include="Extensions\EnumExtension.cs" />
+    <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="Infrastructure\AppDomainTypeFinder.cs" />
+    <Compile Include="Infrastructure\DependencyManagement\ContainerManager.cs" />
+    <Compile Include="Infrastructure\DependencyManagement\IDependencyRegistrar.cs" />
+    <Compile Include="Infrastructure\EngineContext.cs" />
+    <Compile Include="Infrastructure\IEngine.cs" />
+    <Compile Include="Infrastructure\ITypeFinder.cs" />
+    <Compile Include="Infrastructure\MSEngine.cs" />
+    <Compile Include="Infrastructure\Singleton.cs" />
+    <Compile Include="Infrastructure\WebAppTypeFinder.cs" />
+    <Compile Include="IPagedList.cs" />
+    <Compile Include="IWebHelper.cs" />
+    <Compile Include="Utility\Data\DataTableHelper.cs" />
+    <Compile Include="Utility\Date\DateExtensions.cs" />
+    <Compile Include="Utility\DBF\ReadDbf.cs" />
+    <Compile Include="Utility\Decimal\DecimalExtensions.cs" />
+    <Compile Include="Utility\Email\EmailHelper.cs" />
+    <Compile Include="Utility\Excel\EPPlusHelper.cs" />
+    <Compile Include="Utility\Excel\ImportDataTable.cs" />
+    <Compile Include="Utility\FastDBF\DbfColumn.cs" />
+    <Compile Include="Utility\FastDBF\DbfDataTruncateException.cs" />
+    <Compile Include="Utility\FastDBF\DbfFile.cs" />
+    <Compile Include="Utility\FastDBF\DbfHeader.cs" />
+    <Compile Include="Utility\FastDBF\DbfRecord.cs" />
+    <Compile Include="Utility\File\DownLoadHelper.cs" />
+    <Compile Include="Utility\File\FileUtil.cs" />
+    <Compile Include="Utility\File\UpLoadFiles.cs" />
+    <Compile Include="Utility\Image\TwoDimensionCode.cs" />
+    <Compile Include="Utility\Json\JsonHelper.cs" />
+    <Compile Include="Utility\LogData\FileLog.cs" />
+    <Compile Include="Utility\LogData\Log4Helper.cs" />
+    <Compile Include="ManageSystemException.cs" />
+    <Compile Include="ManageSystemVersion.cs" />
+    <Compile Include="PagedList.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Domain\Seo\SeoSettings.cs" />
+    <Compile Include="Utility\Api\API.cs" />
+    <Compile Include="Utility\Api\Mac.cs" />
+    <Compile Include="Utility\Api\ResourcesApi.cs" />
+    <Compile Include="Utility\Api\Win32Private.cs" />
+    <Compile Include="Utility\Api\Win32Public.cs" />
+    <Compile Include="Utility\BarCode\BarCodeToHTML.cs" />
+    <Compile Include="Utility\Config\ConfigHelper-sufei.cs" />
+    <Compile Include="Utility\Config\ConfigHelper.cs" />
+    <Compile Include="Utility\Control\BindDataControl.cs" />
+    <Compile Include="Utility\Convert\ConvertHelper.cs" />
+    <Compile Include="Utility\Convert\StringPlus.cs" />
+    <Compile Include="Utility\Cookie_Session_Cache\CacheHelper.cs" />
+    <Compile Include="Utility\Cookie_Session_Cache\CookieHelper.cs" />
+    <Compile Include="Utility\Cookie_Session_Cache\DataCache.cs" />
+    <Compile Include="Utility\Cookie_Session_Cache\SessionHelper.cs" />
+    <Compile Include="Utility\Cookie_Session_Cache\SessionHelper2.cs" />
+    <Compile Include="Utility\CSV\CsvHelper.cs" />
+    <Compile Include="Utility\Date\CNDate.cs" />
+    <Compile Include="Utility\Date\DateHelper.cs" />
+    <Compile Include="Utility\DEncrypt\DEncrypt.cs" />
+    <Compile Include="Utility\DEncrypt\DESEncrypt.cs" />
+    <Compile Include="Utility\DEncrypt\Encrypt.cs" />
+    <Compile Include="Utility\DEncrypt\HashEncode.cs" />
+    <Compile Include="Utility\DEncrypt\MySecurity.cs" />
+    <Compile Include="Utility\DEncrypt\RSACryption.cs" />
+    <Compile Include="Utility\Download_Up\FileDown.cs" />
+    <Compile Include="Utility\Download_Up\FileUp.cs" />
+    <Compile Include="Utility\Encoding\FileEncoding.cs" />
+    <Compile Include="Utility\Excel\DataToExcel.cs" />
+    <Compile Include="Utility\Excel\ExcelHelper.cs" />
+    <Compile Include="Utility\Excel\ExportExcel.cs" />
+    <Compile Include="Utility\Excel\GridViewExport.cs" />
+    <Compile Include="Utility\File\DirFileHelper.cs" />
+    <Compile Include="Utility\File\FileOperateHelper.cs" />
+    <Compile Include="Utility\File\INIFileHelper.cs" />
+    <Compile Include="Utility\FormatDate\TimeHelper.cs" />
+    <Compile Include="Utility\FTP\FTPClient.cs" />
+    <Compile Include="Utility\FTP\FTPHelper.cs" />
+    <Compile Include="Utility\FTP\FTPOperater.cs" />
+    <Compile Include="Utility\GridView\GridViewHelper.cs" />
+    <Compile Include="Utility\HttpHelper\HttpCookieHelper.cs" />
+    <Compile Include="Utility\HttpHelper\HttpHelper.cs" />
+    <Compile Include="Utility\Image\ImageClass.cs" />
+    <Compile Include="Utility\Image\ImageDown.cs" />
+    <Compile Include="Utility\Image\ImageUpload.cs" />
+    <Compile Include="Utility\Image\PicDeal.cs" />
+    <Compile Include="Utility\Internet_Url\AdslHelper.cs" />
+    <Compile Include="Utility\Internet_Url\IpHelper.cs" />
+    <Compile Include="Utility\Internet_Url\NetHelper.cs" />
+    <Compile Include="Utility\Internet_Url\UrlOper.cs" />
+    <Compile Include="Utility\Json\ConvertJson.cs" />
+    <Compile Include="Utility\JS\ExeJsHelper.cs" />
+    <Compile Include="Utility\JS\JsHelper.cs" />
+    <Compile Include="Utility\Object\ObjectExtensions.cs" />
+    <Compile Include="Utility\Page\BasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Utility\Page\HTMLHelper.cs" />
+    <Compile Include="Utility\Page\HttpProc.cs" />
+    <Compile Include="Utility\Page\JavaScriptPlus.cs" />
+    <Compile Include="Utility\Page\PageHelper.cs" />
+    <Compile Include="Utility\Page\Utility.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Utility\Page\WebSitePathHelper.cs" />
+    <Compile Include="Utility\PinYin\EcanConvertToCh.cs" />
+    <Compile Include="Utility\PinYin\PinYin.cs" />
+    <Compile Include="Utility\Random\BaseRandom.cs" />
+    <Compile Include="Utility\Random\RandomHelper.cs" />
+    <Compile Include="Utility\Regex\RegexHelper.cs" />
+    <Compile Include="Utility\ResourceManager\AppMessage.cs" />
+    <Compile Include="Utility\ResourceManager\ResourceManager.cs" />
+    <Compile Include="Utility\ResourceManager\ResourceManagerWrapper.cs" />
+    <Compile Include="Utility\ResourceManager\Resources.cs" />
+    <Compile Include="Utility\Rmb\RMB.cs" />
+    <Compile Include="Utility\SegList\SegList.cs" />
+    <Compile Include="Utility\Serialize\Serialize.cs" />
+    <Compile Include="Utility\Serialize\SerializeHelper.cs" />
+    <Compile Include="Utility\Sound\MediaHandler.cs" />
+    <Compile Include="Utility\String\QueryString.cs" />
+    <Compile Include="Utility\String\StringExtensions.cs" />
+    <Compile Include="Utility\String\StringHelper.cs" />
+    <Compile Include="Utility\System\SysHelper.cs" />
+    <Compile Include="Utility\Validate_Tool\FormulaExpress.cs" />
+    <Compile Include="Utility\Validate_Tool\PageValidate.cs" />
+    <Compile Include="Utility\Validate_Tool\Tools.cs" />
+    <Compile Include="Utility\Validate_Tool\ValidateImg.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Utility\Video\VideoConvert.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Utility\XML\XmlHelper.cs" />
+    <Compile Include="Utility\XML\XMLProcess.cs" />
+    <Compile Include="Utility\Yzm\YZMHelper.cs" />
+    <Compile Include="WebApi\ApiResult.cs" />
+    <Compile Include="WebApi\BaseRequestModel.cs" />
+    <Compile Include="WebHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utility\Chart\" />
+    <Folder Include="Utility\Zip\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Utility\ResourceManager\Sample.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

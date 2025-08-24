@@ -1,0 +1,241 @@
+﻿
+@{
+    ViewBag.Title = "评委评分";
+    Layout = "/Views/Shared/_MainLayout.cshtml";
+}
+
+@section Styles{
+    <link href="~/Content/Css/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/ScoringModule/EvaluateScoringForm.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/vee-validate/vee-validate.min.js"></script>
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/swiper/swiper.min.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/fx.js"></script>
+    <script src="~/Content/Scripts/fx_methods.js"></script>
+    <script src="~/Content/Scripts/ScoringModule/EvaluateScoringForm.js?v=1.0.4"></script>
+}
+@Html.Hidden("HiddenId", ViewContext.RouteData.Values["id"])
+
+<div id="app" v-cloak class="indexpage">
+    <input id="HiddenResultUrl" ref="result_url" type="hidden" hidden="hidden" value="@Url.Action("EvaluateScoringResult",new { id = ViewContext.RouteData.Values["id"] })" />
+    <input ref="hidden_id" type="hidden" hidden="hidden" value="@ViewContext.RouteData.Values["id"]" />
+    @Html.Hidden("hidden_signature", ViewData["signature"], new { @ref = "signature" })
+    @Html.Hidden("hidden_timestamp", ViewData["timestamp"], new { @ref = "timestamp" })
+    @Html.Hidden("hidden_nonce", ViewData["nonce"], new { @ref = "nonce" })
+    <div ref="middle" class="middle">
+        <div ref="swiper_container" class="swiper-container scroll">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide slidescroll">
+                    <header class="text-center header-title fon-32 bg-color-white padding-tb-40 margin-b-15px">
+                        <h4>@ViewData["ScoreTitle"]</h4>
+                        <h5>@ViewData["HospitalName"]</h5>
+                    </header>
+
+                    <div class="flex padding-20 margin-b-35 f-center f-between bg-color-white">
+                        <div class="flex-1">
+                            <div class="flex">
+                                <div class="flex-1 fon-30">标本来源(10分)</div>
+                                <div class="flex-none fon-30">{{source_score}}分</div>
+                            </div>
+                            <div class="flex border-b-1 fon-28 padding-20">
+                                <div class="flex-1">门诊患者分离株所占比例</div>
+                                <div class="flex-none">
+                                    <input :class="{'has-error': errors.has('source_input_1')}" type="tel" autocomplete="off" placeholder="请输入百分比" name="source_input_1" v-model="source_input_1" v-validate="{required:true, decimal:2}" />
+                                    <span :class="{'score': errors.has('source_input_1')}">%</span>
+                                </div>
+                            </div>
+                            <div class="flex border-b-1 fon-28 padding-20">
+                                <div class="flex-1">血液和脑脊液标本分离株来源占比</div>
+                                <div class="flex-none">
+                                    <input :class="{'has-error': errors.has('source_input_2')}" type="tel" autocomplete="off" placeholder="请输入百分比" name="source_input_2" v-model="source_input_2" v-validate="{required:true, decimal:2}" />
+                                    <span :class="{'score': errors.has('source_input_2')}">%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex padding-20 margin-b-35 f-center f-between bg-color-white">
+                        <div class="flex-1">
+                            <div class="flex">
+                                <div class="flex-1 fon-30">菌株数量(20分)</div>
+                                <div class="flex-none fon-30">{{strain_score}}分</div>
+                            </div>
+                            <div class="flex border-b-1 fon-28 padding-20">
+                                <div class="flex-1">二级医院每年菌株数量</div>
+                                <div class="flex-none">
+                                    <input :class="{'has-error': errors.has('strain_input_1')}" type="tel" autocomplete="off" placeholder="请输入数量" name="strain_input_1" v-model="strain_input_1" v-validate="{required: true, numeric: true}" />
+                                </div>
+                            </div>
+                            <div class="flex border-b-1 fon-28 padding-20">
+                                <div class="flex-1">三级医院每年菌株数量</div>
+                                <div class="flex-none">
+                                    <input :class="{'has-error': errors.has('strain_input_2')}" type="tel" autocomplete="off" placeholder="请输入数量" name="strain_input_2" v-model="strain_input_2" v-validate="{required: true, numeric: true}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex padding-20 margin-b-35 f-center f-between bg-color-white">
+                        <div class="flex-1">
+                            <div class="flex">
+                                <div class="flex-1 fon-30">药敏品种合理性(30分)</div>
+                                <div class="flex-none fon-30">
+                                    <input ref="_drug_sensitive_config" type="hidden" hidden="hidden" value="@ViewData["drug_sensitive"]" />
+                                    {{drugSensitive.total}}分
+                                </div>
+                            </div>
+                            <div class="flex border-b-1 fon-28 padding-20">
+                                <div class="flex-1">大肠埃希菌/肺炎克雷伯菌</div>
+                                <div class="flex-none">
+                                    <input :class="{'has-error': errors.has('drugSensitive_item1')}" type="tel" autocomplete="off" placeholder="请输入分值" name="drugSensitive_item1" v-model="drugSensitive.item1" v-validate="{required: true, decimal: 1, min_value: -11, max_value: 11}" />
+                                    <span :class="{'score': errors.has('drugSensitive_item1')}">分</span>
+                                </div>
+                            </div>
+                            <div class="flex border-b-1 fon-28 padding-20">
+                                <div class="flex-1">铜绿假单胞菌</div>
+                                <div class="flex-none">
+                                    <input :class="{'has-error': errors.has('drugSensitive_item2')}" type="tel" autocomplete="off" placeholder="请输入分值" name="drugSensitive_item2" v-model="drugSensitive.item2" v-validate="{required: true, decimal: 1, min_value: -6, max_value: 6}" />
+                                    <span :class="{'score': errors.has('drugSensitive_item2')}">分</span>
+                                </div>
+                            </div>
+                            <div class="flex border-b-1 fon-28 padding-20">
+                                <div class="flex-1">鲍曼不动杆菌</div>
+                                <div class="flex-none">
+                                    <input :class="{'has-error': errors.has('drugSensitive_item3')}" type="tel" autocomplete="off" placeholder="请输入分值" name="drugSensitive_item3" v-model="drugSensitive.item3" v-validate="{required: true, decimal: 1, min_value: -10, max_value: 10}" />
+                                    <span :class="{'score': errors.has('drugSensitive_item3')}">分</span>
+                                </div>
+                            </div>
+                            <div class="flex border-b-1 fon-28 padding-20">
+                                <div class="flex-1">金黄色葡萄球菌</div>
+                                <div class="flex-none">
+                                    <input :class="{'has-error': errors.has('drugSensitive_item4')}" type="tel" autocomplete="off" placeholder="请输入分值" name="drugSensitive_item4" v-model="drugSensitive.item4" v-validate="{required: true, decimal: 1, min_value: -8, max_value: 8}" />
+                                    <span :class="{'score': errors.has('drugSensitive_item4')}">分</span>
+                                </div>
+                            </div>
+                            <div class="flex border-b-1 fon-28 padding-20">
+                                <div class="flex-1">肺炎链球菌</div>
+                                <div class="flex-none">
+                                    <input :class="{'has-error': errors.has('drugSensitive_item5')}" type="tel" autocomplete="off" placeholder="请输入分值" name="drugSensitive_item5" v-model="drugSensitive.item5" v-validate="{required: true, decimal: 1, min_value: -7, max_value: 7}" />
+                                    <span :class="{'score': errors.has('drugSensitive_item5')}">分</span>
+                                </div>
+                            </div>
+                            <div class="flex border-b-1 fon-28 padding-20">
+                                <div class="flex-1">粪肠球菌</div>
+                                <div class="flex-none">
+                                    <input :class="{'has-error': errors.has('drugSensitive_item6')}" type="tel" autocomplete="off" placeholder="请输入分值" name="drugSensitive_item6" v-model="drugSensitive.item6" v-validate="{required: true, decimal: 1, min_value: -4, max_value: 4}" />
+                                    <span :class="{'score': errors.has('drugSensitive_item6')}">分</span>
+                                </div>
+                            </div>
+                            <div class="flex border-b-1 fon-28 padding-20">
+                                <div class="flex-1">流感嗜血杆菌和卡他莫拉菌</div>
+                                <div class="flex-none">
+                                    <input :class="{'has-error': errors.has('drugSensitive_item7')}" type="tel" autocomplete="off" placeholder="请输入分值" name="drugSensitive_item7" v-model="drugSensitive.item7" v-validate="{required: true, decimal: 1, min_value: -1, max_value: 1}" />
+                                    <span :class="{'score': errors.has('drugSensitive_item7')}">分</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex padding-20 f-center f-between bg-color-white">
+                        <div class="flex-1">
+                            <div class="flex">
+                                <div class="flex-1 fon-30">重点监测耐药菌(50分)</div>
+                                <div class="flex-none fon-30">
+                                    <input ref="_emphasis_score_config" type="hidden" hidden="hidden" value="@ViewData["emphasis"]" />
+                                    {{emp.score}}分
+                                </div>
+                            </div>
+                            <div class="flex border-b-1 fon-28 padding-20">
+                                <div class="flex-1">甲氧西林耐药金葡菌</div>
+                                <div class="flex-none">
+                                    <input :class="{'has-error': errors.has('emp_mrsa_score')}" type="tel" autocomplete="off" placeholder="输入分值" name="emp_mrsa_score" v-model="emp.mrsa_score" ref="emp_mrsa_score" v-validate="{required: true, decimal: 2, min_value: 0.0, max_value: 50.0}" />
+                                    <span :class="{'score': errors.has('emp_mrsa_score')}">分</span>
+                                </div>
+                            </div>
+                            <div class="flex border-b-1 fon-28 padding-20">
+                                <div class="flex-1">万古霉素耐药屎肠球菌</div>
+                                <div class="flex-none">
+                                    <input :class="{'has-error': errors.has('emp_vrefm_score')}" type="tel" autocomplete="off" placeholder="输入分值" name="emp_vrefm_score" v-model="emp.vrefm_score" ref="emp_vrefm_score" v-validate="{required: true, decimal: 2, min_value: 0.0, max_value: 50.0}" />
+                                    <span :class="{'score': errors.has('emp_vrefm_score')}">分</span>
+                                </div>
+                            </div>
+                            <div class="flex border-b-1 fon-28 padding-20">
+                                <div class="flex-1">碳青霉烯类耐药肺炎克雷伯菌</div>
+                                <div class="flex-none">
+                                    <input :class="{'has-error': errors.has('emp_crkp_score')}" type="tel" autocomplete="off" placeholder="输入分值" name="emp_crkp_score" v-model="emp.crkp_score" ref="emp_crkp_score" v-validate="{required: true, decimal: 2, min_value: 0.0, max_value: 50.0}" />
+                                    <span :class="{'score': errors.has('emp_crkp_score')}">分</span>
+                                </div>
+                            </div>
+                            <div class="flex border-b-1 fon-28 padding-20">
+                                <div class="flex-1">碳青霉烯类耐药铜绿假单胞菌</div>
+                                <div class="flex-none">
+                                    <input :class="{'has-error': errors.has('emp_crpa_score')}" type="tel" autocomplete="off" placeholder="输入分值" name="emp_crpa_score" v-model="emp.crpa_score" ref="emp_crpa_score" v-validate="{required: true, decimal: 2, min_value: 0.0, max_value: 50.0}" />
+                                    <span :class="{'score': errors.has('emp_crpa_score')}">分</span>
+                                </div>
+                            </div>
+                            <div class="flex border-b-1 fon-28 padding-20">
+                                <div class="flex-1">碳青霉烯类耐药鲍曼不动杆菌</div>
+                                <div class="flex-none">
+                                    <input :class="{'has-error': errors.has('emp_crab_score')}" type="tel" autocomplete="off" placeholder="输入分值" name="emp_crab_score" v-model="emp.crab_score" ref="emp_crab_score" v-validate="{required: true, decimal: 2, min_value: 0.0, max_value: 50.0}" />
+                                    <span :class="{'score': errors.has('emp_crab_score')}">分</span>
+                                </div>
+                            </div>
+                            <div class="flex border-b-1 fon-28 padding-20">
+                                <div class="flex-1">头孢噻肟/头孢曲松耐药大肠埃希菌</div>
+                                <div class="flex-none">
+                                    <input :class="{'has-error': errors.has('emp_ctx_score')}" type="tel" autocomplete="off" placeholder="输入分值" name="emp_ctx_score" v-model="emp.ctx_score" ref="emp_ctx_score" v-validate="{required: true, decimal: 2, min_value: 0.0, max_value: 50.0}" />
+                                    <span :class="{'score': errors.has('emp_ctx_score')}">分</span>
+                                </div>
+                            </div>
+                            <div class="flex border-b-1 fon-28 padding-20" v-if="emp.total > 50.0">
+                                <div class="flex-1 has-error" style="border: none;">重点监测耐药菌打分不正确，最高50分<br />当前合计打分：{{emp.total}}分</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex f-center f-between bg-color-white" style="margin-top: 15px;">
+                        <div class="flex-1">
+                            <a class="btn btn-footer flex flex-center ladda-button" ref="btnSubmit" data-style="zoom-in" @@click="onSubmit" href="javascript:void(0);" style="font-size:0.4rem;">确认提交</a>
+                        </div>
+                    </div>
+                    <div v-if="pageNull" ref="listNullDiv" class="list-null"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ref="failToast" id="failToast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_toast" style="font-size: 1.65rem;"></i>
+            <p class="weui-toast__content fon-32" v-text="resFailMessage" style="margin-top: 0.25rem;"></p>
+        </div>
+    </div>
+
+    <div ref="loadingToast" id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32" v-html="loadingText">123456</p>
+        </div>
+    </div>
+
+    <div ref="iosDialog" id="iosDialog" class="js_dialog" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd" v-html="dialogContent"></div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:void(0);" @@click="closeDialog" class="weui-dialog__btn weui-dialog__btn_primary" style="color: #005cad;">知道了</a>
+            </div>
+        </div>
+    </div>
+</div>

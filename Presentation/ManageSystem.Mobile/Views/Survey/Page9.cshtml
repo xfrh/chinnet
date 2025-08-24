@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "问卷";
+    Layout = "~/Views/Shared/_SurveyLayout.cshtml";
+    string _version = DateTime.Now.Ticks.ToString();
+}
+
+@section Styles{
+    <link href="~/Content/Css/Survey/Page9.css?v=@_version" rel="stylesheet" />
+}
+@section Scripts{
+    <script src="~/Content/Scripts/Survey/Page9.js?v=@_version"></script>
+}
+
+<div id="app" v-locak>
+    <input id="hidden_id" name="hidden_id" ref="hidden_id" type="hidden" hidden="hidden" value="@ViewContext.RouteData.Values["id"]" />
+    <div id="page" class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide slidescroll">
+                <div class="survey-body">
+                    <article class="cro-page">
+                        <div class="cro-qbox">
+                            <div class="cro-qbox-title" v-html="Q17.title"></div>
+                            <div :class="{'cro-qbox-awbox': true, 'has-error': errors.has(Q17.name)}">
+                                <input class="cro-qbox__input" :name="Q17.name" v-model="Q17.answer" v-validate="{required: true, decimal: 0}" type="tel" :placeholder="Q17.placeholder" />
+                            </div>
+                        </div>
+                        <div class="cro-qbox">
+                            <div class="cro-qbox-title" v-html="Q18.title"></div>
+                            <div :class="{'cro-qbox-awbox': true, 'has-error': errors.has(Q18.name)}">
+                                <input class="cro-qbox__input" :name="Q18.name" v-model="Q18.answer" v-validate="{required: true, decimal: 0}" type="tel" :placeholder="Q17.placeholder" />
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <footer class="cre-footer">
+                    <a class="btn btn-primary cre-submit a-btn" href="javascript: void(0);" @@click="onSubmit">下一页</a>
+                </footer>
+            </div>
+        </div>
+    </div>
+</div>

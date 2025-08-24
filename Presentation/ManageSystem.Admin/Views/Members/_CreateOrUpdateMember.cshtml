@@ -1,0 +1,334 @@
+﻿@model ManageSystem.Admin.Models.Members.MemberModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+<style>
+    .select-area-ddl {
+        width: 28.5% !important;
+        border: 1px solid #d9d9d9 !important;
+        color: #444 !important;
+    }
+
+    .post_main_r {
+        width: 82%;
+    }
+</style>
+
+<table class="adminContent">
+    <tr class="insert-time-tr" style="display:none;">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.InsertTime)：</td>
+        <td class="adminData">
+            @Model.InsertTime.ToString("yyyy-MM-dd HH:mm")
+        </td>
+    </tr>
+    <tr class="insert-time-tr" style="display:none;">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.UpdateTime)：</td>
+        <td class="adminData">
+            @Model.UpdateTime.ToString("yyyy-MM-dd HH:mm")
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.LoginId)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.LoginId, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.LoginId)
+            <div class="row display-none" style="margin-top:5px;">
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                    <div class="well bordered-left bordered-yellow" style="color:#bc5679;     padding: 5px 10px;">
+                        <p>1、由字母a～z(不区分大小写)、数字0～9、点、减号或下划线组成</p>
+                        <p>2、只能以字母开头，包含字符 数字 下划线，例如：beijing.2008</p>
+                        <p>3、用户名长度为4～18个字符</p>
+                        <p>6、密码长度为6～18个字符</p>
+                    </div>
+                </div>
+            </div>
+
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Password)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Password, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Password)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.IntegralAmount)：</td>
+        <td class="adminData">
+            @Model.IntegralAmount
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Phone)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Phone, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Phone)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Name)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.NickName)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.NickName, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.NickName)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.DoctorTitleId)：</td>
+        <td class="adminData">
+            @Html.DropDownList("DoctorTitleId", Model.DoctorTitleList, new { @class = "form-control dropdown" })
+            @Html.ValidationMessageFor(m => m.DoctorTitleList)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.HospitalDepartmentList)：</td>
+        <td class="adminData">
+            @Html.DropDownList("HospitalDepartmentId", Model.HospitalDepartmentList, new { @class = "form-control dropdown" })
+            @Html.ValidationMessageFor(m => m.HospitalDepartmentList)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Area)：</td>
+        <td class="adminData">
+            <div class="post_main_r">
+                @Html.Partial("~/Views/PartialView/_SelectArea.cshtml")
+            </div>
+            @Html.HiddenFor(a => a.ProvinceId)
+            @Html.HiddenFor(a => a.CityId)
+            @Html.HiddenFor(a => a.DistrictsId)
+            @Html.HiddenFor(a => a.Area)
+
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Address)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Address, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Address)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.HospitalId)：</td>
+        <td class="adminData">
+            @Html.DropDownList("HospitalId", Model.HospitalList, new { @class = "chinets-chosen" })
+            @Html.ValidationMessageFor(m => m.HospitalList)
+            @*@{
+                    if (!string.IsNullOrWhiteSpace(Model.OtherHospital))
+                    {
+                        <span>@Model.OtherHospital</span>
+                    }
+                }*@
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Status)：</td>
+        <td class="adminData">
+            @Html.DropDownList("Status", Model.StatusList, new { @class = "form-control dropdown" })
+            @Html.ValidationMessageFor(m => m.StatusList)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Sex)：</td>
+        <td class="adminData">
+            @Html.DropDownList("Sex", Model.SexList, new { @class = "form-control dropdown" })
+            @Html.ValidationMessageFor(m => m.SexList)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Type)：</td>
+        <td class="adminData">
+            @Html.DropDownList("Type", Model.TypeList, new { @class = "form-control dropdown" })
+            @Html.ValidationMessageFor(m => m.TypeList)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Email)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Email)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.MedicineEmail)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.MedicineEmail, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.MedicineEmail)
+        </td>
+    </tr>
+    @*<tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m._ProjectType)：</td>
+        <td class="adminData">
+            @Html.CheckBoxFor(m => m._ProjectType, new { @class = "n-chk" })
+            @Html.ValidationMessageFor(m => m._ProjectType)
+        </td>
+    </tr>*@
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ProjectType)：</td>
+        <td class="adminData">
+            @Html.DropDownList("ProjectType", Model.ProjectTypeList, new { @class = "form-control dropdown" })
+            @Html.ValidationMessageFor(m => m.ProjectType)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.IsTest)：</td>
+        <td class="adminData">
+            @Html.CheckBoxFor(m => m.IsTest, new { @class = "n-chk" })
+            @Html.ValidationMessageFor(m => m.IsTest)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m._OnlineUpload)：</td>
+        <td class="adminData">
+            @Html.CheckBoxFor(m => m._OnlineUpload, new { @class = "n-chk" })
+            @Html.ValidationMessageFor(m => m._OnlineUpload)
+        </td>
+    </tr>
+    <tr class="display-none22">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.InputInviteCode)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.InputInviteCode, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.InputInviteCode)
+        </td>
+    </tr>
+    <tr class="display-none22">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.InviteCode)：</td>
+        <td class="adminData">
+            @Model.InviteCode
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Describe)：</td>
+        <td class="adminData">
+            @Html.TextAreaFor(model => model.Describe, new { @class = "form-control txt", cols = "30", rows = "3" })
+            @Html.ValidationMessageFor(m => m.Describe)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ProjectList)：</td>
+        <td class="adminData">
+            @foreach (var item in Model.ProjectList)
+            {
+                <label for="ProjectItem@(item.Value)" style="margin-right: 2rem;">
+                    <input class="colored-blue role-chk" type="checkbox" name="SelectProject[]" id="ProjectItem@(item.Value)" value="@item.Value" @(item.Selected ? "checked=\"checked\"" : null) />
+                    <span class="text" style="color: initial;">@item.Text</span>
+                </label>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Department)：</td>
+        <td class="adminData">
+            @Html.CheckBoxFor(m => m.Department, new { @class = "n-chk" })
+            @Html.ValidationMessageFor(m => m.Department)
+        </td>
+    </tr>
+    @*<tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.ProjectUploadList)：</td>
+            <td class="adminData">
+                @foreach (var item in Model.ProjectUploadList)
+                {
+                    <label for="ProjectUploadItem@(item.Value)" style="margin-right: 2rem;">
+                        <input class="colored-blue role-chk" type="checkbox" name="SelectProjectUpload[]" id="ProjectUploadItem@(item.Value)" value="@item.Value" @(item.Selected ? "checked=\"checked\"" : null) />
+                        <span class="text" style="color: initial;">@item.Text</span>
+                    </label>
+                }
+            </td>
+        </tr>*@
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ProjectUploadList)：</td>
+        <td class="adminData">
+            <div class="well bordered-left bordered-yellow" style="margin-bottom: 0; padding: 0;">
+                <style>
+                    .pro-upl-table th,
+                    .pro-upl-table td {
+                        vertical-align: middle !important;
+                    }
+                </style>
+                <table class="table table-condensed table-responsive pro-upl-table">
+                    <thead>
+                        <tr>
+                            <th>上传数据所属项目</th>
+                            <th>设置默认选中</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ProjectUploadList)
+                        {
+                            <tr>
+                                <td>
+                                    <label class="user-select-no" for="ProjectUploadItem@(item.Value)" style="margin-right: 2rem;">
+                                        <input class="colored-blue role-chk" type="checkbox" name="SelectProjectUpload[]" id="ProjectUploadItem@(item.Value)" data-df="#labDefaultProject@(item.Value)" value="@item.Value" @(item.Selected ? "checked=\"checked\"" : null) />
+                                        <span class="text" style="color: initial;">@item.Text</span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <label id="labDefaultProject@(item.Value)" class="user-select-no" for="DefaultProject@(item.Value)" style="margin-right: 2rem; display: @(item.Selected ? "block" : "none")">
+                                        <input class="colored-blue role-chk" type="checkbox" name="DefaultProject" id="DefaultProject@(item.Value)" value="@item.Value" @(item.Value.Equals(Model.DefaultProject.ToString()) ? "checked=\"checked\"" : null) />
+                                        <span class="text" style="color: initial;">默认选中【@item.Text】</span>
+                                    </label>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.DropSpecialManager)：</td>
+        <td class="adminData">
+            @foreach (var item in Model.DropSpecialManager)
+            {
+                <label for="SpecialManagerItem@(item.Value)" style="margin-right: 2rem;">
+                    <input class="colored-blue role-chk" type="checkbox" name="SelectSpecialManager[]" id="SpecialManagerItem@(item.Value)" value="@item.Value" @(item.Selected ? "checked=\"checked\"" : null) />
+                    <span class="text" style="color: initial;">@item.Text</span>
+                </label>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Median)：</td>
+        <td class="adminData">
+            @foreach (var item in Model.Median)
+            {
+                <label for="SelectMedian@(item.Value)" style="margin-right: 2rem;">
+                    <input class="colored-blue role-chk" type="checkbox" name="SelectMedian[]" id="SelectMedian@(item.Value)" value="@item.Value" @(item.Selected ? "checked=\"checked\"" : null) />
+                    <span class="text" style="color: initial;">@item.Text</span>
+                </label>
+            }
+        </td>
+    </tr>
+</table>
+<script src="/Content/Scripts/TranTextBox.js"></script>
+<script>
+    $('input[name="SelectProjectUpload[]"]').on('click', function (e) {
+        var $that = $(this),
+            $df = $($that.data('df'));
+        if ($that.prop('checked')) {
+            $df.find('input[name="DefaultProject"]').prop('checked', false);
+            $df.show();
+        }
+        else {
+            $df.hide();
+        }
+
+    });
+    $('input[name="DefaultProject"]').on('click', function () {
+        var $that = $(this);
+        if ($that.prop('checked')) {
+            $('input[name="DefaultProject"]:checked').prop('checked', false);
+            $that.prop('checked', true);
+        }
+    });
+</script>

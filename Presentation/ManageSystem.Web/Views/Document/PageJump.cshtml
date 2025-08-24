@@ -1,0 +1,56 @@
+﻿
+@using ManageSystem.Web.Models.Document
+@using Webdiyer.WebControls.Mvc;
+
+@model IndexModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "资料下载";
+}
+
+<link href="~/Content/Css/Medicine.css" rel="stylesheet" />
+<link href="~/Content/Css/Document/Index.css?v=1.6" rel="stylesheet" />
+<div class="mbx">
+    <p>当前位置：首页 &gt; 资料下载 </p>
+</div>
+
+<div class="doct_center">
+    <div class="doct_center_r" style="border-left-style: none;">
+        <div id="divIncomeIntegral" class="page-btn-main " style="text-align:center;">
+            <ul class="content_ul">
+                @{
+                    if (Model.PageList != null && Model.PageList.Any())
+                    {
+                        foreach (var item in Model.PageList)
+                        {
+                            <li class="doc-item clearfix">@item.Name<a href="#" onclick="Download(this)" data-id="@item.Id.ToString()" data-name="@item.Name" data-url="@item.Url">@item.UrlName</a><span class="span-1" data-url="@item.Url" id="@item.Id.ToString()" onclick="copyUrl(this)" style='cursor:pointer;'>分享链接</span><span class="span-1">@item.Count 次下载</span> <span class="span-1" style="float:right;">@item.InsertTime.ToString("yyyy/MM/dd")</span></li>
+                        }
+                    }
+                }
+            </ul>
+        </div>
+        <div id="pageDiv" class="page">
+            @Html.Pager(Model.PageList, new PagerOptions() { ControllerName = "Document", ActionName = "PageJump", CssClass = "pagination", CurrentPagerItemTemplate = "<li class=\"active\"><a href=\"#\">{0}</a></li>", DisabledPagerItemTemplate = "<li class=\"disabled\"><a>{0}</a></li>", PagerItemTemplate = "<li>{0}</li>" })
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/Scripts/Document/Index.js"></script>
+<script>
+    function copyUrl(obj) {
+    var url = $(obj).attr("data-url");
+    var tag = document.createElement('input');
+    tag.setAttribute('id', 'cp_hgz_input');
+    tag.value =window.location.protocol+"//"+window.location.host+url;
+    document.getElementsByTagName('body')[0].appendChild(tag);
+    document.getElementById('cp_hgz_input').select();
+    document.execCommand('copy');
+    document.getElementById('cp_hgz_input').remove();
+    MessageWindow("链接已复制到剪切板");
+    }
+
+    function junpPage() {
+        console.log();
+    }
+</script>

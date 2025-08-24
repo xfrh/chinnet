@@ -1,0 +1,114 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "抗生素耐药性";
+}
+
+<link href="~/Content/Css/Datas/AntibioticDrugFast.css?v=122222" rel="stylesheet" />
+<link href="~/Content/Css/assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+<link href="~/Content/Css/assets/introjs.css" rel="stylesheet" />
+<script src="~/Content/Css/assets/intro.js"></script>
+<style>
+</style>
+<div style="overflow:hidden; position: relative;" id="pageContent">
+    <a class="btn helps btn-large btn-success" href="javascript:void(0);" onclick="javascript:introJs().setOptions({'prevLabel':'&larr; 上一步','nextLabel':'下一步 &rarr;','skipLabel':'跳过','doneLabel':'完成'}).start();" style="position: absolute;">帮助</a>
+    <div data-step="1" data-intro="<p style='font-weight:bold;'>图表类型：</p>您可以选择三种不同类型的图表：热图、柱状图、趋势图。" data-position='bottom' class="data-home-box" style="margin-bottom:0px; margin-top: 15px;">
+        <ul id="change_chart" class="clickable clearfix greybuttons">
+            <li class="" data-name="热图" id="change_chart_chart" onclick="location.href='/Chinet'" style="margin-left: 0px;">热图</li>
+            <li class="active" data-name="柱状图" id="change_chart_trend" onclick="location.href='/Data/AntibioticDrugFast'">柱状图</li>
+            <li class="" data-name="趋势图" id="change_chart_chart" onclick="location.href='/Data/GermYear'">趋势图</li>
+            <li class="" data-name="关于CHINET" id="change_chart_map" onclick="location.href='/Data/Map'">关于CHINET</li>
+        </ul>
+    </div>
+
+    <div id="dataError" class="error-box" style="display:none;">
+        <img src="~/Content/Images/data-error.png" />
+        <p class="error-message">请选择图表类型</p>
+    </div>
+
+    <div style="width:100%;display:block;overflow:hidden;  ">
+
+        <div data-step="2" data-intro="<p style='font-weight:bold;'>图表：</p>根据选择的数据段展现不同的报表数据。" data-position='bottom' style="width:100%;display:block;overflow:hidden; " class="main-content2">
+            <div style="    font-size: 18px; text-align: center;  margin-bottom: 5px" id="PageContentTitle"></div>
+            <div style="    font-size: 16px; text-align: center;  margin-bottom: 10px;">（CHINET 2018）</div>
+            <div id="main" style="margin-top: -60px; overflow:hidden; width:1200px; display:block; margin-bottom:0px;">  </div>
+        </div>
+
+        <div style="width:100%;display:block;overflow:hidden; ">
+
+            <div data-step="3" data-intro="<p style='font-weight:bold;'>数据类型：</p>根据不同的标本菌种分布进行数据统计。" data-position='top' class="index-bt" style="margin-top:10px;"><h2><i></i>主要标本菌种分布<span class="item-title-3" onclick="ClearSelect()" style="margin-left: 94px;">取消选择</span> <img data-step="4" data-intro="<p style='font-weight:bold;'>操作：</p>击箭头可以隐藏该部分数据选项，更加有利于阅读，再次点击则可以显示该部分数据选项。" data-position='top' class="germ-btn-image btn-image-MainGermContent" src="~/Content/Images/jiantou-xia.png" style="height:13px;width:13px;cursor:pointer;" alt="" onclick="ShowStatus('MainGermContent')"></h2></div>
+            <div data-step="5" data-intro="<p style='font-weight:bold;'>数据段：</p>可选择具体的标本菌种分布查看报表数据。 " data-position='top' class="fenlei" id="MainGermContent" data-status="1">
+                <ul class="main-germ-ul">
+                    <li id="DefaultItem" onclick="SelectMainGerm(this)" data-code="100" data-status="0" data-name="222494株临床分离菌株主要菌种分布" class="germ-li date-item-va "><a href="javascript:;">222494株临床分离菌株主要菌种分布</a></li>
+                    <li onclick="SelectMainGerm(this)" data-code="101" data-status="0" data-name="97297株呼吸道标本分离菌主要菌种分布" class="germ-li date-item-va "><a href="javascript:;">97297株呼吸道标本分离菌主要菌种分布</a></li>
+                    <li onclick="SelectMainGerm(this)" data-code="102" data-status="0" data-name="46081株尿道标本分离菌主要菌种分布" class="germ-li date-item-va "><a href="javascript:;">46081株尿道标本分离菌主要菌种分布</a></li>
+                    <li onclick="SelectMainGerm(this)" data-code="103" data-status="0" data-name="36359株血液标本分离菌主要菌种分布" class="germ-li date-item-va "><a href="javascript:;">36359株血液标本分离菌主要菌种分布</a></li>
+                    <li onclick="SelectMainGerm(this)" data-code="104" data-status="0" data-name="15867株伤口脓液标本分离菌主要菌种分布" class="germ-li date-item-va "><a href="javascript:;">15867株伤口脓液标本分离菌主要菌种分布</a></li>
+                    <li onclick="SelectMainGerm(this)" data-code="105" data-status="0" data-name="12852株其他无菌体液标本分离菌主要菌种分布" class="germ-li date-item-va "><a href="javascript:;">12852株其他无菌体液标本分离菌主要菌种分布</a></li>
+                    <li onclick="SelectMainGerm(this)" data-code="106" data-status="0" data-name="3157株脑脊液标本分离菌主要菌种分布" class="germ-li date-item-va "><a href="javascript:;">3157株脑脊液标本分离菌主要菌种分布</a></li>
+                    <li onclick="SelectMainGerm(this)" data-code="107" data-status="0" data-name="244843株临床分离菌在各类标本中的分布" class="germ-li date-item-va "><a href="javascript:;">244843株临床分离菌在各类标本中的分布</a></li>
+                    <li onclick="SelectMainGerm2(this)" data-status="0" data-name="肺炎克雷伯菌" class="germ-li date-item-va "><a href="javascript:;">不同标本分离肺炎克雷伯菌对抗菌药物的耐药率</a></li>
+                    <li onclick="SelectMainGerm2(this)" data-status="0" data-name="铜绿假单胞菌" class="germ-li date-item-va "><a href="javascript:;">不同标本分离铜绿假单胞菌对抗菌药物的耐药率</a></li>
+                    <li onclick="SelectMainGerm2(this)" data-status="0" data-name="鲍曼不动杆菌" class="germ-li date-item-va "><a href="javascript:;">不同标本分离鲍曼不动杆菌对抗菌药物的耐药率</a></li>
+                </ul>
+            </div>
+
+            <div data-step="6" data-intro="<p style='font-weight:bold;'>细菌分类：</p>根据不同的细菌分类进行数据统计。" data-position='top' class="index-bt" style="margin-top:10px;"><h2><i></i>细菌分类<span class="item-title-3" onclick="ClearSelect()">取消选择</span> <img class="germ-btn-image btn-image-GermContent" src="~/Content/Images/jiantou-xia.png" style="height:13px;width:13px;cursor:pointer;" alt="" onclick="ShowStatus('GermContent')"></h2></div>
+            <div data-step="7" data-intro="<p style='font-weight:bold;'>数据段：</p>可选择具体的细菌分类查看报表数据。" data-position='top' class="fenlei" id="GermContent" data-status="1">
+                @{
+                    var germData = this.ViewBag.GermList as List<String>;
+                    if (germData != null && germData.Any())
+                    {
+                        foreach (var item in germData)
+                        {
+                            <li onclick="SelectGerm(this)" data-status="0" data-name="@item" class="germ-li date-item-va "><a href="javascript:;">@item</a></li>
+                        }
+                    }
+                }
+            </div>
+
+            <div data-step="8" data-intro="<p style='font-weight:bold;'>抗菌药物：</p>根据不同的抗菌药物进行数据统计。" data-position='top' class="index-bt"><h2><i></i>抗菌药物<span class="item-title-3" onclick="ClearSelect()" style="cursor: pointer;">取消选择</span><img class="antibiotic-btn-image btn-image-AntibioticContent" src="~/Content/Images/jiantou-xia.png" style="height:13px;width:13px;cursor:pointer;" alt="" onclick="ShowStatus('AntibioticContent')"></h2></div>
+            <div data-step="9" data-intro="<p style='font-weight:bold;'>数据段：</p>可选择具体的抗菌药物查看报表数据。" data-position='top' class="fenlei" id="AntibioticContent" data-status="1">
+                @{
+                    var antibioticData = this.ViewBag.AntibioticList as List<String>;
+                    if (antibioticData != null && antibioticData.Any())
+                    {
+                        antibioticData = antibioticData.OrderBy(item => item).ToList();
+
+                        foreach (var item in antibioticData)
+                        {
+                            string selectClass = "";
+                            if (item.Equals("头孢他啶"))
+                            {
+                                selectClass = "antibiotic-select";
+                            }
+
+                            <li onclick="SelectAntibiotic(this)" data-status="0" data-name="@item" class="antibiotic-li @selectClass  date-item-va "><a href="javascript:;">@item</a></li>
+                        }
+                    }
+                }
+
+            </div>
+
+            <div data-step="10" data-intro="<p style='font-weight:bold;'>抗菌药物：</p>根据不同的医院耐药菌分布进行数据统计。" data-position='top' class="index-bt" style="margin-top:10px;"><h2><i></i>不同医院耐药菌分布<span class="item-title-3" onclick="ClearSelect()" style="margin-left: 78px;">取消选择</span> <img class="germ-btn-image btn-image-HospitalGermContent" src="~/Content/Images/jiantou-xia.png" style="height:13px;width:13px;cursor:pointer;" alt="" onclick="ShowStatus('HospitalGermContent')"></h2></div>
+            <div data-step="11" data-intro="<p style='font-weight:bold;'>抗菌药物：</p>可选择具体的医院对细菌耐药分布查看报表数据。" data-position='top' class="fenlei" id="HospitalGermContent" data-status="1">
+                <ul class="main-hospitalgerm-ul">
+                    <li onclick="SelectHospitalGerm(this)" data-code="200" data-status="0" data-name="各医院金葡菌MR菌株检出率" class="germ-li date-item-va"><a href="javascript:;">各医院金葡菌MR菌株检出率</a></li>
+                    <li onclick="SelectHospitalGerm(this)" data-code="201" data-status="0" data-name="各医院凝固酶阴性葡萄球菌MR菌株检出率" class="germ-li date-item-va"><a href="javascript:;">各医院凝固酶阴性葡萄球菌MR菌株检出率</a></li>
+                    <li onclick="SelectHospitalGerm(this)" data-code="202" data-status="0" data-name="各医院分离铜绿假单胞菌对亚胺培南的耐药率（68-1025株）" class="germ-li date-item-va"><a href="javascript:;">各医院分离铜绿假单胞菌对亚胺培南的耐药率（68-1025株）</a></li>
+                    <li onclick="SelectHospitalGerm(this)" data-code="203" data-status="0" data-name="各医院分离鲍曼不动杆菌对亚胺培南的耐药率（19-1299株）" class="germ-li date-item-va"><a href="javascript:;">各医院分离鲍曼不动杆菌对亚胺培南的耐药率（19-1299株）</a></li>
+                    <li onclick="SelectHospitalGerm(this)" data-code="204" data-status="0" data-name="各医院分离肺炎克雷伯菌对亚胺培南的耐药率（66-1838株）" class="germ-li date-item-va "><a href="javascript:;">各医院分离肺炎克雷伯菌对亚胺培南的耐药率（66-1838株）</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<input type="hidden" id="GermValue" data-remark="细菌名称" />
+<input type="hidden" id="AntibioticValue" data-remark="抗菌药物名称" />
+
+<script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+<script src="~/Content/Scripts/Echarts/bmap.js"></script>
+<script src="~/Content/Scripts/Echarts/china.js"></script>
+<script src="~/Content/Scripts/Echarts/theme/blue.js?v=1"></script>
+<script src="~/Content/Scripts/Datas/AntibioticDrugFast.js?v=1.67"></script>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Setting>
+  <State>true</State>
+  <Connection>Data Source=172.16.220.115;Initial Catalog=master;User ID=Test;Password=HMDTest321;</Connection>
+  <DatabaseVersion>Sql Server 2005 及以上版本</DatabaseVersion>
+  <DatabaseName>HomedoBak</DatabaseName>
+  <TemplateId>1</TemplateId>
+  <SolutionName>SolutionName</SolutionName>
+  <FormId>form1</FormId>
+  <ControlId>ctl00$ContentPlaceHolder1$</ControlId>
+</Setting>

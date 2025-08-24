@@ -1,0 +1,501 @@
+﻿@using ManageSystem.Web.Models.Members
+@model  ClinicalTrialReportModel
+@{
+    ViewBag.Title = "临床试验上报";
+    Layout = "~/Areas/DataInput/Views/Shared/_Layout.cshtml";
+}
+
+@section HeadSection{
+    <link href="~/Content/Scripts/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Scripts/searchableSelect/jquery.searchableSelect.css" rel="stylesheet" />
+    @*<link href="/Content/Scripts/bootstrap-fileinput-master/css/fileinput.css" rel="stylesheet" />
+        <link href="~/Content/Css/Medicine/Upload.css?v=1.8" rel="stylesheet" />*@
+    <style type="text/css">
+
+        .center-index-page .text {
+            padding: 4px 10px;
+        }
+
+        .give {
+            position: relative;
+            line-height: 30px;
+            width: 53px;
+            padding: 0;
+            text-align: center;
+            z-index: 9;
+            background-color: #337ab7;
+            border: 1px solid #337ab7;
+            list-style-type: none;
+            margin: 5px 10px;
+            box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+        }
+
+            .give, .give:hover .give:active {
+                color: #fff !important;
+            }
+
+        [class^="weui-icon-"],
+        [class*=" weui-icon-"] {
+            display: inline-block;
+            vertical-align: middle;
+            width: 24px;
+            height: 24px;
+            -webkit-mask-position: 50% 50%;
+            mask-position: 50% 50%;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-size: 100%;
+            mask-size: 100%;
+            background-color: currentColor;
+        }
+
+        .weui-icon-success-circle {
+            color: #07C160;
+            -webkit-mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010zm0-1.2a8.8%208.8%200%20100-17.6%208.8%208.8%200%20000%2017.6zm-1.172-6.242l5.809-5.808.848.849-5.95%205.95a1%201%200%2001-1.414%200L7%2012.426l.849-.849%202.98%202.98z%22%2F%3E%3C%2Fsvg%3E');
+            mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010zm0-1.2a8.8%208.8%200%20100-17.6%208.8%208.8%200%20000%2017.6zm-1.172-6.242l5.809-5.808.848.849-5.95%205.95a1%201%200%2001-1.414%200L7%2012.426l.849-.849%202.98%202.98z%22%2F%3E%3C%2Fsvg%3E');
+        }
+
+        .ladda-button[data-style=zoom-in] .ladda-label {
+            width: inherit;
+            line-height: normal;
+            clear: both;
+            float: inherit;
+        }
+
+        .spanbr {
+            float: left;
+            line-height: 4.5;
+            width: 80%;
+        }
+
+        .ul {
+            padding: 0;
+            margin: 0;
+            text-align: left;
+            list-style-type: none;
+        }
+    </style>
+}
+
+<div class="mbx"><p>当前位置：首页 &gt; 临床试验上报 </p></div>
+<div class="user_center center-index-page ">
+    <div class="user_center_r" style="width: 100%;padding-right: 10px;padding-left: 10px;">
+        <div class="user_center_r_a center-title">
+            @*<h2>
+                    <span class="span-item span-item-action" style="margin-left: 0; " onclick="location.href='@Url.Action("Index", "MICapply")'">个人信息</span>
+                </h2>*@
+        </div>
+
+        @using (Html.BeginForm("ClinicalTrialReportApply", "ClinicalTrialReport", FormMethod.Post, new { enctype = "multipart/form-data", id = "Insertindex" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.PicturePath, new { @id = "PicturePath" })
+    <ul style="border-bottom: none;">
+        <li>
+            <span>项目名称<em style="color:red">* </em>：</span>
+            <span>
+                @Html.TextBoxFor(m => m.ProjectName, new { @class = "text", data_oemail = Model.BacterialName, data_oemail_valid = "true" })
+                @Html.ValidationMessageFor(m => m.ProjectName)
+
+            </span>
+        </li>
+        <li>
+            <span>医院名称<em style="color:red">* </em>：</span>
+            <span>
+                @*@Html.DropDownList("HospitalId", Model.HospitalList, new { @id = "hospital", @class = "text", @onchange = @"hospitalchange()" })
+                @Html.ValidationMessageFor(m => m.HospitalId)*@
+                @Html.TextBoxFor(m => m.HospitalName, new { @class = "text", data_oemail = Model.BacterialName, data_oemail_valid = "true" })
+                @Html.ValidationMessageFor(m => m.HospitalName)
+            </span>
+        </li>
+        <li>
+            <span>菌株编号<em style="color:red">* </em>：</span>
+            <span>
+                @if (!string.IsNullOrEmpty(Model.StrainNo))
+                {
+                    if (Model.StrainNo != "" && Model.StrainNo != null && Model.StrainNo != "[]")
+                    {
+                        @Html.TextBoxFor(m => m.StrainNo, new { @class = "text", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(m => m.StrainNo)
+                    }
+                }
+                else
+                {
+                    @Html.TextBoxFor(m => m.StrainNo, new { @class = "text" })
+                    @Html.ValidationMessageFor(m => m.StrainNo)
+                }
+            </span>
+        </li>
+        <li>
+            <span>细菌名称<em style="color:red">* </em>：</span>
+            <span>
+                @Html.TextBoxFor(m => m.BacterialName, new { @class = "text", data_oemail = Model.BacterialName, data_oemail_valid = "true" })
+                @Html.ValidationMessageFor(m => m.BacterialName)
+
+            </span>
+        </li>
+
+        @*<li>
+            <span>标本类型<em style="color:red">* </em>：</span>
+            <span>
+                @if (!string.IsNullOrEmpty(Model.SpecimenType))
+                {
+                    @Html.TextBoxFor(m => m.SpecimenType, new { @class = "text", disabled = "disabled" })
+                    @Html.ValidationMessageFor(m => m.SpecimenType)
+                }
+                else
+                {
+                    @Html.TextBoxFor(m => m.SpecimenType, new { @class = "text" })
+                    @Html.ValidationMessageFor(m => m.SpecimenType)
+                }
+
+            </span>
+        </li>*@
+        <li>
+            <span>试验时间<em style="color:red">* </em>：</span>
+            <span>
+                @if (!string.IsNullOrEmpty(Model.ExperimentTime))
+                {
+                    @Html.TextBoxFor(m => m.ExperimentTime, new { @class = "text", disabled = "disabled" })
+                    @Html.ValidationMessageFor(m => m.ExperimentTime)
+                }
+                else
+                {
+                    @Html.TextBoxFor(m => m.ExperimentTime, new { @class = "text" })
+                    @Html.ValidationMessageFor(m => m.ExperimentTime)
+                }
+
+            </span>
+        </li>
+
+        <li>
+            <span>药物名称<em style="color:red">* </em>：</span>
+            <span>
+                @Html.TextBoxFor(m => m.DrugName, new { @class = "text" })
+                @Html.ValidationMessageFor(m => m.DrugName)
+
+            </span>
+        </li>
+        <li>
+            <span>药敏板中位置（行\列）<em style="color:red">* </em>：</span>
+            <span>
+                @Html.TextBoxFor(m => m.Position, new { @class = "text", data_oemail = Model.Position, data_oemail_valid = "true" })
+                @Html.ValidationMessageFor(m => m.Position)
+
+            </span>
+        </li>
+        <li>
+            <span>最高浓度（mg/L）<em style="color:red">* </em>：</span>
+            <span>
+                @Html.TextBoxFor(m => m.HighstPotency, new { @class = "text", data_oemail = Model.HighstPotency, data_oemail_valid = "true" })
+                @Html.ValidationMessageFor(m => m.HighstPotency)
+
+            </span>
+        </li>
+        <li>
+            <span>MIC值(mg/L)<em style="color:red">* </em>：</span>
+            <span>
+                @Html.TextBoxFor(m => m.MicValue, new { @class = "text" })
+                @Html.ValidationMessageFor(m => m.MicValue)
+
+            </span>
+        </li>
+        @*<li>
+            <span>阅读者<em style="color:red">* </em>：</span>
+            <span>
+                @Html.TextBoxFor(m => m.Reader, new { @class = "text" })
+                @Html.ValidationMessageFor(m => m.Reader)
+
+            </span>
+        </li>
+        <li>
+            <span>复核值<em style="color:red">* </em>：</span>
+            <span>
+                @Html.TextBoxFor(m => m.ReviewMicValue, new { @class = "text" })
+                @Html.ValidationMessageFor(m => m.ReviewMicValue)
+
+            </span>
+        </li>
+        <li>
+            <span>复核者<em style="color:red">* </em>：</span>
+            <span>
+                @Html.TextBoxFor(m => m.Reviewer, new { @class = "text" })
+                @Html.ValidationMessageFor(m => m.Reviewer)
+
+            </span>
+        </li>*@
+        <li>
+            <span>选择药敏结果图<em style="color:red">* </em>：</span>
+            <span>
+                <input id="FilePath" name="FilePath" type="file" multiple class="file-loading" onchange="initFileInput(this)" accept="image/*">
+                <input type="hidden" id="UploadFilePath" name="UploadFilePath" />
+            </span>
+        </li>
+        @*<li>
+            <div><b class="red">*</b><span>选择药敏结果图：</span></div>
+            <div class="red_outK">
+                <div id="UploadFileBox" style="position:relative;padding-top:0px;">
+                    <input id="FilePath" name="FilePath" type="file" multiple class="file-loading" accept=".dbf,.xlsx">
+                    <input type="hidden" id="UploadFilePath" name="UploadFilePath" />
+                    <div class="post_main_note file-upload-message" style="width:100%;padding-top:10px; height:auto;font-size: 14px;"></div>
+                </div>
+            </div>
+        </li>*@
+    </ul>
+            <input type="button" class="button" value="确认提交" onclick="Validators()">
+            <input type="hidden" id="UploadMedicineId" data-remark="上传成功以后的数据Id" />
+        }
+    </div>
+</div>
+@section FooterSection{
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/template-web.js"></script>
+    <script src="~/Content/Scripts/searchableSelect/jquery.searchableSelect.js"></script>
+
+    @*<script src="/Content/Scripts/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+        <script src="/Content/Scripts/bootstrap-fileinput-master/js/fileinput_locale_zh.js"></script>
+        <script src="/Content/Scripts/Medicine/Upload.js?v=@DateTime.Now.Ticks"></script>
+
+        <script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.js"></script>
+        <link href="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet">
+        <script src="~/Content/Scripts/Autocomplete/jquery.autocomplete.min.js"></script>*@
+    <script>
+
+        $(function () {
+            $('#HospitalId').searchableSelect();
+            var id = $("#Hidden1").val();
+            if (id != '0') {
+                $("#li1").css("display", "none");
+                $("#div1").css("display", "none");
+            }
+        });
+
+        //初始化fileinput控件（第一次初始化）
+        function initFileInput(e) {
+            console.log(e.files[0]);
+
+            var formData = new FormData();
+
+            formData.append('file', e.files[0]);
+
+            $.ajax({
+                method: 'POST',
+                url: '/ClinicalTrialReport/UploadFile',
+                data: formData,
+                dataType: 'JSON',
+                contentType: false,//ajax2.0可以不用设置请求头，但是jq帮我们自动设置了，这样的话需要我们自己取消掉
+                processData: false,//取消帮我们格式化数据，是什么就是什么
+                success: function (res) {
+
+                    $('#UploadFilePath').val(res.FilePath);
+                    $('#PicturePath').val(res.FilePath);
+                    console.log($('#UploadFilePath').val());
+                },
+                error: function () {
+                    layer.alert('网络请求错误');
+                }
+            });
+
+
+            //var control = $('#' + ctrlName);
+            //var projectType = "";
+
+            //control.fileinput({
+            //    language: 'zh', //设置语言
+            //    uploadUrl: "/Medicine/UploadFile", //上传的地址jpg，jpeg，gif，bmp，png，txt，doc，xdoc，xls，xlsx
+            //    allowedFileExtensions: ['xlsx', 'xls', 'dbf'],//接收的文件后缀
+            //    showUpload: false, //是否显示上传按钮
+            //    showCaption: true,//是否显示标题
+            //    uploadAsync: true,
+            //    maxFileCount: 10,
+            //    multiple: true,
+            //    maxFileSize: 1024 * 70,//单位为kb，如果为0表示不限制文件大小，70M
+            //    enctype: 'multipart/form-data',
+            //    browseClass: "btn btn-primary", //按钮样式
+            //    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            //    uploadExtraData: function (previewId, index) {   //额外参数的关键点
+            //        var obj = {};
+            //        obj.projectType = $("#ProjectType").val();
+            //        return obj;
+            //    },
+            //}).on("filebatchselected", function (event, files) {
+            //    $(this).fileinput("upload");
+            //}).on('filecleared', function (event) {
+            //    $("#UploadFilePath").val("");
+            //}).on("fileuploaded", function (e, data) {
+            //    UploadFileCallback(data.response);
+            //});
+        }
+
+        //上传图片成功以后调用
+        function UploadFileCallback(item) {
+
+            console.log();
+
+            //$("#UploadFilePath").val("");
+            //$("#OldeFileName").val("");
+            //$("#OldeFileSize").val("");
+
+            //$(".file-upload-message").html("");
+
+            //if (!item.IsSuccess && item.ErrorMessage !== "") {
+            //    MessageWindow(item.ErrorMessage);
+            //    return;
+            //}
+            //fileArr.push(item.FileName + "^" + item.FilePath);
+
+            //var htmlPath = "";
+            //for (var i = 0; i < fileArr.length; i++) {
+            //    htmlPath += " <a href='" + fileArr[i].split('^')[1] + "' target='_blank' style='color: #428bca;'>" + fileArr[i].split('^')[0] + "</a>  "
+            //}
+
+            ////var html = "数据文件已加载，请点击“开始上传”，<a href='" + item.FilePath + "' target='_blank' style='color: #428bca;'>" + item.FileName + "</a>";
+            //var html = "数据文件已加载，请点击“开始上传”，" + htmlPath;
+            //$("#UploadFilePath").val(item.FilePath);
+
+            //$(".file-upload-message").html(html);
+        }
+
+
+        function Validators() {
+            var filePath = $('#UploadFilePath').val();
+
+            if (filePath == "" || filePath == null)
+                return ErrorWindow("请添加药敏结果图",true);
+
+            var HospitalId = $('#HospitalId').val();
+            var HospitalName = $('#HospitalName').val();
+            var HospitalId1 = $("#Hidden1").val();
+            if (HospitalId == 0 && HospitalName == null) {
+                return ErrorWindow("请选择医院或者添加医院", true);
+            }
+            if (HospitalId == 0 && HospitalName != null) {
+                if (HospitalName.length < 5) {
+                    return ErrorWindow("请填写完整的医院名称", true);
+                };
+            }
+            if (HospitalId1 != 0 && HospitalId == 0 && HospitalName != null) {
+                $('#HospitalName').val("");
+            }
+            $("#Insertindex").submit();
+        }
+        function SendCheckEmail() {
+            var $btn = $('#btnValidateEmail');
+            var l = Ladda.create(document.getElementById('btnValidateEmail'));
+            if (!l.isLoading()) {
+
+                $.ajax({
+                    method: 'POST',
+                    url: '/Center/SendCheckEmail',
+                    data: { Email: $("#Email").val() },
+                    dataType: 'JSON',
+                    beforeSend: function () { l.start(); },
+                    success: function (res) {
+                        setTimeout(function () {
+                            l.stop();
+
+                            layer.alert(res.message);
+                            if (res.status) {
+                                $btn.attr('onclick', 'return false;').css('cursor', 'not-allowed');
+                                $('#showEmailValidate').show();
+                                daojishi(60);
+                            }
+                            else {
+                                $('#showEmailValidate').hide();
+                            }
+                        }, 1500);
+
+                        //var sendEmailbtn = document.getElementById("sendEmail");
+                        //sendEmailbtn.onclick = "";
+                        //sendEmailbtn.text = "已发送";
+                    },
+                    error: function () {
+                        layer.alert('网络请求错误');
+                    }
+                });
+            }
+            return false;
+        }
+
+        function daojishi(sec) {
+            $('#emailSecText').text(sec);
+            if (sec === 0) {
+                var $btn = $('#btnValidateEmail');
+                $btn.attr('onclick', 'SendCheckEmail(); return false;').css('cursor', 'pointer');
+                $('#showEmailValidate').show();
+                return;
+            }
+            setTimeout(_daojishi(--sec), 1000);
+        }
+
+        function _daojishi(sec) {
+            return function () {
+                daojishi(sec);
+            }
+        }
+
+        $('#Email').on('input propertychange', function () {
+            var $email = $('#Email'),
+                $span = $email.closest('span');
+            var nemail = $.trim($email.val()),
+                oemail = $email.data('oemail'),
+                oemailValid = $email.data('oemail-valid');
+            if (oemail) {
+                if (nemail === oemail && (oemailValid === true || oemailValid === 'true')) {
+                    $('i[class*="__email-valid"], span[class="__email-noValid"]').remove();
+                    $span.append('<i class="__email-valid weui-icon-success-circle"></i>');
+                }
+                else {
+                    $('i[class*="__email-valid"], span[class="__email-noValid"]').remove();
+                    $span.append(template('template_email_noValidate', {}));
+                }
+            }
+        });
+
+
+        function provincechange() {
+            var id = $('#province').val();
+            $.ajax({
+                url: "/Satellite/GetCityList",
+                type: "Post",
+                dataType: "json",
+                data: { provinceId: id },
+                success: function (json) {
+                    var content = " <option value=\"0\" >-- 请选择 --</option>";
+                    for (var i = 0; i < json.length; i++) {
+                        content += " <option value=\"" + json[i].Id + "\" >" + json[i].Name + "</option>";
+                    }
+                    $("#city").html(content);
+                },
+
+                error: function (x, e) { },
+                complete: function (x) { }
+            });
+        }
+
+        function hospitalchange() {
+            var id = $('#hospital').val();
+            console.log(id);
+            $.ajax({
+                url: "/Satellite/GetDepartemnt",
+                type: "Post",
+                dataType: "json",
+                data: { hspitalId: id },
+                success: function (json) {
+                    var content = " <option value=\"0\" >-- 请选择 --</option>";
+                    for (var i = 0; i < json.length; i++) {
+                        content += " <option value=\"" + json[i].Id + "\" >" + json[i].Name + "</option>";
+                    }
+                    $("#department").html(content);
+                },
+
+                error: function (x, e) { },
+                complete: function (x) { }
+            });
+        }
+    </script>
+}
+
+

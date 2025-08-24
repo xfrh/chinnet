@@ -1,0 +1,15 @@
+MRSA
+OXA_NM>=4，FOX_ND30<=21，FOX_NM>=8 满足三者任一条件
+MSSA
+OXA_NM<=2，FOX_ND30>=22，FOX_NM<=4 满足三个字段任一条件，且另外两个字段空白或也敏感
+
+MRCNS
+OXA_NM>=0.5，FOX_ND30空白或FOX_ND30<=24
+FOX_ND30<=24，OXA_NM空白或OXA_NM>=0.5
+
+MSCNS
+OXA_NM<=0.25，FOX_ND30空白或FOX_ND30>=25
+FOX_ND30>=25，OXA_NM空白或OXA_NM<=0.25
+
+CNS包括sae，sai，sca，sur，scp，scu，scg，stc，sul，sep，seq，sfe，sgl，shl，sho，skl，stt，sap，sle，ssr，ssi，spv，swa，sxy，scn
+slu，ssf也属于CNS但折点单独设置

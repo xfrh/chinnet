@@ -1,0 +1,143 @@
+﻿@using ManageSystem.Services.Configuration
+
+@{
+    Layout = null;
+
+
+    string adminPageTitle = "";
+    //if (!String.IsNullOrWhiteSpace(ViewBag.Title))
+    //{
+    //    adminPageTitle = ViewBag.Title + " / ";
+    //}
+
+    //adminPageTitle += WebSettingService.WebSEO_Title + "后台管理";
+
+    if (!String.IsNullOrWhiteSpace(this.ViewBag.Title))
+    {
+        adminPageTitle = WebSettingService.WebSEO_Title + "后台管理"+"/";
+    }
+    adminPageTitle += this.ViewBag.Title;
+
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Dashboard" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="@WebSettingService.WebSEO_Key">
+    <meta name="description" content="@WebSettingService.WebSEO_Describe">
+    <title>@adminPageTitle</title>
+
+    <link href="/Content/Images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <link href="/Content/CSS/bootstrap.min.css" rel="stylesheet" />
+    <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+    <link href="~/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/Content/CSS/weather-icons.min.css" rel="stylesheet" />
+    <link id="beyond-link" href="/Content/CSS/beyond.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/CSS/demo.min.css" rel="stylesheet" />
+    <link href="/Content/CSS/typicons.min.css" rel="stylesheet" />
+    <link href="/Content/CSS/animate.min.css" rel="stylesheet" />
+    <link id="skin-link" href="" rel="stylesheet" type="text/css" />
+    <link href="/Content/kendo/2014.1.318/kendo.common.min.css" rel="stylesheet" />
+    <link href="/Content/kendo/2014.1.318/kendo.default.min.css" rel="stylesheet" />
+
+    <link href="/Content/Css/easydropdown.css" rel="stylesheet" />
+    <link href="/Content/Css/Style.css" rel="stylesheet" />
+
+    <script src="/Content/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="/Content/Scripts/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/Content/Scripts/jquery.validate.min.js"></script>
+    <script src="/Content/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/Content/Scripts/modernizr-2.6.2.js"></script>
+    <script src="/Content/Scripts/kendo/2014.1.318/kendo.web.min.js"></script>
+    <script src="/Content/Scripts/admin.common.js"></script>
+    <script src="/Content/Scripts/jquery.easydropdown.js"></script>
+
+    <script src="/Content/Scripts/kendo/2014.1.318/kendo.messages.zh-CN.js" charset="utf-8"></script>
+    <script src="/Content/Scripts/kendo/2014.1.318/cultures/kendo.culture.zh-CN.min.js" charset="utf-8"></script>
+
+    <script src="/Content/Scripts/skins.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            kendo.culture("zh-CN");
+        });
+
+    </script>
+
+    @Html.CssFiles(this.Url, ResourceLocation.Head)
+    @Html.ScriptFiles(this.Url, ResourceLocation.Head)
+
+    @RenderSection("HeadSection", required: false)
+
+</head>
+<body>
+    <!-- Loading Container -->
+    <div class="loading-container">
+        <div class="loading-progress">
+            <div class="rotator">
+                <div class="rotator">
+                    <div class="rotator colored">
+                        <div class="rotator">
+                            <div class="rotator colored">
+                                <div class="rotator colored"></div>
+                                <div class="rotator"></div>
+                            </div>
+                            <div class="rotator colored"></div>
+                        </div>
+                        <div class="rotator"></div>
+                    </div>
+                    <div class="rotator"></div>
+                </div>
+                <div class="rotator"></div>
+            </div>
+            <div class="rotator"></div>
+        </div>
+    </div>
+    <!--  /Loading Container -->
+    <!-- Navbar -->
+    @{Html.RenderAction("AdminNavbar", "Shared");}
+    <!-- /Navbar -->
+    <!-- Main Container -->
+    <div class="main-container container-fluid">
+        <!-- Page Container -->
+        <div class="page-container">
+            <!-- Page Sidebar -->
+            @{Html.RenderAction("AdminMenu", "Shared");}
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <section>
+                    <div>@RenderSection("Breadcrumb", required: false)</div>
+
+                    <div> @Html.Partial("Notifications")  </div>
+
+                    <div>@RenderBody()</div>
+                </section>
+            </div>
+            <!-- /Page Container -->
+            <!-- Main Container -->
+        </div>
+    </div>
+
+    <script src="/Content/Scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/Content/Scripts/beyond.min.js" type="text/javascript"></script>
+    <script type="/Content/Scripts/jquery.easydropdown.js">
+    </script>
+    <script src="~/Content/Scripts/common-validate.js"></script>
+
+    @RenderSection("FooterSection", required: false)
+
+    @Html.CssFiles(this.Url, ResourceLocation.Foot)
+    @Html.ScriptFiles(this.Url, ResourceLocation.Foot)
+
+
+
+</body>
+</html>

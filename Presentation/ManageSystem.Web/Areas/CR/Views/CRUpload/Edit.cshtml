@@ -1,0 +1,260 @@
+﻿@using ManageSystem.Core.Domain.CRs
+@model CRData
+@{
+    ViewBag.Title = "信息修改";
+    Layout = "~/Areas/CR/Views/Shared/_Layout.cshtml";
+    bool uploaded = (bool)ViewBag.uploaded;
+}
+
+<style>
+    .h3p {
+        margin: 20px auto;
+        text-align: center;
+        font-size: 20px;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .NoticeL {
+        margin-top: 10px;
+        background-color: #fcf8e3;
+        border: 1px solid #fbeed5;
+    }
+
+    .NoticeLZ {
+        float: left;
+        margin-bottom: 20px;
+    }
+
+        .NoticeLZ p {
+            color: #c09853;
+            line-height: 25px;
+            font-size: 14px;
+        }
+
+        .NoticeLZ a {
+            font-size: 14px;
+            color: red;
+        }
+
+    .inpotantNotic {
+        padding: 10px;
+        float: left;
+        color: red;
+        border: 2px red solid;
+        border-radius: 5px;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+        .inpotantNotic p {
+            color: red;
+            font-size: 14px;
+        }
+
+    .formL {
+        margin-top: 20px
+    }
+
+    .control-label {
+        font-size: 14px;
+    }
+
+    .upcontentl {
+        margin: auto;
+    }
+
+    .icon-wrap {
+        background-color: white;
+        color: #357ebd;
+        border-radius: 50%;
+        padding: 3px 7px;
+    }
+
+    .icon-wrap2 {
+        background-color: #357ebd;
+        color: white;
+        border-radius: 50%;
+        padding: 3px 7px;
+    }
+
+    .wz-classic .active {
+        background: #357ebd;
+        color: white !important;
+    }
+
+    .wz-classic li {
+        width: 120px;
+        height: 40px;
+        line-height: 40px;
+    }
+
+    .wz-classic .active a {
+        color: white !important;
+    }
+
+    .navlist {
+        border-bottom: #dadada 1px solid;
+        margin-bottom: 20px;
+        height: 40px;
+    }
+
+    .tab-item-mes2 {
+        color: #357ebd;
+    }
+
+    .ph3 {
+        margin-left: 20px;
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #c09853;
+    }
+
+    .mb20 {
+        margin-bottom: 20px;
+    }
+
+    .inputtext {
+        border-radius: 4px !important;
+    }
+
+    .p0 {
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+
+    .form-group {
+        margin-bottom: 30px;
+    }
+</style>
+@Html.HiddenFor(model => model.Id)
+<div class="container upcontentl row">
+    <div class="col-md-12" style="padding-bottom:30px;">
+        <span class="h3p"><b>《微生物实验室细菌诊断及替加环素药敏操作规范培训公益项目》</b></span>
+    </div>
+    <div class="col-md-12 navlist">
+        <ul class="wz-nav-off wz-icon-inline wz-classic">
+            <li class="col-xs-3 active">
+                <a href="@Url.Action("Edit", "CRUpload")" aria-expanded="true">
+                    <span class="icon-wrap">1</span> <span class="tab-item-mes">信息填写</span>
+                </a>
+            </li>
+            <li class="col-xs-3 navlist_li">
+                <a href="@Url.Action("Upload", "CRUpload")">
+                    <span class="icon-wrap2 ">2</span> <span class="tab-item-mes2">上传数据</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-md-4 col-sm-12 col-xs-12 pull-right mb20">
+        <div class="NoticeL row">
+            <p class="ph3"><b>操作介绍</b></p>
+            <div class="NoticeLZ col-md-12">
+                <p>1、请完善表单信息，并保存</p>
+                <p>2、<a href="~/Areas/CR/Content/替加环素项目数据采集模板.xlsx">下载数据模板</a></p>
+                <p>3、将实验结果填入数据模板</p>
+                <p>4、在实验结束后，再次登录CHINET数据云，上传实验数据。</p>
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal formL col-md-8 col-sm-12 col-xs-12 ">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">医院名称：<em style="color: red;">*</em></label>
+            <div class="col-md-7 col-sm-9 ">
+                @*<input type="text" id="HospitalName" class="form-control inputtext" placeholder="请填写医院名称">*@
+                @Html.TextBoxFor(m => m.HospitalName, new { @class = "form-control inputtext", placeholder = "请输入医院名称" })
+            </div>
+            <div class="post_main_note">
+                <input type="hidden" id="HospitalId" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">医院等级：<em style="color: red;">*</em></label>
+            <div class="col-md-7 col-sm-9 ">
+                @Html.TextBoxFor(m => m.HospitalGrade, new { @class = "form-control inputtext", placeholder = "请填写医院等级" })
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 col-xs-12 col-md-3 control-label">省市区：<em style="color: red;">*</em></label>
+            @Html.Partial("/Areas/CR/Views/CRPartialView/_SelectArea.cshtml")
+            <div class="post_main_note">
+                @Html.HiddenFor(a => a.ProvinceId)
+                @Html.HiddenFor(a => a.CityId)
+
+                @Html.HiddenFor(a => a.DistrictsId)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">详细地址：<em style="color: red;">*</em></label>
+            <div class="col-md-7 col-sm-9 ">
+                @Html.TextBoxFor(m => m.Address, new { @class = "form-control inputtext", placeholder = "请填写详细地址" })
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">MH平板来源厂家：<em style="color: red;">*</em></label>
+            <div class="col-md-7 col-sm-9 ">
+                @Html.TextBoxFor(m => m.MHSource, new { @class = "form-control inputtext", placeholder = "请填写MH平板来源厂家" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">微生物负责人：<em style="color: red;">*</em></label>
+            <div class="col-md-7 col-sm-9 ">
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control inputtext", placeholder = "请填写微生物负责人" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">联系电话：<em style="color: red;">*</em></label>
+            <div class="col-md-7 col-sm-9 ">
+                @Html.TextBoxFor(m => m.Phone, new { @class = "form-control inputtext", placeholder = "请填写联系电话" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">邮箱地址：<em style="color: red;">*</em></label>
+            <div class="col-md-7 col-sm-9 ">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control inputtext", placeholder = "请填写邮箱地址" })
+            </div>
+        </div>
+        @{
+            if (uploaded)
+            {
+                <script type="text/javascript">
+                    $(".inputtext").attr("disabled", "disabled")/*.css('background', 'transparent')*/;
+                    $(".aa").attr("disabled", "disabled")/*.css('background', 'transparent')*/;
+                    $(".aa").css("background", "#EBEBE4");
+                </script>
+            }
+            else if (Model.EmailStatus == 1)
+            {
+                <div class="form-group" style="margin-top:30px;margin-bottom:50px">
+                    <div class="col-xs-offset-4 col-xs-6">
+                        <button class="btn btn-primary" onclick="EditProject()">确认修改</button>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <script type="text/javascript">
+                    $(".inputtext").attr("disabled", "disabled");
+                    $(".aa").attr("disabled", "disabled");
+                    $(".aa").css("background", "#EBEBE4");
+                </script>
+            }
+
+        }
+
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        SetDistrictSelect(@Model.ProvinceId, @Model.CityId, @Model.DistrictsId);
+    })
+</script>
+<script src="~/Content/Scripts/common-validate.js"></script>
+<script src="~/Areas/CR/Content/js/CR/Edit.js"></script>
+

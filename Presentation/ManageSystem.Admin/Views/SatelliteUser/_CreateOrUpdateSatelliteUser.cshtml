@@ -1,0 +1,164 @@
+﻿@model  ManageSystem.Admin.Models.Satellite.SatelliteUserModel
+@using ManageSystem.Admin.Extensions;
+@using ManageSystem.Admin.Models.SystemSet;
+@using ManageSystem.Admin.Models.Satellite;
+
+@Html.ValidationSummary(true)
+
+
+<style type="text/css">
+    .role-page-div .f-div {
+        margin: 20px 0px;
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+
+    .role-page-div .f-item li {
+        float: left;
+        text-decoration: none;
+        list-style: none;
+        padding: 0px 5px;
+        width: auto;
+        margin-right: 10px;
+    }
+
+    .role-page-div .m-item {
+        float: left;
+        width: 100%;
+        margin-bottom: 10px;
+        padding-left: 20px;
+    }
+
+    .role-page-div .m-check {
+        text-align: center;
+        float: left;
+    }
+
+    .role-page-div .m-item h5 {
+        font-size: 14px;
+    }
+
+    .role-page-div .role-title {
+        border-bottom: 1px solid #ccc;
+        font-size: 16px;
+        padding: 10px 0px;
+        font-weight: bold;
+    }
+
+    .role-page-div ul {
+        height: auto;
+        width: 100%;
+        float: left;
+        padding-left: 20px;
+    }
+
+    .role-page-div li {
+        text-decoration: none;
+        list-style: none;
+        padding: 0px 5px;
+        width: 100%;
+        margin-right: 10px;
+        line-height: 30px;
+        float: left;
+    }
+
+
+    .role-page-div .role-li {
+        float: left;
+        width: auto;
+    }
+</style>
+
+<table class="adminContent">
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.UserName)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.UserName)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.PassWord)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.PassWord, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.PassWord)
+        </td>
+    </tr>
+
+
+
+</table>
+
+<input type="hidden" name="RoleIds" id="RoleIds" value="" />
+<input type="hidden" name="SatelliteId" id="SatelliteId" value="@Model.SatelliteId" />
+<div class="role-page-div">
+    <p class="role-title">分配角色</p>
+
+    @*@Html.Raw(Model.FunctionHtml)*@
+
+    @{
+
+        List<SatelliteMenuModel> roleList = this.ViewBag.RoleList as List<SatelliteMenuModel>;
+
+        List<SatelliteMenuModel> userRoleList = this.ViewBag.UserRoleList as List<SatelliteMenuModel>;
+
+        if (roleList != null)
+        {
+            <ul>
+                @foreach (var item in roleList)
+                {
+                    var chk = false;
+                    if (userRoleList != null && userRoleList.Count > 0)
+                    {
+                        chk = userRoleList.Where(m => m.Id == item.Id).Count() > 0;
+                    }
+
+                    <li class="role-li">
+                        <span>
+                            <div class="m-check">
+                                <label>
+                                    <input type="checkbox" id="chkBox" @(chk ? "checked='checked'" : "") class="colored-blue role-chk" runat="server" value="@item.Id">
+                                    <span class="text"></span>
+                                </label>
+                            </div>
+                            @item.Name
+                        </span>
+                    </li>
+                }
+            </ul>
+        }
+    }
+
+    <div class="clearfix"></div>
+
+</div>
+
+<script src="/Content/Scripts/TranTextBox.js"></script>
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        $('#btnSave').click(function (e) {
+
+            //设置选择的功能id 集合
+            var selectedIds = [];
+            var chkList = $(".role-chk");
+            for (var i = 0; i < chkList.length; i++) {
+                if ($(chkList[i]).is(":checked") == true) {
+                    var idValue = $(chkList[i]).val();
+                    var checked = jQuery.inArray(idValue, selectedIds);
+                    if (checked == -1) {
+                        selectedIds.push(idValue);
+                    }
+                }
+            }
+
+            var ids = selectedIds.join(",");
+            $("#RoleIds").val(ids);
+            //$('#form1').submit();
+        });
+
+    });
+
+</script>

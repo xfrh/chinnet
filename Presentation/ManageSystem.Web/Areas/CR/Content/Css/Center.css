@@ -1,0 +1,160 @@
+﻿
+
+.k-grid-header .k-header {
+    border-style: none;
+    font-weight: bold;
+    height: 36px;
+    background: #42a3ce;
+    color: #fff;
+    border-style:none;
+    margin: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.k-grid td, .k-grid th {
+    padding: 8px 8px;
+}
+
+
+    .add-address-main .data-table {
+        border-style: none;
+    }
+
+        .add-address-main .data-table td {
+            border-style: none;
+            height: 32px;
+            line-height: 32px;
+        }
+
+    .table-blank-new {
+    }
+
+        .table-blank-new td .txt {
+            height: 32px;
+            line-height: 32px;
+            font-size: 14px;
+            border: 1px #e6e6e6 solid;
+            color: #353535;
+            padding: 5px;
+        }
+
+        .table-blank-new td .select-area-ddl {
+            -webkit-appearance: menulist;
+            background: none;
+            height: 32px;
+            line-height: 32px;
+            font-size: 14px;
+            font-size: 14px;
+            border: 1px #e6e6e6 solid;
+            color: #353535;
+            padding: 5px;
+            width: 31.5%;
+        }
+
+        .table-blank-new td .field-validation-error {
+         margin-bottom:0px;
+        }
+
+.integral-list-page .order-item-title td {
+ padding:10px;
+ text-align:center;
+}
+
+
+  .invite-list-page .invite-title {
+        font-size: 18px;
+        height: 30px;
+        line-height: 30px;
+    }
+
+    .invite-list-page .user_center_r_b_new {
+        margin-top: 20px;
+    }
+
+    .invite-list-page .invite-title-p {
+        font-size: 18px;
+        height: 30px;
+        line-height: 30px;
+        margin-top: 50px;
+    }
+
+    .invite-list-page .invite-content {
+        width: 100%;
+        background-color: #f8f8f8;
+        height: auto;
+    }
+
+    .invite-list-page  .invbd_line {
+        padding: 20px;
+    }
+
+    .invite-list-page .invbd_line p {
+        line-height: 30px;
+        font-size: 14px;
+    }
+
+
+
+.center-index-page   .user_center_r ul li .field-validation-error {
+        margin: 0px;
+        padding: 0px;
+        height: 30px;
+        line-height: 30px;
+    }
+
+      .center-index-page   .user_center_r ul li .field-validation-error span {
+            width: 100%;
+            float: left;
+            text-align: left;
+            margin: 0px;
+            padding: 0px;
+            height: 30px;
+            line-height: 30px;
+        }
+
+
+
+       .center-index-page .text {
+        padding: 4px 10px;
+    }
+
+    .select-area-ddl {
+        line-height: 30px;
+        padding: 2px 10px;
+        width: 250px;
+    }
+
+    #ddlProvince, #ddlCity {
+        width: 150px;
+    }
+
+    .select-div {
+        line-height: 30px;
+        padding: 2px 10px;
+        width: 300px;
+    }
+
+    .field-validation-error {
+        width: 100% !important;
+        line-height: 25px !important;
+    }
+
+        .field-validation-error span {
+            width: 100% !important;
+            line-height: 25px !important;
+            text-align: left !important;
+            margin-top: 0px !important;
+        }
+
+        .feedback-list-page .text {
+        padding: 4px 10px;
+    }
+
+
+.feedback-list-page .textarea{
+        border: 1px solid #dadada;
+    display: inline-block;
+    line-height: 2;
+    width: 50%;
+}

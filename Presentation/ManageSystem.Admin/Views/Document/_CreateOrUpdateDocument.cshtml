@@ -1,0 +1,147 @@
+﻿@model ManageSystem.Admin.Models.Document.DocumentModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+<table class="adminContent">
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Title)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Title, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Title)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.UrlName)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.UrlName, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.UrlName)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Sort)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Sort, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Sort)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Satellite)：</td>
+        <td class="adminData">
+            @Html.DropDownList("Satellite", Model.BelongSate, new { @class = "form-control dropdown" })
+            @Html.ValidationMessageFor(m => m.Satellite)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Status)：</td>
+        <td class="adminData">
+            <label for="status_true">
+                <input id="status_true" type="radio" class="radio" value="True" name="Status" @(Model.Status ? "checked='checked'" : "") />
+                <span class="text">启用</span>
+            </label>
+            <label for="status_false" style="margin-left: 1.5rem;">
+                <input id="status_false" type="radio" class="radio" value="False" name="Status" @(Model.Status ? "" : "checked='checked'") />
+                <span class="text">禁用</span>
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.weChattop)：</td>
+        <td class="adminData">
+            <label for="weChattop_true">
+                <input id="weChattop_true" type="radio" class="radio" value="True" name="weChattop" @(Model.weChattop ? "checked='checked'" : "") />
+                <span class="text">置顶</span>
+            </label>
+            <label for="weChattop_false" style="margin-left: 1.5rem;">
+                <input id="weChattop_false" type="radio" class="radio" value="False" name="weChattop" @(Model.weChattop ? "" : "checked='checked'") />
+                <span class="text">取消置顶</span>
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Owners)：</td>
+        <td class="adminData">
+            <label for="owner_chinet">
+                <input id="owner_chinet" data-val="true" data-val-owners="请选择资料所属" type="checkbox" class="checkbox" value="2" name="Owners[]" @(Model.Owners != null && Model.Owners.Contains(2) ? "checked='checked'" : "") />
+                <span class="text">CHINET</span>
+            </label>
+            <label for="owner_cre" style="margin-left: 1.5rem;">
+                <input id="owner_cre" data-val="true" data-val-owners="请选择资料所属" type="checkbox" class="checkbox" value="3" name="Owners[]" @(Model.Owners != null && Model.Owners.Contains(3) ? "checked='checked'" : "") />
+                <span class="text">CRE专项研究</span>
+            </label>
+            <label for="owner_cr" style="margin-left: 1.5rem;">
+                <input id="owner_cr" data-val="true" data-val-owners="请选择资料所属" type="checkbox" class="checkbox" value="4" name="Owners[]" @(Model.Owners != null && Model.Owners.Contains(4) ? "checked='checked'" : "") />
+                <span class="text">CR替加环素</span>
+            </label>
+            <span class="field-validation-valid" data-valmsg-for="Owners[]" data-valmsg-replace="true"></span>
+        </td>
+    </tr>
+    @if (Model.Owners != null)
+    {
+        if (Model.Owners.Contains(3) || Model.Owners.Contains(4))
+        {
+            <tr id="tr_link" style="display: table-row;">
+                <td class="adminTitle">@Html.NopLabelFor(m => m.Link)：</td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.Link, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                    @Html.ValidationMessageFor(m => m.Link)
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr id="tr_cr_link" style="display:none">
+            <td class="adminTitle">@Html.NopLabelFor(m => m.Link)：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Link, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                @Html.ValidationMessageFor(m => m.Link)
+            </td>
+        </tr>
+    }
+    <tr class="cover-image">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.PostFile)：</td>
+        <td class="adminData">
+            <input type="file" id="PostFile" name="PostFile" />
+            @Html.ValidationMessageFor(m => m.PostFile)
+
+        </td>
+    </tr>
+    @if (!string.IsNullOrWhiteSpace(Model.FilePath))
+    {
+        <tr>
+            <td class="adminTitle">&ensp;</td>
+            <td class="adminData">
+                已上传的文件：@System.IO.Path.GetFileName(Model.FilePath) <a class="btn-link" href="@Model.FilePath.TrimStart('~')">@Model.UrlName</a>
+            </td>
+        </tr>
+    }
+
+    <tr style="line-height:normal;">
+        <td class="adminTitle " colspan="2"></td>
+    </tr>
+    @if (Model.Owners != null)
+    {
+        if (Model.Owners.Contains(3) || Model.Owners.Contains(4))
+        {
+            <tr id="tr_cre_desc" style="display:table-row">
+                <td class="adminTitle">&ensp;</td>
+                <td class="adminData">
+                    <span class="red">说明：链接地址和上传文件填写一个即可。</span>
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr id="tr_cre_desc" style="display:none">
+            <td class="adminTitle">&ensp;</td>
+            <td class="adminData">
+                <span class="red">说明：链接地址和上传文件填写一个即可。</span>
+            </td>
+        </tr>
+    }
+</table>
+    <script src="/Content/Scripts/TranTextBox.js"></script>
+

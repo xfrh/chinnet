@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "设置登录密码";
+    Layout =  "~/Areas/CRE/Views/Shared/_MainLayout.cshtml";
+}
+
+<div id="app" v-cloak class="indexpage">
+    <div class="middle">
+        <div class="padding-lr-40">
+            <div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('password')}">
+                <input class=" flex1 padding-lr-10 fon-28 PI-Input" placeholder="设置登录密码" type="password" minlength="6"
+                       name="password"
+                       v-model="password"
+                       v-validate="'required|min:6'"
+                       autocomplete="new-password"
+                       ref="password" />
+            </div>
+            <div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('password2')}">
+                <input class=" flex1 padding-lr-10 fon-28 PI-Input" placeholder="再次设置登录密码" type="password" minlength="6"
+                       name="password2"
+                       v-model="password2"
+                       v-validate="'required|confirmed:password'"
+                       data-vv-as="password"
+                       autocomplete="new-password" />
+            </div>
+
+            <a ref="btnSubmit" class="btn margin-t-40 margin-b-20 ladda-button" data-style="zoom-in" @@click="onSubmit" href="javascript:void(0);">提&ensp;交</a>
+
+        </div>
+    </div>
+
+    @Html.Partial("_FooterNavBar", "我的")
+
+    <div id="successToast" ref="successToast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32" v-text="resSuccessMessage"></p>
+        </div>
+    </div>
+    <div id="failToast" ref="failToast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_toast" style="font-size: 1.65rem;"></i>
+            <p class="weui-toast__content fon-32" v-text="resFailMessage" style="margin-top: 0.25rem;"></p>
+        </div>
+    </div>
+    <div id="submitToast" ref="submitToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32">数据提交中</p>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    <link href="~/Content/Css/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/User/Feedback.css?v=1.0.0" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/vee-validate/vee-validate.min.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/fx.js"></script>
+    <script src="~/Content/Scripts/fx_methods.js"></script>
+    <script src="~/Areas/CRE/Content/Scripts/CreUser/ForceCipher.js?v=1.0.0"></script>
+}

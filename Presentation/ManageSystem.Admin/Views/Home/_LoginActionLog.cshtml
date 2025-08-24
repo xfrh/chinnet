@@ -1,0 +1,61 @@
+﻿@model List<ActionLogModel>
+
+@using ManageSystem.Admin.Models.Log
+
+<div class="widget">
+    <div class="widget-header bordered-bottom bordered-themeprimary">
+        <i class="widget-icon fa fa-tasks themeprimary"></i>
+        <span class="widget-caption themeprimary" style="line-height:30px;" >登录信息</span>
+    </div><!--Widget Header-->
+    <div class="widget-body">
+        <div class="widget-main no-padding">
+            <div class="task-container">
+
+                <ul class="tasks-list">
+                    @{
+                 
+                        if (Model != null && Model.Any())
+                        {
+                            if (Model.Count > 0)
+                            {
+                                <li class="task-item">
+                                    <div class="task-check">
+                                    </div>
+                                    <div class="task-state">
+                                        <span class="label label-yellow">
+                                            本次登录信息
+                                        </span>
+                                    </div>
+                                    <div class="task-time"></div>
+                                    <div class="task-body">IP地址：@Model[0].IPAddress  &nbsp;&nbsp;<br />@Model[0].Content</div>
+                                    <div class="task-creator"></div>
+                                    <div class="task-assignedto">@Model[0].InsertTime.ToString("yyyy-MM-dd HH:mm")</div>
+                                </li>
+                            }
+                            if (Model.Count > 1)
+                            {
+                                <li class="task-item">
+                                    <div class="task-check">
+                                        <label>
+
+                                        </label>
+                                    </div>
+                                    <div class="task-state">
+                                        <span class="label label-orange">
+                                            上次登录信息
+                                        </span>
+                                    </div>
+                                    <div class="task-time"></div>
+                                    <div class="task-body">IP地址：@Model[1].IPAddress  &nbsp;&nbsp;<br />@Model[1].Content</div>
+                                    <div class="task-creator"></div>
+                                    <div class="task-assignedto">@Model[1].InsertTime.ToString("yyyy-MM-dd HH:mm")</div>
+                                </li>
+                            }
+                        }
+                    }
+
+                </ul>
+            </div>
+        </div><!--Widget Main Container-->
+    </div><!--Widget Body-->
+</div>

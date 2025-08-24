@@ -1,0 +1,193 @@
+﻿@using ManageSystem.Web.Models.Datas
+
+@model List<BarChartDTO>
+
+@{
+    Layout = "~/Views/Shared/_LayoutMap.cshtml";
+    ViewBag.Title = "抗生素耐药性";
+}
+
+<link href="~/Content/Css/Datas/AntibioticDrugFast.css?v=122222" rel="stylesheet" />
+<link href="~/Content/Css/assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+<link href="~/Content/Css/assets/introjs.css" rel="stylesheet" />
+<script src="~/Content/Css/assets/intro.js"></script>
+<style>
+    li.w300px {
+        width: 300px;
+    }
+
+    li.w380px {
+        width: 380px;
+    }
+
+    li.active a,
+    li.active a:focus,
+    li.active a:link,
+    li.active a:visited,
+    li.active a:hover,
+    li.active a:active {
+        color: red !important;
+        text-decoration: none;
+    }
+
+    #pageContent li a,
+    #pageContent li a:focus,
+    #pageContent li a:link,
+    #pageContent li a:visited,
+    #pageContent li a:hover,
+    #pageContent li a:active {
+        color: #787878;
+        text-decoration: none;
+    }
+
+    #erWeiMa_outgoing {
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        right: -115px;
+        top: 265px;
+    }
+
+    #erWeiMa_box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 113px;
+        height: 113px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 0px;
+    }
+
+    #erWeiMa canvas {
+        width: 100px;
+        height: 100px;
+    }
+</style>
+<style>
+</style>
+<div style="position: relative;" id="pageContent">
+    <a class="btn helps btn-large btn-success" href="javascript:void(0);" onclick="javascript:introJs().setOptions({'prevLabel':'&larr; 上一步','nextLabel':'下一步 &rarr;','skipLabel':'跳过','doneLabel':'完成'}).start();" style="position: absolute;">帮助</a>
+    <div data-step="1" data-intro="<p style='font-weight:bold;'>图表类型：</p>您可以选择三种不同类型的图表：热图、柱状图、趋势图。" data-position='bottom' class="data-home-box" style="margin-bottom:0px; margin-top: 15px;">
+        <ul id="change_chart" class="clickable clearfix greybuttons">
+            <li class="active" data-name="柱状图" id="change_chart_trend" onclick="AntibioticDrugFastMap()">柱状图</li>
+            <li class="" data-name="趋势图" id="change_chart_chart" onclick="GermYearMap()">趋势图</li>
+            <li class="" data-name="热图" id="change_chart_chart" onclick="IndexMap()" style="margin-left: 0px; ">热图</li>
+            <li class="" data-name="关于CHINET" id="change_chart_map" onclick="location.href='/Data/Map'">关于CHINET</li>
+        </ul>
+    </div>
+
+    <div id="dataError" class="error-box" style="display:none;">
+        cd\
+        <img src="~/Content/Images/data-error.png" />
+        <p class="error-message">请选择图表类型</p>
+    </div>
+
+    <div style="overflow: hidden; width: 100%; display: block; ">
+
+        <div data-step="2" data-intro="<p style='font-weight:bold;'>图表：</p>根据选择的数据段展现不同的报表数据。" data-position='bottom' style="width:100%;display:block;overflow:hidden; " class="main-content2">
+            @*<div style="font-size: 18px; text-align: center; margin-bottom: 5px;" id="PageContentTitle"></div>
+                <div style="font-size: 16px; text-align: center; margin-bottom: 10px;" id="PageContentSubTitle"></div>*@
+            <div id="main" style="margin-top:10px; overflow:hidden; width:1200px; display:block; margin-bottom:0px;">  </div>
+        </div>
+        <div id="sjd-container" style="width: 100%; display: block; overflow: hidden;">
+            @{
+                int _step = 3;
+                foreach (BarChartDTO item in Model)
+                {
+                    <div class="index-bt"
+                         data-step="@(_step++)"
+                         data-intro="<p style='font-weight:bold;'>数据类型：</p>根据不同的@(item.Name.Equals("主要标本菌种分布") ? item.Name.Replace("主要","") : item.Name.Equals("不同医院耐药菌分布") ? item.Name.Replace("不同","") : item.Name)进行数据统计。"
+                         data-position='top'
+                         style="margin-top: 10px;">
+                        <h2>
+                            <i></i>@item.Name
+                            <span class="item-title-3" onclick="ClearSelect()" style="margin-left: 94px;">取消选择</span>
+                            <img data-step="@(_step++)"
+                                 data-intro="<p style='font-weight:bold;'>操作：</p>击箭头可以隐藏该部分数据选项，更加有利于阅读，再次点击则可以显示该部分数据选项。"
+                                 data-position='top'
+                                 class="germ-btn-image btn-image-box@(item.Id)"
+                                 src="~/Content/Images/jiantou-xia.png"
+                                 style="height: 13px; width: 13px; cursor: pointer;"
+                                 alt=""
+                                 draggable="false"
+                                 onclick="ShowStatus('box@(item.Id)')">
+                        </h2>
+                    </div>
+                    <div id="box@(item.Id)" class="fenlei"
+                         data-step="@(_step++)"
+                         data-intro="<p style='font-weight:bold;'>数据段：</p>可选择具体的@(item.Name.Equals("主要标本菌种分布") ? item.Name.Replace("主要","") : item.Name.Equals("不同医院耐药菌分布") ? item.Name.Replace("不同","") : item.Name)查看报表数据。 "
+                         data-position='top'
+                         data-status="1">
+                        <ul class="bb-item">
+                            @{
+                                string _class = "germ-li date-item-va";
+                                switch (item.Name.Trim())
+                                {
+                                    case "主要标本菌种分布":
+                                        {
+                                            _class = "germ-li date-item-va w300px";
+                                        }
+                                        break;
+                                    case "不同医院耐药菌分布":
+                                        {
+                                            _class = "germ-li date-item-va w380px";
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                foreach (BarChartDataItemDTO dataItem in item.DataItems)
+                                {
+
+                                    <li id="li@(dataItem.Id)" class="@_class">
+                                        <a href="/Data/AntibioticDrugFast/@dataItem.Id" data-default="@(dataItem.Default ? 1 : 0)" onclick="renderBarChart('@dataItem.Id'); return false;">@dataItem.Name</a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                }
+            }
+        </div>
+
+    </div>
+    <div id="erWeiMa_outgoing">
+        <div id="erWeiMa_box">
+            <div id="erWeiMa"></div>
+        </div>
+        <p style="font-size: 12px; font-weight: 600; transform: scale(0.9);">扫描二维码分享图片</p>
+    </div>
+</div>
+<input type="hidden" id="GermValue" data-remark="细菌名称" />
+<input type="hidden" id="AntibioticValue" data-remark="抗菌药物名称" />
+<input type="hidden" id="returnUrl" value="@this.Request.QueryString["returnUrl"]" />
+<input type="hidden" id="isHaveLogin" value="@this.Request.QueryString["type"]" />
+
+<script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+<script src="~/Content/Scripts/Echarts/theme/blue.js?v=1"></script>
+<script src="~/Content/Scripts/Datas/AntibioticDrugFastMap.js?v=@DateTime.Now.Ticks"></script>
+<script>
+    function GermYearMap()
+    {
+        var satelliteCity = sessionStorage.getItem('satelliteCity');
+
+        window.location.href = "/Data/GermYearMap?city=" + satelliteCity;
+    }
+
+    function IndexMap()
+    {
+        var satelliteCity = sessionStorage.getItem('satelliteCity');
+
+        window.location.href = "/Chinet/IndexMap?city=" + satelliteCity;
+        
+    }
+
+    function AntibioticDrugFastMap() {
+        var satelliteCity = sessionStorage.getItem('satelliteCity');
+
+        window.location.href = "/" + satelliteCity;
+    }
+</script>

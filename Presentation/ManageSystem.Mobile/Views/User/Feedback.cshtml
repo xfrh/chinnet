@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "建议反馈";
+    Layout = "/Views/Shared/_MyLayout.cshtml";
+}
+
+<div id="app" v-cloak class="indexpage">
+    <div class="middle">
+        <div class="padding-lr-40">
+            <div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('title')}">
+                <input class=" flex1 padding-lr-10 fon-28 PI-Input" placeholder="请输入您反馈的标题" type="text"
+                       name="title"
+                       v-model="title"
+                       v-validate="'required'" />
+            </div>
+            <div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('mobile')}">
+                <input class=" flex1 padding-lr-10 fon-28 PI-Input" placeholder="请输入您反手机号" type="tel"
+                       name="mobile"
+                       v-model="mobile"
+                       v-validate="{required: true, digits: 11, regex: /^[1](([3|8][\d])|([4][1,4,5,6,7,8,9])|([5][0,1,2,3,5,6,7,8,9])|([6][2,5,6,7])|([7][0,1,2,3,4,5,6,7,8])|([9][1,3,8,9]))[\d]{8}$/}" />
+            </div>
+            <div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('email')}">
+                <input class=" flex1 padding-lr-10 fon-28 PI-Input" placeholder="请输入您邮箱" type="email"
+                       name="email"
+                       v-model="email"
+                       v-validate="{required: true, email: true}" />
+            </div>
+            <div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('content')}">
+                <textarea placeholder="详细内容,至少5个字符" class="AF-textarea fon-28" name="content" v-model="content" v-validate="'required|min:5'" cols="30" rows="10"></textarea>
+
+            </div>
+
+            <a ref="btnSubmit" class="btn margin-t-40 margin-b-20 ladda-button" data-style="zoom-in" @@click="onSubmit" href="javascript:void(0);">提&ensp;交</a>
+
+        </div>
+    </div>
+
+    @Html.Partial("_FooterNavBar", "我的")
+
+    <div id="successToast" ref="successToast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32" v-text="resSuccessMessage"></p>
+        </div>
+    </div>
+    <div id="failToast" ref="failToast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_toast" style="font-size: 1.65rem;"></i>
+            <p class="weui-toast__content fon-32" v-text="resFailMessage" style="margin-top: 0.25rem;"></p>
+        </div>
+    </div>
+    <div id="submitToast" ref="submitToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32">数据提交中</p>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    <link href="~/Content/Css/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/User/Feedback.css?v=1.0.0" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/vee-validate/vee-validate.min.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/fx.js"></script>
+    <script src="~/Content/Scripts/fx_methods.js"></script>
+    <script src="~/Content/Scripts/User/Feedback.js?v=1.0.0"></script>
+}

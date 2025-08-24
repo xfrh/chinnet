@@ -1,0 +1,184 @@
+﻿
+@{
+    this.ViewBag.Title = "上传科室配置";
+
+    IEnumerable<SelectListItem> hospitalList = ViewData["HospitalList"] as IEnumerable<SelectListItem>;
+    var _hospitalList = hospitalList.ToList();
+    _hospitalList.Insert(0, new SelectListItem { Value = "", Text = "" });
+    hospitalList = _hospitalList;
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "医学信息", LocationName = ViewBag.Title }); }
+}
+
+@section HeadSection{
+    <link href="~/Content/Scripts/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="~/Content/Scripts/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+    <style>
+        .autocomplete-suggestions {
+            overflow: auto;
+            border: 1px solid #CBD3DD;
+            border-top: 0;
+            background: #FFF;
+        }
+
+            .autocomplete-suggestions .autocomplete-suggestion {
+                padding: 8px 15px;
+                white-space: nowrap;
+                border-bottom: 1px solid #CBD3DD;
+                font-size: 12px;
+            }
+
+                .autocomplete-suggestions .autocomplete-suggestion:last-child {
+                    border: none;
+                }
+
+                .autocomplete-suggestions .autocomplete-suggestion:hover {
+                    background-color: #2dc3e8;
+                    border-color: #2dc3e8;
+                    color: #FFF;
+                }
+
+        div.chinets-chosen {
+            width: 100% !important;
+        }
+
+        .chinets-chosen .chosen-single {
+            -webkit-border-radius: 0 !important;
+            -webkit-background-clip: padding-box !important;
+            -moz-border-radius: 0 !important;
+            -moz-background-clip: padding !important;
+            border-radius: 0 !important;
+            background-clip: padding-box !important;
+            color: #858585;
+            background-color: #fbfbfb;
+            border: 1px solid #d5d5d5;
+            font-family: inherit;
+            -webkit-transition: -webkit-box-shadow .45s,border-color .45s ease-in-out;
+            -moz-transition: -moz-box-shadow .45s,border-color .45s ease-in-out;
+            -o-transition: box-shadow .45s,border-color .45s ease-in-out;
+            transition: box-shadow .45s,border-color .45s ease-in-out;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+            padding: 6px 12px;
+            display: block;
+            height: 20px;
+            line-height: 20px;
+            background-image: none;
+            box-sizing: content-box;
+        }
+
+        .chosen-container-single .chosen-single abbr {
+            top: 10px;
+            right: 22px;
+        }
+
+        .chosen-container-single .chosen-single div b {
+            background-position-x: 2px;
+            background-position-y: 7px;
+        }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div b {
+            background-position: -16px 7px;
+        }
+
+        .chosen-container-single .chosen-search input[type=text] {
+            -webkit-border-radius: 0 !important;
+            -webkit-background-clip: padding-box !important;
+            -moz-border-radius: 0 !important;
+            -moz-background-clip: padding !important;
+            border-radius: 0 !important;
+            background-clip: padding-box !important;
+            color: #858585;
+            background-color: #fbfbfb;
+            border: 1px solid #d5d5d5;
+            font-family: inherit;
+            -webkit-transition: -webkit-box-shadow .45s,border-color .45s ease-in-out;
+            -moz-transition: -moz-box-shadow .45s,border-color .45s ease-in-out;
+            -o-transition: box-shadow .45s,border-color .45s ease-in-out;
+            transition: box-shadow .45s,border-color .45s ease-in-out;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+            padding: 6px 20px 6px 5px;
+            height: 28px;
+            line-height: 20px;
+            background-image: none;
+            box-sizing: border-box;
+        }
+    </style>
+}
+
+@section FooterSection{
+    <script src="~/Content/Scripts/toastr/toastr.js"></script>
+    <script src="~/Content/Scripts/Autocomplete/jquery.autocomplete.js"></script>
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/chosen/chosen.jquery.min.js"></script>
+    <script src="~/Content/Scripts/Medicine/HospitalWardLocation.js?v=@DateTime.Now.Ticks"></script>
+}
+
+<div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@ViewBag.Title</span>
+                </div>
+                <div class="widget-body">
+                    <div class="add-content ">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group clearfix">
+                                    <label class="control-label col-md-2" style="width: 160px;"><i class="fa fa-hospital-o" aria-hidden="true"></i>&ensp;所属医院：</label>
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("hospital_id", hospitalList, new { @class = "chinets-chosen" })
+                                        @*<input class="form-control" id="hospital" name="hospital" placeholder="请输入医院名称" />
+                                            <input hidden="hidden" type="hidden" id="hospital_id" name="hospital_id" />*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group clearfix">
+                                    <label class="control-label col-md-2" style="width: 160px;"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&ensp;选择EXCEL文件：</label>
+                                    <div class="col-md-10">
+                                        <input id="excelFile" name="excelFile" type="file" accept=".xls,.xlsx" placeholder="选择文件" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group clearfix">
+                                    <label class="control-label col-md-2" style="width: 160px;"><i class="fa fa-bookmark-o" aria-hidden="true"></i>&ensp;导入说明：</label>
+                                    <div class="col-md-10">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">1. 必须输入/选择已存在的医院。</li>
+                                            <li class="list-group-item">2. 请下载&emsp;<a target="_blank" href="/Content/Files/医院科室配置标准模板.xlsx"><i class="fa fa-download" aria-hidden="true"></i>&ensp;医院科室配置标准模板.xlsx</a>&emsp;并填写完善对应医院的科室配置，如果已经存在的科室将被覆盖；请勿编辑标准模板中的表头部分。</li>
+                                            <li class="list-group-item">3. 上传提交过程等待时间可能稍长，请勿离开或刷新本页面。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group clearfix">
+                                    <label class="control-label col-md-2">&ensp;</label>
+                                    <div class="col-md-10">
+                                        <button id="btnSubmit" class="btn btn-primary ladda-button" data-style="zoom-in" onclick="onSubmit(); return false;" type="button"><i class="fa fa-upload" aria-hidden="true"></i>&ensp;导入医院科室</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,109 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    this.ViewBag.Title = "医学数据统计 - MRSA对抗菌药物的耐药率";
+}
+@{
+    var breadcrumb = this.Request.QueryString["breadcrumb"];
+    if (string.IsNullOrWhiteSpace(breadcrumb) || !breadcrumb.Equals("hidden"))
+    {
+        <div class="mbx">
+            <p>当前位置：首页 &gt; 医学数据统计 &gt; MRSA对抗菌药物的耐药率 </p>
+        </div>
+    }
+    else
+    {
+        <div class="mbx" style="height:15px;">  </div>
+    }
+}
+
+        <div class="doct_center">
+            <div style="width:100%;float:left;margin-top: -30px;">
+                <div id="main" style="width: 90%;height:650px;  margin:0px auto;"></div>
+            </div>
+        </div>
+
+<script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+<script src="~/Content/Scripts/Echarts/bmap.js"></script>
+<script src="~/Content/Scripts/Echarts/china.js"></script>
+<script type="text/javascript">
+
+    function randomData() {
+        return Math.round(Math.random() * 1000);
+    }
+
+    $(document).ready(function () {
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+
+        option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            legend: {
+                data: ['耐药（R.%）', '中介（L.%）', '敏感（S.%）']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value'
+            },
+            yAxis: {
+                type: 'category',
+                data: [@Html.Raw(this.ViewBag.PageText)]
+            },
+            series: [
+                {
+                    name: '耐药（R.%）',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        normal: {
+                            //show: true,
+                            position: 'insideLeft'
+                        }
+                    },
+                    data: [@Html.Raw(this.ViewBag.PageResistanceValue)]
+                },
+                    {
+                        name: '中介（L.%）',
+                        type: 'bar',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                //show: true,
+                                position: 'insideRight'
+                            }
+                        },
+                        data: [@Html.Raw(this.ViewBag.PageIntermediaryValue)]
+                    },
+                {
+                    name: '敏感（S.%）',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        normal: {
+                            //show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    data: [@Html.Raw(this.ViewBag.PageSensitiveValue)]
+                }
+              
+            ]
+        };
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    });
+
+</script>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<webList>
+  
+  <!--<webItem>
+    <name>上传的医学数据耐药性检查</name>
+    <url>http://ehm.x.com/Medicine/AutoDispose</url>
+    <ip>125.46.39.22</ip>
+    <status>false</status>
+    <remark></remark>
+  </webItem>-->
+
+  <webItem>
+    <name>处理上传数据，上传完成以后系统异步验证和处理</name>
+    <url>http://localhost:62485/V1/Medicine/Analyze</url>
+    <ip>127.0.0.1</ip>
+    <status>true</status>
+    <remark></remark>
+    <target>1</target>
+  </webItem>
+
+
+  <webItem>
+    <name>计算耐药性规则，数据处理完成以后，系统异步计算耐药性规则</name>
+    <url>http://localhost:62485/V1/Medicine/DrugFast</url>
+    <ip>127.0.0.1</ip>
+    <status>true</status>
+    <remark></remark>
+    <target>1</target>
+  </webItem>
+
+  <webItem>
+    <name>系统定时作业处理评分初始化计算</name>
+    <url>http://localhost:62485/v1/scoremd/page_init</url>
+    <ip>127.0.0.1</ip>
+    <status>true</status>
+    <remark></remark>
+    <target>2</target>
+  </webItem>
+</webList>

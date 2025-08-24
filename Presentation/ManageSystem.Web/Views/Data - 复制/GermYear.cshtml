@@ -1,0 +1,76 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "细菌分类年份统计";
+}
+
+
+<link href="~/Content/Css/Datas/GermYear.css?v=1.5" rel="stylesheet" />
+
+<div style="overflow: hidden; position: relative;" id="pageContent">
+    <a class="btn helps btn-large btn-success" href="javascript:void(0);" onclick="javascript:introJs().setOptions({'prevLabel':'&larr; 上一步','nextLabel':'下一步 &rarr;','skipLabel':'跳过','doneLabel':'完成'}).start();" style="position: absolute;">帮助</a>
+    <div data-step="1" data-intro="<p style='font-weight:bold;'>图表类型：</p>您可以选择三种不同类型的图表：热图、柱状图、趋势图。" data-position='bottom' class="data-home-box" style="margin-bottom:5px; margin-top: 15px;">
+        <ul id="change_chart" class="clickable clearfix greybuttons">
+            <li class="" data-name="热图" id="change_chart_chart" onclick="location.href='/Chinet'" style="margin-left: 0px;">热图</li>
+            <li class="" data-name="柱状图" id="change_chart_trend" onclick="location.href='/Data/AntibioticDrugFast'">柱状图</li>
+            <li class="active" data-name="趋势图" id="change_chart_chart" onclick="location.href='/Data/GermYear'">趋势图</li>
+            <li class="" data-name="关于CHINET" id="change_chart_map" onclick="location.href='/Data/Map'">关于CHINET</li>
+        </ul>
+    </div>
+    <div  id="dataError" class="error-box" style="display:none;">
+        <img src="~/Content/Images/data-error.png" />
+        <p class="error-message">请选择数据段</p>
+    </div>
+
+    <div data-step="2" data-intro="<p style='font-weight:bold;'>图表：</p>根据选择的数据段展现不同的报表数据。" data-position='bottom' class="main-content2" style="width: 100%; display: block; overflow: hidden; ">
+        <div id="PageContentTitle" style="margin-bottom:5px;"></div>
+        <div id="main" style=" overflow:hidden; width:1200px; margin-bottom:0px;">  </div>
+        <div id="table_10000012"></div>
+    </div>
+
+    <div  style="width:100%;display:block;overflow:hidden;  ">
+        <div data-step="3" data-intro="<p style='font-weight:bold;'>数据类型：</p>根据不同的细菌和药物耐药变迁进行数据统计。" data-position='top' class="index-bt"><h2 style=" padding: 5px 0px;    display: inline-block; "><i></i>数据段<span class="item-title-3" style="margin-left:100px;    cursor: pointer;" onclick="ClearSelectType()">取消选择</span><img data-step="4" data-intro="<p style='font-weight:bold;'>操作：</p>击箭头可以隐藏该部分数据选项，更加有利于阅读，再次点击则可以显示该部分数据选项。" data-position='top' class="germ-btn-image" src="~/Content/Images/jiantou-xia.png" style="height:13px;width:13px;cursor:pointer;" alt="" onclick="ShowItemContent()"></h2></div>
+        <div data-step="5" data-intro="<p style='font-weight:bold;'>数据段：</p>可选择具体的数据段查看报表数据。" data-position='top' class="fenlei" id="GermContent" data-status="1">
+            <ul id="germ_list"></ul>
+        </div>
+    </div>
+</div>
+
+<input  type="hidden" id="TypeValue" data-remark="数据段名称" />
+
+@section FooterSection{
+    <script id="art_germ_li" type="text/html">
+        {{each data}}
+        <li id="data-{{$value.identity}}" class="germ-li">
+            <a href="javascript: SelectItem('{{$value.name}}');">{{$value.name}}</a>
+        </li>
+        {{/each}}
+    </script>
+
+    <script id="art_table_10000012" type="text/html">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>年份</th>
+                    <th>医院数</th>
+                    <th>株数</th>
+                    <th>革兰阴性菌</th>
+                    <th>革兰阳性菌</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{each data}}
+                <tr>
+                    <td>{{$value.year}}</td>
+                    <td>{{$value.hospital}}</td>
+                    <td>{{$value.count}}</td>
+                    <td>{{$value.item1}}</td>
+                    <td>{{$value.item2}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </script>
+    <script src="~/Content/Scripts/template-web.js"></script>
+    <script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+    <script src="~/Content/Scripts/Datas/GermYear.js?v=1.68"></script>
+}

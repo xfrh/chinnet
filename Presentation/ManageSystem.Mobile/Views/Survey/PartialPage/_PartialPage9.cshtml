@@ -1,0 +1,52 @@
+﻿<div class="swiper-container scroll">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide slidescroll">
+            <article class="cro-page">
+                <div class="cro-qbox">
+                    <div class="cro-qbox-title" v-text="Q27.title"></div>
+                    <div class="cro-qbox-awbox">
+                        <table>
+                            <tbody>
+                                <tr v-for="(item, index) in Q27.options">
+                                    <td>
+                                        <div class="checkbox-control">
+                                            <input :id="'checkbox__27_'+(index+1)" v-model="Q27.answer" class="checkbox-control-input" type="checkbox" name="Q27" :value="item.value" />
+                                            <label :for="'checkbox__27_'+(index+1)" class="checkbox-control-label"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <label :for="'checkbox__27_'+(index+1)" v-text="item.text"></label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="cro-qbox">
+                    <div class="cro-qbox-title" v-text="Q28.title"></div>
+                    <div class="cro-qbox-awbox">
+                        <table>
+                            <tbody>
+                                <tr v-for="(item, index) in Q28.options">
+                                    <td>
+                                        <div class="checkbox-control">
+                                            <input :id="'checkbox__28_'+(index+1)" v-model="Q28.answer" class="checkbox-control-input" type="checkbox" name="Q28" :value="item.value" />
+                                            <label :for="'checkbox__28_'+(index+1)" class="checkbox-control-label"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <label :for="'checkbox__28_'+(index+1)" v-text="item.text"></label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </article>
+            <footer class="flex flex-center">
+                <a class="btn flex-1" style="height: 45px; line-height: 45px; text-align: center; color: #005cad; background-color: transparent;" @@click="onPrevSlide">上一页</a>
+                <a class="btn flex-1 disabled" style="height: 45px; line-height: 45px; text-align: center; color: #005cad; background-color: transparent;" @@click="onNextSlide">下一页</a>
+            </footer>
+        </div>
+    </div>
+</div>

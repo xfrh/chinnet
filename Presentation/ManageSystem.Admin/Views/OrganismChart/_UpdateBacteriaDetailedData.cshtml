@@ -1,0 +1,194 @@
+﻿@model ManageSystem.Admin.Models.Organism.BacteriaDetailedDataModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(c => c.OrganismTypeId)
+<table class="adminContent">
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V0002)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V0002, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V0004)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V0004, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V0008)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V0008, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V0016)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V0016, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V0032)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V0032, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V0064)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V0064, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V0125)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V0125, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V0025)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V0025, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V0005)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V0005, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V1001)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V1001, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V1002)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V1002, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V1004)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V1004, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V1008)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V1008, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V1016)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V1016, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V1032)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V1032, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V1064)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V1064, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V1128)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V1128, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V1256)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V1256, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.V1512)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.V1512, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Ecoff)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Ecoff, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Distributions)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Distributions, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Observations)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Observations, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+
+
+</table>
+
+
+<script src="/Content/Scripts/TranTextBox.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#MedicalOrganismTypeId').on("change", function (item) {
+            var tId = item.currentTarget.selectedOptions[0].value;
+            $.ajax({
+                url: "@Url.Action("GetMedicalOrganism")?typeId=" + tId,
+                type: "GET",
+                dataType: "json",
+                success: function (json) {
+                    if (json == null || json == "") {
+                        return;
+                    }
+                    var content = " <option value=\"0\" >全部</option>";
+                    for (var i = 0; i < json.length; i++) {
+                        content += " <option value=\"" + json[i].Value + "\" >" + json[i].Text + "</option>";
+                    }
+                    $("#MedicalOrganismId").html(content);
+                    $("#MedicalOrganismId").easyDropDown('destroy');
+                    $("#MedicalOrganismId").easyDropDown();
+                }
+            });
+
+        });
+        $("#DataFiles").on("change", function () {
+            $("#DataFilesMsg").hide();
+            var filepath = $("#DataFiles").val();
+            var fileArr = filepath.split("\\");
+            var fileTArr = fileArr[fileArr.length - 1].toLowerCase().split(".");
+            var filetype = fileTArr[fileTArr.length - 1];
+            if (filetype != "xls" && filetype != "xlsx") {
+                $("#DataFiles").val("");
+                alert("格式错误，请重新选择!");
+                return;
+            }
+            $("#userdefinedFile").val($("#DataFiles").val());
+
+        });
+
+    });
+
+</script>

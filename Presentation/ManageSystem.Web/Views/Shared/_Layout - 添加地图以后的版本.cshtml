@@ -1,0 +1,204 @@
+﻿@using ManageSystem.Services.Configuration
+@{
+
+    string adminPageTitle = "";
+    if (!String.IsNullOrWhiteSpace(this.ViewBag.Title))
+    {
+        adminPageTitle = this.ViewBag.Title + " / ";
+    }
+
+    adminPageTitle += WebSettingService.GetWebName() + "";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <title>@adminPageTitle</title>
+    <link href="/Content/bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/Content/Css/style.css?v=1.22" rel="stylesheet" />
+    <link href="/Content/Css/keyan.css" rel="stylesheet" />
+    <link href="/Content/Css/common.css" rel="stylesheet" />
+
+    <link href="/Content/Css/swiper-3.3.1.min.css" rel="stylesheet" />
+    <link href="/Content/Scripts/layer-v2.4/skin/layer.css" rel="stylesheet" />
+    <link href="/Content/Scripts/layer-v2.4/laydate/skins/dahong/laydate.css" rel="stylesheet" />
+    <link href="/Content/Css/pageer.css" rel="stylesheet" />
+
+    <script src="/Content/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="/Content/Scripts/jquery.validate.min.js"></script>
+    <script src="/Content/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/Content/Scripts/layer-v2.4/layer.js"></script>
+    <script src="/Content/Scripts/layer-v2.4/laydate/laydate.js"></script>
+    <script src="/Content/Scripts/common-validate.js"></script>
+
+    <link href="/Content/Css/Layout/base.css?V=1212222" rel="stylesheet" />
+    <link href="/Content/Css/Layout/global.css?V=2222212" rel="stylesheet" />
+
+    @RenderSection("HeadSection", required: false)
+
+</head>
+<body style="background-color:white;">
+
+    <div class="header wid-1200">
+        <div class="logo">
+            <li class="l"><img src="/Content/Images/logo.jpg" /></li>
+            <li class="r">
+                @{ Html.RenderAction("_MenuMember", "PartialView");}
+            </li>
+        </div>
+        <div class="nav">
+            <li><a href="/">首页</a></li>
+            <li onmouseover="SelectMenuItemOver(this)" onmouseout="SelectMenuItemOut(this)" class="menu-dropdown">
+                <a href="javascript:void(0)" class="menu-item-a">数据分析<img src="/Content/Images/06.jpg" alt="" /></a>
+                <div class="dropdown-content">
+                    <div class="row-fluid" style="width:500px;left:-150px;">
+                        <div id="block-block-1" class="block block-block no-title">
+                            <div class="block-inner clearfix" style="    padding: 10px;">
+                                <ul id="country_list_dropdown  menu-medicine" class="country_list_dropdown">
+                                    <li>
+                                        <a href="@Url.Action("Area","MedicalStatistics")">按省份统计</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Year","MedicalStatistics")">按年份统计</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("YearAndQuarter","MedicalStatistics")">按年份和季度统计</a>
+                                    </li>
+                                    <li style="display:none;">
+                                        <a href="@Url.Action("Specimen","MedicalStatistics")">按标本统计</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("TenGerm","MedicalStatistics")">按分离细菌统计</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("GramNegativeBacteria","MedicalStatistics")">革兰阴性菌菌种分布</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("GramPositiveBacteria","MedicalStatistics")">革兰阳性菌菌种分布</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("BacteriaInSpecimen","MedicalStatistics")">细菌在标本中占比</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("EscherichiaColiSensitivityDrug","MedicalStatistics")">E.coli耐药率</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("MRSASensitivityDrug","MedicalStatistics")">MRSA耐药率</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("MRCNSSensitivityDrug","MedicalStatistics")">MRCNS耐药率</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("MSSASensitivityDrug","MedicalStatistics")">MSSA耐药率</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li><a href="/Meeting">会议信息</a></li>
+            <li><a href="/OrganismChart">流行病学析点</a></li>
+            <li><a href="/Medicine/Upload">上传数据</a></li>
+            <li onmouseover="SelectMenuItemOver(this)" onmouseout="SelectMenuItemOut(this)" class="menu-dropdown">
+                <a href="javascript:void(0)">会员中心<img src="/Content/Images/06.jpg" alt="" /></a>
+                <div class="dropdown-content">
+                    <div class="row-fluid" style="width:400px;left:-130px;">
+                        <div id="block-block-1" class="block block-block no-title">
+                            <div class="block-inner clearfix" style="    padding: 10px;">
+                                <ul id="country_list_dropdown  menu-usercenter" class="country_list_dropdown">
+                                    <li>
+                                        <a href="@Url.Action("Index","Center")">个人中心</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Invite","Center")">邀请会员</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("MeetingCollection","Center")">我的收藏</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("MeetingApply","Center")">我的报名</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("MeetingList","Center")">我发布的活动</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Feedback","Center")"> 建议反馈 </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Upload","Medicine")">上传医学数据</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("MedicineManage","Center")">医学数据管理</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("IntegralList","Center")">积分明细</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("AddressList","Center")">收货地址管理</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index","Mall")">我要兑换</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("OrderList","Center")">兑换记录</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li onmouseover="SelectMenuItemOver(this)" onmouseout="SelectMenuItemOut(this)" class="menu-dropdown">
+                <a href="javascript:void(0);">更多<img src="/Content/Images/05.jpg" alt="" /></a>
+                <div class="dropdown-content">
+                    <div class="row-fluid" style="width:100%;">
+                        <div id="block-block-1" class="block block-block no-title">
+                            <div class="block-inner clearfix" style="    padding: 10px;">
+                                <ul id="country_list_dropdown  " class="country_list_dropdown menu-more">
+                                    <li>
+                                        <a href="/News">咨询中心</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Mall">积分兑换</a>
+                                    </li>
+                                    <li>
+                                        <a href="Research">科研合作</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </div>
+    </div>
+    <div class="content wid-1200" id="pageContent">
+        <div>@Html.Partial("Notifications")  </div>
+        <div style="min-height:400px;">@RenderBody()</div>
+    </div>
+    @RenderSection("FooteMenu", required: false)
+    <div class="footer">
+        <ul class="wid-1200">
+            <p class="center"><img src="/Content/Images/wb.jpg" alt="" /><img src="/Content/Images/wx.jpg" alt="" /><img src="/Content/Images/qq.jpg" alt="" /></p>
+            <p class="center" style="font-size:12px;">Tel：021-52889999  |  www.chinets.com  |   Address：上海市静安区乌鲁木齐中路12号</p>
+            <p class="center" style="font-size:12px;">版权所有：copingright@@chinets.com</p>
+        </ul>
+    </div>
+
+    <script src="/Content/Scripts/swiper-3.3.1.min.js"></script>
+    <script src="/Content/Scripts/common.js"></script>
+    <script src="/Content/Scripts/layer-v2.4/helper.js"></script>
+    <script src="/Content/bootstrap-3.3.0/js/bootstrap.min.js"></script>
+    <script src="~/Content/Scripts/_Layout.js"></script>
+
+    @RenderSection("FooterSection", required: false)
+
+</body>
+</html>

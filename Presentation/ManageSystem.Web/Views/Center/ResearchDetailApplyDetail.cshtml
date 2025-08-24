@@ -1,0 +1,68 @@
+﻿@using ManageSystem.Web.Models.Researches;
+@using Webdiyer.WebControls.Mvc;
+
+@model ResearchApplyModel
+@{
+    Layout = "~/Views/Shared/_WindowLayout.cshtml";
+    this.ViewBag.Title = "科研合作报名申请详细信息 ";
+}
+
+@section HeadSection{
+    <link href="~/Content/Css/Center.css" rel="stylesheet" />
+}
+
+<style type="text/css">
+    .user_center .center-table {
+        width: 100%;
+        border-style: none;
+    }
+
+        .user_center .center-table td {
+            border-style: none;
+            height: 30px;
+            line-height: 30px;
+            font-size: 14px;
+            text-align: left;
+            padding: 2px;
+            box-sizing: border-box;
+        }
+</style>
+
+<div class="user_center" >
+
+        <div class="user_center_r_b" style="padding: 10px 50px; ">
+            @{
+                if (Model == null || Model.Id <= 0)
+                {
+                    <p>数据不存在</p>
+                }
+                else
+                {
+
+                    <table class="center-table">
+                        <tr>
+                            <td style="width:15%;">报名时间：</td>
+                            <td style="width:85%;">@Model.InsertTime.ToString("yyyy-MM-dd HH:mm")</td>
+                        </tr>
+                        <tr>
+                            <td>报名人姓名：</td>
+                            <td>@Model.Name</td>
+                        </tr>
+                        <tr>
+                            <td>手机号码：</td>
+                            <td>@Model.Phone</td>
+                        </tr>
+                        <tr>
+                            <td>邮箱地址：</td>
+                            <td>@Model.Email</td>
+                        </tr>
+                        <tr>
+                            <td>报名状态：</td>
+                            <td>@Model.StatusName</td>
+                        </tr>
+                    </table>
+                }
+            }
+        </div>
+    </div>
+

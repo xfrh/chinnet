@@ -1,0 +1,296 @@
+﻿@model ManageSystem.Core.Domain.Cre.Toconfigure
+@{
+    //page title
+    ViewBag.Title = "CRE数据编辑";
+}
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "CRE专项检测", SecondName = "数据管理列表", LocationName = this.ViewBag.Title }); }
+
+}
+@using (Html.BeginForm("CREProjectEdit", "CREProject", FormMethod.Post, new { id = "update-selected-form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="page-body">
+            <div class="row add-page">
+                <div class="col-lg-12 col-sm-12 col-xs-12">
+                    <div class="widget ">
+                        <div class="widget-header add-page-titlebox ">
+                            <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                        </div>
+                        <div class="widget-body " id="BaseDiv" runat="server">
+
+                            <div class="add-content ">
+                                <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                                    @Html.Partial("_CreProjectdetails", Model)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="options add-page-options" style="text-align:right">
+                            <input type="button" name="save" class="btn btn-blue" id="btn-update" value="保存" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     }
+    <script>
+        $(function () {
+            GetDistrictLists(0, 1);
+            function GetDistrictLists(parentId, location) {
+
+                $.ajax({
+                    url: "/PartialView/GetDistrictList",
+                    type: "Post",
+                    dataType: "json",
+                    data: { parentId: parentId },
+                    success: function (json) {
+
+                        if (json == null || json == "") {
+                            return;
+                        }
+
+                        var content = " <option value=\"0\" >-- 请选择 --</option>";
+                        for (var i = 0; i < json.length; i++) {
+                            content += " <option value=\"" + json[i].Id + "\" >" + json[i].Name + "</option>";
+                        }
+
+                        switch (location) {
+                            case 1:
+                                //绑定省份
+                                $("#ddlProvince").html(content);
+                                break;
+                            case 2:
+                                //绑定市
+                                $("#ddlCity").html(content);
+                                break;
+                            case 3:
+                                //绑定区县
+                                $("#ddlArea").html(content);
+                                break;
+
+                            default:
+
+
+                        }
+                        SetDistrictSelect($("#Province_id").val(), $("#City_id").val(), $("#District_id").val());
+
+                    },
+
+                    error: function (x, e) { },
+                    complete: function (x) { }
+                });
+            }
+            var Year = $("#Data_year").val();
+            var Ession = $("#Data_season").val();
+            $("#year").val(Year);
+            $("#season").val(Ession);
+        })
+        $("#btn-update").click(function UpdateData() {
+            var hospital = $("#Hospital").val();
+            var ddlProvinceid = $("#ddlProvince").val();
+            var ddlCityid = $("#ddlCity").val();
+            var ddlAreaid = $("#ddlArea").val();
+            var address = $("#Detailedaddress").val();
+            var person = $("#Contact").val();
+            var Phone = $("#Mobile").val();
+            var Mailbox = $("#Email").val();
+            var Year = $("#year").val();
+            var Ession = $("#season").val();
+            var Germ = $("#Germ").val();
+            var germ_detected = $("#Germ_detected").val();
+            var cr_detected = $("#Cr_detected").val();
+            var Cre_id = $("#Cre_id").val();
+            var tan = $("#Specimen_tan").val();
+            var blood = $("#Specimen_blood").val();;
+            var faeces = $("#Specimen_faeces").val();
+            var alveolar = $("#Specimen_alveolar").val();
+            var woundpus = $("#Specimen_woundpus").val();
+            var urethra = $("#Specimen_urethra").val();
+            var venous = $("#Specimen_venous").val();
+            var puncture = $("#Specimen_puncture").val();
+            var specimen_other = $("#Specimen_other").val();
+            var bloodsection = $("#Department_bloodsection").val();
+            var icu = $("#Department_icu").val();
+            var breathing = $("#Department_breathing").val();
+            var Infected = $("#Department_Infected").val();
+            var transplant = $("#Department_transplant").val();
+            var other = $("#Department_other").val();
+            var Sensitive = $("#One").next().text()
+            var Hodge = $("#Two").next().text()
+            var CarbaNP = $("#Three").next().text()
+            var mCIMandeCIM = $("#Four").next().text()
+            var EDTAandAPB = $("#Five").next().text()
+            var Goldlabeled = $("#six").next().text()
+            var PCR = $("#Seven").next().text()
+            var GeneXpert = $("#Eight").next().text()
+            var Carbapenemase = $("#Nine").next().text()
+            var report = $("#whether").val();
+            var type = $("#mode").val();
+            if (report == 1 && type == "") {
+                $("#modewhether").show();
+                $("#modewhether").html("请选择报告方式");
+            }
+            var regu = /^[0-9]+\.?[0-9]*$/;
+            var kpc = $("#Carbapenemase_kpc").val()
+            if (kpc != "") {
+                if (!regu.test(kpc)) {
+                    alert("KPC必须为数字")
+                    $("#Carbapenemase_kpc").val("");
+                    return;
+                }
+            }
+            if (Number(kpc) > cr_detected) {
+                alert("请确保碳青霉烯酶及菌株数总和小于耐药株数")
+                $("#Carbapenemase_kpc").val("");
+                return;
+            }
+            var ndm = $("#Carbapenemase_ndm").val()
+            var sum = Number(kpc) + Number(ndm);
+            if (ndm != "") {
+                if (!regu.test(ndm)) {
+                    alert("NDM必须为数字")
+                    $("#Carbapenemase_ndm").val("");
+                    return;
+                }
+            }
+            if (sum > cr_detected) {
+                alert("请确保碳青霉烯酶及菌株数总和小于耐药株数")
+                $("#Carbapenemase_ndm").val("");
+                return;
+            }
+            var oxa_48 = $("#Carbapenemase_oxa_48").val()
+            sum = Number(kpc) + Number(ndm) + Number(oxa_48);
+            if (oxa_48 != "") {
+                if (!regu.test(oxa_48)) {
+                    alert("OXA_48必须为数字")
+                    $("#Carbapenemase_oxa_48").val("");
+                    return;
+                }
+            } if (sum > cr_detected) {
+                alert("请确保碳青霉烯酶及菌株数总和小于耐药株数")
+                $("#Carbapenemase_oxa_48").val("");
+                return;
+            }
+            var ipm = $("#Carbapenemase_ipm").val()
+            sum = Number(kpc) + Number(ndm) + Number(oxa_48) + Number(ipm);
+            if (ipm != "") {
+                if (!regu.test(ipm)) {
+                    alert("IPM必须为数字")
+                    $("#Carbapenemase_ipm").val("");
+                    return;
+                }
+            } if (sum > cr_detected) {
+                alert("请确保碳青霉烯酶及菌株数总和小于耐药株数")
+                $("#Carbapenemase_ipm").val("");
+                return;
+            }
+            var vim = $("#Carbapenemase_vim").val()
+            sum = Number(kpc) + Number(ndm) + Number(oxa_48) + Number(ipm) + Number(vim);
+            if (vim != "") {
+                if (!regu.test(vim)) {
+                    alert("VIM必须为数字")
+                    $("#Carbapenemase_vim").val("");
+                    return;
+                }
+            } if (sum > cr_detected) {
+                alert("请确保碳青霉烯酶及菌株数总和小于耐药株数")
+                $("#Carbapenemase_vim").val("");
+                return;
+            }
+            var carbapenemase_other = $("#Carbapenemase_other").val()
+            sum = Number(kpc) + Number(ndm) + Number(oxa_48) + Number(ipm) + Number(vim) + Number(carbapenemase_other);
+            if (carbapenemase_other != "") {
+                if (!regu.test(carbapenemase_other)) {
+                    alert("碳青霉烯酶其他必须为数字")
+                    $("#Carbapenemase_other").val("");
+                    return;
+                }
+            } if (sum > cr_detected) {
+                alert("请确保碳青霉烯酶及菌株数总和小于耐药株数")
+                $("#Carbapenemase_other").val("");
+                return;
+            }
+            var polymyxin = $("#Antibiotic_polymyxin").val()
+            if (polymyxin != "") {
+                if (!regu.test(polymyxin)) {
+                    alert("(1) 多粘菌素必须为数字")
+                    $("#Antibiotic_polymyxin").val("");
+                    return;
+                }
+            }
+            var tegafycline = $("#Antibiotic_tegafycline").val()
+            if (tegafycline != "") {
+                if (!regu.test(tegafycline)) {
+                    alert("(2) 替加环素必须为数字")
+                    $("#Antibiotic_tegafycline").val("");
+                    return;
+                }
+            }
+            var ceftazidime = $("#Antibiotic_ceftazidime").val()
+            if (ceftazidime != "") {
+                if (!regu.test(ceftazidime)) {
+                    alert("(3) 头孢他啶-阿维巴坦必须为数字")
+                    $("#Antibiotic_ceftazidime").val("");
+                    return;
+                }
+            }
+            var fosfomycin = $("#Antibiotic_fosfomycin").val()
+            if (fosfomycin != "") {
+                if (!regu.test(fosfomycin)) {
+                    alert("(4) 磷霉素必须为数字")
+                    $("#Antibiotic_fosfomycin").val("");
+                    return;
+                }
+            }
+            var chloramphenicol = $("#Antibiotic_chloramphenicol").val()
+            if (chloramphenicol != "") {
+                if (!regu.test(chloramphenicol)) {
+                    alert("(5) 氯霉素必须为数字")
+                    $("#Antibiotic_chloramphenicol").val("");
+                    return;
+                }
+            }
+            var drugtest = $("#Antibiotic_drugtest").val();
+            if (drugtest != "") {
+                if (!regu.test(drugtest)) {
+                    alert("（6）联合药敏试验必须为数字")
+                    $("#Antibiotic_drugtest").val("");
+                    return;
+                }
+            }
+            $('#update-selected-form').submit();
+            return false;
+            //$.post("/CREProject/CREProjectEdit", { Hospital: hospital, Province_id: ddlProvinceid, City_id: ddlCityid, District_id: ddlAreaid, Detailedaddress: address, Contact: person, Email: Mailbox, Mobile: Phone, Data_year: Year, Data_season: Ession, Germ_detected: germ_detected, Cr_detected: cr_detected, Specimen_tan: tan, Specimen_blood: blood, Specimen_faeces: faeces, Specimen_alveolar: alveolar, Specimen_woundpus: woundpus, Specimen_urethra: urethra, Specimen_venous: venous, Specimen_puncture: puncture, Specimen_other: specimen_other, Department_bloodsection: bloodsection, Department_icu: icu, Department_breathing: breathing, Department_Infected: Infected, Department_transplant: transplant, Department_other: other, Sensitive: Sensitive, Hodge: Hodge, CarbaNP: CarbaNP, MCIMandeCIM: mCIMandeCIM, EDTAandAPB: EDTAandAPB, Goldlabeled: Goldlabeled, PCR: PCR, GeneXpert: GeneXpert, Carbapenemase: Carbapenemase, General_report: report, Report_type: type, Carbapenemase_kpc: kpc, Carbapenemase_ndm: ndm, Carbapenemase_oxa_48: oxa_48, Carbapenemase_ipm: ipm, Carbapenemase_vim: vim, Carbapenemase_other: carbapenemase_other, Antibiotic_polymyxin: polymyxin, Antibiotic_tegafycline: tegafycline, Antibiotic_ceftazidime: ceftazidime, Antibiotic_fosfomycin: fosfomycin, Antibiotic_chloramphenicol: chloramphenicol, Antibiotic_drugtest: drugtest, Cre_id: Cre_id, Germ: Germ }, function () {
+            //})
+            //$.post("/CREProject/CREProjectEdit", { $('#form1').serialize(), }, function () {
+            //})
+        })
+        function whether() {
+            if ($("#whether").val() == "1" && $("#mode").val() == "") {
+                $("#modewhether").show();
+                $("#modewhether").html("请选择报告方式");
+            }
+            else if ($("#whether").val() == "1" && $("#mode").val() !== "") {
+                $("#modewhether").hide();
+                $("#modewhether").html("");
+            }
+            else if ($("#whether").val() == "0") {
+                $("#mode").val("")
+            }
+
+        }
+        function mode() {
+            if ($("#whether").val() == "1" && $("#mode").val() !== "") {
+                $("#modewhether").hide();
+                $("#modewhether").html("请选择报告方式");
+            } else if ($("#whether").val() == "0" && $("#mode").val() !== "") {
+                $("#whether").val("1")
+            }
+        }
+        function SelectCallBack() {
+            var Year = $("#year").val();
+            var Ession = $("#season").val();
+            $("#Data_year").val(Year);
+            $("#Data_season").val(Ession);
+          }
+    </script>

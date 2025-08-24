@@ -1,0 +1,91 @@
+﻿
+@model ManageSystem.Core.Domain.Cre.Cre_germ_types
+@using ManageSystem.Admin.Extensions;
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Germ_id)
+
+<style>
+    .select-area-ddl {
+        width: 28.5% !important;
+        border: 1px solid #d9d9d9 !important;
+        color: #444 !important;
+    }
+
+    .post_main_r {
+        width: 82%;
+    }
+</style>
+
+<table class="adminContent">
+
+    <tr>
+        <td class="adminTitle">细菌名称：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Germ_name, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">细菌上传名称：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Germ_upload_name, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">耐药名称：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Cr_name, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">耐药Code：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Ger_code, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">排序：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Sortid, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">是否允许数据上传：</td>
+        <td class="adminData">
+            <label for="Allow_data_upload_true">
+                <input id="Allow_data_upload_true" type="radio" class="radio" value="true" name="Allow_data_upload" @(Model.Allow_data_upload ? "checked='checked'" : "") />
+                <span class="text">是</span>
+            </label>
+            <label for="Allow_data_upload_false" style="margin-left: 1.5rem;">
+                <input id="Allow_data_upload_false" type="radio" class="radio" value="False" name="Allow_data_upload" @(Model.Allow_data_upload ? "" : "checked='checked'") />
+                <span class="text">否</span>
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">是否允许修改：</td>
+        <td class="adminData">
+            <label for="allow_edit_true">
+                <input id="allow_edit_true" type="radio" class="radio" value="true" name="allow_edit" @(Model.allow_edit ? "checked='checked'" : "") />
+                <span class="text">是</span>
+            </label>
+            <label for="allow_edit_false" style="margin-left: 1.5rem;">
+                <input id="allow_edit_false" type="radio" class="radio" value="False" name="allow_edit" @(Model.allow_edit ? "" : "checked='checked'") />
+                <span class="text">否</span>
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">是否在热图显示：</td>
+        <td class="adminData">
+            <label for="Allow_report_display_true">
+                <input id="Allow_report_display_true" type="radio" class="radio" value="true" name="Allow_report_display" @(Model.Allow_report_display ? "checked='checked'" : "") />
+                <span class="text">是</span>
+            </label>
+            <label for="Allow_report_display_false" style="margin-left: 1.5rem;">
+                <input id="Allow_report_display_false" type="radio" class="radio" value="False" name="Allow_report_display" @(Model.Allow_report_display ? "" : "checked='checked'") />
+                <span class="text">否</span>
+            </label>
+        </td>
+    </tr>
+</table>
+<script src="/Content/Scripts/TranTextBox.js"></script>

@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "个人中心";
+    Layout =  "~/Areas/CRE/Views/Shared/_MainLayout.cshtml";
+}
+
+<div id="app" v-cloak class="indexpage">
+    <div class="middle">
+        <div class="MY-top flex f-center">
+            <img ref="imgHeadImage" class="MY-header" :src="user.photo" alt="" draggable="false" @@error="defaultHeadImage" />
+            <div class="white">
+                <div class="fon-28" v-text="user.timetext"></div>
+                <div class="fon-38 bold" v-text="user.username"></div>
+            </div>
+        </div>
+        <div class="padding-lr-40">          
+            <div class="flex f-between padding-tb-40 border-b-1" @@click="toPage('@Url.Action("Feedback").ToLowerInvariant()')">
+                <div class="fon-28 padding-lr-10">建议反馈</div>
+                <img class="Lo-left-img" src="/Content/Images/Jian_l_15.jpg" alt="">
+            </div>
+            <div class="flex f-between padding-tb-40 border-b-1" @@click="toPage('@Url.Action("Setting").ToLowerInvariant()')">
+                <div class="fon-28 padding-lr-10">账户设置</div>
+                <img class="Lo-left-img" src="/Content/Images/Jian_l_15.jpg" alt="">
+            </div>
+            @*<div class="flex f-between padding-tb-40 border-b-1" @@click="toPage('@Url.Action("EvaluateScoringList","ScoringModule").ToLowerInvariant()')">
+                <div class="fon-28 padding-lr-10">评分系统</div>
+                <img class="Lo-left-img" src="/Content/Images/Jian_l_15.jpg" alt="">
+            </div>*@
+        </div>
+    </div>
+    @Html.Partial("_FooterNavBar", "我的")
+
+    <div id="failToast" ref="failToast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_toast" style="font-size: 1.65rem;"></i>
+            <p class="weui-toast__content fon-32" v-text="resFailMessage" style="margin-top: 0.25rem;"></p>
+        </div>
+    </div>
+    <div id="loadingToast" ref="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32" v-html="loadingText">数据提交中</p>
+        </div>
+    </div>
+
+</div>
+
+@section Styles{
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/User/MyCenter.css?v=1.0.0" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/fx.js"></script>
+    <script src="~/Content/Scripts/fx_methods.js"></script>
+    <script src="~/Areas/CRE/Content/Scripts/CreUser/MyCenter.js?v=1.0.0"></script>
+}

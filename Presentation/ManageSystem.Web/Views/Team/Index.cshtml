@@ -1,0 +1,110 @@
+﻿@model List<ManageSystem.Core.Domain.Documents.Document>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "成员单位";
+}
+
+<link href="~/Content/Css/Medicine.css" rel="stylesheet" />
+<link href="~/Content/Css/Team/Index.css?v=1.8" rel="stylesheet" />
+
+<div class="mbx">
+    <p>当前位置：首页 &gt; 成员单位 </p>
+</div>
+
+<div class="doct_center">
+    <div class="doct_center_r">
+        <div id="divIncomeIntegral" class="page-btn-main " style="">
+            <div style="margin-top:40px;">
+                <img src="~/Content/Images/team.jpg" style="max-width:100%; " />
+            </div>
+            <h3>CHINET中国细菌耐药监测网专家委员会名单</h3>
+            <p><span class="sp1">主任：</span>汪复</p>
+            <p><span class="sp1">委员（按姓氏笔画）：</span></p>
+            <p style="height: auto;">
+                单斌、胡付品、胡云建、胡志东、林东昉、倪语星、孙自镛、汪复、王明贵、徐英春、俞云松、张泓、张秀珍、朱德妹、卓  超
+            </p>
+            <p><span class="sp1">秘书：</span>胡付品（兼）</p>
+            <p>*主持工作</p>
+
+            <h3 style="margin-bottom: 30px;">CHINET中国细菌耐药监测网成员单位负责人名单（排名不分先后）</h3>
+            <div class="detail" style="">
+                <div align="left"><span style="margin-left:10px; color:#ccc;font-size:14px;">成员单位名称排名不分先后（按拼音排序）</span></div>
+                <table>                   
+                    <tbody>
+                        <tr>
+                            <td style="font-weight:bold;" class="l1"> 医院 </td>
+                            <td style="font-weight:bold;"> 负责人 </td>
+                            <td style="font-weight:bold;" class="l1"> 医院 </td>
+                            <td style="font-weight:bold;"> 负责人 </td>
+                        </tr>              
+                    </tbody>
+                    <tbody id="tbo">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>                     
+    $(function () {       
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "/Team/GetTeamlist",
+            data: {},
+            dataType: "json",
+            success: function (json) {
+                console.log(json)
+                var html = ""
+                for (var i = 0; i < json.length; i++) {
+                    if (i == 0) {
+                        html = "<tr>";
+                    }
+                    else if (i % 2 == 0 && i >= 2) {
+                        html += "</tr><tr>";
+                    } 
+                    if (json[i].Displayimages == false) {
+                        html += "<td class='l1'>" + json[i].Title + "" +
+                            "<div class='modal fade' id=" + json[i].Title + " tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>" +
+                            "<div class='modal-dialog' style='width:880px;'>" +
+                            "<div class='modal-content'>" +
+                            "<div class='modal-body' align='center'><img src=" + json[i].Images + " class='img - responsive'></div>" +
+                            "<div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>关闭</button></div>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>" +
+                            "</td>" +
+                            "<td>" + json[i].People + "</td>";
+                    } else {
+                        html += "<td class='l1'>" + json[i].Title + " <a href = '#' class='label label-info label-outline' style='background:#aeddfc;' data-toggle='modal' data-target='#" + json[i].Title + "'>简介</a>" +
+                            "<div class='modal fade' id=" + json[i].Title + " tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>" +
+                            "<div class='modal-dialog' style='width:880px;'>" +
+                            "<div class='modal-content'>" +
+                            "<div class='modal-body' align='center'><img src=" + json[i].Images + " class='img - responsive'></div>" +
+                            "<div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>关闭</button></div>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>" +
+                            "</td>" +
+                            "<td>" + json[i].People + "</td>";
+
+                    }
+
+
+                }
+                if (i > 0 && i % 2 != 0) {
+                    $("#tbo").html(html + "<td></td><td></td></tr>");
+                }
+                else if (i > 0) {
+                    $("#tbo").html(html + "</tr>")
+                } else {
+                    $("#tbo").html(html)
+                }
+            }
+        });
+
+    })
+</script>
+

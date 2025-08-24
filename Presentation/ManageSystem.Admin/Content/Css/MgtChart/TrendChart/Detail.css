@@ -1,0 +1,82 @@
+﻿.item-table.table > tbody > tr > td {
+    line-height: initial;
+}
+
+.k-content .adminContent .adminTitle,
+.k-content .adminContent .adminData {
+    width: auto;
+    vertical-align: top;
+    padding-right: inherit;
+}
+
+.k-content .adminContent .adminTitle {
+    min-width: 140px;
+}
+
+.k-content .adminContent .adminData {
+    width: 35%;
+}
+
+table input.text-box,
+table select {
+    width: 100% !important;
+    display: inline-block !important;
+    box-sizing: border-box !important;
+    height: auto;
+}
+
+.nav-tabs > li.dataitem-tip > a,
+.nav-tabs > li.dataitem-tip > a:focus {
+    color: #a94442;
+    padding-left: 45px;
+}
+
+.ChartTypeLabel,
+.BarColorLabel {
+    margin: 0;
+}
+
+.ChartTypeLabel {
+    width: 70px;
+}
+
+#ChartType {
+    width: 80px;
+}
+
+.BarColorLabel {
+    width: 45px;
+    text-align: right;
+    margin-left: 25px;
+}
+
+#BarColor {
+    height: 33px;
+}
+
+table.item-table {
+    min-width: 100%;
+}
+
+table.item-table {
+}
+
+    table.item-table > thead > tr > th,
+    table.item-table > tbody > tr > td {
+        vertical-align: top;
+        padding: 8px;
+    }
+
+    table.item-table > thead > tr > th {
+        background-color: #efefef;
+    }
+
+    table.item-table.table-bordered,
+    table.item-table.table-bordered > tbody > tr > td {
+        border-style: solid;
+    }
+
+        table.item-table .table-bordered th,
+        table.item-table .table-bordered td {
+            border: 1px solid #ddd !important;
+        }

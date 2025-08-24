@@ -1,0 +1,409 @@
+﻿@model ManageSystem.Admin.Models.Products.ProductModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+<script src="~/Content/Scripts/ueditor/ueditor.config.js"></script>
+<script src="~/Content/Scripts/ueditor/ueditor.all.min.js"></script>
+<script src="~/Content/Scripts/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+<link href="~/Content/Scripts/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+<script src="~/Content/Scripts/bootstrap-fileinput/js/fileinput.min.js"></script>
+<script src="~/Content/Scripts/bootstrap-fileinput/js/locales/zh.js"></script>
+
+<style type="text/css">
+    .product-image-ul {
+        padding: 0px;
+        margin: 0px;
+        width: 100%;
+        float: left;
+    }
+
+        .product-image-ul li {
+            list-style: none;
+            float: left;
+            padding: 10px;
+            width: 220px;
+            height: 270px;
+        }
+
+            .product-image-ul li img {
+                width: 200px;
+                height: 200px;
+            }
+
+    .k-content .adminContent .adminTitle {
+        width: 10%;
+    }
+
+    .k-content .adminContent .adminData {
+        width: 40%;
+    }
+
+    .product-image-ul .img-btn {
+        width: 100%;
+        height: 50px;
+        padding: 5px 0px;
+        text-align: center;
+    }
+
+        .product-image-ul .img-btn .img-sort {
+            width: 50px;
+            text-align: center;
+            margin: 0px;
+            display: initial;
+        }
+
+    .product-image-ul .img-img {
+        width: 100%;
+        height: 200px;
+    }
+
+    .product-image-ul .img-btn .img-txtbtn {
+        vertical-align: inherit;
+    }
+
+    .product-image-ul .uploadify {
+        width: 200px;
+        height: 200px;
+        border: 3px dashed #ccc;
+        line-height: 200px;
+        font-size: 30px;
+        color: #ccc;
+        cursor: pointer;
+    }
+
+        .product-image-ul .uploadify:hover {
+            border-color: #70bafd;
+            color: #70bafd;
+        }
+
+    .posterimg_add_btn {
+        text-align: center;
+    }
+
+    .uploadifyQueue {
+        float: right;
+        width: 100%;
+        margin: 10px 0px;
+    }
+
+    .uploadifyQueueItem {
+        display: none;
+    }
+
+    .uploadifyQueue .cancel {
+        display: none;
+    }
+</style>
+<table class="adminContent">
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Name)
+        </td>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Status)：</td>
+        <td class="adminData">
+            @Html.DropDownList("Status", Model.StatusList, new { @class = "form-control dropdown" })
+            @Html.ValidationMessageFor(m => m.Status)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ProductCategoryId)：</td>
+        <td class="adminData">
+            @Html.DropDownList("ProductCategoryId", Model.ProductCategoryList, new { @class = "form-control dropdown" })
+            @Html.ValidationMessageFor(m => m.ProductCategoryId)
+        </td>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ProductBrandId)：</td>
+        <td class="adminData">
+            @Html.DropDownList("ProductBrandId", Model.ProductBrandList, new { @class = "form-control dropdown" })
+            @Html.ValidationMessageFor(m => m.ProductBrandId)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Code)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Code, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Code)
+        </td>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.CostPrice)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.CostPrice, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.CostPrice)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.MarketPrice)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.MarketPrice, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.MarketPrice)
+        </td>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Count)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Count, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Count)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Describe)：</td>
+        <td class="adminData" colspan="3">
+            @Html.TextAreaFor(model => model.Describe, new { @class = "form-control txt", cols = "30", rows = "3" })
+            @Html.ValidationMessageFor(m => m.Describe)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle"><img alt="商品图片" src="/Content/images/ico-help.gif" title="商品图片"><label for="CoverImage" title="商品图片">商品图片</label>：</td>
+        <td class="adminData" colspan="3">
+            <ul class="product-image-ul">
+                @{
+                    if (Model.ProductImageList != null && Model.ProductImageList.Any())
+                    {
+                        foreach (var item in Model.ProductImageList)
+                        {
+                            <li imageid="@item.Id.ToString()" class="img-item">
+                                <div class="img-img">
+                                    <a href="@item.Path" target="_blank">
+                                        <img src="@item.Path">
+                                    </a>
+                                </div>
+                                <div class="img-btn display-no-view">
+                                    <input type="text" class="text-box single-line img-sort" value="@item.Sort" placeholder="排序" onchange="CheckSort(this)">&nbsp;&nbsp;
+                                    <input type="button" class="btn  btn-danger img-txtbtn" value="删 除" onclick="DeleteImageItem('@item.Id.ToString()',this)">
+                                </div>
+                            </li>
+                        }
+                    }
+                }
+
+                <li class="img-select-li display-no-view"  style=" @( (Model.ProductImageList != null && Model.ProductImageList.Count>= 4 )? "display:none;":"display:block;") " >
+                    <input type="file" name="uploadify" id="uploadify" />
+                </li>
+                <li class="json-data-li">
+                    @Html.TextBoxFor(model => model.ProductImageJson, new { style = "width:1px; height:0px;" })
+                    @Html.ValidationMessageFor(m => m.ProductImageJson)
+                </li>
+            </ul>
+        </td>
+    </tr>
+
+    <tr style="line-height:normal;">
+        <td class="adminTitle " colspan="4">
+            <textarea id="Content" name="Content" runat="server" onblur="setUeditor()" style="width:100%; min-height: 500px; margin-top:10px; text-align:left;">@Model.Content</textarea>
+        </td>
+    </tr>
+
+</table>
+
+<div class="row" style="width:100%; margin:0px auto; margin-top: 50px;   font-size:14px; ">
+    <p style="border-bottom:1px solid #ccc; margin:10px 0px;   font-size: 16px; height:30px;line-height:30px;">注意事项</p>
+    <div class="widget">
+        <div class="widget-header bg-palegreen">
+            <div class="widget-buttons">
+                <a href="#" data-toggle="collapse">     <i class="fa fa-minus"></i></a>
+                <a href="#" data-toggle="dispose">     <i class="fa fa-times"></i>   </a>
+            </div>
+        </div>
+        <div class="widget-body">
+            <code>
+                1、 商品图片文件支持格式：*.jpg;*.jpeg;*.png;*.bmp
+            </code><br><br>
+            <code>
+                2、 商品图片文件大小限制：不能超过2M
+            </code><br><br>
+            <code>
+                3、 商品图片排序编号表示图片最后的显示顺序，正序列排列
+            </code><br><br>
+
+            <br>
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/Scripts/uploadify/jquery.uploadify.js"></script>
+<script src="/Content/Scripts/TranTextBox.js"></script>
+
+<script type="text/javascript">
+
+    function Save() {
+
+        if ($("#form1").valid()) {  //触发验证
+
+            //获取商品的图片数据
+            var imgLi = $(".product-image-ul .img-item");
+            if (imgLi == null || imgLi.length <= 0) {
+                alert("至少选择一张商品图片！");
+                return false;
+            }
+
+            $("#ProductImageJson").val("");//将后台设置的临时数据清理
+            var data = new Array();
+            for (var i = 0; i < imgLi.length; i++) {
+                var id = $(imgLi[i]).attr("imageid");
+                if (id == null || id == "") continue;
+
+                var sort = $(imgLi[i]).find(".img-sort").val();
+                if (!IsPositiveInteger(sort)) {
+                    alert("排序编号必须是正整数");
+                    return;
+                }
+
+                data.push({ Id: id, Sort: sort });
+            }
+
+            if (data == null || data.length <= 0) {
+                alert("至少选择一张商品图片！");
+                return false;
+            }
+            $("#ProductImageJson").val(JSON.stringify(data));
+
+
+            $("#form1").submit(); //通过验证以后提交表单
+        }
+    }
+
+</script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        ReloadUpload();
+    });
+
+    //加载上传控件
+    function ReloadUpload() {
+        $("#uploadify").uploadify({
+            swf: '/Content/Scripts/uploadify/uploadify.swf',//上传的Flash，不用管，路径对就行
+            uploader: '/Products/UploadProductImage?productId=@Model.Id.ToString()',//Post文件到指定的处理文件
+            auto: true,
+            buttonClass: 'posterimg_add_btn',//浏览按钮的class
+            buttonText: '选择图片',//浏览按钮的Text
+            cancelImage: '/Content/Scripts/uploadify/uploadify-cancel.png',//取消按钮的图片地址
+            fileTypeDesc: '*.jpg;*.jpeg;*.png;*.bmp',//需过滤文件类型
+            fileTypeExts: '*.jpg;*.jpeg;*.png;*.bmp',//需过滤文件类型的提示
+            fileSizeLimit: 2048, //2M
+            height: 200,//浏览按钮高
+            width: 200,//浏览按钮宽
+            multi: false,//是否允许多文件上传
+            uploadLimit: 999,//同时上传多小个文件
+            queueSizeLimit: 999,//队列允许的文件总数
+            removeCompleted: true,//当上传成功后是否将该Item删除
+            onSelect: function (file) { },//选择文件时触发事件
+            onSelectError: function (file, errorCode, errorMsg) { },//选择文件有误触发事件
+            onUploadComplete: function (file) { },//上传成功触发事件
+            onUploadError: function (file, errorCode, errorMsg) { },//上传失败触发事件
+            onUploadProgress: function (file, fileBytesLoaded, fileTotalBytes) { },//上传中触发事件
+            onUploadStart: function (file) { },//上传开始触发事件
+            onUploadSuccess: function (event, response, status) { AddDocItem($.parseJSON(response)); }  //当单个文件上传成功后激发的事件
+
+        });
+    }
+
+    //上传图片成功以后调用
+    function AddDocItem(item) {
+
+        if (!item.IsSuccess && item.ErrorMessage != "") {
+            alert(item.ErrorMessage);
+            return;
+        }
+
+        var html = "<li ImageId='" + item.CustomValue1 + "'  class=\"img-item\">" +
+                       "    <div class=\"img-img\"><a href=\"" + item.FilePath + "\" target=\"_blank\"><img src=\"" + item.FilePath + "\" /></a></div>" +
+                       "       <div class=\"img-btn\">" +
+                       "             <input type=\"text\" class=\"text-box single-line img-sort\" value=\"100\" placeholder=\"排序\"  onchange=\"CheckSort(this)\"   />&nbsp;&nbsp;" +
+                       "              <input type=\"button\" class=\"btn  btn-danger img-txtbtn\" value=\"删 除\" onclick=\"DeleteImageItem('" + item.CustomValue1 + "',this)\" />" +
+                         "  </div>" +
+                       " </li>";
+
+        $(".img-select-li").before(html);
+
+        //检查图片数量
+        CheckImageItem();
+    }
+
+</script>
+<script type="text/javascript">
+
+    //验证排序的值是否正整数
+    function CheckSort(obj) {
+        var value = $(obj).val();
+        var isOk = IsPositiveInteger(value);
+
+        if (!isOk)
+            $(obj).val("100");
+    }
+
+    //删除单个文件
+    function DeleteImageItem(imgId, obj) {
+        if (imgId == "") return;
+
+        $.ajax({
+            url: "/Products/ProductDeleteImage",
+            type: "Post",
+            dataType: "json",
+            data: { id: '@Model.Id', imageId: imgId },
+            success: function (json) {
+                if (json == null || json == "") {
+                    alert("操作失败，请刷新重试！");
+                    return;
+                }
+
+                if (json.status == "true") {
+                    // 成功
+                    $(obj).closest("li").remove();
+
+                    //检查图片数量
+                    CheckImageItem();
+
+                } else {
+                    alert(json.message);
+                }
+            }
+        });
+    }
+
+    //检查商品的图片项，控制显示添加图片的显示
+    function CheckImageItem() {
+        var li = $(".product-image-ul .img-item");
+        if (li.length >= 4) {
+            $(".img-select-li").css("display", "none");
+        }
+        if (li.length < 4) {
+            $(".img-select-li").css("display", "block");
+        }
+
+        if (li.length > 0)
+        {
+            $(".json-data-li .field-validation-error").css("display", "none");
+            $("#ProductImageJson").val("test"); //随意设置一个值，跳过非空验证，后面会重新赋值的
+        } else if (li == null || li.length <= 0)
+        {
+            $(".json-data-li .field-validation-error").css("display", "block");
+        }
+    }
+
+</script>
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        var editor = new baidu.editor.ui.Editor();
+        editor.render("Content");
+        var ue = UE.getEditor('Content');
+        ue.ready(function () {
+            ue.execCommand('serverparam', {
+            });
+        });
+    });
+
+    function setUeditor() {
+        var myEditor = document.getElementById("Content");
+        myEditor.value = editor.getContent();
+
+        alert(myEditor.value);
+    }
+
+
+
+</script>
+

@@ -1,0 +1,1947 @@
+﻿
+@{
+    ViewBag.Title = "数据上传";
+    //Layout = "~/Areas/CRE/Views/Shared/_SurveyLayout.cshtml";
+    Layout = "~/Areas/CRE/Views/Shared/_MainLayout.cshtml";
+}
+<div id="app" v-cloak class="indexpage">
+    <div id="header" class="flex padding-tb-20 fon-30 bold f-around top-nav">
+        <div @@click="toPage('@Url.Action("HeatMap", "CreData").ToLowerInvariant()')">热图</div>
+        <div @@click="toPage('@Url.Action("GermWithBar", "CreData").ToLowerInvariant()')">柱状图</div>
+        <div class="border-b-2" @@click="toPage('@Url.Action("Dataupload", "CreUploadData").ToLowerInvariant()')">数据上传</div>
+    </div>
+    <div class="middle">
+        <div class="padding-lr-40">
+            <div class="flex f-center f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">医院名称</div>
+                <input placeholder="医院名称" type="tel" name="hospital" id="hospital" data-vv-as="医院名称" class="flex1 fon-28 t-right PI-Input" aria-required="true" aria-invalid="false" readonly="readonly">
+            </div>
+            <div class="flex f-center f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">所在省份</div>
+                <select name="province" id="province" class="flex1 fon-28 PI-Input" aria-required="true" aria-invalid="false" onchange="ProvinceClick()">
+                    <option value="0">--请选择--</option>
+                </select>
+            </div>
+            <div class="flex f-center f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">所在城市</div>
+                <select name="City" id="City" data-vv-as="城市" class="flex1 fon-28 PI-Input" aria-required="true" aria-invalid="false" onchange="CityClick()">
+                    <option value="0">--请选择--</option>
+                </select>
+            </div>
+            <div class="flex f-center f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">所在地区</div>
+                <select name="Area" id="Area" data-vv-as="区县" class="flex1 fon-28 PI-Input" aria-required="true" aria-invalid="false">
+                    <option value="0">--请选择--</option>
+                </select>
+            </div>
+            <div class="flex f-center f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">详细地址</div>
+                <input placeholder="详细地址" type="text" id="address" name="realname" data-vv-as="真实姓名" class="flex1 fon-28 t-right PI-Input">
+            </div>
+            <div class="flex f-center f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">负责人</div>
+                <input placeholder="负责人" id="Person" type="text" name="realname" data-vv-as="真实姓名" class="flex1 fon-28 t-right PI-Input">
+            </div>
+            <div class="flex f-center f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">邮箱</div>
+                <input placeholder="邮箱" id="Email" type="email" name="email" data-vv-as="邮箱" class="flex1 fon-28 t-right PI-Input">
+            </div>
+            <div class="flex f-center f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">手机号</div>
+                <input placeholder="手机号" id="phone" type="tel" name="mobile" data-vv-as="手机号" class="flex1 fon-28 t-right PI-Input">
+            </div>
+            <div class="flex f-center f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">上报年份</div>
+                <select name="year" id="year" data-vv-as="年份" class="flex1 fon-28 PI-Input" aria-required="true" aria-invalid="false">
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                </select>
+            </div>
+            <div class="flex f-center f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">上报季度</div>
+                <select name="Ession" id="Ession" data-vv-as="城市" class="flex1 fon-28 PI-Input" aria-required="true" aria-invalid="false">
+                    <option value="4">第四季度（10月-12月）</option>
+                </select>
+            </div>
+            <div style="padding-top:20px; padding-bottom:20px;">
+                @foreach (var item in ViewBag.Essential)
+                {
+                    if (Request.QueryString["creid"] == null)
+                    {
+                        if (item.Germ_id == ViewBag.Germ_id)
+                        {
+                            <a data-style="zoom-in" href="javascript:void(0);" onclick="clicks(@item.Germ_id)" class="btn margin-t-20 margin-b-20 ladda-button">@item.Germ_name</a>
+                        }
+                        else
+                        {
+                            <a data-style="zoom-in" href="javascript:void(0);" onclick="clicks(@item.Germ_id)" style="background-color:gainsboro;color:black;cursor: pointer;" class="btn margin-t-20 margin-b-20 ladda-button">@item.Germ_name</a>
+                        }
+                    }
+                    else
+                    {
+                        if (long.Parse(Request.QueryString["creid"]) == item.Germ_id)
+                        {
+                            <a data-style="zoom-in" href="javascript:void(0);" onclick="clicks(@item.Germ_id)" class="btn margin-t-20 margin-b-20 ladda-button">@item.Germ_name</a>
+                        }
+                        else
+                        {
+                            <a data-style="zoom-in" href="javascript:void(0);" onclick="clicks(@item.Germ_id)" style="background-color:gainsboro;color:black;cursor: pointer;" class="btn margin-t-20 margin-b-20 ladda-button">@item.Germ_name</a>
+                        }
+                    }
+                }
+            </div>
+            @{
+                var Grem_name = "";
+                var Cr_name = "";
+                var Ger_code = "";
+                foreach (var item in ViewBag.Essentials)
+                {
+                    Grem_name = item.Germ_upload_name;
+                    Cr_name = item.Cr_name;
+                    Ger_code = item.Ger_code;
+                }
+            }
+            <div class="flex f-center f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">@Grem_name 株数</div>
+                <input placeholder="菌株数" type="text" name="realname" id="germ_detected" onchange="validationNumber(this,0)" data-vv-as="菌株数" class="flex1 fon-28 t-right PI-Input" aria-required="true" aria-invalid="false">
+            </div>
+            <div class="flex f-center f-between padding-tb-40 border-b-1">
+                <div class="fon-28 padding-lr-10">@Cr_name 株数</div>
+                <input placeholder="耐药菌株数" type="text" name="realname" id="cr_detected" onchange="validationNumber(this,0)" data-vv-as="耐药菌株数" class="flex1 fon-28 t-right PI-Input" aria-required="true" aria-invalid="false">
+            </div>
+            @*<div class="swiper-wrapper">*@
+            @*<div class="swiper-slide slidescroll">*@
+            <div class="survey-body">
+                <article class="cro-page">
+                    <div class="cro-qbox">
+                        <div class="cro-qbox-title" v-html="Q3.title"></div>
+                        <div class="cro-qbox-awbox">
+                            <div v-for="(item,index) in Q3.options" :class="{'flex': true}">
+                                <div class="w20">
+                                    <div class="checkbox-control">
+                                        <input :id="item.id" v-model="Q3.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: [1, 3]}" v-if="index === 0" />
+                                        <input :id="item.id" v-model="Q3.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                        <label :for="item.id" class="checkbox-control-label"></label>
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="" style="padding-top:10px;">
+                                        <label :for="item.id" v-text="item.text" v-if="item.value !== '其他'"></label>
+                                        <div v-if="item.value === '其他'" :class="{'flex cro-qbox-awbox__other': true}">
+                                            <label :for="item.id" style="width: 3rem;" v-text="item.text"></label>
+                                        </div>
+                                    </div>
+                                    <div class="flex align-items__baseline x12 m-form-gp" :id="item.divid">
+                                        <div class="font-12px">百分比：</div>
+                                        <div :class="{'cro-qbox-awbox flex-1': true}" class="x12 m-from-input select-xi sele-bp">
+                                            <input class="font-14px" :name="item.rate_name" :id="item.rate_name" v-validate="{required: true}" type="text" placeholder="请选择百分比" style="background-color: transparent; border:none; border-bottom:1px solid #ddd;height: calc(1.5rem + 2px);width: 100%" disabled="disabled" />
+                                            <i class="iconfont iconqangwang-xia"></i>
+                                        </div>
+                                        <div class="display-none">
+                                            <div vid="0-5%">0-5%</div>
+                                            <div vid="6% -10%">6% -10%</div>
+                                            <div vid="11% -15%">11% -15%</div>
+                                            <div vid="16% -20%">16% -20%</div>
+                                            <div vid="21% -30%">21% -30%</div>
+                                            <div vid="31% -40%">31% -40%</div>
+                                            <div vid="41% -50%">41% -50%</div>
+                                            <div vid="51%以上">51%以上</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cro-qbox">
+                        <div class="cro-qbox-title" v-html="Q4.title"></div>
+                        <div class="cro-qbox-awbox">
+                            <div v-for="(item,index) in Q4.options" :class="{'flex': true}">
+                                <div class="w20">
+                                    <div class="checkbox-control">
+                                        <input :id="item.id" v-model="Q4.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: [1, 3]}" v-if="index === 0" />
+                                        <input :id="item.id" v-model="Q4.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                        <label :for="item.id" class="checkbox-control-label"></label>
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="" style="padding-top:10px;">
+                                        <label :for="item.id" v-text="item.text" v-if="item.value !== '其他'"></label>
+                                        <div v-if="item.value === '其他'" :class="{'flex cro-qbox-awbox__other': true}">
+                                            <label :for="item.id" style="width: 3rem;" v-text="item.text"></label>
+                                        </div>
+                                    </div>
+                                    <div class="flex align-items__baseline x12 m-form-gp" :id="item.divid">
+                                        <div class="font-12px">百分比：</div>
+                                        <div :class="{'cro-qbox-awbox flex-1': true}" class="x12 m-from-input select-xi sele-bp">
+                                            <input class="font-14px" :name="item.rate_name" :id="item.rate_name" v-validate="{required: true}" type="text" placeholder="请选择百分比" style="background-color: transparent;border:none; border-bottom:1px solid #ddd;height: calc(1.5rem + 2px);width: 100%;" disabled="disabled" />
+                                        </div>
+                                        <div class="display-none">
+                                            <div vid="0-5%">0-5%</div>
+                                            <div vid="6% -10%">6% -10%</div>
+                                            <div vid="11% -15%">11% -15%</div>
+                                            <div vid="16% -20%">16% -20%</div>
+                                            <div vid="21% -30%">21% -30%</div>
+                                            <div vid="31% -40%">31% -40%</div>
+                                            <div vid="41% -50%">41% -50%</div>
+                                            <div vid="51%以上">51%以上</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cro-qbox">
+                        <div class="cro-qbox-title" v-text="Q25.title"></div>
+                        <div class="cro-qbox-awbox">
+                            <table>
+                                <tbody>
+                                    <tr v-for="(item, index) in Q25.options" :class="{}">
+                                        <td style="width: 1rem;">
+                                            <div class="checkbox-control">
+                                                <input :id="item.id" v-model="Q25.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: [1, 9]}" v-if="index === 0" />
+                                                <input :id="item.id" v-model="Q25.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                                <label :for="item.id" class="checkbox-control-label"></label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <label :for="item.id" v-text="item.text"></label>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="cro-qbox">
+                        <div class="cro-qbox-title" v-text="Q26.title"></div>
+                        <div class="cro-qbox-awbox">
+                            <table>
+                                <tr v-for="(item,index) in Q26.options" :class="{}">
+                                    <td style="width: 1rem;">
+                                        <div class="checkbox-control">
+                                            <input :id="item.id" class="checkbox-control-input" :name="item.name" type="radio" :value="item.value" v-validate="{required: true, length: 1}" />
+                                            <label :for="item.id" class="checkbox-control-label"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <label :for="item.id" v-text="item.text" style="display: block;"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="flex align-items__baseline x12 m-form-gp" id="redio">
+                                            <div class="">采用何方法？</div>
+                                            <div :class="{'cro-qbox-awbox flex-1': true}" class="x12 m-from-input select-xi sele-bp">
+                                                <input class="flex-1 cro-qbox__input font-14px" name="Q26_other" id="Q26_others" v-validate="{required: true, min: 1}" type="text" disabled="disabled" />
+                                            </div>
+                                            <div class="display-none">
+                                                <div vid="口头沟通报告">口头沟通报告</div>
+                                                <div vid="报告中标注">报告中标注</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <input id="Data_id" type="hidden" value="" />
+                    <div class="cro-qbox">
+                        <div class="cro-qbox-title">您单位分离的 @Ger_code 主要产哪种碳青霉烯酶及菌株数：</div>
+                        <div class="cro-qbox-awbox">
+                            <div v-for="(item,index) in Q11.options" :class="{'flex': true}">
+                                <div class="w20">
+                                    <div class="checkbox-control">
+                                        <input :id="item.id" v-model="Q11.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: [1, 3]}" v-if="index === 0" />
+                                        <input :id="item.id" v-model="Q11.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                        <label :for="item.id" class="checkbox-control-label"></label>
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="" style="padding-top:10px;">
+                                        <label :for="item.id" v-text="item.text" v-if="item.value !== '其他'"></label>
+                                        <div v-if="item.value === '其他'" :class="{'flex cro-qbox-awbox__other': true}">
+                                            <label :for="item.id" style="width: 3rem;" v-text="item.text"></label>
+                                        </div>
+                                    </div>
+                                    <div class="flex align-items__baseline" :id="item.divid">
+                                        <div class="font-12px">菌株数：</div>
+                                        <div :class="{'cro-qbox-awbox flex-1': true}">
+                                            <input class="font-14px" name="rate_name" :id="item.rate_name" type="text" @*onblur="validationNumber(this,0)"*@ placeholder="请输入菌株数" style="background-color: transparent;border:none; border-bottom:1px solid #ddd;height: calc(1.5rem + 2px);width: 100%" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cro-qbox">
+                        <div class="cro-qbox-title" v-html="Q12.title"></div>
+                        <div class="cro-qbox-awbox">
+                            <div v-for="(item,index) in Q12.options" :class="{'flex': true}">
+                                <div class="w20">
+                                    <div class="checkbox-control">
+                                        <input :id="item.id" v-model="Q12.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: [1, 3]}" v-if="index === 0" />
+                                        <input :id="item.id" v-model="Q12.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                        <label :for="item.id" class="checkbox-control-label"></label>
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="" style="padding-top:10px;">
+                                        <label :for="item.id" v-text="item.text" v-if="item.value !== '其他'"></label>
+                                        <div v-if="item.value === '其他'" :class="{'flex cro-qbox-awbox__other': true}">
+                                            <label :for="item.id" style="width: 3rem;" v-text="item.text"></label>
+                                        </div>
+                                    </div>
+                                    <div class="flex align-items__baseline" :id="item.divid">
+                                        <div class="font-12px">菌株数：</div>
+                                        <div :class="{'cro-qbox-awbox flex-1': true}">
+                                            <input class="font-14px" name="rate_name" :id="item.rate_name" type="text" @*onblur="validationNumber(this,0)"*@ placeholder="请输入菌株数" style="background-color: transparent;border:none; border-bottom:1px solid #ddd;height: calc(1.5rem + 2px);width: 100%" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            @*  </div>*@
+            @*  </div>*@
+            <a data-style="zoom-in" href="javascript:void(0);" class="btn margin-t-40 margin-b-20 ladda-button" onclick="Preservation()">提交</a>
+        </div>
+    </div>
+
+    @Html.Partial("_FooterNavBar", "首页")
+</div>
+@section Styles{
+    <link href="~/Areas/CRE/Content/css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Data/GermWithBar.css?v=2.0.1" rel="stylesheet" />
+    <link href="~/Content/Css/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/User/Profile.css?v=1.0.0" rel="stylesheet" />
+    <link href="~/Areas/CRE/Content/css/Issue.css" rel="stylesheet" />
+    <link href="~/Areas/CRE/Content/css/style.mobile.css" rel="stylesheet" />
+    <link href="~/Areas/CRE/Content/css/swiper.min.css" rel="stylesheet" />
+    <script src="~/Areas/CRE/Content/Scripts/hSdrop.js"></script>
+    <script src="~/Areas/CRE/Content/Scripts/swiper.min.js"></script>
+    <script src="~/Areas/CRE/Content/Scripts/showText.js"></script>
+    <style>
+        .flex.has-error {
+            border: 0;
+        }
+
+        .font-12px {
+            font-size: 12px;
+        }
+
+        .font-14px {
+            font-size: 14px !important;
+        }
+
+        .cre-footer .cre-submit.a-btn {
+            font-weight: bold;
+            background-color: #005cad;
+            border: 0;
+            color: #fff;
+            height: 3rem;
+            line-height: 3rem;
+            display: block;
+            width: 80%;
+            margin: 0px auto;
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.6rem;
+        }
+    </style>
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/vee-validate/vee-validate.min.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Areas/CRE/Content/Scripts/CreUploadView.js"></script>
+    <script src="~/Content/Scripts/fx.js"></script>
+    <script src="~/Content/Scripts/fx_methods.js"></script>
+    <script src="~/Areas/CRE/Content/Scripts/layer-v2.4/layer.js"></script>
+    <script src="~/Areas/CRE/Content/Scripts/layer-v2.4/helper.js"></script>
+    <script>
+        new hSdrop({
+            els: '.sele-bp'
+        });
+        $(function () {
+            showInit();
+            var content = "";
+            var date = new Date();
+            var month = date.getMonth() + 1;           
+            if (month >= 1 && month <= 3) {
+                content += "<option value=" + 1 + ">第一季度（1月-3月）</option>";
+                $("#Ession").html(content);
+            }
+            else if (month >= 4 && month <= 6) {
+                content += "<option value=" + 1 + ">第一季度（1月-3月）</option>";
+                content += "<option value=" + 2 + ">第二季度（4月-6月）</option>";
+                $("#Ession").html(content);
+
+            }
+            else if (month >= 7 && month <= 9) {
+                content += "<option value=" + 1 + ">第一季度（1月-3月）</option>";
+                content += "<option value=" + 2 + ">第二季度（4月-6月）</option>";
+                content += "<option value=" + 3 + ">第三季度（7月-9月）</option>";
+                $("#Ession").html(content);
+            }
+            else if (month >= 10 && month <= 12) {
+                content += "<option value=" + 1 + ">第一季度（1月-3月）</option>";
+                content += "<option value=" + 2 + ">第二季度（4月-6月）</option>";
+                content += "<option value=" + 3 + ">第三季度（7月-9月）</option>";
+                content += "<option value=" + 4 + ">第四季度（10月-12月）</option>";
+                $("#Ession").html(content);
+            }
+
+            $("#3_biaoben_1_rate").hide();
+            $("#3_biaoben_2_rate").hide();
+            $("#3_biaoben_3_rate").hide();
+            $("#3_biaoben_4_rate").hide();
+            $("#3_biaoben_5_rate").hide();
+            $("#3_biaoben_6_rate").hide();
+            $("#3_biaoben_7_rate").hide();
+            $("#3_biaoben_8_rate").hide();
+            $("#3_biaoben_9_rate").hide();
+            $("#4_biaoben_1_rate").hide();
+            $("#4_biaoben_2_rate").hide();
+            $("#4_biaoben_3_rate").hide();
+            $("#4_biaoben_4_rate").hide();
+            $("#4_biaoben_5_rate").hide();
+            $("#4_biaoben_6_rate").hide();
+            $("#11_biaoben_1_rate").hide();
+            $("#11_biaoben_2_rate").hide();
+            $("#11_biaoben_3_rate").hide();
+            $("#11_biaoben_4_rate").hide();
+            $("#11_biaoben_5_rate").hide();
+            $("#11_biaoben_6_rate").hide();
+            $("#12_biaoben_1_rate").hide();
+            $("#12_biaoben_2_rate").hide();
+            $("#12_biaoben_3_rate").hide();
+            $("#12_biaoben_4_rate").hide();
+            $("#12_biaoben_5_rate").hide();
+            $("#12_biaoben_6_rate").hide();
+            $("#redio").hide();
+            $.get("/CreUploadData/Basicinformation", { token: localStorage.getItem('token') }, function (data) {
+                data = JSON.parse(data);
+                if (data.length <= 0) {
+                    GetDistrictList(0, 1);
+                }
+                for (var i = 0; i < data.length; i++) {
+                    $("#hospital").val(data[i].Hospital);
+                    if (data[i].District_id > 0) {
+                        SetDistrictSelect(data[i].Province_id, data[i].City_id, data[i].District_id);
+                    }
+                    else {
+                        GetDistrictList(0, 1);
+                    }
+                    $("#address").val(data[i].Detailedaddress);
+                    $("#Person").val(data[i].Contact);
+                    $("#phone").val(data[i].Mobile);
+                    $("#Email").val(data[i].Email);
+                    $("#Cre_id").val(data[i].Cre_id);
+                    $("#Contact_id").val(data[i].Contact_id);
+                    $("#year").val(data[i].Data_year);
+                    $("#Ession").val(data[i].Data_season);
+                }
+                if (data != "") {
+                    $("#hospital").attr('readonly', 'readonly');
+                    $("#province").attr('disabled', 'disabled');
+                    $("#City").attr('disabled', 'disabled');
+                    $("#Area").attr('disabled', 'disabled');
+                }              
+                //var tYear = $("#year").val();
+                //if (tYear == 2019) {
+                //    $("#Ession").html(" <option value=" + 4 + ">第四季度（10月-12月）</option>")
+                //}
+            })
+            var tYear = $("#year").val();
+            var Grem_id = getQueryString("creid");
+            var season = $("#Ession").val();
+            $.ajax({
+                url: "/CRE/CreUploadData/Databackfilling",
+                type: "post",
+                async: false,
+                //dataType: "json",
+                data: { year: tYear, season: season, Grem_id: Grem_id, token: localStorage.getItem('token') },
+                success: function (data) {
+                    data = JSON.parse(data);
+                    if (data.length <= 0) {
+                        $(":checkbox").prop("checked", false)
+                        $("#3_biaoben_1_rate").hide();
+                        $("#3_biaoben_2_rate").hide();
+                        $("#3_biaoben_3_rate").hide();
+                        $("#3_biaoben_4_rate").hide();
+                        $("#3_biaoben_5_rate").hide();
+                        $("#3_biaoben_6_rate").hide();
+                        $("#3_biaoben_7_rate").hide();
+                        $("#3_biaoben_8_rate").hide();
+                        $("#3_biaoben_9_rate").hide();
+                        $("#4_biaoben_1_rate").hide();
+                        $("#4_biaoben_2_rate").hide();
+                        $("#4_biaoben_3_rate").hide();
+                        $("#4_biaoben_4_rate").hide();
+                        $("#4_biaoben_5_rate").hide();
+                        $("#4_biaoben_6_rate").hide();
+                        $("#11_biaoben_1_rate").hide();
+                        $("#11_biaoben_2_rate").hide();
+                        $("#11_biaoben_3_rate").hide();
+                        $("#11_biaoben_4_rate").hide();
+                        $("#11_biaoben_5_rate").hide();
+                        $("#11_biaoben_6_rate").hide();
+                        $("#12_biaoben_1_rate").hide();
+                        $("#12_biaoben_2_rate").hide();
+                        $("#12_biaoben_3_rate").hide();
+                        $("#12_biaoben_4_rate").hide();
+                        $("#12_biaoben_5_rate").hide();
+                        $("#12_biaoben_6_rate").hide();
+                        $("#redio").hide();
+                    }
+                    else {
+                        for (var i = 0; i < data.length; i++) {
+                            $("#germ_detected").val(data[i].Germ_detected)
+                            $("#cr_detected").val(data[i].Cr_detected)
+                            $("#year").val(data[i].Data_year);
+                            $("#Ession").val(data[i].Data_season);
+                            $("#Data_id").val(data[i].Data_id);
+                            if (data[i].Specimen_tan != "") {
+                                $("#checkbox__3_1").prop("checked", true);
+                                $("#3_biaoben_1_rate").slideDown();
+                                $("#_3_biaoben_1_rate").val(data[i].Specimen_tan);
+                            }
+                            else {
+                                $("#checkbox__3_1").prop("checked", false);
+                                $("#3_biaoben_1_rate").slideUp();
+                            }
+                            if (data[i].Specimen_blood != "") {
+                                $("#checkbox__3_2").prop("checked", true);
+                                $("#3_biaoben_2_rate").slideDown();
+                                $("#_3_biaoben_2_rate").val(data[i].Specimen_blood);
+
+                            }
+                            else {
+                                $("#checkbox__3_2").prop("checked", false);
+                                $("#3_biaoben_2_rate").slideUp();
+                            }
+                            if (data[i].Specimen_faeces != "") {
+                                $("#checkbox__3_3").prop("checked", true);
+                                $("#3_biaoben_3_rate").slideDown();
+                                $("#_3_biaoben_3_rate").val(data[i].Specimen_faeces);
+                            } else {
+                                $("#checkbox__3_3").prop("checked", false);
+                                $("#3_biaoben_3_rate").slideUp();
+                            }
+
+                            if (data[i].Specimen_alveolar != "") {
+                                $("#checkbox__3_4").prop("checked", true);
+                                $("#3_biaoben_4_rate").slideDown();
+                                $("#_3_biaoben_4_rate").val(data[i].Specimen_alveolar);
+                            } else {
+                                $("#checkbox__3_4").prop("checked", false);
+                                $("#3_biaoben_4_rate").slideUp();
+                            }
+                            if (data[i].Specimen_woundpus != "") {
+                                $("#checkbox__3_5").prop("checked", true);
+                                $("#3_biaoben_5_rate").slideDown();
+                                $("#_3_biaoben_5_rate").val(data[i].Specimen_woundpus);
+                            }
+                            else {
+                                $("#checkbox__3_5").prop("checked", false);
+                                $("#3_biaoben_5_rate").slideUp();
+                            }
+                            if (data[i].Specimen_urethra != "") {
+                                $("#checkbox__3_6").prop("checked", true);
+                                $("#3_biaoben_6_rate").slideDown();
+                                $("#_3_biaoben_6_rate").val(data[i].Specimen_urethra);
+                            }
+                            else {
+                                $("#checkbox__3_6").prop("checked", false);
+                                $("#3_biaoben_6_rate").slideUp();
+                            }
+                            if (data[i].Specimen_venous != "") {
+                                $("#checkbox__3_7").prop("checked", true);
+                                $("#3_biaoben_7_rate").slideDown();
+                                $("#_3_biaoben_7_rate").val(data[i].Specimen_venous);
+                            } else {
+                                $("#checkbox__3_7").prop("checked", false);
+                                $("#3_biaoben_7_rate").slideUp();
+                            }
+                            if (data[i].Specimen_puncture != "") {
+                                $("#checkbox__3_8").prop("checked", true);
+                                $("#3_biaoben_8_rate").slideDown();
+                                $("#_3_biaoben_8_rate").val(data[i].Specimen_puncture);
+                            }
+                            else {
+                                $("#checkbox__3_8").prop("checked", false);
+                                $("#3_biaoben_8_rate").slideUp();
+                            }
+                            if (data[i].Specimen_other != "") {
+                                $("#checkbox__3_9").prop("checked", true);
+                                $("#3_biaoben_9_rate").slideDown();
+                                $("#_3_biaoben_9_rate").val(data[i].Specimen_other);
+                            }
+                            else {
+                                $("#checkbox__3_9").prop("checked", false);
+                                $("#3_biaoben_9_rate").slideUp();
+                            }
+                            if (data[i].Department_bloodsection != "") {
+                                $("#checkbox__4_1").prop("checked", true);
+                                $("#4_biaoben_1_rate").slideDown();
+                                $("#_4_biaoben_1_rate").val(data[i].Department_bloodsection);
+                            }
+                            else {
+                                $("#checkbox__4_1").prop("checked", false);
+                                $("#4_biaoben_1_rate").slideUp();
+                            }
+                            if (data[i].Department_icu != "") {
+                                $("#checkbox__4_2").prop("checked", true);
+                                $("#4_biaoben_2_rate").slideDown();
+                                $("#_4_biaoben_2_rate").val(data[i].Department_icu);
+                            }
+                            else {
+                                $("#checkbox__4_2").prop("checked", false);
+                                $("#4_biaoben_2_rate").slideUp();
+                            }
+                            if (data[i].Department_breathing != "") {
+                                $("#checkbox__4_3").prop("checked", true);
+                                $("#4_biaoben_3_rate").slideDown();
+                                $("#_4_biaoben_3_rate").val(data[i].Department_breathing);
+                            }
+                            else {
+                                $("#checkbox__4_3").prop("checked", false);
+                                $("#4_biaoben_3_rate").slideUp();
+                            }
+                            if (data[i].Department_Infected != "") {
+                                $("#checkbox__4_4").prop("checked", true);
+                                $("#4_biaoben_4_rate").slideDown();
+                                $("#_4_biaoben_4_rate").val(data[i].Department_Infected);
+                            } else {
+                                $("#checkbox__4_4").prop("checked", false);
+                                $("#4_biaoben_4_rate").slideUp();
+                            }
+                            if (data[i].Department_transplant != "") {
+                                $("#checkbox__4_5").prop("checked", true);
+                                $("#4_biaoben_5_rate").slideDown();
+                                $("#_4_biaoben_5_rate").val(data[i].Department_transplant);
+                            } else {
+                                $("#checkbox__4_5").prop("checked", false);
+                                $("#4_biaoben_5_rate").slideUp();
+                            }
+                            if (data[i].Department_other != "") {
+                                $("#checkbox__4_6").prop("checked", true);
+                                $("#4_biaoben_6_rate").slideDown();
+                                $("#_4_biaoben_6_rate").val(data[i].Department_other);
+                            } else {
+                                $("#checkbox__4_6").prop("checked", false);
+                                $("#4_biaoben_6_rate").slideUp();
+                            }
+                            if (data[i].Sensitive != "") {
+                                $("#checkbox__25_1").prop("checked", true);
+
+                            } else {
+                                $("#checkbox__25_1").prop("checked", false);
+
+                            }
+                            if (data[i].Hodge != "") {
+                                $("#checkbox__25_2").prop("checked", true);
+
+                            } else {
+                                $("#checkbox__25_2").prop("checked", false);
+
+                            }
+                            if (data[i].CarbaNP != "") {
+                                $("#checkbox__25_3").prop("checked", true);
+
+                            } else {
+                                $("#checkbox__25_3").prop("checked", false);
+
+                            }
+                            if (data[i].MCIMandeCIM != "") {
+                                $("#checkbox__25_4").prop("checked", true);
+
+                            } else {
+                                $("#checkbox__25_4").prop("checked", false);
+
+                            }
+                            if (data[i].EDTAandAPB != "") {
+                                $("#checkbox__25_5").prop("checked", true);
+
+                            } else {
+                                $("#checkbox__25_5").prop("checked", false);
+
+                            }
+                            if (data[i].Goldlabeled != "") {
+                                $("#checkbox__25_6").prop("checked", true);
+
+                            } else {
+                                $("#checkbox__25_6").prop("checked", false);
+
+                            }
+                            if (data[i].PCR != "") {
+                                $("#checkbox__25_7").prop("checked", true);
+
+                            } else {
+                                $("#checkbox__25_7").prop("checked", false);
+
+                            }
+                            if (data[i].GeneXpert != "") {
+                                $("#checkbox__25_8").prop("checked", true);
+
+                            } else {
+                                $("#checkbox__25_8").prop("checked", false);
+
+                            }
+                            if (data[i].Carbapenemase != "") {
+                                $("#checkbox__25_9").prop("checked", true);
+                            } else {
+                                $("#checkbox__25_9").prop("checked", false);
+
+                            }
+                            if (data[i].General_report == 1) {
+                                $("#radio_26_2").prop("checked", true);
+                                $("#redio").slideDown();
+                                $("#Q26_others").val(data[i].Report_type);
+                            }
+                            else {
+                                $("#radio_26_1").prop("checked", true);
+                                $("#redio").slideUp();
+                            }
+                            if (data[i].Carbapenemase_kpc > 0) {
+                                $("#checkbox__11_1").prop("checked", true);
+                                $("#11_biaoben_1_rate").slideDown();
+                                $("#_11_biaoben_1_rate").val(data[i].Carbapenemase_kpc);
+                            } else {
+                                $("#checkbox__11_1").prop("checked", false);
+                                $("#11_biaoben_1_rate").slideUp();
+                            }
+                            if (data[i].Carbapenemase_ndm > 0) {
+                                $("#checkbox__11_2").prop("checked", true);
+                                $("#11_biaoben_2_rate").slideDown();
+                                $("#_11_biaoben_2_rate").val(data[i].Carbapenemase_ndm);
+                            } else {
+                                $("#checkbox__11_2").prop("checked", false);
+                                $("#11_biaoben_2_rate").slideUp();
+                            }
+                            if (data[i].Carbapenemase_oxa_48 > 0) {
+                                $("#checkbox__11_3").prop("checked", true);
+                                $("#11_biaoben_3_rate").slideDown();
+                                $("#_11_biaoben_3_rate").val(data[i].Carbapenemase_oxa_48);
+                            } else {
+                                $("#checkbox__11_3").prop("checked", false);
+                                $("#11_biaoben_3_rate").slideUp();
+                            }
+                            if (data[i].Carbapenemase_ipm > 0) {
+                                $("#checkbox__11_4").prop("checked", true);
+                                $("#11_biaoben_4_rate").slideDown();
+                                $("#_11_biaoben_4_rate").val(data[i].Carbapenemase_ipm);
+                            } else {
+                                $("#checkbox__11_4").prop("checked", false);
+                                $("#11_biaoben_4_rate").slideUp();
+                            }
+                            if (data[i].Carbapenemase_vim > 0) {
+                                $("#checkbox__11_5").prop("checked", true);
+                                $("#11_biaoben_5_rate").slideDown();
+                                $("#_11_biaoben_5_rate").val(data[i].Carbapenemase_vim);
+                            } else {
+                                $("#checkbox__11_5").prop("checked", false);
+                                $("#11_biaoben_5_rate").slideUp();
+                            }
+                            if (data[i].Carbapenemase_other > 0) {
+                                $("#checkbox__11_6").prop("checked", true);
+                                $("#11_biaoben_6_rate").slideDown();
+                                $("#_11_biaoben_6_rate").val(data[i].Carbapenemase_other);
+                            } else {
+                                $("#checkbox__11_6").prop("checked", false);
+                                $("#11_biaoben_6_rate").slideUp();
+                            }
+                            if (data[i].Antibiotic_polymyxin > 0) {
+                                $("#checkbox__12_1").prop("checked", true);
+                                $("#12_biaoben_1_rate").slideDown();
+                                $("#_12_biaoben_1_rate").val(data[i].Antibiotic_polymyxin);
+                            } else {
+                                $("#checkbox__12_1").prop("checked", false);
+                                $("#12_biaoben_1_rate").slideUp();
+                            }
+                            if (data[i].Antibiotic_tegafycline > 0) {
+                                $("#checkbox__12_2").prop("checked", true);
+                                $("#12_biaoben_2_rate").slideDown();
+                                $("#_12_biaoben_2_rate").val(data[i].Antibiotic_tegafycline);
+                            } else {
+                                $("#checkbox__12_2").prop("checked", false);
+                                $("#12_biaoben_2_rate").slideUp();
+                            }
+                            if (data[i].Antibiotic_ceftazidime > 0) {
+                                $("#checkbox__12_3").prop("checked", true);
+                                $("#12_biaoben_3_rate").slideDown();
+                                $("#_12_biaoben_3_rate").val(data[i].Antibiotic_ceftazidime);
+                            } else {
+                                $("#checkbox__12_3").prop("checked", false);
+                                $("#12_biaoben_3_rate").slideUp();
+                            }
+                            if (data[i].Antibiotic_fosfomycin > 0) {
+                                $("#checkbox__12_4").prop("checked", true);
+                                $("#12_biaoben_4_rate").slideDown();
+                                $("#_12_biaoben_4_rate").val(data[i].Antibiotic_fosfomycin);
+                            } else {
+                                $("#checkbox__12_4").prop("checked", false);
+                                $("#12_biaoben_4_rate").slideUp();
+                            }
+                            if (data[i].Antibiotic_chloramphenicol > 0) {
+                                $("#checkbox__12_5").prop("checked", true);
+                                $("#12_biaoben_5_rate").slideDown();
+                                $("#_12_biaoben_5_rate").val(data[i].Antibiotic_chloramphenicol);
+                            } else {
+                                $("#checkbox__12_5").prop("checked", false);
+                                $("#12_biaoben_5_rate").slideUp();
+                            }
+                            if (data[i].Antibiotic_drugtest > 0) {
+                                $("#checkbox__12_6").prop("checked", true);
+                                $("#12_biaoben_6_rate").slideDown();
+                                $("#_12_biaoben_6_rate").val(data[i].Antibiotic_drugtest);
+                            } else {
+                                $("#checkbox__12_6").prop("checked", false);
+                                $("#12_biaoben_6_rate").slideUp();
+                            }
+                        }
+                    }
+                }
+
+            });
+            $.get("/CreUploadData/Hospital", { token: localStorage.getItem('token') }, function (data) {
+                //data = JSON.parse(data);
+                $("#hospital").val(data)
+            })
+        })
+        //$(function () {
+
+        //})
+        $(":checkbox").click(function () {
+            if ($("#checkbox__3_1").prop("checked")) {
+                $("#3_biaoben_1_rate").slideDown();
+
+            }
+            else {
+                $("#3_biaoben_1_rate").slideUp();
+                $("#_3_biaoben_1_rate").val("");
+            }
+
+            if ($("#checkbox__3_2").prop("checked")) {
+                $("#3_biaoben_2_rate").slideDown();
+
+            }
+            else {
+                $("#3_biaoben_2_rate").slideUp();
+                $("#_3_biaoben_2_rate").val("");
+            }
+
+            if ($("#checkbox__3_3").prop("checked")) {
+                $("#3_biaoben_3_rate").slideDown();
+
+            }
+            else {
+                $("#3_biaoben_3_rate").slideUp();
+                $("#_3_biaoben_3_rate").val("");
+            }
+            if ($("#checkbox__3_4").prop("checked")) {
+                $("#3_biaoben_4_rate").slideDown();
+
+            }
+            else {
+                $("#3_biaoben_4_rate").slideUp();
+                $("#_3_biaoben_4_rate").val("");
+            }
+            if ($("#checkbox__3_5").prop("checked")) {
+                $("#3_biaoben_5_rate").slideDown();
+
+            }
+            else {
+                $("#3_biaoben_5_rate").slideUp();
+                $("#_3_biaoben_5_rate").val("");
+            }
+            if ($("#checkbox__3_6").prop("checked")) {
+                $("#3_biaoben_6_rate").slideDown();
+
+            }
+            else {
+                $("#3_biaoben_6_rate").slideUp();
+                $("#_3_biaoben_6_rate").val("");
+            }
+            if ($("#checkbox__3_7").prop("checked")) {
+                $("#3_biaoben_7_rate").slideDown();
+
+            }
+            else {
+                $("#3_biaoben_7_rate").slideUp();
+                $("#_3_biaoben_7_rate").val("");
+            }
+            if ($("#checkbox__3_8").prop("checked")) {
+                $("#3_biaoben_8_rate").slideDown();
+
+            }
+            else {
+                $("#3_biaoben_8_rate").slideUp();
+                $("#_3_biaoben_8_rate").val("");
+            }
+            if ($("#checkbox__3_9").prop("checked")) {
+                $("#3_biaoben_9_rate").slideDown();
+
+            }
+            else {
+                $("#3_biaoben_9_rate").slideUp();
+                $("#_3_biaoben_9_rate").val("");
+            }
+            if ($("#checkbox__4_1").prop("checked")) {
+                $("#4_biaoben_1_rate").slideDown();
+
+            }
+            else {
+                $("#4_biaoben_1_rate").slideUp();
+                $("#_4_biaoben_1_rate").val("");
+            }
+
+            if ($("#checkbox__4_2").prop("checked")) {
+                $("#4_biaoben_2_rate").slideDown();
+
+            }
+            else {
+                $("#4_biaoben_2_rate").slideUp();
+                $("#_4_biaoben_2_rate").val("");
+            }
+
+            if ($("#checkbox__4_3").prop("checked")) {
+                $("#4_biaoben_3_rate").slideDown();
+
+            }
+            else {
+                $("#4_biaoben_3_rate").slideUp();
+                $("#_4_biaoben_3_rate").val("");
+            }
+            if ($("#checkbox__4_4").prop("checked")) {
+                $("#4_biaoben_4_rate").slideDown();
+
+            }
+            else {
+                $("#4_biaoben_4_rate").slideUp();
+                $("#_4_biaoben_4_rate").val("");
+            }
+            if ($("#checkbox__4_5").prop("checked")) {
+                $("#4_biaoben_5_rate").slideDown();
+
+            }
+            else {
+                $("#4_biaoben_5_rate").slideUp();
+                $("#_4_biaoben_5_rate").val("");
+            }
+            if ($("#checkbox__4_6").prop("checked")) {
+                $("#4_biaoben_6_rate").slideDown();
+
+            }
+            else {
+                $("#4_biaoben_6_rate").slideUp();
+                $("#_4_biaoben_6_rate").val("");
+            }
+            if ($("#checkbox__11_1").prop("checked")) {
+                $("#11_biaoben_1_rate").slideDown();
+
+            }
+            else {
+                $("#11_biaoben_1_rate").slideUp();
+                $("#_11_biaoben_1_rate").val("");
+            }
+            if ($("#checkbox__11_2").prop("checked")) {
+                $("#11_biaoben_2_rate").slideDown();
+
+            }
+            else {
+                $("#11_biaoben_2_rate").slideUp();
+                $("#_11_biaoben_2_rate").val("");
+            }
+
+            if ($("#checkbox__11_3").prop("checked")) {
+                $("#11_biaoben_3_rate").slideDown();
+
+            }
+            else {
+                $("#11_biaoben_3_rate").slideUp();
+                $("#_11_biaoben_3_rate").val("");
+            }
+            if ($("#checkbox__11_4").prop("checked")) {
+                $("#11_biaoben_4_rate").slideDown();
+
+            }
+            else {
+                $("#11_biaoben_4_rate").slideUp();
+                $("#_11_biaoben_4_rate").val("");
+            }
+            if ($("#checkbox__11_5").prop("checked")) {
+                $("#11_biaoben_5_rate").slideDown();
+
+            }
+            else {
+                $("#11_biaoben_5_rate").slideUp();
+                $("#_11_biaoben_5_rate").val("");
+            }
+            if ($("#checkbox__11_6").prop("checked")) {
+                $("#11_biaoben_6_rate").slideDown();
+
+            }
+            else {
+                $("#11_biaoben_6_rate").slideUp();
+                $("#_11_biaoben_6_rate").val("");
+            }
+            if ($("#checkbox__12_1").prop("checked")) {
+                $("#12_biaoben_1_rate").slideDown();
+
+            }
+            else {
+                $("#12_biaoben_1_rate").slideUp();
+                $("#_12_biaoben_1_rate").val("");
+            }
+            if ($("#checkbox__12_2").prop("checked")) {
+                $("#12_biaoben_2_rate").slideDown();
+
+            }
+            else {
+                $("#12_biaoben_2_rate").slideUp();
+                $("#_12_biaoben_2_rate").val("");
+            }
+
+            if ($("#checkbox__12_3").prop("checked")) {
+                $("#12_biaoben_3_rate").slideDown();
+
+            }
+            else {
+                $("#12_biaoben_3_rate").slideUp();
+                $("#_12_biaoben_3_rate").val("");
+            }
+            if ($("#checkbox__12_4").prop("checked")) {
+                $("#12_biaoben_4_rate").slideDown();
+
+            }
+            else {
+                $("#12_biaoben_4_rate").slideUp();
+                $("#_12_biaoben_4_rate").val("");
+            }
+            if ($("#checkbox__12_5").prop("checked")) {
+                $("#12_biaoben_5_rate").slideDown();
+
+            }
+            else {
+                $("#12_biaoben_5_rate").slideUp();
+                $("#_12_biaoben_5_rate").val("");
+            }
+            if ($("#checkbox__12_6").prop("checked")) {
+                $("#12_biaoben_6_rate").slideDown();
+
+            }
+            else {
+                $("#12_biaoben_6_rate").slideUp();
+                $("#_12_biaoben_6_rate").val("");
+            }
+        })
+        $("#radio_26_2").click(function () {
+            if ($("#radio_26_2").prop("checked")) {
+                $("#redio").slideDown();
+            }
+        })
+        $("#radio_26_1").click(function () {
+            if ($("#radio_26_1").prop("checked")) {
+                $("#redio").slideUp();
+                $("#Q26_others").val("");
+
+            }
+        })
+        //验证分离的菌种数输入框
+        function validationNumber(e, num) {
+            var regu = /^[0-9]+\.?[0-9]*$/;
+            if (e.value != "") {
+                if (!regu.test(e.value)) {
+                    MessageWindow("请输入正确数字");                   
+                    e.value = "";
+                    e.focus();
+                    return;
+                }
+            } else if (e.value === "") {
+               MessageWindow("请输入细菌株数");   
+                return;
+            }
+            var germ_detected = Number($("#germ_detected").val());
+            var cr_detected = Number($("#cr_detected").val());
+            var Carbapenemase1 = $("#_11_biaoben_1_rate").val();
+            var Carbapenemase2 = $("#_11_biaoben_2_rate").val();
+            var Carbapenemase3 = $("#_11_biaoben_3_rate").val();
+            var Carbapenemase4 = $("#_11_biaoben_4_rate").val();
+            var Carbapenemase5 = $("#_11_biaoben_5_rate").val();
+            var Carbapenemase6 = $("#_11_biaoben_6_rate").val();
+            var count = Number(Carbapenemase1) + Number(Carbapenemase2) + Number(Carbapenemase3) + Number(Carbapenemase4) + Number(Carbapenemase5) + Number(Carbapenemase6)
+            if (Number(count) > Number(cr_detected)) {
+                 MessageWindow("请确保总和小于总耐药株数");                
+                e.value = "";
+                e.focus();
+                return;
+            }
+            //var Antibiotic1 = $("#_12_biaoben_1_rate").val();
+            //var Antibiotic2 = $("#_12_biaoben_2_rate").val();
+            //var Antibiotic3 = $("#_12_biaoben_3_rate").val();
+            //var Antibiotic4 = $("#_12_biaoben_4_rate").val();
+            //var Antibiotic5 = $("#_12_biaoben_5_rate").val();
+            //var Antibiotic6 = $("#_12_biaoben_6_rate").val();
+
+            //var count = Number(Antibiotic1) + Number(Antibiotic2) + Number(Antibiotic3) + Number(Antibiotic4) + Number(Antibiotic5) + Number(Antibiotic6)
+            //if (Number(count) > Number(cr_detected)) {
+            //     MessageWindow("请确保总和小于总耐药株数");                 
+            //    e.value = "";
+            //    e.focus();
+            //    return;
+            //}
+            if (cr_detected > germ_detected) {
+                 MessageWindow("请确保耐药株数小于检出株数");                
+                $("#cr_detected").val("")
+            }
+
+        }
+
+        //验证规则
+        function Preservation() {
+            var hospital = $("#hospital").val();
+            if (hospital === "" || hospital === null || hospital === "0") {
+                 MessageWindow("请输入医院名称");                
+                return;
+            }
+            var provinceid = $("#province").val();
+            if (provinceid === "" || provinceid === null || provinceid === "0") {
+                 MessageWindow("请择省份地区");                 
+                return;
+            }
+            var ddlCityid = $("#City").val();
+            if (ddlCityid === "" || ddlCityid === null || ddlCityid === "0") {
+                 MessageWindow("请择市级地区");                
+                return;
+            }
+            var ddlAreaid = $("#Area").val();
+            if (ddlAreaid === "" || ddlAreaid === null || ddlAreaid === "0") {
+                 MessageWindow("请择区县地区");                 
+                return;
+            }
+            var address = $("#address").val();
+            if (address === "" || address === null || address === "0") {
+                 MessageWindow("请输入详细地址");                 
+                return;
+            }
+            var person = $("#Person").val();
+            if (person === "" || person === null || person === "0") {
+                 MessageWindow("请输入负责人");                 
+                return;
+            }
+            var Phone = $("#phone").val();
+            if (Phone === "" || Phone === null || Phone === "0") {
+                 MessageWindow("请输入联系电话");               
+                return;
+            }
+            var myreg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+            if (!myreg.test(Phone)) {
+                 MessageWindow("手机号格式不正确");  
+                return;
+            }
+            var Mailbox = $("#Email").val();
+            if (Mailbox === "" || Mailbox === null || Mailbox === "0") {
+                 MessageWindow("请输入邮箱");             
+                return;
+            }
+            var germ_detected = $("#germ_detected").val();
+            if (germ_detected === "" || germ_detected === null || germ_detected === "0") {
+                 MessageWindow("请输入细菌株数");                
+                return;
+            }
+            var cr_detected = $("#cr_detected").val();
+            if (cr_detected === "" || cr_detected === null) {
+                 MessageWindow("请输入耐药细菌株数");                
+                return;
+            }
+            //var Data_id = $("#Data_id").val();
+            //if (Data_id == "") {
+            //    addCre_contact();
+            //} else if (Data_id != "") {
+            //    updateCre_contact();
+            //}
+            addData();
+        }
+        //获取url的参数
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = decodeURI(window.location.search).substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            else {
+                return null;
+            }
+        }
+        //数据添加
+        function addData() {
+            var germ_id = getQueryString("creid")
+            var hospital = $("#hospital").val();
+            var province = $("#province").val();
+            var City = $("#City").val();
+            var Area = $("#Area").val();
+            var address = $("#address").val();
+            var person = $("#Person").val();
+            var Phone = $("#phone").val();
+            var Email = $("#Email").val();
+            var Year = $("#year").val();
+            var Ession = $("#Ession").val();
+            var germ_detected = $("#germ_detected").val();
+            var cr_detected = $("#cr_detected").val();
+            var Updatedata_id = $("#Data_id").val();
+            var tan = "";
+            if ($("#checkbox__3_1").prop("checked")) {
+                tan = $("#_3_biaoben_1_rate").val();
+            }
+            var blood = "";
+            if ($("#checkbox__3_2").prop("checked")) {
+                blood = $("#_3_biaoben_2_rate").val();
+            }
+            var faeces = "";
+            if ($("#checkbox__3_3").prop("checked")) {
+                faeces = $("#_3_biaoben_3_rate").val();
+            }
+            var alveolar = "";
+            if ($("#checkbox__3_4").prop("checked")) {
+                alveolar = $("#_3_biaoben_4_rate").val();
+            }
+            var woundpus = "";
+            if ($("#checkbox__3_5").prop("checked")) {
+                woundpus = $("#_3_biaoben_5_rate").val();
+            }
+            var urethra = "";
+            if ($("#checkbox__3_6").prop("checked")) {
+                urethra = $("#_3_biaoben_6_rate").val();
+            }
+            var venous = "";
+            if ($("#checkbox__3_7").prop("checked")) {
+                venous = $("#_3_biaoben_7_rate").val();
+            }
+            var puncture = "";
+            if ($("#checkbox__3_8").prop("checked")) {
+                puncture = $("#_3_biaoben_8_rate").val();
+            }
+            var specimen_other = "";
+            if ($("#checkbox__3_9").prop("checked")) {
+                specimen_other = $("#_3_biaoben_9_rate").val();
+            }
+            var bloodsection = "";
+            if ($("#checkbox__4_1").prop("checked")) {
+                bloodsection = $("#_4_biaoben_1_rate").val();
+            }
+            var icu = "";
+            if ($("#checkbox__4_2").prop("checked")) {
+                icu = $("#_4_biaoben_2_rate").val();
+            }
+            var breathing = "";
+            if ($("#checkbox__4_3").prop("checked")) {
+                breathing = $("#_4_biaoben_3_rate").val();
+            }
+            var Infected = "";
+            if ($("#checkbox__4_4").prop("checked")) {
+                Infected = $("#_4_biaoben_4_rate").val();
+            }
+            var transplant = "";
+            if ($("#checkbox__4_5").prop("checked")) {
+                transplant = $("#_4_biaoben_5_rate").val();
+            }
+            var other = "";
+            if ($("#checkbox__4_6").prop("checked")) {
+                other = $("#_4_biaoben_6_rate").val();
+            }
+            var Sensitive = "";
+            if ($("#checkbox__25_1").prop("checked")) {
+
+                Sensitive = $("#checkbox__25_1").val();
+            }
+            var Hodge = "";
+            if ($("#checkbox__25_2").prop("checked")) {
+
+                Hodge = $("#checkbox__25_2").val();
+            }
+            var CarbaNP = "";
+            if ($("#checkbox__25_3").prop("checked")) {
+
+                CarbaNP = $("#checkbox__25_3").val();
+            }
+            var mCIMandeCIM = "";
+            if ($("#checkbox__25_4").prop("checked")) {
+
+                mCIMandeCIM = $("#checkbox__25_4").val();
+            }
+            var EDTAandAPB = "";
+            if ($("#checkbox__25_5").prop("checked")) {
+
+                EDTAandAPB = $("#checkbox__25_5").val();
+            }
+            var Goldlabeled = "";
+            if ($("#checkbox__25_6").prop("checked")) {
+
+                Goldlabeled = $("#checkbox__25_6").val();
+            }
+            var PCR = "";
+            if ($("#checkbox__25_7").prop("checked")) {
+
+                PCR = $("#checkbox__25_7").val();
+            }
+            var GeneXpert = "";
+            if ($("#checkbox__25_8").prop("checked")) {
+
+                GeneXpert = $("#checkbox__25_8").val();
+            }
+            var Carbapenemase = "";
+            if ($("#checkbox__25_9").prop("checked")) {
+
+                Carbapenemase = $("#checkbox__25_9").val();
+            }
+            var report = 0;
+            var type = "";
+            if ($("#radio_26_2").prop("checked")) {
+                report = 1
+                type = $("#Q26_others").val();
+            }
+            var kpc = "";
+            if ($("#checkbox__11_1").prop("checked")) {
+
+                kpc = $("#_11_biaoben_1_rate").val()
+                var regu = /^[0-9]+\.?[0-9]*$/;
+                if (kpc != "") {
+                    if (!regu.test(kpc)) {
+                         MessageWindow("请输入正确数字");                        
+                        $("#_11_biaoben_1_rate").val("");
+                        return;
+                    }
+                }
+            }
+            if (Number(kpc) > cr_detected) {
+                 MessageWindow("请确保总和小于总耐药株数");                
+                $("#_11_biaoben_1_rate").val("");
+                return;
+            }
+            var ndm = "";
+            if ($("#checkbox__11_2").prop("checked")) {
+                ndm = $("#_11_biaoben_2_rate").val()
+                var regu = /^[0-9]+\.?[0-9]*$/;
+                if (ndm != "") {
+                    if (!regu.test(ndm)) {
+                         MessageWindow("请输入正确数字");                        
+                        $("#_11_biaoben_2_rate").val("");
+                        return;
+                    }
+                }
+            }
+            var sum = Number(kpc) + Number(ndm);
+            if (sum > cr_detected) {
+                 MessageWindow("请确保总和小于总耐药株数");               
+                $("#_11_biaoben_2_rate").val("");
+                return;
+            }
+            var oxa_48 = "";
+            if ($("#checkbox__11_3").prop("checked")) {
+
+                oxa_48 = $("#_11_biaoben_3_rate").val()
+                var regu = /^[0-9]+\.?[0-9]*$/;
+                if (oxa_48 != "") {
+                    if (!regu.test(oxa_48)) {
+                         MessageWindow("请输入正确数字");                        
+                        $("#_11_biaoben_3_rate").val("");
+                        return;
+                    }
+                }
+            }
+            sum = Number(kpc) + Number(ndm) + Number(oxa_48);
+            if (sum > cr_detected) {
+                 MessageWindow("请确保总和小于总耐药株数");                
+                $("#_11_biaoben_3_rate").val("");
+                return;
+            }
+            var ipm = "";
+            if ($("#checkbox__11_4").prop("checked")) {
+                ipm = $("#_11_biaoben_4_rate").val()
+                var regu = /^[0-9]+\.?[0-9]*$/;
+                if (ipm != "") {
+                    if (!regu.test(ipm)) {
+                         MessageWindow("请输入正确数字");                        
+                        $("#_11_biaoben_4_rate").val("");
+                        return;
+                    }
+                }
+            }
+            sum = Number(kpc) + Number(ndm) + Number(oxa_48) + Number(ipm);
+            if (sum > cr_detected) {
+                 MessageWindow("请确保总和小于总耐药株数");  
+                showToast({
+                    text: '请确保总和小于总耐药株数',
+                    bottom: '40%',
+                    zindex: 3,
+                    speed: 500,
+                    time: 4000
+                });
+                $("#_11_biaoben_4_rate").val("");
+                return;
+            }
+            var vim = "";
+            if ($("#checkbox__11_5").prop("checked")) {
+                vim = $("#_11_biaoben_5_rate").val()
+                var regu = /^[0-9]+\.?[0-9]*$/;
+                if (vim != "") {
+                    if (!regu.test(vim)) {
+                         MessageWindow("请输入正确数字");                          
+                        $("#_11_biaoben_5_rate").val("");
+                        return;
+                    }
+                }
+            }
+            sum = Number(kpc) + Number(ndm) + Number(oxa_48) + Number(ipm) + Number(vim);
+            if (sum > cr_detected) {
+                 MessageWindow("请确保总和小于总耐药株数");                 
+                $("#_11_biaoben_5_rate").val("");
+                return;
+            }
+            var carbapenemase_other = "";
+            if ($("#checkbox__11_6").prop("checked")) {
+                carbapenemase_other = $("#_11_biaoben_6_rate").val()
+                var regu = /^[0-9]+\.?[0-9]*$/;
+                if (carbapenemase_other != "") {
+                    if (!regu.test(carbapenemase_other)) {
+                         MessageWindow("请输入正确数字");                       
+                        $("#_11_biaoben_6_rate").val("");
+                        return;
+                    }
+                }
+            }
+            sum = Number(kpc) + Number(ndm) + Number(oxa_48) + Number(ipm) + Number(vim) + Number(carbapenemase_other);
+            if (sum > cr_detected) {
+                 MessageWindow("请确保总和小于总耐药株数");                
+                $("#_11_biaoben_6_rate").val("");
+                return;
+            }
+            var polymyxin = "";
+            if ($("#checkbox__12_1").prop("checked")) {
+                polymyxin = $("#_12_biaoben_1_rate").val()
+                var regu = /^[0-9]+\.?[0-9]*$/;
+                if (polymyxin != "") {
+                    if (!regu.test(polymyxin)) {
+                         MessageWindow("请输入正确数字");                         
+                        $("#_12_biaoben_1_rate").val("");
+                        return;
+                    }
+                }
+            }
+            //if (Number(polymyxin) > cr_detected)
+            //{
+            //     showToast({
+            //                text:'请确保总和小于总耐药株数',
+            //                bottom:'40%',
+            //                zindex:3,
+            //                speed:500,
+            //                time:4000
+            //     });
+            //     $("#_12_biaoben_1_rate").val("");
+            //    return;
+            //}
+            var tegafycline = "";
+            if ($("#checkbox__12_2").prop("checked")) {
+
+                tegafycline = $("#_12_biaoben_2_rate").val()
+                var regu = /^[0-9]+\.?[0-9]*$/;
+                if (tegafycline != "") {
+                    if (!regu.test(tegafycline)) {
+                         MessageWindow("请输入正确数字");                         
+                        $("#_12_biaoben_2_rate").val("");
+                        return;
+                    }
+                }
+            }
+            //var count = Number(polymyxin) + Number(tegafycline)
+            //if (count > cr_detected)
+            //{
+            //     showToast({
+            //                text:'请确保总和小于总耐药株数',
+            //                bottom:'40%',
+            //                zindex:3,
+            //                speed:500,
+            //                time:4000
+            //     });
+            //     $("#_12_biaoben_2_rate").val("");
+            //    return;
+            //}
+            var ceftazidime = "";
+            if ($("#checkbox__12_3").prop("checked")) {
+                ceftazidime = $("#_12_biaoben_3_rate").val()
+                var regu = /^[0-9]+\.?[0-9]*$/;
+                if (ceftazidime != "") {
+                    if (!regu.test(ceftazidime)) {
+                         MessageWindow("请输入正确数字");                         
+                        $("#_12_biaoben_3_rate").val("");
+                        return;
+                    }
+                }
+            }
+            // var count = Number(polymyxin) + Number(tegafycline) + Number(ceftazidime)
+            //if (count > cr_detected)
+            //{
+            //     showToast({
+            //                text:'请确保总和小于总耐药株数',
+            //                bottom:'40%',
+            //                zindex:3,
+            //                speed:500,
+            //                time:4000
+            //     });
+            //     $("#_12_biaoben_3_rate").val("");
+            //    return;
+            //}
+            var fosfomycin = "";
+            if ($("#checkbox__12_4").prop("checked")) {
+                fosfomycin = $("#_12_biaoben_4_rate").val()
+                var regu = /^[0-9]+\.?[0-9]*$/;
+                if (fosfomycin != "") {
+                    if (!regu.test(fosfomycin)) {
+                         MessageWindow("请输入正确数字");  
+                        $("#_12_biaoben_4_rate").val("");
+                        return;
+                    }
+                }
+            }
+            // var count = Number(polymyxin) + Number(tegafycline) + Number(ceftazidime) + Number(fosfomycin)
+            //if (count > cr_detected)
+            //{
+            //     showToast({
+            //                text:'请确保总和小于总耐药株数',
+            //                bottom:'40%',
+            //                zindex:3,
+            //                speed:500,
+            //                time:4000
+            //     });
+            //     $("#_12_biaoben_4_rate").val("");
+            //    return;
+            //}
+            var chloramphenicol = "";
+            if ($("#checkbox__12_5").prop("checked")) {
+                chloramphenicol = $("#_12_biaoben_5_rate").val()
+                var regu = /^[0-9]+\.?[0-9]*$/;
+                if (chloramphenicol != "") {
+                    if (!regu.test(chloramphenicol)) {
+                         MessageWindow("请输入正确数字");  
+                        $("#_12_biaoben_5_rate").val("");
+                        return;
+                    }
+                }
+            }
+            // var count = Number(polymyxin) + Number(tegafycline) + Number(ceftazidime) + Number(fosfomycin) + Number(chloramphenicol)
+            //if (count > cr_detected)
+            //{
+            //     showToast({
+            //                text:'请确保总和小于总耐药株数',
+            //                bottom:'40%',
+            //                zindex:3,
+            //                speed:500,
+            //                time:4000
+            //     });
+            //     $("#_12_biaoben_5_rate").val("");
+            //    return;
+            //}
+            var drugtest = "";
+            if ($("#checkbox__12_6").prop("checked")) {
+                drugtest = $("#_12_biaoben_6_rate").val();
+                var regu = /^[0-9]+\.?[0-9]*$/;
+                if (drugtest != "") {
+                    if (!regu.test(drugtest)) {
+                         MessageWindow("请输入正确数字");                         
+                        $("#_12_biaoben_6_rate").val("");
+                        return;
+                    }
+                }
+
+            }
+            // var count = Number(polymyxin) + Number(tegafycline) + Number(ceftazidime) + Number(fosfomycin) + Number(chloramphenicol) + Number(drugtest)
+            //if (count > cr_detected)
+            //{
+            //     showToast({
+            //                text:'请确保总和小于总耐药株数',
+            //                bottom:'40%',
+            //                zindex:3,
+            //                speed:500,
+            //                time:4000
+            //     });
+            //     $("#_12_biaoben_6_rate").val("");
+            //    return;
+            //}
+            $.post("/CRE/CreUploadData/AddCre_data", { Germ_id: germ_id, Hospital: hospital, Province_id: province, City_id: City, District_id: Area, Detailedaddress: address, Contact: person, Email: Email, Mobile: Phone, Data_year: Year, Data_season: Ession, Germ_detected: germ_detected, Cr_detected: cr_detected, Specimen_tan: tan, Specimen_blood: blood, Specimen_faeces: faeces, Specimen_alveolar: alveolar, Specimen_woundpus: woundpus, Specimen_urethra: urethra, Specimen_venous: venous, Specimen_puncture: puncture, Specimen_other: specimen_other, Department_bloodsection: bloodsection, Department_icu: icu, Department_breathing: breathing, Department_Infected: Infected, Department_transplant: transplant, Department_other: other, Sensitive: Sensitive, Hodge: Hodge, CarbaNP: CarbaNP, MCIMandeCIM: mCIMandeCIM, EDTAandAPB: EDTAandAPB, Goldlabeled: Goldlabeled, PCR: PCR, GeneXpert: GeneXpert, Carbapenemase: Carbapenemase, General_report: report, Report_type: type, Carbapenemase_kpc: kpc, Carbapenemase_ndm: ndm, Carbapenemase_oxa_48: oxa_48, Carbapenemase_ipm: ipm, Carbapenemase_vim: vim, Carbapenemase_other: carbapenemase_other, Antibiotic_polymyxin: polymyxin, Antibiotic_tegafycline: tegafycline, Antibiotic_ceftazidime: ceftazidime, Antibiotic_fosfomycin: fosfomycin, Antibiotic_chloramphenicol: chloramphenicol, Antibiotic_drugtest: drugtest, Data_id: Updatedata_id, token: localStorage.getItem('token') }, function (data) {
+                if (data > 0) {
+                    SuccessWindow("数据保存成功");                   
+                }
+                else {
+                    ErrorWindow("保存失败请联系管理员");                   
+                }
+            })
+        }
+        //数据的返填
+        function dataswitch(tYear) {
+            var Grem_id = getQueryString("creid");
+            $("input[name='rate_name']").val("");
+            $("#germ_detected").val("");
+            $("#cr_detected").val("");
+            $("#radio_26_1").prop("checked", false)
+            $("#Data_id").val("");
+            //$("select[name='select']").val("");
+            var season = $("#Ession").val();
+            $.ajax({
+                url: "/CRE/CreUploadData/Databackfilling",
+                type: "post",
+                async: false,
+                //dataType: "json",
+                data: { year: tYear, season: season, Grem_id: Grem_id, token: localStorage.getItem('token') },
+                success: function (data) {
+                    data = JSON.parse(data);
+                    if (data.length <= 0) {
+                        $(":checkbox").prop("checked", false)
+                        $("#3_biaoben_1_rate").hide();
+                        $("#3_biaoben_2_rate").hide();
+                        $("#3_biaoben_3_rate").hide();
+                        $("#3_biaoben_4_rate").hide();
+                        $("#3_biaoben_5_rate").hide();
+                        $("#3_biaoben_6_rate").hide();
+                        $("#3_biaoben_7_rate").hide();
+                        $("#3_biaoben_8_rate").hide();
+                        $("#3_biaoben_9_rate").hide();
+                        $("#4_biaoben_1_rate").hide();
+                        $("#4_biaoben_2_rate").hide();
+                        $("#4_biaoben_3_rate").hide();
+                        $("#4_biaoben_4_rate").hide();
+                        $("#4_biaoben_5_rate").hide();
+                        $("#4_biaoben_6_rate").hide();
+                        $("#11_biaoben_1_rate").hide();
+                        $("#11_biaoben_2_rate").hide();
+                        $("#11_biaoben_3_rate").hide();
+                        $("#11_biaoben_4_rate").hide();
+                        $("#11_biaoben_5_rate").hide();
+                        $("#11_biaoben_6_rate").hide();
+                        $("#12_biaoben_1_rate").hide();
+                        $("#12_biaoben_2_rate").hide();
+                        $("#12_biaoben_3_rate").hide();
+                        $("#12_biaoben_4_rate").hide();
+                        $("#12_biaoben_5_rate").hide();
+                        $("#12_biaoben_6_rate").hide();
+                        $("#redio").hide();
+                    }
+                    else {
+                        for (var i = 0; i < data.length; i++) {
+                            $("#germ_detected").val(data[i].Germ_detected)
+                            $("#cr_detected").val(data[i].Cr_detected)
+                            $("#year").val(data[i].Data_year);
+                            $("#Ession").val(data[i].Data_season);
+                            $("#Data_id").val(data[i].Data_id);
+                            if (data[i].Specimen_tan != "") {
+                                $("#checkbox__3_1").prop("checked", true);
+                                $("#3_biaoben_1_rate").slideDown();
+                                $("#_3_biaoben_1_rate").val(data[i].Specimen_tan);
+                            }
+                            else {
+                                $("#checkbox__3_1").prop("checked", false);
+                                $("#3_biaoben_1_rate").slideUp();
+                            }
+                            if (data[i].Specimen_blood != "") {
+                                $("#checkbox__3_2").prop("checked", true);
+                                $("#3_biaoben_2_rate").slideDown();
+                                $("#_3_biaoben_2_rate").val(data[i].Specimen_blood);
+
+                            }
+                            else {
+                                $("#checkbox__3_2").prop("checked", false);
+                                $("#3_biaoben_2_rate").slideUp();
+                            }
+                            if (data[i].Specimen_faeces != "") {
+                                $("#checkbox__3_3").prop("checked", true);
+                                $("#3_biaoben_3_rate").slideDown();
+                                $("#_3_biaoben_3_rate").val(data[i].Specimen_faeces);
+                            } else {
+                                $("#checkbox__3_3").prop("checked", false);
+                                $("#3_biaoben_3_rate").slideUp();
+                            }
+
+                            if (data[i].Specimen_alveolar != "") {
+                                $("#checkbox__3_4").prop("checked", true);
+                                $("#3_biaoben_4_rate").slideDown();
+                                $("#_3_biaoben_4_rate").val(data[i].Specimen_alveolar);
+                            } else {
+                                $("#checkbox__3_4").prop("checked", false);
+                                $("#3_biaoben_4_rate").slideUp();
+                            }
+                            if (data[i].Specimen_woundpus != "") {
+                                $("#checkbox__3_5").prop("checked", true);
+                                $("#3_biaoben_5_rate").slideDown();
+                                $("#_3_biaoben_5_rate").val(data[i].Specimen_woundpus);
+                            }
+                            else {
+                                $("#checkbox__3_5").prop("checked", false);
+                                $("#3_biaoben_5_rate").slideUp();
+                            }
+                            if (data[i].Specimen_urethra != "") {
+                                $("#checkbox__3_6").prop("checked", true);
+                                $("#3_biaoben_6_rate").slideDown();
+                                $("#_3_biaoben_6_rate").val(data[i].Specimen_urethra);
+                            }
+                            else {
+                                $("#checkbox__3_6").prop("checked", false);
+                                $("#3_biaoben_6_rate").slideUp();
+                            }
+                            if (data[i].Specimen_venous != "") {
+                                $("#checkbox__3_7").prop("checked", true);
+                                $("#3_biaoben_7_rate").slideDown();
+                                $("#_3_biaoben_7_rate").val(data[i].Specimen_venous);
+                            } else {
+                                $("#checkbox__3_7").prop("checked", false);
+                                $("#3_biaoben_7_rate").slideUp();
+                            }
+                            if (data[i].Specimen_puncture != "") {
+                                $("#checkbox__3_8").prop("checked", true);
+                                $("#3_biaoben_8_rate").slideDown();
+                                $("#_3_biaoben_8_rate").val(data[i].Specimen_puncture);
+                            }
+                            else {
+                                $("#checkbox__3_8").prop("checked", false);
+                                $("#3_biaoben_8_rate").slideUp();
+                            }
+                            if (data[i].Specimen_other != "") {
+                                $("#checkbox__3_9").prop("checked", true);
+                                $("#3_biaoben_9_rate").slideDown();
+                                $("#_3_biaoben_9_rate").val(data[i].Specimen_other);
+                            }
+                            else {
+                                $("#checkbox__3_9").prop("checked", false);
+                                $("#3_biaoben_9_rate").slideUp();
+                            }
+                            if (data[i].Department_bloodsection != "") {
+                                $("#checkbox__4_1").prop("checked", true);
+                                $("#4_biaoben_1_rate").slideDown();
+                                $("#_4_biaoben_1_rate").val(data[i].Department_bloodsection);
+                            }
+                            else {
+                                $("#checkbox__4_1").prop("checked", false);
+                                $("#4_biaoben_1_rate").slideUp();
+                            }
+                            if (data[i].Department_icu != "") {
+                                $("#checkbox__4_2").prop("checked", true);
+                                $("#4_biaoben_2_rate").slideDown();
+                                $("#_4_biaoben_2_rate").val(data[i].Department_icu);
+                            }
+                            else {
+                                $("#checkbox__4_2").prop("checked", false);
+                                $("#4_biaoben_2_rate").slideUp();
+                            }
+                            if (data[i].Department_breathing != "") {
+                                $("#checkbox__4_3").prop("checked", true);
+                                $("#4_biaoben_3_rate").slideDown();
+                                $("#_4_biaoben_3_rate").val(data[i].Department_breathing);
+                            }
+                            else {
+                                $("#checkbox__4_3").prop("checked", false);
+                                $("#4_biaoben_3_rate").slideUp();
+                            }
+                            if (data[i].Department_Infected != "") {
+                                $("#checkbox__4_4").prop("checked", true);
+                                $("#4_biaoben_4_rate").slideDown();
+                                $("#_4_biaoben_4_rate").val(data[i].Department_Infected);
+                            } else {
+                                $("#checkbox__4_4").prop("checked", false);
+                                $("#4_biaoben_4_rate").slideUp();
+                            }
+                            if (data[i].Department_transplant != "") {
+                                $("#checkbox__4_5").prop("checked", true);
+                                $("#4_biaoben_5_rate").slideDown();
+                                $("#_4_biaoben_5_rate").val(data[i].Department_transplant);
+                            } else {
+                                $("#checkbox__4_5").prop("checked", false);
+                                $("#4_biaoben_5_rate").slideUp();
+                            }
+                            if (data[i].Department_other != "") {
+                                $("#checkbox__4_6").prop("checked", true);
+                                $("#4_biaoben_6_rate").slideDown();
+                                $("#_4_biaoben_6_rate").val(data[i].Department_other);
+                            } else {
+                                $("#checkbox__4_6").prop("checked", false);
+                                $("#4_biaoben_6_rate").slideUp();
+                            }
+                            if (data[i].Sensitive != "") {
+                                $("#checkbox__25_1").prop("checked", true);
+
+                            } else {
+                                $("#checkbox__25_1").prop("checked", false);
+
+                            }
+                            if (data[i].Hodge != "") {
+                                $("#checkbox__25_2").prop("checked", true);
+
+                            } else {
+                                $("#checkbox__25_2").prop("checked", false);
+
+                            }
+                            if (data[i].CarbaNP != "") {
+                                $("#checkbox__25_3").prop("checked", true);
+
+                            } else {
+                                $("#checkbox__25_3").prop("checked", false);
+
+                            }
+                            if (data[i].MCIMandeCIM != "") {
+                                $("#checkbox__25_4").prop("checked", true);
+
+                            } else {
+                                $("#checkbox__25_4").prop("checked", false);
+
+                            }
+                            if (data[i].EDTAandAPB != "") {
+                                $("#checkbox__25_5").prop("checked", true);
+
+                            } else {
+                                $("#checkbox__25_5").prop("checked", false);
+
+                            }
+                            if (data[i].Goldlabeled != "") {
+                                $("#checkbox__25_6").prop("checked", true);
+
+                            } else {
+                                $("#checkbox__25_6").prop("checked", false);
+
+                            }
+                            if (data[i].PCR != "") {
+                                $("#checkbox__25_7").prop("checked", true);
+
+                            } else {
+                                $("#checkbox__25_7").prop("checked", false);
+
+                            }
+                            if (data[i].GeneXpert != "") {
+                                $("#checkbox__25_8").prop("checked", true);
+
+                            } else {
+                                $("#checkbox__25_8").prop("checked", false);
+
+                            }
+                            if (data[i].Carbapenemase != "") {
+                                $("#checkbox__25_9").prop("checked", true);
+                            } else {
+                                $("#checkbox__25_9").prop("checked", false);
+
+                            }
+                            if (data[i].General_report == 1) {
+                                $("#radio_26_2").prop("checked", true);
+                                $("#redio").slideDown();
+                                $("#Q26_others").val(data[i].Report_type);
+                            }
+                            else {
+                                $("#radio_26_1").prop("checked", true);
+                                $("#redio").slideUp();
+                            }
+                            if (data[i].Carbapenemase_kpc > 0) {
+                                $("#checkbox__11_1").prop("checked", true);
+                                $("#11_biaoben_1_rate").slideDown();
+                                $("#_11_biaoben_1_rate").val(data[i].Carbapenemase_kpc);
+                            } else {
+                                $("#checkbox__11_1").prop("checked", false);
+                                $("#11_biaoben_1_rate").slideUp();
+                            }
+                            if (data[i].Carbapenemase_ndm > 0) {
+                                $("#checkbox__11_2").prop("checked", true);
+                                $("#11_biaoben_2_rate").slideDown();
+                                $("#_11_biaoben_2_rate").val(data[i].Carbapenemase_ndm);
+                            } else {
+                                $("#checkbox__11_2").prop("checked", false);
+                                $("#11_biaoben_2_rate").slideUp();
+                            }
+                            if (data[i].Carbapenemase_oxa_48 > 0) {
+                                $("#checkbox__11_3").prop("checked", true);
+                                $("#11_biaoben_3_rate").slideDown();
+                                $("#_11_biaoben_3_rate").val(data[i].Carbapenemase_oxa_48);
+                            } else {
+                                $("#checkbox__11_3").prop("checked", false);
+                                $("#11_biaoben_3_rate").slideUp();
+                            }
+                            if (data[i].Carbapenemase_ipm > 0) {
+                                $("#checkbox__11_4").prop("checked", true);
+                                $("#11_biaoben_4_rate").slideDown();
+                                $("#_11_biaoben_4_rate").val(data[i].Carbapenemase_ipm);
+                            } else {
+                                $("#checkbox__11_4").prop("checked", false);
+                                $("#11_biaoben_4_rate").slideUp();
+                            }
+                            if (data[i].Carbapenemase_vim > 0) {
+                                $("#checkbox__11_5").prop("checked", true);
+                                $("#11_biaoben_5_rate").slideDown();
+                                $("#_11_biaoben_5_rate").val(data[i].Carbapenemase_vim);
+                            } else {
+                                $("#checkbox__11_5").prop("checked", false);
+                                $("#11_biaoben_5_rate").slideUp();
+                            }
+                            if (data[i].Carbapenemase_other > 0) {
+                                $("#checkbox__11_6").prop("checked", true);
+                                $("#11_biaoben_6_rate").slideDown();
+                                $("#_11_biaoben_6_rate").val(data[i].Carbapenemase_other);
+                            } else {
+                                $("#checkbox__11_6").prop("checked", false);
+                                $("#11_biaoben_6_rate").slideUp();
+                            }
+                            if (data[i].Antibiotic_polymyxin > 0) {
+                                $("#checkbox__12_1").prop("checked", true);
+                                $("#12_biaoben_1_rate").slideDown();
+                                $("#_12_biaoben_1_rate").val(data[i].Antibiotic_polymyxin);
+                            } else {
+                                $("#checkbox__12_1").prop("checked", false);
+                                $("#12_biaoben_1_rate").slideUp();
+                            }
+                            if (data[i].Antibiotic_tegafycline > 0) {
+                                $("#checkbox__12_2").prop("checked", true);
+                                $("#12_biaoben_2_rate").slideDown();
+                                $("#_12_biaoben_2_rate").val(data[i].Antibiotic_tegafycline);
+                            } else {
+                                $("#checkbox__12_2").prop("checked", false);
+                                $("#12_biaoben_2_rate").slideUp();
+                            }
+                            if (data[i].Antibiotic_ceftazidime > 0) {
+                                $("#checkbox__12_3").prop("checked", true);
+                                $("#12_biaoben_3_rate").slideDown();
+                                $("#_12_biaoben_3_rate").val(data[i].Antibiotic_ceftazidime);
+                            } else {
+                                $("#checkbox__12_3").prop("checked", false);
+                                $("#12_biaoben_3_rate").slideUp();
+                            }
+                            if (data[i].Antibiotic_fosfomycin > 0) {
+                                $("#checkbox__12_4").prop("checked", true);
+                                $("#12_biaoben_4_rate").slideDown();
+                                $("#_12_biaoben_4_rate").val(data[i].Antibiotic_fosfomycin);
+                            } else {
+                                $("#checkbox__12_4").prop("checked", false);
+                                $("#12_biaoben_4_rate").slideUp();
+                            }
+                            if (data[i].Antibiotic_chloramphenicol > 0) {
+                                $("#checkbox__12_5").prop("checked", true);
+                                $("#12_biaoben_5_rate").slideDown();
+                                $("#_12_biaoben_5_rate").val(data[i].Antibiotic_chloramphenicol);
+                            } else {
+                                $("#checkbox__12_5").prop("checked", false);
+                                $("#12_biaoben_5_rate").slideUp();
+                            }
+                            if (data[i].Antibiotic_drugtest > 0) {
+                                $("#checkbox__12_6").prop("checked", true);
+                                $("#12_biaoben_6_rate").slideDown();
+                                $("#_12_biaoben_6_rate").val(data[i].Antibiotic_drugtest);
+                            } else {
+                                $("#checkbox__12_6").prop("checked", false);
+                                $("#12_biaoben_6_rate").slideUp();
+                            }
+                        }
+                    }
+                }
+
+            });
+        }
+
+    </script>
+}

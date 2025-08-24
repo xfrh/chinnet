@@ -1,0 +1,26 @@
+﻿.flex.has-error {
+    border: 0;
+}
+
+.font-12px {
+    font-size: 12px;
+}
+
+.font-14px {
+    font-size: 14px !important;
+}
+
+.cre-footer .cre-submit.a-btn {
+    font-weight: bold;
+    background-color: #005cad;
+    border: 0;
+    color: #fff;
+    height: 3rem;
+    line-height: 3rem;
+    display: block;
+    width: 80%;
+    margin: 0px auto;
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.8rem;
+}

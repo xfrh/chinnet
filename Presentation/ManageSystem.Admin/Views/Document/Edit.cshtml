@@ -1,0 +1,94 @@
+﻿@model ManageSystem.Admin.Models.Document.DocumentModel
+
+@{
+    //page title
+    ViewBag.Title = "修改资料";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "文章管理", SecondName = "文章列表", LocationName = this.ViewBag.Title }); }
+}
+
+
+@using (Html.BeginForm("Edit", "Document", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="page-body">
+        <div class="row add-page">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget ">
+                    <div class="widget-header add-page-titlebox ">
+                        <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                    </div>
+                    <div class="widget-body " id="BaseDiv" runat="server">
+                        @*<div class="options add-page-options clearfix">
+                            <input type="submit" name="save" class="btn btn-blue" value="保存" />
+                            @Html.ActionLink("返回", "List", "Document", null, new { @class = "btn btn-info" })
+                        </div>*@
+                        <div class="add-content ">
+                            <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                                @Html.Partial("_CreateOrUpdateDocument", Model)
+                            </div>
+                            <div class="options add-page-options clearfix" style="padding-left: 340px">
+                                <input type="submit" name="save" class="btn btn-blue" value="保存" />
+                                @Html.ActionLink("返回", "List", "Document", null,new { @class = "btn btn-info" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section FooterSection{
+    <script>
+        $(document).ready(function () {
+            $("#PostFile").kendoUpload({
+                multiple: false,
+                validation: {
+                    maxFileSize: 52428800 // 限制最大50BM
+                }
+            });
+
+            $('#owner_cre').on('change', function () {
+                $('#owner_cre').prop('checked', function (index, value) {
+                    if (value) {
+                        $('#tr_cr_link, #tr_cre_desc').attr("display", "table-row");
+                         $('#tr_cr_link, #tr_cre_desc').show();
+                    }
+                    else {
+                        $('#tr_cr_link, #tr_cre_desc').attr("display", "none");
+                        $('#tr_cr_link, #tr_cre_desc').hide();
+                       
+                    }
+                });
+            });
+             $('#owner_cr').on('change', function () {
+                $('#owner_cr').prop('checked', function (index, value) {
+                    if (value) {
+                        $('#tr_cr_link, #tr_cre_desc').attr("display", "table-row");
+                         $('#tr_cr_link, #tr_cre_desc').show();
+                    }
+                    else {
+                        $('#tr_cr_link, #tr_cre_desc').attr("display", "none");
+                        $('#tr_cr_link, #tr_cre_desc').hide();
+                       
+                    }
+                });
+            });
+
+        });
+
+        $.validator.addMethod('owners', function (value, element, params) {
+            return value !== 'undefined' && typeof (value) !== 'undefined';
+        });
+
+        $.validator.unobtrusive.adapters.add("owners", function (options) {
+            options.rules["owners"] = {};
+            options.messages["owners"] = options.message;
+        });
+    </script>
+}

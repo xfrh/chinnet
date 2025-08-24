@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Templates>
+  
+<Item>
+  <!--Id 唯一编号，不能重复-->
+  <Id>1</Id>
+  <!--模版的名称，用于显示-->
+  <Name>测试模版001</Name>
+  <!--模版创建时间，不做具体使用 ，日期格式（2015-12-23）-->
+  <CreateDate>2014-12-12</CreateDate>
+  <!--模版的描述图片路径，用于显示-->
+  <Image>/Image/temp-1.jpg</Image>
+  <!--模版的页面模版文件，根据该文件夹下面的模版文件产生具体页面文件-->
+  <Page>\File\Template\Test001\</Page>
+</Item>
+  
+<Item>
+  <Id>2</Id>
+  <Name>测试模版002</Name>
+  <CreateDate>2014-12-12</CreateDate>
+  <Image>/Image/temp-2.jpg</Image>
+  <Page>\File\Template\Test002\</Page>
+</Item>
+
+  <Item>
+    <Id>3</Id>
+    <Name>测试模版003</Name>
+    <CreateDate>2014-12-12</CreateDate>
+    <Image>/Image/temp-3.jpg</Image>
+    <Page>\File\Template\Test003\</Page>
+  </Item>
+
+  <Item>
+    <Id>4</Id>
+    <Name>测试模版004</Name>
+    <CreateDate>2014-12-12</CreateDate>
+    <Image>/Image/temp-4.jpg</Image>
+    <Page>\File\Template\Test004\</Page>
+  </Item>
+
+</Templates>

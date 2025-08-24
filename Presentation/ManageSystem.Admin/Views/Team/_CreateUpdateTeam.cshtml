@@ -1,0 +1,71 @@
+﻿
+@model ManageSystem.Admin.Models.Team.TeamModel
+@using ManageSystem.Admin.Extensions;
+@using ManageSystem.Services.Common;
+
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+    <table class="adminContent">
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.classifyId)：</td>
+            <td class="adminData">
+                @Html.DropDownList("classifyId", Model.classifyList, new { @class = "form-control dropdown" })
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.Hospitalid)：</td>
+            <td class="adminData">
+                @Html.DropDownList("Hospitalid", Model.hospitalList, new { @class = "chinets-chosen" })
+                @Html.ValidationMessageFor(m => m.hospitalList)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.Title)：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Title, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                @Html.ValidationMessageFor(m => m.Title)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.People)：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.People, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                @Html.ValidationMessageFor(m => m.People)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.project_code)：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.project_code, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                @Html.ValidationMessageFor(m => m.project_code)
+            </td>
+        </tr>
+        <tr class="cover-image">
+            <td class="adminTitle">@Html.NopLabelFor(m => m.Images)：</td>
+            <td class="adminData">
+                <input type="file" id="PostFile" name="PostFile" />
+                @Html.ValidationMessageFor(m => m.PostFile)
+
+            </td>
+        </tr>
+        @if (!string.IsNullOrWhiteSpace(Model.FilePath))
+        {
+            <tr>
+                <td class="adminTitle">&ensp;</td>
+                <td class="adminData">
+                    已上传的文件：@System.IO.Path.GetFileName(Model.FilePath) <a class="btn-link" href="@Model.FilePath.TrimStart('~')"></a>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.Displayimages)：</td>
+            <td class="adminData">
+                @Html.CheckBoxFor(m => m.Displayimages, new { @class = "n-chk" })
+                @Html.ValidationMessageFor(m => m.Displayimages)
+            </td>
+        </tr>
+    </table>
+    <script src="/Content/Scripts/TranTextBox.js"></script>

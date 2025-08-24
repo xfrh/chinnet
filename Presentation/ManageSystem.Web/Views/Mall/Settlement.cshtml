@@ -1,0 +1,156 @@
+﻿@using ManageSystem.Web.Models.Mall
+@using ManageSystem.Web.Models.Products
+@using ManageSystem.Web.Models.Members
+@using ManageSystem.Services.Products
+@model SettlementModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "订单结算";
+}
+
+<link href="~/Content/Css/cart.css?v=1.2" rel="stylesheet" />
+
+<div class="mbx">
+    <p>当前位置：首页 &gt; 订单结算 </p>
+</div>
+
+<div class="center_keyan">
+    @{
+        if (Model != null)
+        {
+            <div class="cart-box">
+                <div class="settlement-address" style="margin-bottom: 30px;">
+                    <h4 class="settlement-title ">收货地址</h4>
+                    <div>
+                        <table style="width:100%;" class="table-content">
+
+                            <tbody>
+                                @{
+                                    if (Model != null && Model.AddressList != null && Model.AddressList.Any())
+                                    {
+                                        foreach (var item in Model.AddressList)
+                                        {
+                                            <tr class="address-item" dataid="@item.Id.ToString()">
+                                                <td style="width:5%;"><input type="radio" @(item.IsMain ? "checked='checked' " : "") name="MemberAddress" class="chkAddressItem" value="@item.Id.ToString()"> </td>
+                                                <td style="width:8%;">@item.Name</td>
+                                                <td style="width:15%;">@item.Phone</td>
+                                                <td style="text-align:left;">@item.Area @item.Address</td>
+                                                <td style="width:25%;text-align:right;padding-right:30px;">
+                                                    @(item.IsMain ? "[默认地址]" : "") &nbsp;&nbsp;
+                                                    <a href="javascript:EditAddress('@item.Id.ToString()')">修改</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5" style="text-align: left; padding: 10px 0px;">
+                                        <input type="button" class="btn btn-info" value="新增收货地址" onclick="AddNewAddress()" />
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="settlement-product" style="margin-bottom: 30px;">
+                    <h4 class="settlement-title ">商品信息</h4>
+                    <div>
+                        <table style="width:100%;" class="table-content">
+
+                            <thead class="cart-list-head">
+                                <tr>
+                                    <td style="width:10%;">图片</td>
+                                    <td style="text-align:left;">商品名称</td>
+                                    <td style="width:15%">单价</td>
+                                    <td style="width:10%;">数量</td>
+                                    <td style="width:15%">小计</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    if (Model != null && Model.CartItemList != null && Model.CartItemList.Any())
+                                    {
+                                        foreach (var item in Model.CartItemList)
+                                        {
+                                            <tr class="cart-item" dataId="@item.Id.ToString()" dataCount="@item.Count">
+                                                <td><img src="@item.ProductImage" width="80" height="80"></td>
+                                                <td style="text-align:left;"><a href="/Mall/Item/@item.ProductId" target="_blank">@item.ProductName</a></td>
+                                                <td>￥@item.MarketPrice</td>
+                                                <td> @item.Count</td>
+                                                <td>￥@item.Amount</td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+
+                            </tbody>
+
+                        </table>
+                        <div style="margin-top:20px;">
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="width:8%;">订单备注：</td>
+                                    <td style="width:57%;">
+                                        <textarea style="outline:none;" name="Remark" id="Remark" class="form-control" rows="2" placeholder="请填写您对商品的特殊要求，限制200字"></textarea>
+                                    </td>
+                                    <td style="width:35%; padding-left:20px; color:#808080;">提示：请勿填写有关收货、发票方面的信息</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settlement-pay" style="margin-bottom: 30px;">
+                    <h4 class="settlement-title ">结算信息</h4>
+                    <div>
+                        <table style="width: 210px; margin-left: 700px; margin-top:20px;" class="table pay-table">
+                            <tr>
+                                <td style="width:90px;">商品件数：</td>
+                                <td style="width:120px; text-align:right;">@Model.Count 件</td>
+                            </tr>
+                            <tr>
+                                <td>金额合计：</td>
+                                <td style=" text-align:right;">￥ @Model.ProductAmount</td>
+                            </tr>
+                            <tr>
+                                <td style="height:30px; line-height:30px;">应付积分：</td>
+                                <td style="height:30px; line-height:30px; text-align:right; color:#EF3F41; font-size:20px;">￥@Model.OrderAmount</td>
+                            </tr>
+                            <tr>
+                                <td style="height:30px; line-height:30px;">可用积分：</td>
+                                <td style="height:30px; line-height:30px; text-align:right; color:#EF3F41; font-size:20px;">￥@Model.IntegralAmount</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="height: 50px;line-height: 50px;">
+                                    @{
+                                        if (Model.IntegralAmount < Model.OrderAmount)
+                                        {
+                                            <input type="button" disabled="disabled" class="btn btn-default btn-pay" value="可用积分不够">
+                                        }
+                                        else
+                                        {
+                                            <input type="button" class="btn btn-info btn-pay" value="确认支付" onclick="Save()">
+                                        }
+                                    }
+
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        }
+    }
+
+    <input type="hidden" value="@Model.Key" id="CartKey" />
+    <input type="hidden" value="@Model.ProductAmount" id="ProductAmount" />
+    <input type="hidden" value="@Model.OrderAmount" id="OrderAmount" />
+
+</div>
+
+<script src="~/Content/Scripts/Mall/Settlement.js?v=1"></script>

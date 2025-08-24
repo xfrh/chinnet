@@ -1,0 +1,5 @@
+
+一：E-TEST，MIC，KB 说明，是三种不用的检测方法
+		字段中带“_ND”则表示KB法，字段中带“_NM”则表示MIC法，字段中带“_NE”则表示E-TEST法
+二：优先级：E-TSET >MIC>KB （_NE > __NM > _ND）	 
+

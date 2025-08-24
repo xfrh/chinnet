@@ -1,0 +1,332 @@
+﻿@{ 
+
+    this.Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- META SECTION -->
+    <title>CHINET 在线</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <!-- END META SECTION -->
+    <!-- CSS INCLUDE -->
+    <link rel="stylesheet" type="text/css" id="theme" href="~/Content/Scripts/Chinet/css/theme-default.css" />
+    <link href="/Content/Scripts/layer-v2.4/skin/layer.css" rel="stylesheet" />
+    <link href="/Content/Css/Custom.css?v=2" rel="stylesheet" />
+    <!-- EOF CSS INCLUDE -->
+
+</head>
+
+<body onload="window.parent.document.getElementById('frame').height=document.body.scrollHeight-50;" style="overflow: hidden;">
+    <!-- START PAGE CONTAINER -->
+    <div class="page-container">
+
+        <!-- START PAGE SIDEBAR -->
+        <div class="page-sidebar" style="position:absolute; height:98%; overflow:auto;">
+            <!-- START X-NAVIGATION -->
+            <ul class="x-navigation">
+                <li class="xn-logo">
+                    <a href="javascript:;">ATLANT</a>
+                    <a href="javascript:;" class="x-navigation-control"></a>
+                </li>
+                <li class="xn-profile" style="display:none;">
+                    <a href="javascript:;" class="profile-mini">
+                        <img src="@ViewBag.Img" />
+                    </a>
+                    <div class="profile">
+                        <div class="profile-image">
+                            <img src="@ViewBag.Img" />
+                        </div>
+                        <div class="profile-data">
+                            <div class="profile-data-name">@ViewBag.Name</div>
+                            @*<div class="profile-data-title">抗生素研究所临床微生物室主任</div>*@
+                        </div>
+                        <!--<div class="profile-controls">
+                            <a href="javascript:;" class="profile-control-left"><span class="fa fa-info"></span></a>
+                            <a href="javascript:;" class="profile-control-right"><span class="fa fa-envelope"></span></a>
+                        </div>-->
+                    </div>
+                </li>
+                <li>
+                    <a href="@Url.Action("ShowData","Main")" target="myframe"><span class="fa fa-home"></span> <span class="xn-text">首页</span></a>
+                </li>
+                @*<li class="xn-openable">
+                        <a href="javascript:;"><span class="fa fa-files-o"></span> <span class="xn-text">医学中心</span></a>
+                        <ul>
+                            <li>
+                                <a href="javascript:;">上传医学数据</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">医学数据管理</a>
+                            </li>
+                        </ul>
+                    </li>*@
+                @*<li>
+                        <a href="javascript:;"><span class="fa fa-file-text-o"></span> <span class="xn-text">数据统计</span></a>
+                    </li>*@
+
+                <li class="xn-openable">
+                    <a href="@Url.Action("Index", "Medicine")" target="myframe">
+                        <span class="fa fa-files-o"></span> <span class="xn-text">数据分析</span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="@Url.Action("Upload","Medicine")" target="myframe">上传医学数据</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","Medicine")" target="myframe">数据统计</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Area","MedicalStatistics")" target="myframe">按省份统计</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Year","MedicalStatistics")" target="myframe">按年份统计</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("YearAndQuarter","MedicalStatistics")" target="myframe">按年份和季度统计</a>
+                        </li>
+                        <li style="display:none;"> 
+                            <a href="@Url.Action("Specimen","MedicalStatistics")" target="myframe">按标本统计</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("TenGerm","MedicalStatistics")" target="myframe">按分离细菌统计</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("GramNegativeBacteria","MedicalStatistics")" target="myframe">革兰阴性菌菌种分布</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("GramPositiveBacteria","MedicalStatistics")" target="myframe">革兰阳性菌菌种分布</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("BacteriaInSpecimen","MedicalStatistics")" target="myframe">细菌在标本中占比</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("EscherichiaColiSensitivityDrug","MedicalStatistics")" target="myframe">E.coli耐药率</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("MRSASensitivityDrug","MedicalStatistics")" target="myframe">MRSA耐药率</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("MRCNSSensitivityDrug","MedicalStatistics")" target="myframe">MRCNS耐药率</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("MSSASensitivityDrug","MedicalStatistics")" target="myframe">MSSA耐药率</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "News")" target="myframe">
+                        <span class="fa fa-newspaper-o"></span> <span class="xn-text">资讯中心</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Research")" target="myframe">
+                        <span class="fa fa-cogs"></span> <span class="xn-text">科研合作</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Meeting")" target="myframe">
+                        <span class="fa fa-pencil"></span> <span class="xn-text">信息动态</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Mall")" target="myframe">
+                        <span class="fa fa-table"></span> <span class="xn-text">积分兑换</span>
+                    </a>
+                </li>
+                <li class="xn-openable">
+                    <a href="javascript:;" target="myframe">
+                        <span class="fa fa-user"></span> <span class="xn-text">会员中心</span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="@Url.Action("Index","Center")" target="myframe">个人中心</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Invite","Center")" target="myframe">邀请会员</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("MeetingCollection","Center")" target="myframe">我的收藏</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("MeetingApply","Center")" target="myframe">我的报名</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("MeetingList","Center")" target="myframe">我发布的活动</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Feedback","Center")" target="myframe"> 建议反馈 </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Upload","Medicine")" target="myframe">上传医学数据</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("MedicineManage","Center")" target="myframe">医学数据管理</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("IntegralList","Center")" target="myframe">积分明细</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("AddressList","Center")" target="myframe">收货地址管理</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","Mall")" target="myframe">我要兑换</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("OrderList","Center")" target="myframe">兑换记录</a>
+                        </li>
+                        @*<li>
+                            <a href="javcscript:;">数据分析提交</a>
+                        </li>
+                        <li>
+                            <a href="javcscript:;">数据分析鉴定</a>
+                        </li>*@
+                    </ul>
+                </li>
+            </ul>
+            <!-- END X-NAVIGATION -->
+        </div>
+        <!-- END PAGE SIDEBAR -->
+        <!-- PAGE CONTENT -->
+        <div class="page-content">
+
+          
+            <ul class="x-navigation x-navigation-horizontal x-navigation-panel">
+                <li class="xn-icon-button">
+                    <a href="javascript:;" class="x-navigation-minimize"><span class="fa fa-dedent"></span></a>
+                </li>
+                <li class="xn-search" style="display:none;">
+                    <form role="form">
+                        <input type="text" name="search" placeholder="搜索..." />
+                    </form>
+                </li>
+      
+                <li class="xn-icon-button pull-right last">
+                    <a href="javascript:;"><span class="fa fa-power-off"></span></a>
+                    <ul class="xn-drop-left animated zoomIn">
+                        <li style="display:none;"> 
+                            <a href="javascript:;"><span class="fa fa-lock"></span> Lock Screen</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Login","Home")" data-box="#mb-signout"><span class="fa fa-sign-out"></span>退出登录</a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- END POWER OFF -->
+                <!-- MESSAGES -->
+                <li class="xn-icon-button pull-right" style="display:none;">
+                    <a href="javascript:;"><span class="fa fa-comments"></span></a>
+                    <div class="informer informer-danger"></div>
+                    <div class="panel panel-primary animated zoomIn xn-drop-left xn-panel-dragging">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><span class="fa fa-comments"></span> 消息</h3>
+                            <div class="pull-right">
+                                @*<span class="label label-danger">4 new</span>*@
+                            </div>
+                        </div>
+                        <div class="panel-body list-group list-group-contacts scroll" style="height: 200px;">
+                            @*<a href="javascript:;" class="list-group-item">
+                                    <p>消息标题资讯标题资讯标题</p>
+                                </a>
+                                <a href="javascript:;" class="list-group-item">
+                                    <p>消息标题资讯标题资讯标题</p>
+                                </a>
+                                <a href="javascript:;" class="list-group-item">
+                                    <p>消息标题资讯标题资讯标题</p>
+                                </a>
+                                <a href="javascript:;" class="list-group-item">
+                                    <p>消息标题资讯标题资讯标题</p>
+                                </a>*@
+                        </div>
+                        <div class="panel-footer text-center">
+                            @*<a href="pages-messages.html">更多...</a>*@
+                        </div>
+                    </div>
+                </li>
+                <!-- END MESSAGES -->
+                <!-- TASKS -->
+                <li class="xn-icon-button pull-right" style="display:none;">
+                    <a href="javascript:;" style="margin-right: 10px;"><span class="fa fa-tasks"></span></a>
+                </li>
+                <li class="light-blue pull-right">
+                    <a data-toggle="dropdown" href="javascript:;" class="dropdown-toggle" style="padding: 5px;">
+                        <img class="nav-user-photo" src="@ViewBag.Img"" style="height:40px;width:40px;" >
+                        <span class="user-info">
+                            <small>欢迎光临,</small>
+                            @ViewBag.Name
+                        </span>
+                    </a>
+                </li>
+            
+                <!-- END TASKS -->
+            </ul>
+            <!-- END X-NAVIGATION VERTICAL -->
+            <!-- END PAGE SIDEBAR -->
+            <iframe src="@Url.Action("ShowData","Main")" width="100%" frameborder="0" scrolling="yes" id="frame" name="myframe"></iframe>
+            @*@RenderBody()*@
+        </div>
+        <!-- END PAGE CONTENT -->
+    </div>
+    <!-- END PAGE CONTAINER -->
+    <!-- START PRELOADS -->
+    <audio id="audio-alert" src="" preload="auto"></audio>
+    <audio id="audio-fail" src="" preload="auto"></audio>
+    <!-- END PRELOADS -->
+    <!-- START SCRIPTS -->
+    <!-- START PLUGINS -->
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/jquery/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/bootstrap/bootstrap.min.js"></script>
+    <!-- END PLUGINS -->
+    <!-- START THIS PAGE PLUGINS-->
+    <script type='text/javascript' src='~/Content/Scripts/Chinet/js/plugins/icheck/icheck.min.js'></script>
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/scrolltotop/scrolltopcontrol.js"></script>
+
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/morris/raphael-min.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/morris/morris.min.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/rickshaw/d3.v3.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/rickshaw/rickshaw.min.js"></script>
+    <script type='text/javascript' src="~/Content/Scripts/Chinet/js/plugins/jvectormap/echarts.js"></script>
+    <script type='text/javascript' src="~/Content/Scripts/Chinet/js/plugins/bootstrap/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/owl/owl.carousel.min.js"></script>
+
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/moment.min.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- END THIS PAGE PLUGINS-->
+    <!-- START TEMPLATE -->
+    @*<script type="text/javascript" src="~/Content/Scripts/Chinet/js/settings.js"></script>*@
+
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/actions.js"></script>
+
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/demo_dashboard.js"></script>
+    <script src="/Content/Scripts/layer-v2.4/helper.js"></script>
+    <script src="/Content/Scripts/layer-v2.4/layer.js"></script>
+    <script type="text/javascript">
+
+        //打开报表效果
+        function OpenMedicalStatistics(title,url)
+        {
+            layer.open({
+                type: 2,
+                title:title,
+                area: ['85%', '85%'],
+                fixed: true,
+                maxmin: true,
+                content: url
+            });
+        }
+
+    </script>
+
+    <!-- END TEMPLATE -->
+    <!-- END SCRIPTS -->
+</body>
+
+</html>

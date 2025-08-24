@@ -1,0 +1,284 @@
+﻿@{
+    ViewBag.Title = "简介";
+    Layout = "/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<div id="app" v-cloak class="indexpage">
+    <div ref="middle" class="middle">
+        <div ref="pageSwiper" class="swiper-container scroll">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide slidescroll">
+                    <div class="container" style="padding: 0px; margin: 0px; ">
+                        <div ref="main" id="main" style="overflow: hidden; width: 100%; margin-bottom: 0px; height: 10rem;"> 123123123123123123 </div>
+                    </div>
+                    <section class="about-container" style="margin-top: 0.5rem;">
+                        <h4>CHINET中国细菌耐药监测网</h4>
+                        <article class="fon-28 padding-20 " style=" padding: .26rem;">
+                            2004年9月，由复旦大学附属华山医院抗生素研究所汪复教授联合国内已开展细菌耐药性监测工作多年的8所医院，共同组建“CHINET中国细菌耐药监测网（China Antimicrobial Surveillance Network, CHINET）”。目前监测网73家成员单位来自全国29个省、市和自治区，包括53家综合性医院和20儿童医院，其中三级医院57家，二级医院16家。
+                        </article>
+                    </section>
+
+                    <section class="about-container">
+                        <h4>专家委员会</h4>
+                        <div class="padding-20  line-50 fon-26">
+                            <dl class="flex padding-tb-20" style="padding-top:0px;">
+                                <dt class="fon-bold">主任：</dt>
+                                <dd>汪复</dd>
+                            </dl>
+                            <dl class="padding-b-20">
+                                <dt class="fon-bold">委员（按姓氏笔画）：</dt>
+                                <dd>单&emsp;斌、胡付品、胡云建、胡志东、林东昉、倪语星、孙自镛、汪&emsp;复、王明贵、徐英春、俞云松、张&emsp;泓、张秀珍、朱德妹*、卓&emsp;超</dd>
+                            </dl>
+                            <dl class="flex">
+                                <dt class="fon-bold">秘书：</dt>
+                                <dd>胡付品（兼）</dd>
+                            </dl>
+                            <div class="padding-t-20">
+                                *主持工作
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <section class="member-container">
+                        <h4>成员单位负责人(排名不分先后)</h4>
+                        <div class="padding-lr-20">   <img class="M-imgAl margin-t-20 " src="/Content/Images/des_03.jpg" alt=""></div>
+                        <div class="member-page">
+
+                            <div class="padding-20  line-50 fon-26" style=" padding-top:0px;">
+                                <section class="member-body" id="sec">
+                                    @*<dl class="padding-tb-20">
+                                        <dt>复旦大学附属华山医院</dt>
+                                        <dd>汪复、朱德妹、胡付品、郭燕</dd>
+                                    </dl>
+                                    <dl class="padding-tb-20">
+                                        <dt>上海交通大学医学院附属瑞金医院</dt>
+                                        <dd>倪语星、孙景勇	、谢潋艳</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>北京协和医院</dt>
+                                        <dd>徐英春、张小江、于淑颖</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>北京医院</dt>
+                                        <dd>胡云建、艾效曼</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>复旦大学附属儿科医院</dt>
+                                        <dd>王传清、何磊燕</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>华中科技大学同济医学院附属同济医院</dt>
+                                        <dd>孙自镛、陈中举</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>广州医科大学附属第一医院</dt>
+                                        <dd>卓超、苏丹虹</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>上海市儿童医院</dt>
+                                        <dd>张泓、王春</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>安徽医科大学附属第一医院	</dt>
+                                        <dd>徐元宏、黄颖</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>内蒙古医科大学附属第一医院</dt>
+                                        <dd>郭素芳、王艳艳</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>浙江大学医学院附属邵逸夫医院</dt>
+                                        <dd>俞云松、林洁</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>甘肃省人民医院</dt>
+                                        <dd>魏莲花、王欣</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>新疆医科大学第一附属医院</dt>
+                                        <dd>张朝霞、季萍</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>昆明医科大学第一附属医院</dt>
+                                        <dd>单斌、杜艳</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>中国医科大学附属第一医院</dt>
+                                        <dd>褚云卓、田素飞</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>天津医科大学总医院</dt>
+                                        <dd>胡志东、李金</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>四川大学华西医院</dt>
+                                        <dd>康梅、何超</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>浙江宁波市镇海龙赛医院</dt>
+                                        <dd>俞碧霞</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>上海市浦东新区人民医院</dt>
+                                        <dd>汪瑞忠、房华</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>湖北秭归县人民医院</dt>
+                                        <dd>龚萍、宋淼</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>福建晋江市医院</dt>
+                                        <dd>温开镇、张贻荣</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>四川省人民医院	</dt>
+                                        <dd>喻华、黄湘宁</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>中南大学湘雅医院</dt>
+                                        <dd>刘文恩、李艳明</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>陕西省人民医院</dt>
+                                        <dd>张利侠、马娟</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>河南省人民医院</dt>
+                                        <dd>李轶、王山梅</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>山东省立医院</dt>
+                                        <dd>金炎、王月玲</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>山西省儿童医院</dt>
+                                        <dd>朱镭、孟晋华</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>江西省儿童医院</dt>
+                                        <dd>柯江维、周树平</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>吉林大学中日联谊医院</dt>
+                                        <dd>徐雪松、鄢超</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>哈尔滨医科大学附属第一医院</dt>
+                                        <dd>郭大文、赵金英</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>首都医科大学附属北京儿童医院</dt>
+                                        <dd>董方、宋文琪</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>南京大学医学院附属鼓楼医院</dt>
+                                        <dd>沈翰、周万青</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>宁夏医科大学总医院</dt>
+                                        <dd>贾伟、李刚</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>深圳市人民医院</dt>
+                                        <dd>吴劲松、卢月梅</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>河北医科大学第二医院</dt>
+                                        <dd>李继红</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>福建省泉州市第一医院</dt>
+                                        <dd>郭如意，朱焱</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>厦门大学附属第一医院</dt>
+                                        <dd>马晓波，郑燕青</dd>
+                                    </dl>
+
+                                    <dl class="padding-tb-20">
+                                        <dt>贵州省人民医院</dt>
+                                        <dd>张华，胡方芳</dd>
+                                    </dl>*@
+                                </section>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_FooterNavBar", "简介")
+</div>
+
+@section Styles{
+    <link href="~/Content/Css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Home/Index.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+    <script src="~/Content/Scripts/Echarts/bmap.js"></script>
+    <script src="~/Content/Scripts/Echarts/china.js"></script>
+    <script src="~/Content/Scripts/swiper/swiper.min.js"></script>
+    <script src="~/Content/Scripts/Home/Index.js?v=1.0.0"></script>
+    <script>
+        $(function () {
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "/Home/GetTeamlist",
+                data: {},
+                dataType: "json",
+                success: function (json) {
+                    var html = ""
+                    for (var i = 0; i < json.length; i++) {
+                        html += "<dl class='padding-tb-20'>" +
+                            "<dt>" + json[i].Title + "</dt>" +
+                            "<dd>" + json[i].People + "</dd>" +
+                            "</dl>";
+                    }
+                    $("#sec").html(html);
+                }
+            });
+
+        })
+    </script>
+}
+

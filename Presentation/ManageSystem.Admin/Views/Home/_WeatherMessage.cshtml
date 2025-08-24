@@ -1,0 +1,63 @@
+﻿@using ManageSystem.Framework.API.Baidu
+
+
+<div class="widget">
+    <div class="widget-header bordered-bottom bordered-themesecondary">
+        <i class="widget-icon fa fa-tags themesecondary"></i>
+        <span class="widget-caption themesecondary" style="line-height:30px;">天气预报</span>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main no-padding">
+            <div class="tickets-container">
+                <ul class="tickets-list" id="weather-div">
+             
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#weather-div").html("");
+
+        var aj = $.ajax({
+            url: '@Url.Action("GetWeatherData")',
+            data:"",
+            type: 'post',
+            cache: false,
+            dataType: 'json',
+            success: function (data) {
+               
+                if (data == null || data == "") return;
+
+                for (var i = 0; i < data.length; i++) {
+                    var fristClass =( i==0 ? "user-name": "type");
+
+                    var content = "" +
+                        "   <li class=\"ticket-item\">   <div class=\"row\"><div class=\"ticket-user col-lg-2 col-sm-2\">   &nbsp;" +
+                        "       <img src=\"" + data[i].dayPictureUrl + "\" title=\白天\" alt=\"白天\" class=\"user-avatar\">&nbsp;&nbsp;" +
+                       "        <img src=\"" + data[i].nightPictureUrl + "\"   title=\"夜晚\" alt=\"夜晚\" class=\"user-avatar\"></div>" +
+                        "  <div class=\"ticket-time  col-lg-4 col-sm-6 col-xs-12\"><div class=\"divider hidden-md hidden-sm hidden-xs\"></div>  <i class=\"fa fa-clock-o\"></i><span class=\"" + (i == 0 ? "user-name" : "time") + "\">" + data[i].date + "</span>  </div>" +
+                        "  <div class=\"ticket-time  col-lg-2 col-sm-2 col-xs-12\"><div class=\"divider hidden-md hidden-sm hidden-xs\"></div> <span class=\"" + (i == 0 ? "user-name" : "time") + "\">" + data[i].temperature + " </span>  </div>      " +
+                        " <div class=\"ticket-type  col-lg-2 col-sm-6 col-xs-12\">  <span class=\"divider hidden-xs\"></span>  <span class=\"" + (i == 0 ? "user-name" : "type") + "\"> " + data[i].weather + "</span>   </div>" +
+                        "   <div class=\"ticket-type  col-lg-2 col-sm-6 col-xs-12\"><span class=\"divider hidden-xs\"></span><span class=\"" + (i == 0 ? "user-name" : "type") + "\">" + data[i].wind + "</span> </div>" +
+                         " <div class=\"ticket-state  " + (i == 0 ? "bg-darkorange" : "bg-palegreen") + "  \"><i class=\" " + (i == 0 ? "fa fa-info" : "fa fa-check") + " \"></i></div>" +
+                        "</div>  </li>"
+                    ;
+
+                    $("#weather-div").append(content);
+                }
+            },
+            error: function () {
+                alert("异常！");
+            }
+        });
+
+
+    });
+
+</script>

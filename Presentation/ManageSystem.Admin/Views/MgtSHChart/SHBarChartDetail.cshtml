@@ -1,0 +1,295 @@
+﻿@using ManageSystem.Core.Utility;
+@using ManageSystem.Core.Extensions;
+@using ManageSystem.Admin.Extensions;
+@using ManageSystem.Core.Domain.SHChart;
+@using ManageSystem.Admin.Models.SHChart;
+
+@model ManageSystem.Admin.Models.SHChart.SHBarChartModel
+
+@{
+    ViewBag.Title = "上海网柱状图报表详情";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "上海网图表管理", SecondName = "上海网柱状图管理", LocationName = this.ViewBag.Title }); }
+}
+
+@section HeadSection{
+    <link href="~/Content/Scripts/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/MgtChart/SHBarChar/Detail.css" rel="stylesheet" />
+    <style>
+        .adminData {
+            width: 300px;
+            padding-bottom: 15px;
+        }
+    </style>
+}
+
+@Html.HiddenFor(model => model.DataItemType)
+
+<div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                </div>
+                <div class="widget-body " id="BaseDiv" runat="server" style="overflow: hidden; ">
+                    <div class="options add-page-options">
+                        <a class="btn btn-default" href="@Url.Action("SHBarChartList")">返回</a>
+                    </div>
+                    <div class="add-content">
+                        <div class="k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                            <div style="width:20%;float:left">
+                                <table>
+                                    <tr>
+                                        <td class="adminData">
+                                            @Html.NopLabelFor(m => m.DataSegmentId)：
+                                            @Html.DropDownListFor(m => m.DataSegmentId, Model.DropDataSegment, new { data_val_number = "请选择所属数据段", data_val_range_min = "1", data_val_range = "请选择所属数据段", @readonly = "readonly", disabled = "disabled", style = "background: transparent;" })
+                                        </td>
+                                        <td colspan="2">&emsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminData">
+                                            @Html.NopLabelFor(m => m.Name)：
+                                            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @readonly = "readonly", disabled = "disabled", placeholder = "请输入报表名称" } })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminData">
+                                            @Html.NopLabelFor(m => m.Title)：
+                                            @Html.EditorFor(m => m.Title, new { htmlAttributes = new { @readonly = "readonly", disabled = "disabled", placeholder = "请输入报表标题" } })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminData">
+                                            @Html.NopLabelFor(m => m.SubTitle)：
+                                            @Html.EditorFor(m => m.SubTitle, new { htmlAttributes = new { @readonly = "readonly", disabled = "disabled", placeholder = "请输入报表副标题" } })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminData">
+                                            @Html.NopLabelFor(m => m.Sort)：
+                                            @Html.EditorFor(m => m.Sort, new { htmlAttributes = new { @readonly = "readonly", disabled = "disabled", placeholder = "排序必须大于等于1，且值越小越靠前", data_val_number = "排序必须大于等于1，且值越小越靠前", data_val_range_min = "1", data_val_range = "排序必须大于等于1，且值越小越靠前" } })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminData">
+                                            @Html.NopLabelFor(m => m.Display)：
+                                            @Html.DropDownListFor(m => m.Display, Model.DropDisplay, new { @readonly = "readonly", disabled = "disabled" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminData">
+                                            @Html.NopLabelFor(m => m.Unit)：
+                                            @Html.EditorFor(m => m.Unit, new { htmlAttributes = new { @readonly = "readonly", disabled = "disabled", placeholder = "请输入数值单位", data_val = "true", data_val_required = "数值单位不能为空，如：%" } })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="adminData">
+                                            @Html.NopLabelFor(m => m.MobileDisplayScale)：
+                                            <div class="input-group">
+                                                @Html.EditorFor(m => m.MobileDisplayScale, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled", placeholder = "请输入显示比例，如：80", data_val_range_min = "1", data_val_range_max = "100", data_val_range = "显示比例应该在1-100之间", style = "cursor: default; border-color: rgba(0,0,0,.2); background-color: #fbfbfb;" } })
+                                                <span class="input-group-addon">%</span>
+                                            </div>
+
+                                            <span style="display: block; width: 100%; line-height: 20px; color: #ababab;">
+                                                如果报表太长移动端会显示部分数据项<br />
+                                                100表示全部显示，80表示显示80%的
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="widget flat" style="width:80%;float:right">
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <div class="tabbable">
+                                            <ul class="nav nav-tabs tabs-flat" id="myTab11">
+                                                @if (Model.DataItemType == ManageSystem.Core.Domain.SHChart.ChartSHDataItemType.MultipleData)
+                                                {
+                                                    <li class="active">
+                                                        <a data-toggle="tab" href="#data_container">展示二：多数据</a>
+                                                    </li>
+                                                }
+                                                else
+                                                {
+                                                    <li class="active">
+                                                        <a data-toggle="tab" href="#data_container">展示一：单数据</a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                            <div class="tab-content tabs-flat">
+                                                @if (Model.DataItemType == ManageSystem.Core.Domain.SHChart.ChartSHDataItemType.MultipleData)
+                                                {
+                                                    List<string> xdata = new List<string>();
+                                                    Model.Antibiotics.ForEach(item =>
+                                                    {
+                                                        xdata.Add(item.Name);
+                                                    });
+
+                                                    <div id="data_container" class="tab-pane active">
+                                                        <div class="flex flex-vertical-center item-header" style="border-bottom: 1px solid #dedede; padding: 10px 0; margin-bottom: 20px;">
+                                                            <div class="flex-1">
+                                                                <span class="item-active" style="font-weight: bold; font-size: 14px; margin-right: 8%;">报表数据项</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <table class="table table-bordered item-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>数据项名称</th>
+                                                                    <th class="text-center" style="width: 80px;">颜色</th>
+                                                                    <th class="text-center" style="width: 80px;">是否显示</th>
+                                                                    <th class="text-center" style="width: 80px;">类型</th>
+                                                                    @foreach (var item in Model.Antibiotics)
+                                                                    {
+                                                                        <th class="text-center">@item.Name</th>
+                                                                    }
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @{
+                                                                    List<dynamic> series = new List<dynamic>();
+                                                                    List<string> colors = new List<string>();
+                                                                    foreach (var item in Model.ItemModel)
+                                                                    {
+                                                                        List<dynamic> series_data = new List<dynamic>();
+                                                                        colors.Add(item.BarColor);
+                                                                        var values = item.Value.DeserializeObject<List<SHBarChartDataItemWithAntibioticModel>>();
+
+                                                                        <tr id="@Guid.NewGuid().ToString("N")">
+                                                                            <td>@item.Name</td>
+                                                                            <td class="text-center">
+                                                                                <input type="color" value="@item.BarColor" readonly="readonly" disabled="disabled" />
+                                                                            </td>
+                                                                            <td class="text-center">@(item.Display ? "显示" : "不显示")</td>
+                                                                            <td class="text-center">@(EnumExtension.GetDescription(item.ChartType))</td>
+                                                                            @foreach (var iitem in Model.Antibiotics)
+                                                                            {
+                                                                                var _value = values.Where(r => r.Guid == iitem.Guid).FirstOrDefault().Value;
+                                                                                series_data.Add(new { name = iitem.Name, value = item.Display ? _value : "-" });
+                                                                                <td class="text-center">@_value</td>
+                                                                            }
+                                                                        </tr>
+
+                                                                        series.Add(new
+                                                                        {
+                                                                            name = item.Name,
+                                                                            type = item.ChartType == SHChartTypeEnum.Line ? "line" : "bar",
+                                                                            stack = "",
+                                                                            barWidth = 30,
+                                                                            label = new
+                                                                            {
+                                                                                normal = new
+                                                                                {
+                                                                                    show = true,
+                                                                                    position = "top",
+                                                                                    formatter = "{c}"
+                                                                                }
+                                                                            },
+                                                                            data = series_data
+                                                                        });
+                                                                    }
+                                                                }
+                                                            </tbody>
+                                                            <tfoot>
+                                                                <tr>
+                                                                    <td colspan="@(4 + Model.Antibiotics.Count)">
+                                                                        <div class="margin-top-40">
+                                                                            @Html.Hidden("HiddenColorList", colors.SerializeObject())
+                                                                            @Html.Hidden("HiddenxAxisData", xdata.SerializeObject())
+                                                                            @Html.Hidden("HiddenseriesData", series.SerializeObject())
+                                                                            <div id="chartpreview" style="width:100%; min-height: 650px;"></div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    SHChartTypeEnum _chartTypeEnum = Model.ItemModel.GroupBy(r => r.ChartType).Select(r => r.Key).First();
+                                                    string _barColor = Model.ItemModel.GroupBy(r => r.BarColor).Select(r => r.Key).First();
+                                                    <div id="data_container" class="tab-pane active">
+                                                        <div class="flex flex-vertical-center">
+                                                            <label class="ChartTypeLabel" for="ChartType">报表类型：</label>
+                                                            <select id="ChartType" name="ChartType" class="" readonly="readonly" disabled="disabled">
+                                                                <option value="@((byte)SHChartTypeEnum.Bar)" @(_chartTypeEnum == SHChartTypeEnum.Bar ? "selected=\"selected\"" : "")>@(EnumExtension.GetDescription(SHChartTypeEnum.Bar))</option>
+                                                                <option value="@((byte)SHChartTypeEnum.Line)" @(_chartTypeEnum == SHChartTypeEnum.Line ? "selected=\"selected\"" : "")>@(EnumExtension.GetDescription(SHChartTypeEnum.Line))</option>
+                                                            </select>
+                                                            <label class="BarColorLabel" for="BarColor">颜色：</label>
+                                                            <input id="BarColor" name="BarColor" type="color" value="@_barColor" readonly="readonly" disabled="disabled" />
+                                                        </div>
+                                                        <div class="flex flex-vertical-center item-header" style="border-bottom: 1px solid #dedede; padding: 10px 0; margin-bottom: 20px; margin-top: 20px;">
+                                                            <div class="flex-1">
+                                                                <span class="item-active" style="font-weight: bold; font-size: 14px; margin-right: 8%;">报表数据项</span>
+                                                            </div>
+                                                        </div>
+                                                        <table id="single_datatable" class="table table-bordered item-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>数据项名称</th>
+                                                                    <th class="text-center" style="width: 15%;">数值</th>
+                                                                    <th class="text-center" style="width: 15%;">是否显示</th>
+                                                                    <th class="text-center" style="width: 15%;">显示顺序</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @{
+                                                                    List<string> xdata = new List<string>();
+                                                                    List<string> series = new List<string>();
+                                                                    foreach (var item in Model.ItemModel)
+                                                                    {
+                                                                        xdata.Add(item.Name);
+                                                                        series.Add(item.Display ? item.Value : "-");
+
+                                                                        <tr id="@Guid.NewGuid().ToString("N")">
+                                                                            <td>@item.Name</td>
+                                                                            <td class="text-center">@item.Value</td>
+                                                                            <td class="text-center">@(item.Display ? "显示" : "不显示")</td>
+                                                                            <td class="text-center">@item.Sort</td>
+                                                                        </tr>
+                                                                    }
+                                                                }
+                                                            </tbody>
+                                                            <tfoot>
+                                                                <tr>
+                                                                    <td colspan="4">
+                                                                        <div class="margin-top-40">
+                                                                            @Html.Hidden("HiddenxAxisData", xdata.SerializeObject())
+                                                                            @Html.Hidden("HiddenseriesData", series.SerializeObject())
+                                                                            <div id="chartpreview" style="width:100%; min-height: 650px;"></div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section FooterSection{
+    <script src="~/Content/Scripts/toastr/toastr.js"></script>
+    <script src="~/Content/Scripts/utils.min.js"></script>
+    <script src="~/Content/Scripts/underscore-min.js"></script>
+    <script src="~/Content/Scripts/underscore.string.min.js"></script>
+    <script src="~/Content/Scripts/template-web.js"></script>
+    <script src="~/Content/Scripts/echarts/echarts.min.js"></script>
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/MgtChart/SHBarChart/Detail.js"></script>
+}
+

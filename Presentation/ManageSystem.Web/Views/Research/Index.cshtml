@@ -1,0 +1,165 @@
+﻿@using ManageSystem.Web.Models.Researches
+@using ManageSystem.Core.Domain.SystemSet
+@using ManageSystem.Services.Researches
+@using Webdiyer.WebControls.Mvc;
+
+@model IndexModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "科研合作";
+}
+
+
+<link href="~/Content/Css/ResearchIndex.css?v=122" rel="stylesheet" />
+
+<div class="mbx">
+    <p>当前位置：首页 &gt; 科研合作 </p>
+</div>
+
+<div class="cy-wrap">
+    <a class="btn btn-cy-blue moder-lgn-box " href="@Url.Action("Create","Research")">申请科研合作</a>
+    @*<div class="cy-search" onmouseover="isOut=false;" onmouseout="isOut=true;">    <input id="search_cy" placeholder="请输入关键字" class="hide"><i class="icon icon-cy-search js-icon-cy-search"></i></div>*@
+    <span class="span-mark-author active">全部项目</span>
+    <div class="sl-v-list" style="height:auto;padding-bottom: 10px;">
+        <div class="sl-key" style="width:50px;margin-top:5px;">行业	</div>
+
+        <ul class="js-search-li" data-type="tag" id="search-tags-ul">
+            <li SearchValue="" class="@(Model.SearchModel.Type ==0 ? "active":"" ) "><a href="javascript:">全部</a></li>
+            @{
+
+                if (Model.SearchResearchTypeList != null && Model.SearchResearchTypeList.Any())
+                {
+                    foreach (var item in Model.SearchResearchTypeList)
+                    {
+                        <li SearchValue="@item.Id.ToString()" class="@(Model.SearchModel.Type ==item.Id ?"active":"" )">
+                            <a href="javascript:">@item.Name</a>
+                        </li>
+                    }
+                }
+            }
+        </ul>
+
+    </div>
+    <div class="sl-v-list" style="height:auto;padding-bottom: 10px;">
+        <div class="sl-key" style="width:50px;margin-top:5px;">地区：</div>
+        <ul class="js-search-li" data-type="city" id="search-city-ul" style="height:35px;">
+            <li SearchValue="" class="@(Model.SearchModel.Area ==0 ? "active":"" ) "><a href="javascript:">全国</a></li>
+            @{
+
+                if (Model.SearchAreaList != null && Model.SearchAreaList.Any())
+                {
+                    foreach (var item in Model.SearchAreaList)
+                    {
+                        <li SearchValue="@item.Id.ToString()" class="@(Model.SearchModel.Area == item.Id ? "active":"" )">
+                            <a href="javascript:">@item.Name</a>
+                        </li>
+                    }
+                }
+            }
+
+        </ul>
+        <div class="sl-ext" style="width: auto;float: right;  margin-top: 6px;">
+            <a class="sl-e-more J_extMore sl-e-area" href="javascript:MoreArea();" style="visibility: visible;color: #025193 !important;">更多<i></i></a>
+            <input type="hidden" id="MoreAreaState" value="0" />
+        </div>
+
+        <script type="text/javascript">
+
+        </script>
+    </div>
+
+    <div class="sl-v-list" >
+        <div class="sl-key" style="width:50px;">
+            时间：
+        </div>
+        <ul class="js-search-li" data-type="rongzi" id="search-day-ul">
+            <li SearchValue="" class="@( Model.SearchModel.Day ==0 ? "active":"" ) "><a href="javascript:">不限</a></li>
+            @{
+                if (Model.SearchDayList != null && Model.SearchDayList.Any())
+                {
+                    foreach (var item in Model.SearchDayList)
+                    {
+                        <li SearchValue="@item.Value" class="@(Model.SearchModel.Day  == item.Value ?"active":"" )">
+                            <a href="javascript:">@item.Text</a>
+                        </li>
+                    }
+                }
+            }
+        </ul>
+    </div>
+
+    <div class="sl-v-list" >
+        <div class="sl-key" style="width:50px;">
+            排序：
+        </div>
+        <ul class="js-search-li" data-type="rongzi" id="search-order-ul">
+
+            @{
+                if (Model.SearchOrderList != null && Model.SearchOrderList.Any())
+                {
+                    foreach (var item in Model.SearchOrderList)
+                    {
+
+                        <li SearchValue="@item.Value" class="@(Model.SearchModel.Order  == item.Value ?"active":"" )">
+                            <a href="javascript:">@item.Text</a>
+                        </li>
+                    }
+                }
+            }
+        </ul>
+    </div>
+
+
+    <input type="hidden" id="SearchType" value="@Model.SearchModel.Type" />
+    <input type="hidden" id="SearchArea" value="@Model.SearchModel.Area" />
+    <input type="hidden" id="SearchDay" value="@Model.SearchModel.Day" />
+    <input type="hidden" id="SearchPrice" value="@Model.SearchModel.Price" />
+    <input type="hidden" id="SearchOrderBy" value="@Model.SearchModel.Order" />
+
+
+</div>
+
+<div class="hd_jxQu">
+    <ul class="dt_bestEvents_ul" style="padding-left:6px; width:100%;">
+
+        @{
+            if (Model.PageList != null && Model.PageList.Any())
+            {
+                foreach (var item in Model.PageList)
+                {
+                    <li class="dt_bestEvents_li">
+                        <a href="@Url.Action("Detail", "Research", new { id = item.Id.ToString() })" class="dt_content_pic">
+                            <img class="dt_bestEvents_img" src="@(ResearchServiceExtensions.GetCoverImage(item.CoverImage))">
+                        </a>
+                        <p class="dt_bestEvents_tit"><a target="_blank" href="@Url.Action("Detail", "Research", new { id = item.Id.ToString() })">@item.Name</a></p>
+                        <p class="dt_bestEvents_time">
+                            <span>地区：@item.AreaName</span>
+                            <span>发起人：@item.Author</span>
+                        </p>
+                        <p class="dt_bestEvents_time">
+                            <span style="width:100%;">参与人数:@(item.ApplyCount)人 &nbsp;&nbsp; @(item.ViewCount)浏览</span>
+                            <span style="display:none;">
+                                好评：
+                                @{
+                                    for (int i = 0; i < item.Grade; i++)
+                                    {
+                                        <img src="/Content/Images/icon02.png">
+                                    }
+                                }
+                            </span>
+                        </p>
+                    </li>
+                }
+           }
+        }
+    </ul>
+
+</div>
+
+
+<div id="pageDiv" class="page">
+    @Html.Pager(Model.PageList, new PagerOptions() { CssClass = "pagination", CurrentPagerItemTemplate = "<li class=\"active\"><a href=\"#\">{0}</a></li>", DisabledPagerItemTemplate = "<li class=\"disabled\"><a>{0}</a></li>", PagerItemTemplate = "<li>{0}</li>" })
+</div>
+
+<script src="~/Content/Scripts/Research/Index.js"></script>

@@ -1,0 +1,84 @@
+﻿@model ManageSystem.Core.Domain.Sate.SatelliteUser
+@using ManageSystem.Core.Domain.SystemSet;
+<div class="nav">
+    <li style="width: 50px;margin-right: 40px;padding-left:0px;"><a id="clubsign" href="/">首页</a></li>
+    @{
+        List<SatelliteMenu> menuList = this.ViewBag.MenuList as List<SatelliteMenu>;
+        if (menuList != null)
+        {
+            <ul>
+                @foreach (var item in menuList)
+                {
+                    if (item.Controller.Trim() == "/Meeting")
+                    {
+
+                        <li><a class="nav-link" style="cursor:pointer" onclick="openMeeting()">@item.Name</a></li>
+                    }
+                    else if (item.Controller.Trim() == "/Medicine/Upload1")
+                    {
+                        if (Model != null)
+                        {
+                            <li><a class="nav-link" style="cursor:pointer" onclick="openUpload()">@item.Name</a></li>
+                        }
+
+                    }
+                    else if (item.Controller.Trim() == "/Document")
+                    {
+                        <li><a class="nav-link" style="cursor:pointer" onclick="openDocument()">@item.Name</a></li>
+                    }
+                    @*else if (item.Controller.Trim() == "/Team")
+                        {
+                            <li><a class="nav-link" style="cursor:pointer" onclick="openTeam()">@item.Name</a></li>
+                        }*@
+
+                    else
+                    {
+                        <li><a class="nav-link" href="@item.Controller">@item.Name</a></li>
+                    }
+
+                }
+                @if (menuList.Count(x => x.Name.Trim() == "成员单位") == 0)
+                {
+                    <li><a class="nav-link" style="cursor:pointer" onclick="openTeam()">成员单位</a></li>
+                }
+
+            </ul>
+
+        }
+    }
+
+</div>
+
+<script language="javascript" type="text/javascript">
+
+    $().ready(function () {
+        var satelliteCity = sessionStorage.getItem('satelliteCity');
+
+        $("#clubsign").attr('href', "/" + satelliteCity);
+    })
+    function sate() { window.location = "/MICThird/MicSignUpView.cshtml"; }
+
+    function openMeeting() {
+        var satelliteCity = sessionStorage.getItem('satelliteCity');
+
+        window.location.href = "/Meeting/SatelliteIndex1?city=" + satelliteCity;
+    }
+
+    function openUpload() {
+        var satelliteCity = sessionStorage.getItem('satelliteCity');
+
+        window.location.href = "/Medicine/Upload1?city=" + satelliteCity;
+    }
+
+    function openDocument() {
+        var satelliteCity = sessionStorage.getItem('satelliteCity');
+
+        window.location.href = "/Document/SatelliteIndex?city=" + satelliteCity;
+    }
+
+    function openTeam() {
+        var satelliteCity = sessionStorage.getItem('satelliteCity');
+
+        window.location.href = "/Team/SaIndex";
+    }
+</script>

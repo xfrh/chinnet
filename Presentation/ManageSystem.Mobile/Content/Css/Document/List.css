@@ -1,0 +1,51 @@
+﻿.DN-img {
+    width: 1.133rem;
+}
+
+.header {
+    width: 100%;
+    height: 40px;
+    line-height: 45px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 999;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+}
+
+.middle {
+    width: auto;
+}
+
+.m-r8 {
+    margin-right: 8px;
+}
+
+.btn-download {
+    display: inline-block;
+    border-radius: 4px;
+    background-image: url('/Content/Images/icon-download.png');
+    background-repeat: no-repeat;
+    position: relative;
+    padding: 0.6rem;
+    background-position: center;
+    background-size: 0.75rem;
+    background-color: #3c82c0;
+}
+
+a.btn-download,
+a.btn-download:link,
+a.btn-download:visited,
+a.btn-download:hover,
+a.btn-download:active {
+    display: inline-block !important;
+    border-radius: 4px;
+    background-image: url('/Content/Images/icon-download.png');
+    background-repeat: no-repeat;
+    position: relative;
+    padding: 0.6rem !important;
+    background-position: center !important;
+    background-size: 0.75rem !important;
+    background-color: #3c82c0;
+}

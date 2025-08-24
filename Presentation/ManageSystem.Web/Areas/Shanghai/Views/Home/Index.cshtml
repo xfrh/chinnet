@@ -1,0 +1,92 @@
+﻿@{
+    Layout = "~/Areas/Shanghai/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "热图";
+}
+
+<link href="~/Content/Css/Datas/GermYear.css?v=1.6" rel="stylesheet" />
+
+<div style="margin:10px 0px; display:none">
+    <img src="~/Content/Images/home_banner_jiaoshijie.png"  style="width:1200px;height:auto;"/>
+</div>
+
+<div style="overflow:hidden;" id="pageContent">
+    <a class="btn helps btn-large btn-success-help" href="javascript:void(0);" onclick="javascript:introJs().setOptions({'prevLabel':'&larr; 上一步','nextLabel':'下一步 &rarr;','skipLabel':'跳过','doneLabel':'完成'}).start();">帮助</a>
+    <div  class="data-home-box" style="margin-bottom:5px;">
+        <ul data-step="1" data-intro="<p style='font-weight:bold;'>图表类型：</p>您可以选择三种不同类型的图表：热图、柱状图、趋势图。" data-position='bottom' id="change_chart" class="clickable clearfix greybuttons">
+            <li class="" data-name="柱状图" id="change_chart_trend" onclick="location.href='/Shanghai/Data/Year'">柱状图</li>
+            <li class="" data-name="关于上海耐药监测网" id="change_chart_map" onclick="location.href='/Data/Map'">关于CHINET</li>
+        </ul>
+    </div>
+    <div id="dataError" class="error-box" style="display:none;">
+        <img src="~/Content/Images/data-error.png" /> 
+        <p class="error-message">请选择数据段</p>
+    </div>
+
+    <div data-step="2" data-intro="<p style='font-weight:bold;'>图表：</p>在这张地图上可以看到中国区域最新的耐药率情况。" data-position='bottom' style="width:100%;display:block;">
+        <div id="main2" style="width:1200px; margin-bottom:0px; height:auto;    text-align: center; overflow:hidden; ">
+            <img id="pageImage" src="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2017.jpg" style="width:80%;margin-top:-40px;" />
+        </div>
+    </div>
+
+    <div style="width:100%;display:block;overflow:hidden;  ">
+        <div data-step="3" data-intro="<p style='font-weight:bold;'>数据类型：</p>可查看各省市碳青霉烯类对不用细菌的检出率。" data-position='top' class="index-bt"><h2 style=" padding: 5px 0px;    display: inline-block; "><i></i>各省市碳青霉烯类耐药肺炎克雷伯菌（CRKP）的检出率<span class="item-title-3" style="margin-left:100px;    cursor: pointer;" onclick="ClearSelectType()"></span><img data-step="4" data-intro="<p style='font-weight:bold;'>操作：</p>击箭头可以隐藏该部分数据选项，更加有利于阅读，再次点击则可以显示该部分数据选项。" data-position='top' class="germ-btn-image germ-btn-image2" src="~/Content/Images/jiantou-xia.png" style="height:13px;width:13px;cursor:pointer;" alt="" onclick="ShowGermContent('2')"></h2></div>
+        <div data-step="5" data-intro="<p style='font-weight:bold;'>数据段：</p>可以选择不同的年份查看对应的耐药情况。" data-position='top' class="fenlei GermContent2" id="GermContent" data-status="1">
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2005.jpg" class="germ-li year-select"><a href="javascript:;">2005年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2006.jpg" class="germ-li year-select"><a href="javascript:;">2006年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2007.jpg" class="germ-li year-select"><a href="javascript:;">2007年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2008.jpg" class="germ-li year-select"><a href="javascript:;">2008年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2009.jpg" class="germ-li year-select"><a href="javascript:;">2009年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2010.jpg" class="germ-li year-select"><a href="javascript:;">2010年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2011.jpg" class="germ-li year-select"><a href="javascript:;">2011年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2012.jpg" class="germ-li year-select"><a href="javascript:;">2012年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2013.jpg" class="germ-li year-select"><a href="javascript:;">2013年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2014.jpg" class="germ-li year-select"><a href="javascript:;">2014年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2015.jpg" class="germ-li year-select"><a href="javascript:;">2015年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2016.jpg" class="germ-li year-select"><a href="javascript:;">2016年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药肺炎克雷伯菌/2017.jpg" class="germ-li year-select active"><a href="javascript:;">2017年</a></li>
+        </div>
+
+        <div class="index-bt"><h2 style=" padding: 5px 0px;    display: inline-block; "><i></i>各省市碳青霉烯类耐药铜绿假单胞菌（CRPA）的检出率<span class="item-title-3" style="margin-left:100px;    cursor: pointer;" onclick="ClearSelectType()"></span><img class="germ-btn-image germ-btn-image3" src="~/Content/Images/jiantou-xia.png" style="height:13px;width:13px;cursor:pointer;" alt="" onclick="ShowGermContent('3')"></h2></div>
+        <div class="fenlei GermContent3" id="GermContent" data-status="1">
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2005.jpg" class="germ-li year-select"><a href="javascript:;">2005年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2006.jpg" class="germ-li year-select"><a href="javascript:;">2006年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2007.jpg" class="germ-li year-select"><a href="javascript:;">2007年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2008.jpg" class="germ-li year-select"><a href="javascript:;">2008年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2009.jpg" class="germ-li year-select"><a href="javascript:;">2009年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2010.jpg" class="germ-li year-select"><a href="javascript:;">2010年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2011.jpg" class="germ-li year-select"><a href="javascript:;">2011年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2012.jpg" class="germ-li year-select"><a href="javascript:;">2012年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2013.jpg" class="germ-li year-select"><a href="javascript:;">2013年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2014.jpg" class="germ-li year-select"><a href="javascript:;">2014年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2015.jpg" class="germ-li year-select"><a href="javascript:;">2015年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2016.jpg" class="germ-li year-select"><a href="javascript:;">2016年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药铜绿假单胞菌/2017.jpg" class="germ-li year-select"><a href="javascript:;">2017年</a></li>
+        </div>
+
+        <div class="index-bt"><h2 style=" padding: 5px 0px;    display: inline-block; "><i></i>各省市碳青霉烯类耐药鲍曼不动杆菌（CRAB）的检出率<span class="item-title-3" style="margin-left:100px;    cursor: pointer;" onclick="ClearSelectType()"></span><img class="germ-btn-image germ-btn-image1" src="~/Content/Images/jiantou-xia.png" style="height:13px;width:13px;cursor:pointer;" alt="" onclick="ShowGermContent('1')"></h2></div>
+        <div class="fenlei GermContent1" id="GermContent" data-status="1">
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2005.jpg" class="germ-li year-select"><a href="javascript:;">2005年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2006.jpg" class="germ-li year-select"><a href="javascript:;">2006年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2007.jpg" class="germ-li year-select"><a href="javascript:;">2007年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2008.jpg" class="germ-li year-select"><a href="javascript:;">2008年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2009.jpg" class="germ-li year-select"><a href="javascript:;">2009年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2010.jpg" class="germ-li year-select"><a href="javascript:;">2010年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2011.jpg" class="germ-li year-select"><a href="javascript:;">2011年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2012.jpg" class="germ-li year-select"><a href="javascript:;">2012年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2013.jpg" class="germ-li year-select"><a href="javascript:;">2013年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2014.jpg" class="germ-li year-select"><a href="javascript:;">2014年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2015.jpg" class="germ-li year-select"><a href="javascript:;">2015年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2016.jpg" class="germ-li year-select"><a href="javascript:;">2016年</a></li>
+            <li onclick="SelectType(this)" data-status="0" data-url="/Content/File/HeatMap/碳青霉烯类耐药鲍曼不动杆菌/2017.jpg" class="germ-li year-select  "><a href="javascript:;">2017年</a></li>
+        </div>
+
+    </div>
+</div>
+
+<input type="hidden" id="TypeValue" data-remark="数据段名称" />
+<input type="hidden" id="returnUrl" value="@this.Request.QueryString["returnUrl"]" />
+<input type="hidden" id="isHaveLogin" value="@this.Request.QueryString["type"]" />
+
+
+<script src="~/Content/Scripts/Datas/HeatMap.js?v=1.6"></script>
+<script src="~/Content/Scripts/Home/Index.js?V=12.23"></script>

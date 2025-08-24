@@ -1,0 +1,80 @@
+﻿@model ManageSystem.Admin.Models.Orders.OrderItemModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+		<table class="adminContent">
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.OrderId)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.OrderId, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.OrderId)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.ProductId)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.ProductId, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.ProductId)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.ProductCode)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.ProductCode, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.ProductCode)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.ProductName)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.ProductName, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.ProductName)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Count)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Count, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.Count)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.CostPrice)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.CostPrice, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.CostPrice)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.MarketPrice)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.MarketPrice, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.MarketPrice)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Amount )：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Amount, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.Amount )
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Remark)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Remark, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.Remark)
+			</td>
+			</tr>
+		</table>
+
+        <script src="/Content/Scripts/TranTextBox.js"></script>
+<script type="text/javascript">
+
+
+
+   
+</script>

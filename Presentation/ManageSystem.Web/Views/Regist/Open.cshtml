@@ -1,0 +1,69 @@
+﻿@model ManageSystem.Web.Models.Regist.RegistModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+
+    <title>注册</title>
+    <link href="~/Content/Css/Login/Open.css?V=12" rel="stylesheet" />
+</head>
+
+<body>
+
+    <section class="aui-content" style="margin:0px;width:692px;overflow:hidden;">
+        <div class="aui-content-box clearfix" style="margin:0px;border-style: none;   ">
+            <div class="aui-content-box-fl" style="height:auto;">
+                <div class="aui-form-content">
+                    <div class="aui-form-content-item" style="display: block;">
+                        <div class="aui-form-list">
+                            <input type="text" class="aui-input" name="" id="Phone" placeholder="请输入手机号" data-required="required" autocomplete="off">
+                        </div>
+                        <div class="aui-form-list">
+                            <input type="password" class="aui-input" id="Password" name="" placeholder="密码，长度大于5位" data-required="required" autocomplete="off">
+                        </div>
+                        <div class="aui-form-list">
+                            <input type="password" class="aui-input" id="Password2" name="" placeholder="确认密码，和密码一样" data-required="required" autocomplete="off">
+                        </div>
+                        <div class="aui-form-list">
+                            @Html.DropDownListFor(m => m.AreaId, Model.AreaList, new { @class = "aui-input ddl1", placeholder = "所属省份" })
+                        </div>
+                        <div class="aui-form-list">
+                            <input type="text" class="aui-input" id="OtherHospital" name="" placeholder="所属医院名称" data-required="required" autocomplete="off">
+                        </div>
+                        <div class="aui-form-btn">
+                            <input type="submit" class="aui-btn btn-login" value="注 册" onclick="Regist()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="aui-content-box-fr" style="padding-top: 30px;">
+                <div class="aui-content-box-text">
+                    <div>  <img src="~/Content/Images/logo_2.png" style="width:100%;   margin-top: 10px; margin-left:-5px;" /></div>
+                    <h3 style="margin-top: 60px;">已有帐号？</h3>
+                    <a href="/Login/Open" class="aui-ll-link">立即登录</a>
+                    <h3>欢迎使用CHINET数据云！</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="~/Content/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Content/Scripts/layer-v2.4/layer.js"></script>
+    <script src="~/Content/Scripts/layer-v2.4/helper.js"></script>
+    <script src="~/Content/Scripts/common-validate.js"></script>
+
+    <script src="~/Content/Scripts/Regist/Open.js?v=12"></script>
+
+</body>
+</html>

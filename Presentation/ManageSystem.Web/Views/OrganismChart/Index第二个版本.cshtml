@@ -1,0 +1,371 @@
+﻿@model  ManageSystem.Web.Models.Organism.BacteriaModel
+@{
+    ViewBag.Title = "抗生素耐药性统计分析图";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/Css/OrganismChart/Index.css" rel="stylesheet" />
+<link href="~/Content/Css/theme-default.css" rel="stylesheet" />
+
+<link href="~/Content/Scripts/layui-v2.2.2/layui/css/layui.css" rel="stylesheet" />
+
+<style type="text/css">
+    .layui-table-cell {
+    padding: 0px;
+    }
+</style>
+<div class="page-container ">
+    <div class="chart-head">
+        <div class="chart-logo"><img src="/Content/Scripts/Chinet/img/logo.png" class="chart-nav-logo" /></div>
+        <div class="chart-nav">
+            <ul class="chart-nav-content">
+                <li class="xn-icon-button pull-right last">
+                    <a href="/Home/Login" style="display:block"> <img src="~/Content/Images/login-out-chart.png" /> </a>
+                </li>
+                <li class="light-blue pull-right">
+                    <a data-toggle="dropdown" href="javascript:;" class="dropdown-toggle" style="padding: 5px;">
+                        <img class="nav-user-photo" src="@this.ViewBag.Img" style="">
+                        <span class="user-info" style="color: white;    font-size: 14px">欢迎光临, @this.ViewBag.Name</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <h2 style="padding-top: 20px;color: #0c91e3; padding-left: 30px; margin-bottom: 20px;">抗生素耐药性统计分析图 - @Model.OrganismName</h2>
+    <div class="layui-row pageTable" style="padding-left: 20px !important;padding-right: 20px !important;">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-lg12">
+            <table class="layui-hide layui-table" id="test" lay-data="{id: 'Test'}"></table>
+        </div>
+    </div>
+        <div class="page-content-wrap pageChart">
+            <div class="row">
+                <div class="tongji">
+                    <li>
+                        <span class="bt1" onclick="SwithTable()">Table</span>
+                        <span class="bt2">Chart</span>
+                    </li>
+                    <li><div id="main" style="width: 80%;height:500px;"></div></li>
+                </div>
+                <div class="Title">
+                    <span class="mic">Mic</span>
+                    <ul class="" style="">
+                        <li style="margin-left:0;    margin-right: 20px;">Epidemiological cut-off(ECOFF):<span id="spanEcoff" style="color:red; font-style:oblique;  padding: 0px 3px;"></span>mg/L</li>
+                        <li style="margin-right: 20px;">WiIdtype(WT) organisms:&#8804;<span id="spanOrganisms" style="color:red; font-style:oblique; padding: 0px 3px;  "></span>mg/L</li>
+                        <li style="margin-right:0;"><span id="spanObservations" style="color:red; font-style:oblique; padding: 0px 3px;"></span> observations(<span id="spanObservationsCount">0</span> data Sources)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-content-wrap">
+
+            <div class="row">
+                <ul class="list" style="display:none;">
+                    <div>
+                        <span style="width:4px;height:10px;display:inline-block; background-color:#129be1"></span>
+                        <h2 style="width:calc(100% - 7px);    width: calc(100% - 15px);display: inline-block; margin-left: 5px;">
+                            抗生素药物<a>
+                                <img src="~/Content/Images/icon201.jpg" />
+                            </a>
+                        </h2>
+                    </div>
+                    <li>抗菌药物</li>
+                    <li>头孢芙辛</li>
+                    <li>抗菌药物</li>
+                    <li>头孢芙辛</li>
+                    <li>抗菌药物</li>
+                    <li>头孢芙辛</li>
+                    <li>抗菌药物</li>
+                    <li>头孢芙辛</li>
+                    <li>抗菌药物</li>
+                    <li>头孢芙辛</li>
+                    <li>抗菌药物</li>
+                    <li>头孢芙辛</li>
+                    <li>抗菌药物</li>
+                    <li>头孢芙辛</li>
+                    <li>抗菌药物</li>
+                    <li>头孢芙辛</li>
+                    <li>抗菌药物</li>
+                    <li>头孢芙辛</li>
+                </ul>
+                <ul class="list list-li" style="margin-top:30px;">
+                    <div style="margin-bottom: 20px;">
+                        <span style="width:4px;height:10px;display:inline-block; background-color:#129be1"></span>
+                        <h2 style="width:calc(100% - 7px);    width: calc(100% - 15px);display: inline-block; margin-left: 5px;">
+                            细菌分类<a>
+                                <img src="~/Content/Images/icon201.jpg" />
+                            </a>
+                        </h2>
+                    </div>
+                    @foreach (var item in Model.MedicalOrganism)
+                    {
+                        <li style="margin-left: 10px;"><a href="@Url.Action("Index","OrganismChart",new { id = item.Value })">@item.Text</a></li>
+                    }
+
+                </ul>
+            </div>
+            <div class="row" style="background-color:#F0EFEF;">
+                <ul class="laiyuan list-li" style="margin-bottom: 50px;">
+                    <div style="margin-bottom: 20px;"> 
+                        <span style="width:4px;height:10px;display:inline-block; background-color:#129be1"></span>
+                        <h2 style="width:calc(100% - 7px);    width: calc(100% - 15px);display: inline-block; margin-left: 5px;">数据来源</h2>
+                    </div>
+                    <li style="margin-left: 10px;">CHINET中国细菌耐药性监测网</li>
+                    <li>华山医院抗生素研究所</li>
+                    <li>30家成员单位共同提供数据</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+<div class="row" style="background-color:#F0EFEF;">
+    <ul class="foot" style="width: 100%;">
+        版权所有&copy;chinets.com
+    </ul>
+</div>
+<script src="~/Content/Scripts/layui-v2.2.2/layui/layui.js"></script>
+<script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("body").css("padding-left", "0px");
+        $("body").css("padding-right", "0px")
+    })
+</script>
+
+<script>
+    var url = "@Url.Action("GetBacteriaDetailedDataModelList")";
+    var option = {
+        elem: '#test',
+        url: '@Url.Action("GetBacteriaDetailedDataModelList")',
+        where: { 
+            medicalOrganismId: '@Model.MedicalOrganismId'
+        },
+        cols: [[
+            { field: 'Name', width: 150,  title: '名称', align: 'left', templet: '#NameTpl' },
+            { templet: "#V0002Tpl", width: 45, align: 'center', field: "V0002", title: "0.002" },
+            { templet: "#V0004Tpl", width: 45, align: 'center', field: "V0004", title: "0.004" },
+            { templet: "#V0008Tpl", width: 45, align: 'center', field: "V0008", title: "0.008" },
+            { templet: "#V0016Tpl", width: 45, align: 'center', field: "V0016", title: "0.016" },
+            { templet: "#V0032Tpl", width: 45, align: 'center', field: "V0032", title: "0.032" },
+            { templet: "#V0064Tpl", width: 45, align: 'center', field: "V0064", title: "0.064" },
+            { templet: "#V0125Tpl", width: 45, align: 'center', field: "V0125", title: "0.125" },
+            { templet: "#V0025Tpl", width: 45, align: 'center', field: "V0025", title: " 0.25" },
+            { templet: "#V0005Tpl", width: 45, align: 'center', field: "V0005", title: "0.5" },
+            { templet: "#V1001Tpl", width: 45, align: 'center', field: "V1001", title: "1" },
+            { templet: "#V1002Tpl", width: 45, align: 'center', field: "V1002", title: "2" },
+            { templet: "#V1004Tpl", width: 45, align: 'center', field: "V1004", title: "4" },
+            { templet: "#V1008Tpl", width: 45, align: 'center', field: "V1008", title: "8" },
+            { templet: "#V1016Tpl", width: 45, align: 'center', field: "V1016", title: "16" },
+            { templet: "#V1032Tpl", width: 45, align: 'center', field: "V1032", title: "32" },
+            { templet: "#V1064Tpl", width: 45, align: 'center', field: "V1064", title: "64" },
+            { templet: "#V1128Tpl", width: 45, align: 'center', field: "V1128", title: "128" },
+            { templet: "#V1256Tpl", width: 45, align: 'center', field: "V1256", title: "256" },
+            { templet: "#V1512Tpl", width: 45, align: 'center', field: "V1512", title: "512" },
+            { align: 'left', width: 80, field: "Ecoff", title: "ECOFF" },
+            { align: 'left', width: 80, field: "Distributions", title: "Distributions" },
+            { align: 'left', width: 80, field: "Observations", title: "Observations" }
+        ]]
+    };
+    var isResize = true;
+    window.onresize = ResizeDataTable;
+    $(function () {
+        layui.use(['layer', 'form', 'table'], function () {
+            var layer = layui.layer,
+                table = layui.table,
+                form = layui.form;
+            var tbIns = table.render(option);
+            var forms = form;
+            form.on('select(MedicalOrganismId)', function (data) {
+                tbIns.reload({
+                    where: {
+                        medicalOrganismId: data.value
+                    }
+                });
+            });
+        });
+        $(".pageTable").show();
+        $(".pageChart").hide();
+    });
+
+    function ShowPageChart(id) {
+        $.ajax({
+            url: "@Url.Action("GetBacteria")",
+            type: "POST",
+            data: { Id: id },
+            success: function (json) {
+                initChart(json);
+            }
+        });
+    }
+
+    function SwithTable() {
+        $(".pageChart").hide();
+        $(".pageTable").show();
+         isResize = true;
+
+    }
+    function ResizeDataTable() {
+        if (isResize) {
+
+            window.location = window.location;
+        }
+
+    }
+
+    function initChart(json) {
+        $(".pageTable").hide();
+        $(".pageChart").show();
+        isResize = false;
+        $(".layui-table-tips-main").hide();
+        $(".layui-icon.layui-table-tips-c").hide();
+
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: json.Title + '分布',
+                textAlign: 'center',
+                x: 'center'
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                 
+                    magicType: { type: ['line', 'bar'] },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+
+            xAxis: {
+                type: 'category',
+                data: ["0.002", "0.004", "0.008", "0.016", "0.032", "0.064", "0.125", "0.25", "0.5", "1", "2", "4", "8", "16", "32", "64", "128", "256", "512", "Distributions", "Observations"]
+            },
+            yAxis: {
+                type: 'value',
+                min: 0
+            },
+
+            series: [{
+                name: '数据',
+                type: 'bar',
+                itemStyle: {        // 系列级个性化样式，纵向渐变填充
+                    normal: {
+                        color: function (params) {
+                       
+                            if (json.Ecoff != null && json.Ecoff != "" && json.Ecoff != "ND" && parseFloat(json.Ecoff) > 0 && params.value != "")
+                            {
+                                if (parseFloat(params.name) > parseFloat(json.Ecoff))
+                                    return "#CBCBCB";
+                            }
+
+                            return "#D4262F";
+                        },
+                        //以下为是否显示，显示位置和显示格式的设置了
+                        label: {
+                            // show: true,
+                            position: 'top',
+                            // formatter: '{c}'
+                            formatter: '{c} %'
+                        }
+                    }
+                },
+                data: json.Data
+            }]
+        };
+
+        $("#spanEcoff").text(json.Ecoff);
+        $("#spanOrganisms").text(json.Ecoff);
+        $("#spanObservations").text(json.Observations );
+        $("#spanObservationsCount").text(json.Distributions);
+        
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+
+</script>
+
+
+<script type="text/html" id="NameTpl">
+    <a href="javascript:ShowPageChart({{d.Id}})" class="layui-table-link">{{d.Name}}</a>
+</script>
+<script type="text/html" id="V0002Tpl">
+    {{# if(d.V0002.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V0002.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V0002.split(':')[1]}}</div> {{# } else { }} {{ d.V0002 }} {{# } }}
+</script>
+<script type="text/html" id="V0004Tpl">
+    {{# if(d.V0004.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V0004.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V0004.split(':')[1]}}</div> {{# } else { }} {{ d.V0004 }} {{# } }}
+</script>
+<script type="text/html" id="V0008Tpl">
+    {{# if(d.V0008.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V0008.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V0008.split(':')[1]}}</div> {{# } else { }} {{ d.V0008 }} {{# } }}
+</script>
+<script type="text/html" id="V0016Tpl">
+    {{# if(d.V0016.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V0016.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V0016.split(':')[1]}}</div> {{# } else { }} {{ d.V0016 }} {{# } }}
+</script>
+<script type="text/html" id="V0032Tpl">
+    {{# if(d.V0032.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V0032.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V0032.split(':')[1]}}</div> {{# } else { }} {{ d.V0032 }} {{# } }}
+</script>
+<script type="text/html" id="V0064Tpl">
+    {{# if(d.V0064.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V0064.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V0064.split(':')[1]}}</div> {{# } else { }} {{ d.V0064 }} {{# } }}
+</script>
+<script type="text/html" id="V0125Tpl">
+    {{# if(d.V0125.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V0125.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V0125.split(':')[1]}}</div> {{# } else { }} {{ d.V0125 }} {{# } }}
+</script>
+<script type="text/html" id="V0025Tpl">
+    {{# if(d.V0025.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V0025.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V0025.split(':')[1]}}</div> {{# } else { }} {{ d.V0025 }} {{# } }}
+</script>
+<script type="text/html" id="V0005Tpl">
+    {{# if(d.V0005.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V0005.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V0005.split(':')[1]}}</div> {{# } else { }} {{ d.V0005 }} {{# } }}
+</script>
+<script type="text/html" id="V1001Tpl">
+    {{# if(d.V1001.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V1001.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V1001.split(':')[1]}}</div> {{# } else { }} {{ d.V1001 }} {{# } }}
+</script>
+<script type="text/html" id="V1002Tpl">
+    {{# if(d.V1002.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V1002.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V1002.split(':')[1]}}</div> {{# } else { }} {{ d.V1002 }} {{# } }}
+</script>
+<script type="text/html" id="V1004Tpl">
+    {{# if(d.V1004.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V1004.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V1004.split(':')[1]}}</div> {{# } else { }} {{ d.V1004 }} {{# } }}
+</script>
+<script type="text/html" id="V1008Tpl">
+    {{# if(d.V1008.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V1008.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V1008.split(':')[1]}}</div> {{# } else { }} {{ d.V1008 }} {{# } }}
+</script>
+<script type="text/html" id="V1016Tpl">
+    {{# if(d.V1016.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V1016.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V1016.split(':')[1]}}</div> {{# } else { }} {{ d.V1016 }} {{# } }}
+</script>
+<script type="text/html" id="V1032Tpl">
+    {{# if(d.V1032.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V1032.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V1032.split(':')[1]}}</div> {{# } else { }} {{ d.V1032 }} {{# } }}
+</script>
+<script type="text/html" id="V1064Tpl">
+    {{# if(d.V1064.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V1064.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V1064.split(':')[1]}}</div> {{# } else { }} {{ d.V1064 }} {{# } }}
+</script>
+<script type="text/html" id="V1128Tpl">
+    {{# if(d.V1128.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V1128.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V1128.split(':')[1]}}</div> {{# } else { }} {{ d.V1128 }} {{# } }}
+</script>
+<script type="text/html" id="V1256Tpl">
+    {{# if(d.V1256.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V1256.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V1256.split(':')[1]}}</div> {{# } else { }} {{ d.V1256 }} {{# } }}
+</script>
+<script type="text/html" id="V1512Tpl">
+    {{# if(d.V1512.indexOf(':')>0){ }}
+    <div style=" background-color:{{ d.V1512.split(':')[0]}};text min-height:100%;min-width:100%;">{{ d.V1512.split(':')[1]}}</div> {{# } else { }} {{ d.V1512 }} {{# } }}
+</script>

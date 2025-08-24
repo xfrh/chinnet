@@ -1,0 +1,81 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    this.ViewBag.Title = "医学数据统计 - 革兰阳性菌菌种分布";
+}
+
+@{
+    var breadcrumb = this.Request.QueryString["breadcrumb"];
+    if (string.IsNullOrWhiteSpace(breadcrumb) || !breadcrumb.Equals("hidden"))
+    {
+        <div class="mbx">
+            <p>当前位置：首页 &gt; 医学数据统计 &gt; 革兰阳性菌菌种分布 </p>
+        </div>
+    }
+    else
+    {
+        <div class="mbx" style="height:15px;">  </div>
+    }
+}
+
+<div class="doct_center">
+    <div style="width:100%;float:left;margin-top: -100px;">
+        <div id="main" style="width: 90%;height:650px;  margin:0px auto;"></div>
+    </div>
+</div>
+
+<script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+<script src="~/Content/Scripts/Echarts/bmap.js"></script>
+<script src="~/Content/Scripts/Echarts/china.js"></script>
+<script type="text/javascript">
+
+    function randomData() {
+        return Math.round(Math.random() * 1000);
+    }
+
+    $(document).ready(function () {
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        option = {
+            title: {
+                text: '革兰阳性菌菌种分布',
+                subtext: '',
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                right: 0,
+                top: 150,
+                data: [@Html.Raw(this.ViewBag.PageText)]
+            },
+
+            series: [
+                {
+                    name: '数量',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: [
+                    @Html.Raw(this.ViewBag.PageValue)
+                    ],
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    });
+
+</script>

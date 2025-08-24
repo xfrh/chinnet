@@ -1,0 +1,526 @@
+﻿@using ManageSystem.Admin.Models.Chart
+@using Webdiyer.WebControls.Mvc
+
+@model IPagedList<BarChartListDTO>
+
+@{
+    ViewBag.Title = "柱状图管理";
+    bool isCreateDataSegment = UserinfoExtensions.CheckFunction(Url.Action("DataSegment_OnCreateSubmit"));
+    bool isEditDataSegment = UserinfoExtensions.CheckFunction(Url.Action("DataSegment_OnEditSubmit"));
+    bool isDeleteDataSegment = UserinfoExtensions.CheckFunction(Url.Action("DataSegment_OnDelete"));
+
+
+    bool IsCreate = UserinfoExtensions.CheckFunction(Url.Action("BarChartCreate"));
+    bool IsEdit = UserinfoExtensions.CheckFunction(Url.Action("BarChartEdit"));
+    bool IsView = UserinfoExtensions.CheckFunction(Url.Action("BarChartDetail"));
+}
+
+@section HeadSection {
+    <link href="~/Content/Scripts/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <style>
+        #modal-datasegment .form-group {
+            margin-bottom: 0px;
+        }
+
+        #modal-datasegment .table > tbody > tr > td {
+            padding: 8px;
+        }
+
+        .btn:hover,
+        .btn:focus,
+        .btn:active:focus,
+        .btn.active:focus {
+            outline: none;
+        }
+
+        input.has-error {
+            border-color: #ed5565
+        }
+
+        span.has-error {
+            color: #ed5565
+        }
+
+        .table-bordered {
+            border-style: solid;
+        }
+
+            .table-bordered > tbody > tr > td {
+                border-style: solid;
+            }
+
+        div.hide-article-box {
+            width: 100%;
+            background-image: -webkit-gradient(linear,left top, left bottom,from(rgba(255,255,255,0)),color-stop(75%, #fff));
+            background-image: linear-gradient(-180deg,rgba(255,255,255,0) 0%,#fff 75%);
+            padding-bottom: 26px;
+            margin-bottom: 0px;
+            text-indent: -6rem;
+        }
+
+        .hide-article-pos {
+            position: absolute;
+            bottom: 0;
+            height: 200px;
+            z-index: 10;
+            padding-top: 160px;
+            bottom: -1px;
+        }
+
+        div.hide-article-box .chevrondown {
+            color: #428bca;
+            fill: #428bca;
+            width: 22px;
+        }
+
+        div.hide-article-box svg.icon {
+            -webkit-transition: fill .1s ease-in-out,-webkit-transform .1s ease-in-out;
+            transition: fill .1s ease-in-out,-webkit-transform .1s ease-in-out;
+            transition: transform .1s ease-in-out,fill .1s ease-in-out;
+            transition: transform .1s ease-in-out,fill .1s ease-in-out,-webkit-transform .1s ease-in-out;
+        }
+
+        div.hide-article-box .icon {
+            width: 1em;
+            height: 1em;
+            vertical-align: -.15em;
+            overflow: hidden;
+            margin-right: 4px;
+        }
+
+        div.hide-article-box .btn-readmore,
+        div.hide-article-box .btn-readmore:link,
+        div.hide-article-box .btn-readmore:visited,
+        div.hide-article-box .btn-readmore:hover,
+        div.hide-article-box .btn-readmore:active {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .JLBQ {
+            margin-left: 600px;
+            font-size: 20px;
+        }
+    </style>
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "图表管理", SecondName = "图表管理", LocationName = this.ViewBag.Title }); }
+}
+
+
+@Html.AntiForgeryToken()
+@if (true)
+{
+    <div class="DIVJLBQ"><span class="JLBQ" style="color:red">有新的MIC访问记录待审批!!!</span></div>
+}
+<div class="page-body">
+
+    <div class="row manage-page">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-yellow manage-title-box">
+                    <span class="widget-caption manage-title"><i class="glyphicon glyphicon-th "></i>@ViewBag.Title </span>
+                    <div class="widget-buttons">
+                        <a href="#" data-toggle="maximize"><i class="fa fa-expand"></i></a>
+                        <a href="#" data-toggle="collapse"><i class="fa fa-minus"></i></a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    @foreach (var item in Model)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <section class="" style="margin-bottom: 20px;">
+                                    <header class="flex flex-vertical-center" style="border-bottom: 1px solid #dedede; padding-bottom: 5px; margin-bottom: 15px;">
+                                        <h4>@item.Name</h4>
+                                        <span style="margin-left: 5%;">
+                                            @if (isEditDataSegment)
+                                            {
+                                                <button type="button" class="btn btn-link" onclick="onShowEditDataSegment('@item.Id');">编辑</button>
+                                            }
+                                            @if (isDeleteDataSegment)
+                                            {
+                                                <button type="button" class="btn btn-link" onclick="onShowDeleteDataSegment('@item.Id');">删除</button>
+                                            }
+                                            @if (item.Display)
+                                            {
+                                                <button type="button" class="btn btn-link" onclick="onShowDSSettingDisplay('@item.Id', 'hide');">隐藏</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-link" onclick="onShowDSSettingDisplay('@item.Id', 'show');">显示</button>
+                                            }
+                                        </span>
+
+                                        @if (IsCreate)
+                                        {
+                                            <span class="flex-1 text-right">
+                                                <a class="btn btn-info btn-sm" href="@Url.Action("BarChartCreate",new { id = item.Id })" target="_blank">添加报表</a>
+                                            </span>
+                                        }
+                                        <input hidden="hidden" type="hidden" id="DataSegmentData_@item.Id" value="@Newtonsoft.Json.JsonConvert.SerializeObject(new { Id = item.Id.ToString(), Name = item.Name, Sort = item.Sort })" />
+                                    </header>
+                                    <div class="pos-rel" id="datatable_container_@item.Id">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>报表名称</th>
+                                                    <th>显示顺序</th>
+                                                    <th class="text-center">状态</th>
+                                                    <th class="text-center">是否默认选中</th>
+                                                    <th>操作</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (item.DataItems == null || item.DataItems.Count() == 0)
+                                                {
+                                                    <tr>
+                                                        <td colspan="5" class="text-danger">暂无数据！点击“添加报表”按钮添加报表数据</td>
+                                                    </tr>
+                                                }
+                                                @foreach (var inner in item.DataItems)
+                                                {
+                                                    <tr>
+                                                        <td>@inner.Name</td>
+                                                        <td>@inner.Sort</td>
+                                                        <td class="text-center">@(inner.Display ? "显示" : "不显示")</td>
+                                                        <td class="text-center">
+                                                            <label>
+                                                                <input id="setdefault_@inner.Id" name="_@inner.Id" @(inner.Default ? "checked=\"checked\"" : "") class="checkbox-slider colored-blue" type="checkbox" value="@inner.Id">
+                                                                <span class="text"></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <a class="btn btn-link" href="@Url.Action("BarChartEdit", new { id = inner.Id })" target="_blank">编辑</a>
+                                                            <a class="btn btn-link" href="@Url.Action("BarChartDetail", new { id = inner.Id })" target="_blank">查看</a>
+                                                            <button class="btn btn-link" type="button" onclick="onShowDeleteBarChart('@inner.Id')">删除</button>
+                                                            @if (inner.Display)
+                                                            {
+                                                                <button class="btn btn-link" type="button" onclick="onShowSettingDisplay('@inner.Id', 0)">不显示</button>
+                                                            }
+                                                            else
+                                                            {
+                                                                <button class="btn btn-link" type="button" onclick="onShowSettingDisplay('@inner.Id', 1)">显示</button>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+
+                                        @*@if (item.DataItems.Count() > 6)
+                                            {
+                                                <div class="hide-article-box hide-article-pos text-center user-select-no">
+                                                    <a class="btn-readmore user-select-no" href="#" onclick="showReadMore('#datatable_container_@item.Id'); return false;">
+                                                        展开查看全部
+                                                        <svg class="icon chevrondown" aria-hidden="true">
+                                                            <svg id="csdnc-chevrondown" viewBox="0 0 1820 1024"><path d="M917.33333327 623.189333l332.394667-333.525333a52.906667 52.906667 0 0 1 75.136 0 53.461333 53.461333 0 0 1 0 75.392L956.80000027 734.4a52.864 52.864 0 0 1-39.445334 15.530667 52.672 52.672 0 0 1-39.424-15.530667L509.82400027 365.056a53.418667 53.418667 0 0 1 0-75.392 52.949333 52.949333 0 0 1 75.114666 0L917.33333327 623.189333z m0 0" fill=""></path></svg>
+                                                        </svg>
+                                                    </a>
+                                                </div>
+                                            }*@
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model == null || Model.Count() == 0)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="text-danger flex flex-vertical-center" style="margin-bottom: 20px; margin-top: 10px; border-bottom: 1px solid; padding-bottom: 10px;">
+                                    <span class="typcn typcn-chart-bar-outline" style="font-size: 16px;"></span>
+                                    @if (isCreateDataSegment)
+                                    {
+                                        <span style="margin-left: 10px;">暂无数据，点击“添加数据段”按钮开始添加更多数据</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="margin-left: 10px;">暂无数据</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="pagerbar" class="text-center" style="padding:1rem 0 0.5rem;">
+                                    @Html.Pager(Model.TotalItemCount, Model.PageSize, Model.CurrentPageIndex).Options(o => o.SetPageIndexParameterName("page").SetId("bootstrappager").SetHorizontalAlign("center").SetContainerTagName("ul").SetCurrentPagerItemTemplate("<li class=\"active\"><a href=\"jacascript:void(0);\">{0}</a></li>").SetDisabledPagerItemTemplate("<li class=\"disabled\"><a>{0}</a></li>").SetPagerItemTemplate("<li>{0}</li>").SetCssClass("pagination"))
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @if (isCreateDataSegment)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-info" onclick="onCreateDataSegment(); return false;">添加数据段</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 添加数据段 -->
+<div id="modal-datasegment" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="datasegmentLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="datasegmentLabel">添加数据段</h4>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("DataSegment_OnCreateSubmit", "MgtChart", FormMethod.Post, new { id = "datasegmentform" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("ProjectType", (byte)ManageSystem.Core.Domain.Chart.DataSegmentEnum.BarChart)
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 90px;" class="text-right">
+                                        <label for="DS_Name">数据段名称</label>
+                                    </td>
+                                    <td>
+                                        <div class="form-group clearfix">
+                                            <input class="form-control" id="DS_Name" name="Name" placeholder="请输入数据段名称" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-right">
+                                        <label for="DS_Sort">排序编号</label>
+                                    </td>
+                                    <td>
+                                        <div class="form-group clearfix">
+                                            <input class="form-control" id="DS_Sort" name="Sort" placeholder="正整数，正序排列" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="onSubmitDataSegment(); return false;">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑数据段 -->
+<div id="modal-editdatasegment" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editDataSegmentLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="editDataSegmentLabel">编辑数据段</h4>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("DataSegment_OnEditSubmit", "MgtChart", FormMethod.Post, new { id = "EditDataSegmentForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input id="EditDataSegment_ID" name="Id" type="hidden" hidden="hidden" />
+                    <input id="EditDataSegment_ProjectType" name="ProjectType" type="hidden" hidden="hidden" value="@((byte)ManageSystem.Core.Domain.Chart.DataSegmentEnum.BarChart)" />
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 90px;" class="text-right">
+                                        <label for="DS_Name">数据段名称</label>
+                                    </td>
+                                    <td>
+                                        <div class="form-group clearfix">
+                                            <input class="form-control" id="EditDS_Name" name="Name" placeholder="请输入数据段名称" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-right">
+                                        <label for="DS_Sort">排序编号</label>
+                                    </td>
+                                    <td>
+                                        <div class="form-group clearfix">
+                                            <input class="form-control" id="EditDS_Sort" name="Sort" placeholder="正整数，正序排列" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary ladda-button" data-style="zoom-in" id="btnSubmitEditDataSegment" onclick="onSubmitEditDataSegment(); return false;">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除数据段 -->
+<div id="modal-deleteDataSegment" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteDataSegmentLabel" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="deleteDataSegmentLabel">删除提醒</h4>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("DataSegment_OnDelete", "MgtChart", FormMethod.Post, new { id = "deleteDataSegmentForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input name="id" id="DeleteDataSegmentId" value="" type="hidden" hidden="hidden" />
+                    <input name="type" id="DeleteProjectType" value="@ManageSystem.Core.Domain.Chart.DataSegmentEnum.BarChart" type="hidden" hidden="hidden" />
+                    <div class="table-responsive">
+                        <div class="flex flex-vertical-center">
+                            <span class="fa fa-exclamation-triangle" aria-hidden="true" style="font-size: 35px; top: 0; color: #e46f61;"></span>
+                            <span style="margin-left: 15px;">删除该数据段将会同步删除相应的数据报表！<br />是否继续？</span>
+                        </div>
+                        <span style="display: block; margin-top: 13px; color: #c7254e80;">注意：删除后不可恢复</span>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger ladda-button" data-style="zoom-in" id="btnSubmitDataSegmentDelete" onclick="onSubmitDataSegmentDelete(); return false;">继续</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 数据段状态变更 -->
+<div id="modal-settingDisplay" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dsDisplayLabel" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="dsDisplayLabel">设置数据段显示</h4>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("DataSegment_SettingDisplay", "MgtChart", FormMethod.Post, new { id = "dsDisplayForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("ProjectType", ManageSystem.Core.Domain.Chart.DataSegmentEnum.BarChart)
+                    <input name="Id" id="SetDisplayId" value="" type="hidden" hidden="hidden" />
+                    <input name="Display" id="SetDisplayValue" value="" type="hidden" hidden="hidden" />
+                    <div class="table-responsive">
+                        <div class="flex flex-vertical-center">
+                            <span class="glyphicon glyphicon-question-sign" style="font-size: 35px; top: 0; color: #e46f61;"></span>
+                            <span style="margin-left: 15px;">将此数据段状态变更为【<span id="statusText" style="font-weight: bold; color: #e46f61;">不显示</span>】？</span>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary ladda-button" data-style="zoom-in" id="btnSubmitDSDisplay" onclick="onSubmitDSDisplay(); return false;">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 状态变更 -->
+<div id="modal-display" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="displayLabel" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="displayLabel">设置报表状态</h4>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("BarChart_OnSetDisplay", "MgtChart", FormMethod.Post, new { id = "displayform" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input name="id" id="SetDisplayId" value="" type="hidden" hidden="hidden" />
+                    <input name="status" id="SetDisplayValue" type="hidden" hidden="hidden" value="" />
+                    <div class="table-responsive">
+                        <div class="flex flex-vertical-center">
+                            <span class="glyphicon glyphicon-question-sign" style="font-size: 35px; top: 0; color: #e46f61;"></span>
+                            <span style="margin-left: 15px;">确定将此状态变更为【<span id="statusText" style="font-weight: bold; color: #e46f61;">不显示</span>】？</span>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary ladda-button" data-style="zoom-in" id="btnSubmitDisplay" onclick="onSubmitDisplay(); return false;">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除报表 -->
+<div id="modal-deleteHeatmap" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteHeatmapLabel" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="deleteHeatmapLabel">报表删除提醒</h4>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("BarChart_OnDelete", "MgtChart", FormMethod.Post, new { id = "deleteBarChartForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input name="id" id="DeleteHeatmapId" value="" type="hidden" hidden="hidden" />
+                    <div class="table-responsive">
+                        <div class="flex flex-vertical-center">
+                            <span class="fa fa-exclamation-triangle" aria-hidden="true" style="font-size: 35px; top: 0; color: #e46f61;"></span>
+                            <span style="margin-left: 15px;">确定删除此报表数据？</span>
+                        </div>
+                        <span style="display: block; margin-top: 13px; color: #c7254e80;">注意：删除后不可恢复</span>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary ladda-button" data-style="zoom-in" id="btnSubmitDelete" onclick="onSubmitDelete(); return false;">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 设置默认显示 -->
+<div id="modal_setting_default" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteHeatmapDefaultLabel" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="onCancelDefault();">&times;</button>
+                <h4 class="modal-title" id="deleteHeatmapDefaultLabel" style="font-size: 14px;">设置/取消默认选中</h4>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("BarChart_OnSettingDefault", "MgtChart", FormMethod.Post, new { id = "settingDefaultForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input id="setting_default_id" name="id" type="hidden" hidden="hidden" />
+                    <input id="setting_default_value" name="default" type="hidden" hidden="hidden" />
+                }
+                <div class="flex flex-vertical-center">
+                    <i class="fa fa-warning fa-2x text-danger" aria-hidden="true"></i>&emsp;确定设置该报表在加载时默认选中?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-sm ladda-button" data-style="zoom-in" id="btnSubmitSettingDefault" onclick="onSettingDefault(); return false;">确定</button>
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" onclick="onCancelDefault();">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section FooterSection{
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/MgtChart/BarChart/List.js?v=@DateTime.Now.Ticks"></script>
+}

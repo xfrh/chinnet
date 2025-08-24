@@ -1,0 +1,207 @@
+﻿
+@{
+    ViewBag.Title = "折点-数据管理";
+    Layout = "~/Areas/DataInput/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Areas/DataInput/Content/css/OLDataInput.css" rel="stylesheet" />
+<link href="/Content/Scripts/laypage-v1.3/skin/laypage.css" rel="stylesheet" />
+<div class="W">
+
+    <div class="my_title">
+        当前位置： 首页 / 折点数据上传 / 数据管理
+    </div>
+    <div class="ol_table">
+      
+        @{
+            if (ViewBag.Median == true)
+            {
+                <div class="ol_left">
+                    <ul>
+                        <li style="background-color:#dceef6"><a href="/DataInput/OLDataInput/OLproject">项目管理</a></li>
+                        <li><a href="/DataInput/OLDataInput/OLtemplate">字段模板</a></li>
+                        <li><a href="/DataInput/OLDataInput/ProjectStatistics">项目统计</a></li>
+                    </ul>
+                </div>
+            }
+        }
+
+        <!-- 查看、添加项目数据 开始 -->
+    <div class="ol_right" style="width:auto">
+        <div style=" display: flex; justify-content:stretch;">
+            <input id="search_txt" type="text" placeholder="输入工作编号" class="add_text_model_inp" />
+            <div>
+                <input type="radio" name="rdCheck" style="vertical-align:middle;margin:5px" value="1">已审核
+                <input type="radio" name="rdCheck" style="vertical-align:middle;margin:5px" value="0">未审核
+            </div>
+            <div class="cbtn" onclick="Search()">搜索</div>
+        </div>
+        <div style=" display: flex; justify-content: space-between; margin:auto">
+            <span id="spn" style="font-size:14px;"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <div>
+                <input class="add_data" type="button" onclick="CreateData()" value="添加数据">
+                <input class="add_data" type="button" onclick="CreatebatchData()" value="批量上传">
+                @if (ViewBag.Median == true)
+                {
+                    <input class="add_data" type="button" onclick="deldatas()" value="批量删除">
+                }
+                <input class="add_data" type="button" onclick="examine()" value="批量审核">
+                @if (ViewBag.Median == false)
+                {
+                    <input class="add_data" type="button" onclick="href()" value="返回">
+                }
+            </div>
+
+        </div>
+
+        <input id="DataCount" type="hidden" />
+        <div class="tab-pane  select-item" id="tabColumnData" style="margin-top: 15px; ">
+            <div style="width:auto;overflow-x:auto;margin-bottom: 30px;">
+                <table style="width:100%;font-size:14px;" id="aaa" class="no-collapse">
+                    <thead id="heade">
+
+                    </thead>
+                    <tbody id="detailDataBody" style="color:black"></tbody>
+                </table>
+            </div>
+            <div id="detailDataPager" class="page-btn-main " style="text-align:center;"></div>
+        </div>
+        <!-- 查看、添加项目数据 结束 -->
+        <input id="Median" type="hidden" value="@ViewBag.Median.ToString()" />
+    </div>
+    </div>
+
+</div>
+<script src="~/Areas/DataInput/Content/js/jquery.min.js"></script>
+<script src="~/Content/Scripts/laypage-v1.3/laypage.js"></script>
+
+<script>
+    $(function () {
+        var Median = $("#Median").val();
+        if (Median != "" && Median != null && Median != "True") {
+            //location.href = "/DataInput/OLDataInput/index";
+        }      
+        GetOLDataheade();
+    })
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+    function GetOLDataheade() {
+        var Id = getQueryString("Id");
+        $.ajax({
+            type: 'POST',
+            url: "/DataInput/OLDataInput/GetOLDataheade",
+            dataType: 'json',
+            data: {
+                projectid: Id,
+            },
+            success: function (result) {
+                console.log(result);
+                //绑定页面的数据
+                if (result.length > 0) {
+                    var html = "<tr style='text-align: center; background-color: rgb(66, 163, 206); height: 35px; color: rgb(255, 255, 255);'>" +
+                        "<th style='text-align:center; width:auto;padding-left:22px;'><label for='checkall'><input class='' onclick=check() id='checkall' name='data-items' type='checkbox' value='0' /> 全选</label></th> " +
+                        //"<th style='text-align:center; width:auto'>项目名称</th> " +
+                        //"<th style='text-align:center; width:auto'>实验人</th> " +
+                        //"<th style='text-align:center; width:auto'>实验时间</th>" +
+                        "<th style='text-align:center; width:auto'>工作编号</th> " +
+                        //"<th style='text-align:center; width:auto'>菌种库号</th> " +
+                        "<th style='text-align:center; width:auto'>细菌名称</th> ";                         
+                    var td = "";
+                    var tr = "</tr>";
+                    for (var i = 0; i < result.length; i++) {
+
+                        td += "<th style='text-align:center; width:auto'>" + result[i].field_code + "</th> ";
+                        $("#spn").html("项目名称：" + result[i].project_name + "");
+                    }
+                    td += "<th style = 'text-align:center; width:auto' > 实验人</th>" +
+                        "<th style='text-align:center; width:auto'>实验时间</th>" + "<th style='text-align:center; width:auto'>操作</th>";
+                    $("#heade").append(html + td + tr);
+
+                } else {
+                    var html = "<tr style='text-align: center; background-color: rgb(66, 163, 206); height: 35px; color: rgb(255, 255, 255);'>" +
+                        "<th style='text-align:center; width:auto;padding-left:22px;'><label for='checkall'><input class='' onclick=check() id='checkall' name='data-items' type='checkbox' value='0' /> 全选</label></th> " +
+                        //"<th style='text-align:center; width:auto'>项目名称</th> " +
+                        //"<th style='text-align:center; width:auto'>实验人</th> " +
+                        //"<th style='text-align:center; width:auto'>实验时间</th>" +
+                        "<th style='text-align:center; width:auto'>工作编号</th> " +
+                        //"<th style='text-align:center; width:auto'>菌种库号</th> " +
+                        "<th style='text-align:center; width:auto'>细菌名称</th> ";                      
+                    var td = "";
+                    var tr = "</tr>";
+                    for (var i = 0; i < result.length; i++) {                     
+                        $("#spn").html("项目名称：" + result[i].project_name + "");
+                    }
+                    td += "<th style = 'text-align:center; width:auto' > 实验人</th>" +
+                    "<th style='text-align:center; width:auto'>实验时间</th>"+"<th style='text-align:center; width:auto'>操作</th>";
+                    $("#heade").append(html + td + tr);
+                }
+            }
+        });
+
+    }
+   
+    function check()
+    {
+        if ($("[name='data-items']").prop("checked") == true) {
+            $("[name='data-item']").prop("checked", true)
+        }
+        else {
+            $("[name='data-item']").prop("checked", false)
+        }
+    }
+   //单条数据上传跳转页面
+    function CreateData() {
+        var Id = getQueryString("Id");
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "/DataInput/OLDataInput/GetProject",
+            data: { Id: Id },
+            dataType: "json",
+            success: function (json) {
+                if (json == null || json == "") {
+                    return false;
+                }
+
+                if (json.status == "true") {
+                    location.href = "/DataInput/OLDataInput/CreateOLDataInput?Id=" + Id + "";
+                }
+                else {
+                    ErrorWindow(json.message, false);
+                }
+            }
+        });
+       
+    }
+    //批量上传跳转页面
+    function CreatebatchData() {
+        var Id = getQueryString("Id");
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "/DataInput/OLDataInput/GetProject",
+            data: { Id: Id },
+            dataType: "json",
+            success: function (json) {
+                if (json == null || json == "") {
+                    return false;
+                }
+
+                if (json.status == "true") {
+                    location.href = "/DataInput/OLDataInput/CreatebatchData?Id=" + Id + "";
+                }
+                else {
+                    ErrorWindow(json.message, false);
+                }
+            }
+        });
+
+    }
+    function href() {
+        location.href = "/DataInput/OLDataInput/OLproject";
+    }
+   
+</script>
+<script src="~/Areas/DataInput/Content/js/OLDataInputList.js"></script>

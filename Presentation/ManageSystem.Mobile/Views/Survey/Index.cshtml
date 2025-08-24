@@ -1,0 +1,49 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_SurveyLayout.cshtml";
+    string _version = DateTime.Now.Ticks.ToString();
+}
+@section Styles{
+    <link href="~/Content/Css/Survey/Index.css?v=@_version" rel="stylesheet" />
+}
+@section Scripts{
+    <script src="~/Content/Scripts/Survey/Index.js?v=@_version"></script>
+
+
+    <style type="text/css">
+        .btn-a {
+            font-size: 0.5rem;
+            font-weight: bold;
+            background-color: #005cad;
+            border: 0;
+            color: #fff;
+            height: 3rem;
+            line-height: 3rem;
+            display: block;
+            width: 80%;
+            margin: 0px auto;
+            margin-top: 1rem;
+            line-height: 3rem;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+    </style>
+}
+
+
+<div id="index" class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <input hidden="hidden" id="hidden_survey_id" name="hidden_survey_id" ref="hidden_survey_id" type="hidden" value="@ViewBag.Id" />
+            <input hidden="hidden" id="hidden_id" name="hidden_id" ref="hidden_id" type="hidden" value="@ViewBag.RecordId" />
+            <input ref="need_login" type="hidden" hidden="hidden" value="@ViewBag.NeedLogin" />
+            <input ref="hidden_dom_title" type="hidden" hidden="hidden" value="@ViewBag.Name" />
+            <header class="header-title text-center">@ViewBag.Name</header>
+            <article class="article-content">@Html.Raw(ViewBag.Remark)</article>
+            <footer class="" @@click="onNext">
+                <a class="btn btn-primary cre-submit btn-a">打开问卷</a>
+            </footer>
+        </div>
+    </div>
+</div>
+

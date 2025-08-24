@@ -1,0 +1,131 @@
+﻿@model ManageSystem.Admin.Models.Articles.ArticleModel
+
+
+
+<table class="adminContent">
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Name)
+            @Html.ValidationMessageFor(m => m.Name)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.StateList)：</td>
+        <td class="adminData">
+            @Html.DropDownList("State", Model.StateList, new { @class = "form-control dropdown" })
+            @Html.ValidationMessageFor(m => m.StateList)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ArticleTypeId)：</td>
+        <td class="adminData">
+            @Html.DropDownList("ArticleTypeId", Model.ArticleTypeList, new { @class = "form-control dropdown" })
+            @Html.ValidationMessageFor(m => m.ArticleTypeList)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Author)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Author)
+            @Html.ValidationMessageFor(m => m.Author)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ShortContent)：</td>
+        <td class="adminData">
+            @Html.TextAreaFor(model => model.ShortContent, new { @class = "form-control txt", cols = "30", rows = "3" })
+            @Html.ValidationMessageFor(m => m.ShortContent)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ReleaseTime)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.ReleaseTime)
+            @Html.ValidationMessageFor(m => m.ReleaseTime)
+        </td>
+    </tr>
+    <tr class="cover-image">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.CoverImage)：</td>
+        <td class="adminData">
+            <input type="file" id="CoverImage" name="CoverImage" />
+            <span>支持格式：jpg | gif | png | jpeg | bmp</span>
+            @Html.ValidationMessageFor(m => m.CoverImage)
+
+        </td>
+    </tr>
+    @{
+        if (!string.IsNullOrWhiteSpace(Model.CoverImage))
+        {
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(m => m.CoverImage)：</td>
+                <td class="adminData">
+                    <div><a target="_blank" href="@Model.CoverImage"><img src="@Model.CoverImage" style="width:300px; height:120px;" /></a> </div>
+                </td>
+            </tr>
+        }
+    }
+    @{
+        if (!string.IsNullOrWhiteSpace(Model.CodeImage))
+        {
+            <tr class="code-image" style="display:none;">
+                <td class="adminTitle">@Html.NopLabelFor(m => m.CodeImage)：</td>
+                <td class="adminData">
+                    <div><a target="_blank" href="@Model.CodeImage"><img src="@Model.CodeImage" style="width:120px; height:120px;" /></a> </div>
+                </td>
+            </tr>
+        }
+    }
+
+
+    <tr style="line-height:normal;">
+        <td class="adminTitle " colspan="2">
+            <textarea id="Content" name="Content" runat="server" onblur="setUeditor()" style="width:100%; min-height: 500px; margin-top:10px; text-align:left;">@Model.Content</textarea>
+        </td>
+    </tr>
+    <tr style="line-height:normal;">
+        <td class="adminTitle " colspan="2"></td>
+    </tr>
+
+ 
+
+</table>
+
+
+<script type="text/javascript">
+
+                        $("#ReleaseTime").kendoDatePicker({ format: "yyyy-MM-dd" });
+
+                        $(document).ready(function () {
+                            $("#CoverImage").kendoUpload();
+                            $("#CodeImage").kendoUpload();
+                        });
+
+                        $(document).ready(function () {
+                            var editor = new baidu.editor.ui.Editor();
+                            editor.render("Content");
+                            var ue = UE.getEditor('Content');
+                            ue.ready(function () {
+                                ue.execCommand('serverparam', {
+                                });
+                            });
+                        });
+
+                        function setUeditor() {
+                            var myEditor = document.getElementById("Content");
+                            myEditor.value = editor.getContent();
+
+                            alert(myEditor.value);
+                        }
+
+
+                        function IsPayChange() {
+                            @*if ($("#@Html.FieldIdFor(m=>m.IsPay)").prop("checked")) {
+                                $(".pay-price").css("display", "table-row");
+                            } else {
+                                $(".pay-price").css("display", "none");
+                            }*@
+                        }
+
+</script>

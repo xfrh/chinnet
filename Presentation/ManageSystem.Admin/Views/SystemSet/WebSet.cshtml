@@ -1,0 +1,345 @@
+﻿@model ManageSystem.Admin.Models.SystemSet.WebSetModel
+
+@{
+    ViewBag.Title = "系统设置";
+    bool showSEO = true;
+    bool showEmail = false;
+    bool showNotice = true;
+}
+
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "系统管理", SecondName = "系统设置", LocationName = this.ViewBag.Title }); }
+}
+
+<div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                </div>
+                <div class="widget-body add-content " style="padding-top: 30px;">
+                    <div class="form-horizontal bv-form">
+
+                        @using (Html.BeginForm("WebSet", "SystemSet", FormMethod.Post, new { id = "form1", enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div>
+                                <div class="widget-main ">
+                                    <div class="tabbable">
+                                        <ul class="nav nav-tabs tabs-flat" id="myTab11" style="font-size: 14px;">
+                                            <li class="active">
+                                                <a data-toggle="tab" href="#SystemDiv">
+                                                    常规设置
+                                                </a>
+                                            </li>
+
+                                            @if (showSEO)
+                                            {
+                                                <li class="">
+                                                    <a data-toggle="tab" href="#SEODiv">
+                                                        SEO设置
+                                                    </a>
+                                                </li>
+                                            }
+
+                                            @if (showEmail)
+                                            {
+                                                <li class="">
+                                                    <a data-toggle="tab" href="#EmailDiv">
+                                                    </a>
+                                                </li>
+                                            }
+
+                                            @if (showNotice)
+                                            {
+                                                <li class="">
+                                                    <a data-toggle="tab" href="#NoticeDiv">
+                                                        通知设置
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                        <div class="tab-content tabs-flat" style="background-color: white; padding: 30px 12px; min-height: 120px;">
+                                            <!-- 系统设置 -->
+                                            <div id="SystemDiv" class="tab-pane active">
+                                                @if (false)
+                                                {
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">网站维护状态</label>
+                                                                <div class="col-lg-10">
+                                                                    <div class="radio" style="float: left; width: 80px">
+                                                                        <label style="padding-left: 0px;">
+                                                                            @Html.RadioButton("WebState", "true", Model.WebState == true, new { @class = "colored-blue" })
+                                                                            <span class="text">开启</span>
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="radio" style="float: left; width: 80px">
+                                                                        <label style="padding-left: 0px;">
+                                                                            @Html.RadioButton("WebState", "false", Model.WebState == false, new { @class = "colored-danger" })
+                                                                            <span class="text">关闭</span>
+                                                                        </label>
+                                                                    </div>
+                                                                    <label class="control-label lable-title">关闭以后前台将无法访问，并提示所输入的维护说明</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">维护说明</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextArea("WebMaintain", Model.WebMaintain, new { @class = "form-control txt", rows = "3", placeholder = "网站维护的具体说明内容，支持html代码" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="  form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">最新消息</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextArea("NewMessage", Model.NewMessage, new { @class = "form-control txt", rows = "3", placeholder = "最新消息显示在全站导航条下方，非常给力的推广位置" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="  form-group has-feedback">
+                                                            <label class="col-lg-2 control-label">网站名称</label>
+                                                            <div class="col-lg-10">
+                                                                @Html.TextBox("WebName", Model.WebName, new { @class = "form-control txt", placeholder = "网站名称" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @if (false)
+                                                {
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="  form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">邮箱地址</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextBox("SystemEmail", Model.SystemEmail, new { @class = "form-control txt", placeholder = "用于接受系统通知的Email地址，比如前台用户留言" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="  form-group has-feedback">
+                                                            <label class="col-lg-2 control-label">版权信息</label>
+                                                            <div class="col-lg-10">
+                                                                @Html.TextArea("Copyright", Model.Copyright, new { @class = "form-control txt", rows = "3", placeholder = "支持HTML代码" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @if (false)
+                                                {
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="  form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">流量统计代码</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextArea("FlowCount", Model.FlowCount, new { @class = "form-control txt", rows = "3", placeholder = "统计网站流量，推荐使用百度统计，国内比较优秀且速度快；还可使用Google统计、CNZZ等" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="  form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">页面头部公共代码</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextArea("HeadPublicJS", Model.HeadPublicJS, new { @class = "form-control txt", rows = "3", placeholder = "会自动出现在页面头部（head区域），可放置广告代码等自定义（css或js）的全局代码块" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class=" form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">页面底部公共代码</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextArea("FootPublicJS", Model.FootPublicJS, new { @class = "form-control txt", rows = "3", placeholder = "同上，但是在全站页面底部出现" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+
+                                            @if (showSEO)
+                                            {
+                                                <!-- SEO 设置 -->
+                                                <div id="SEODiv" class="tab-pane">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="  form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">网站标题</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextBox("SEOTitle", Model.SEOTitle, new { @class = "form-control txt", placeholder = "title标题内容，用于搜索引擎优化" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="  form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">网站关键词</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextBox("SEOKey", Model.SEOKey, new { @class = "form-control txt", placeholder = "站点关键词，用于搜索引擎优化" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="  form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">网站描述</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextArea("SEODescribe", Model.SEODescribe, new { @class = "form-control txt", rows = "3" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            @if (showEmail)
+                                            {
+                                                <!-- 邮件设置 -->
+                                                <div id="EmailDiv" class="tab-pane">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="  form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">发件人名称</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextBox("EmailUserName", Model.EmailUserName, new { @class = "form-control txt", placeholder = "显示发件人的名称" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="  form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">邮件服务器</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextBox("EmailSMTP", Model.EmailSMTP, new { @class = "form-control txt", placeholder = "SMTP地址" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="  form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">邮箱地址</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextBox("EmailAddress", Model.EmailAddress, new { @class = "form-control txt", placeholder = "用于系统发送邮件，比如注册等等系统通知" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="  form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">邮箱密码</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextBox("EmailPassword", "******************************************************", new { @class = "form-control txt", placeholder = "填写上面邮箱地址的登录密码" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="  form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">服务器端口</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextBox("EmailPort", Model.EmailPort, new { @class = "form-control txt", placeholder = "25" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="  form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">测试发送邮件</label>
+                                                                <div class="col-lg-10">
+                                                                    <div class="input-group has-feedback " style="width: 60%;">
+                                                                        <input name="txtTestEmail" type="text" id="txtTestEmail" class="form-control txt" placeholder="接受测试邮件的邮箱地址" />
+                                                                        <span class="input-group-btn">
+                                                                            <a href="javascript:SendTestEmail('@(Url.Action("WebSetSendTestEmail"))');" class="btn btn-default" id="btnAddTag" style="margin-right: 0px; margin-left: 20px;">发送邮件</a>
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="alert alert-success fade in" id="TestEmailResul" style="margin: 10px 0px; width: 60%;">修改设置以后，请选保存再发送测试邮件 </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            @if (showNotice)
+                                            {
+                                                <!-- 通知设置 -->
+                                                <div id="NoticeDiv" class="tab-pane">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">通知邮箱</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextBox("NoticeEmail", Model.NoticeEmail, new { @class = "form-control txt", placeholder = "系统通知邮件 多个邮件请用逗号分隔" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="  form-group has-feedback">
+                                                                <label class="col-lg-2 control-label">通知手机</label>
+                                                                <div class="col-lg-10">
+                                                                    @Html.TextBox("NoticePhone", Model.NoticePhone, new { @class = "form-control txt", placeholder = "系统通知手机 多个手机号请用逗号分隔" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-offset-2 col-lg-10" style="text-align:right">
+                                    <input type="submit" value="保 存" class="btn btn-blue btn-lg" />
+                                </div>
+                            </div>
+                        }
+
+                        <div class="row" style="margin-top: 50px;">
+                            <div class="col-lg-12">
+                                <div class="alert alert-danger fade in">
+                                    <i class="fa-fw fa fa-check"></i>
+                                    <strong>操作提示</strong> 所有的输入框如果没有输入表示不启用功能。
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

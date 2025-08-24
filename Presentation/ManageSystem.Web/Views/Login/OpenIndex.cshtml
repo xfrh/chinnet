@@ -1,0 +1,75 @@
+﻿@using ManageSystem.Framework.MvcCaptcha;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+
+    <title>登录</title>
+    <link href="~/Content/Css/Login/Open.css?v=122" rel="stylesheet" />
+
+</head>
+<body>
+    <section class="aui-content" style="margin: 0px auto; width: 692px; overflow: hidden;">
+        <div class="aui-content-box clearfix" style="margin: 0px; border-style: none; /*margin-top: 40px;*/ width: 100%; /*padding: 10px 0 50px;*/">
+            <div class="aui-content-box-fl" style="display: block;">
+                <div class="aui-form-content">
+                    <div class="aui-form-content-item" style="display: block; margin-top: 10px;">
+                        <div class="aui-form-list">
+                            <input type="text" class="aui-input" name="" id="LoginId" placeholder="请输入手机号/用户名" data-required="required" autocomplete="off">
+                        </div>
+                        <div id="PasswordCtrl" class="aui-form-list">
+                            <input type="text" class="aui-input" id="Password" name="" placeholder="请输入密码" data-required="required" autocomplete="new-password" onfocus="this.type='password'" />
+                        </div>
+                        <div id="cfmPasswordCtrl" style="display: none;">
+                            <div class="aui-form-list">
+                                <input type="text" class="aui-input" id="newPassword" name="newPassword" placeholder="请设置登录密码" data-required="required" autocomplete="new-password" onfocus="this.type='password'" />
+                            </div>
+                            <div class="aui-form-list">
+                                <input type="text" class="aui-input" id="cfmPassword" name="cfmPassword" placeholder="请再次设置登录密码" data-required="required" autocomplete="new-password" onfocus="this.type='password'" />
+                            </div>
+                        </div>
+                        <div class="aui-form-list">
+                            <input type="text" class="aui-input" id="ValidationCode" name="ValidationCode" placeholder="请输入验证码" data-required="required" autocomplete="off" style="padding-right: 60%; z-index: 888;" />
+                            <span style="display: inline-block; position: absolute; top: 5px; right: 2px; z-index: 999;">
+                                @Html.MvcCaptcha(new MvcCaptchaOptions { ValidationInputBoxId = "Captcha", CaptchaImageContainerId = "captchaImage", ReloadLinkText = "" })
+                            </span>
+                        </div>
+                        <div id="FindPasswordCtrl" class="aui-form-pwd clearfix">
+                            <a href="/FindPassword/OpenIndex">忘记密码？</a>
+                        </div>
+                        <div class="aui-form-btn">
+                            @Html.Hidden("HiddenReturnUrl", Request["returnUrl"])
+                            <input id="btnLogin1" type="button" class="aui-btn" value="登 录" onclick="AccountLogin()">
+                            <input id="btnLogin2" type="button" class="aui-btn" value="登 录" onclick="SettingPassword()" style="display: none;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="aui-content-box-fr" style="display: block;">
+                <div class="aui-content-box-text">
+                    <div>  <img src="~/Content/Images/logo_2.png" style="width:100%;   margin-top: 10px; margin-left:-5px;" /></div>
+                    <h3 style="margin-top: 60px;">还没有帐号？</h3>
+                    <a href="/Regist/Index" class="aui-ll-link">立即注册</a>
+                    <h3>欢迎使用CHINET数据云！</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="~/Content/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Content/Scripts/layer-v2.4/layer.js"></script>
+    <script src="~/Content/Scripts/layer-v2.4/helper.js"></script>
+    <script src="~/Content/Scripts/common-validate.js?v=12"></script>
+    <script src="~/Content/Scripts/Login/OpenIndex.js?v=1.0.0"></script>
+</body>
+</html>

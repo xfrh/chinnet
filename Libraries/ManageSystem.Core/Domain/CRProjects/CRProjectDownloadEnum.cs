@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ManageSystem.Core.Domain.CRProjects
+{
+    /// <summary>
+    /// 下载文件类型
+    /// </summary>
+    public enum CRProjectDownloadEnum : byte
+    {
+        /// <summary>
+        /// 原始文件
+        /// </summary>
+        [Description("原始文件")]
+        Original,
+        /// <summary>
+        /// 容错文件
+        /// </summary>
+        [Description("容错文件")]
+        FaultTolerant
+    }
+}

@@ -1,0 +1,43 @@
+﻿
+@model ManageSystem.Admin.Models.MicdataDistribution.ddDocumentModel
+@using ManageSystem.Admin.Extensions;
+@using ManageSystem.Services.Common;
+
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.document_id)
+
+
+    <table class="adminContent">
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.year_id)：</td>
+            <td class="adminData">
+                @Html.DropDownList("year_id", Model.YearList, new { @class = "form-control dropdown" })
+            </td>
+        </tr>
+        <tr  class="cover-image">
+            <td class="adminTitle">@Html.NopLabelFor(m => m.PostFile)：</td>
+            <td class="adminData">
+                <div class="k-widget k-upload k-header k-upload-sync">
+                    <div class="k-button k-upload-button" id="div1">
+                        <input type="file" name="PostFile" data-role="upload" autocomplete="off">
+                        <input type="file" id="PostFile" name="PostFile" data-role="upload" autocomplete="off" onchange="change()"><span>选择...</span>
+                    </div>
+                    <a target="_blank" href="/Content/Files/MIC分布查询数据模板.xlsx"><i class="fa fa-download" aria-hidden="true"></i>&ensp;MIC分布查询数据模板.xlsx</a>
+                    <ul class="k-upload-files k-reset hidden" id="ul1">
+                        <li class="k-file">
+                            <span class="k-progress" style="width: 100%;"></span>
+                            <span class="k-icon k-i-xlsx"></span>
+                            <span class="k-filename" id="span1"></span>
+                            <strong class="k-upload-status" onclick="clicks()">
+                                <button type="button" class="k-button k-button-bare k-upload-action" onclick="clicks()"><span class="k-icon k-i-close k-delete" title="移除" onclick="clicks()"></span></button>
+                            </strong>
+                        </li>
+                    </ul>
+                </div>
+                @*@Html.ValidationMessageFor(m => m.PostFile)*@
+
+            </td>
+        </tr>              
+    </table>
+

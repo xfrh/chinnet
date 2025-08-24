@@ -1,0 +1,119 @@
+﻿@{
+    Layout = "~/Areas/Shanghai/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "监测网介绍";
+}
+
+<link href="~/Content/Css/Medicine.css" rel="stylesheet" />
+<link href="~/Content/Css/Team/Index.css?v=1233" rel="stylesheet" />
+<style>
+    .intro-p {
+        text-indent: 32px;
+    }
+</style>
+<div class="mbx">
+    <p>当前位置：首页 &gt; 监测网介绍 </p>
+</div>
+
+<div class="doct_center">
+    <div class="doct_center_r">
+        <div id="divIncomeIntegral" class="page-btn-main " style="">
+            <h3 style="margin-top: 20px; margin-bottom: 25px;">“上海市细菌真菌耐药监测网”简介</h3>
+            <p class="intro-p" style="height: auto;">
+                细菌耐药性是目前全球关注的热点问题。为控制细菌耐药性的发展，2005年，卫生部、国家中医药管理局和总后卫生部联合建立了全国抗菌药物临床应用监测网和细菌耐药监测网。2008年，上海市正式成立“上海市细菌耐药监测网”，经上海市卫生局委托，复旦大学附属华山医院抗生素研究所具体负责“上海市细菌耐药监测网”的日常运行。为进一步规范和推动本市细菌真菌耐药监测工作。根据《关于进一步做好全国合理用药监测、上海市抗菌药物临床应用监测网和细菌耐药监测网相关工作的通知》（沪卫医政〔2009〕25号）、《国家卫生计生委办公厅关于提高二级以上综合医院细菌真菌感染诊疗能力的通知》（国卫办医函〔2016〕1281号）等文件精神，在上海市“细菌耐药监测网”现有工作基础上，增加真菌耐药监测的工作职责，于2017年5月更名为“上海市细菌真菌耐药监测网”，下设细菌耐药监测工作组和真菌耐药监测工作组，分别由华山医院抗生素研究所和同济大学附属东方医院具体负责相应工作组监测网络的日常运行，这是我国第一个同时覆盖细菌和真菌耐药监测工作的省级监测网络。
+            </p>
+            <p class="intro-p" style="height: auto;">
+                复旦大学附属华山医院抗生素研究所是我国最早开展细菌耐药性监测工作的单位之一。1988年，在世界卫生组织（WHO）细菌耐药性监测专题组的支持下，我国卫生部组建由中国药品生物制品检定所和华山医院抗生素研究所负责的北京和上海地区细菌耐药性监测网。经过30多年的工作经验积累，华山医院抗生素研究所已形成一套较为成熟、可靠的细菌耐药性监测工作体系及合理的人员团队建设。
+            </p>
+            <p class="intro-p" style="height: auto;">
+                监测网成员单位组成以上海市具有代表性的综合性医院为主，监测网网点覆盖不同规模和不同类型的医院，包括大型综合性医院(三级)和中型综合性医院(二级)及儿科专科医院，网点分布涵盖中心城区医院及周边地区医院。现有成员单位58所。
+            </p>
+            <p class="intro-p" style="height: auto;">
+                入网成员基本条件：（1）三级、二级综合性医院或专科医院；（2）该医院已建立较完善的临床微生物实验室，已开展细菌分离、培养、鉴定及药物敏感性试验常规工作多年，参加外部质控并获合格证书；（3）该网点开展的细菌药敏试验符合CLSI文件的各项要求。
+            </p>
+            <p class="intro-p" style="height: auto;">
+                监测网设专家委员会。专家委员会主要由资深的临床微生物学专家和临床医学专家组成，负责监测网的技术指导和质量监督，具体如下：（1）负责组建和扩建上海市细菌耐药监测网；（2）负责监测网工作的技术指导和质量控制；（3）负责监测网工作的技术培训和考核；（4）跟踪考察耐药监测网新成员的常规工作；（5）对新成员的细菌耐药性监测工作及能否纳入监测网作出决定；（6）解决和答疑监测工作中出现的问题；（7）对“上海市细菌耐药监测网”的工作条例提出修改意见。
+            </p>
+
+
+            <h3 style="margin-bottom: 30px;">上海市细菌真菌耐药监测网专家委员会成员名单（排名不分先后）</h3>
+            <div class="detail" style="margin-bottom: 15px;">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td style="font-weight:bold;" class="l1"> 医院 </td>
+                            <td style="font-weight:bold;"> 负责人 </td>
+                            <td style="font-weight:bold;" class="l1"> 医院 </td>
+                            <td style="font-weight:bold;"> 负责人 </td>
+                        </tr>
+                    </tbody>
+                    <tbody id="tbo">
+                    </tbody>
+                </table>
+            </div>
+            <p style="margin-bottom: 40px;"><span class="sp1">秘书：</span>郭&emsp;燕</p>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(function () {
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "/Shanghai/Data/GetTeamlist",
+            data: {},
+            dataType: "json",
+            success: function (json) {
+                var html = ""
+                for (var i = 0; i < json.length; i++) {
+                    if (i == 0) {
+                        html = "<tr>";
+                    }
+                    else if (i % 2 == 0 && i >= 2) {
+                        html += "</tr><tr>";
+                    }
+                    if (json[i].Displayimages == false) {
+                        html += "<td class='l1'>" + json[i].Title + "" +
+                            "<div class='modal fade' id=" + json[i].Title + " tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>" +
+                            "<div class='modal-dialog' style='width:880px;'>" +
+                            "<div class='modal-content'>" +
+                            "<div class='modal-body' align='center'><img src=" + json[i].Image + " class='img - responsive'></div>" +
+                            "<div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>关闭</button></div>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>" +
+                            "</td>" +
+                            "<td>" + json[i].People + "</td>";
+                    } else {
+                        html += "<td class='l1'>" + json[i].Title + " <a href = '#' class='label label-info label-outline' style='background:#aeddfc;' data-toggle='modal' data-target='#" + json[i].Title + "'>简介</a>" +
+                            "<div class='modal fade' id=" + json[i].Title + " tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>" +
+                            "<div class='modal-dialog' style='width:880px;'>" +
+                            "<div class='modal-content'>" +
+                            "<div class='modal-body' align='center'><img src=" + json[i].Image + " class='img - responsive'></div>" +
+                            "<div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>关闭</button></div>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>" +
+                            "</td>" +
+                            "<td>" + json[i].People + "</td>";
+
+                    }
+
+
+                }
+                if (i > 0 && i % 2 != 0) {
+                    $("#tbo").html(html + "<td></td><td></td></tr>");
+                }
+                else if (i > 0) {
+                    $("#tbo").html(html + "</tr>")
+                } else {
+                    $("#tbo").html(html)
+                }
+            }
+        });
+
+    })
+</script>
+
+

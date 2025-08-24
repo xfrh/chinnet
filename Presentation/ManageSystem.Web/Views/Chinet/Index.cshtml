@@ -1,0 +1,121 @@
+﻿@using ManageSystem.Web.Models.Datas
+@model List<HeatmapDTO>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "热图";
+}
+
+<link href="~/Content/Css/Datas/GermYear.css?v=1.6" rel="stylesheet" />
+<style>
+    li.active a,
+    li.active a:focus,
+    li.active a:link,
+    li.active a:visited,
+    li.active a:hover,
+    li.active a:active {
+        color: red !important;
+        text-decoration: none;
+    }
+
+    #pageContent li a,
+    #pageContent li a:focus,
+    #pageContent li a:link,
+    #pageContent li a:visited,
+    #pageContent li a:hover,
+    #pageContent li a:active {
+        color: #787878;
+        text-decoration: none;
+    }
+</style>
+
+<div style="margin: 10px 0px;
+        display: none
+">
+    <img src="~/Content/Images/home_banner_jiaoshijie.png" style=" width: 1200px; height: auto;" />
+</div>
+
+<div style="overflow:hidden; position: relative;" id="pageContent">
+    <a class="btn helps btn-large btn-success-help" href="javascript:void(0);" onclick="javascript:introJs().setOptions({'prevLabel':'&larr; 上一步','nextLabel':'下一步 &rarr;','skipLabel':'跳过','doneLabel':'完成'}).start();" style="position: absolute;">帮助</a>
+    <div class="data-home-box" style="margin-bottom:5px; margin-top: 15px;">
+        <ul data-step="1" data-intro="<p style='font-weight:bold;'>图表类型：</p>您可以选择三种不同类型的图表：热图、柱状图、趋势图。" data-position='bottom' id="change_chart" class="clickable clearfix greybuttons">
+            <li class="" data-name="柱状图" id="change_chart_trend" onclick="location.href='/Data/AntibioticDrugFast'">柱状图</li>
+            <li class="" data-name="趋势图" id="change_chart_chart" onclick="location.href='/Data/GermYear'">趋势图</li>
+            <li class="active" data-name="热图" id="change_chart_chart" style="margin-left: 0px;" onclick="location.href='/Chinet'">热图</li>
+            <li class="" data-name="关于CHINET" id="change_chart_map" onclick="location.href='/Data/Map'">关于CHINET</li>
+        </ul>
+    </div>
+    <div id="dataError" class="error-box" style="display:none;">
+        <img src="~/Content/Images/data-error.png" />
+        <p class="error-message">请选择数据段</p>
+    </div>
+
+    <div data-step="2" data-intro="<p style='font-weight:bold;'>图表：</p>在这张地图上可以看到中国区域最新的耐药率情况。" data-position='bottom' style="width:100%;display:block;">
+        <div id="main2" style="width: 1200px; margin-bottom: 0px; height: auto; text-align: center; overflow: hidden; ">
+            <div id="mainChart" style="min-height: 700px;"></div>
+        </div>
+    </div>
+
+    <div id="sjd-container" style="width: 100%; display: block; overflow: hidden;  ">
+        @foreach (HeatmapDTO item in Model)
+        {
+            if (Model.IndexOf(item) == 0)
+            {
+                <div data-step="3"
+                     data-intro="<p style='font-weight:bold;'>数据类型：</p>可查看各省市碳青霉烯类对不同细菌的检出率。"
+                     data-position='top' class="index-bt">
+                    <h2 style=" padding: 5px 0px;    display: inline-block; ">
+                        <i></i>@item.Name
+                        <span class="item-title-3" style="margin-left:100px;    cursor: pointer;" onclick="ClearSelectType()"></span>
+                        <img data-step="4"
+                             data-intro="<p style='font-weight:bold;'>操作：</p>击箭头可以隐藏该部分数据选项，更加有利于阅读，再次点击则可以显示该部分数据选项。"
+                             data-position='top'
+                             class="germ-btn-image germ-btn-image2"
+                             src="~/Content/Images/jiantou-xia.png"
+                             style="height: 13px; width: 13px; cursor: pointer;"
+                             draggable="false"
+                             alt=""
+                             onclick="ShowGermContent('2')">
+                    </h2>
+                </div>
+                <ul data-step="5"
+                    data-intro="<p style='font-weight:bold;'>数据段：</p>可以选择不同的年份查看对应的耐药情况。"
+                    data-position='top'
+                    class="fenlei">
+                    @foreach (HeatmapItemDTO dataItem in item.DataItems)
+                    {
+                        <li class="germ-li year-select" id="li@(dataItem.Id)">
+                            <a href="#" data-default="@(dataItem.Default ? 1 : 0)" onclick="renderChinaMap('@dataItem.Id'); return false;">@dataItem.Name</a>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <div class="index-bt">
+                    <h2 style=" padding: 5px 0px;    display: inline-block; ">
+                        <i></i>@item.Name
+                        <span class="item-title-3" style="margin-left:100px;    cursor: pointer;" onclick="ClearSelectType()"></span>
+                        <img class="germ-btn-image germ-btn-image2" src="~/Content/Images/jiantou-xia.png" style="height: 13px; width: 13px; cursor: pointer;" draggable="false" alt="" onclick="ShowGermContent('2')" />
+                    </h2>
+                </div>
+                <ul class="fenlei">
+                    @foreach (HeatmapItemDTO dataItem in item.DataItems)
+                    {
+                        <li class="germ-li year-select" id="li@(dataItem.Id)">
+                            <a href="#" data-default="@(dataItem.Default ? 1 : 0)" onclick="renderChinaMap('@dataItem.Id'); return false;">@dataItem.Name</a>
+                        </li>
+                    }
+                </ul>
+            }
+        }
+    </div>
+</div>
+
+<input type="hidden" id="TypeValue" data-remark="数据段名称" />
+<input type="hidden" id="returnUrl" value="@this.Request.QueryString["returnUrl"]" />
+<input type="hidden" id="isHaveLogin" value="@this.Request.QueryString["type"]" />
+
+<script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+<script src="~/Content/Scripts/Echarts/china.js"></script>
+<script src="~/Content/Scripts/Echarts/bmap.js"></script>
+<script src="~/Content/Scripts/Home/Index.js?v=@DateTime.Now.Ticks"></script>

@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "MapLogin";
+    Layout = "~/Views/Shared/_LayoutMap.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div  style="position: relative">
+        <img src="~/Content/Images/sa_img.png" alt="Smiley face"  style="margin-left:250px">
+    </div>
+</body>
+</html>
+
+<script>
+    var satelliteCity = sessionStorage.getItem('satelliteCity');
+    var stateObject = {};
+    var title = "卫星网建设中"
+    var newUrl = "/" + satelliteCity + "/SatelliteBuilding";  //https://www.javaxxbj.com后面的那部分
+    history.pushState(stateObject, title, newUrl);  //进行修改
+</script>

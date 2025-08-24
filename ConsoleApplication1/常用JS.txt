@@ -1,0 +1,31 @@
+
+-------------------------------------------- 常规的发送Axjx请求和Json返回 -------------------------------------------- 
+
+ //删除单个文件
+    function DeleteImageItem(imgId)
+    {
+        if(imgId =="") return;
+
+        $.ajax({
+            url: "/Products/ProductDeleteImage",
+            type: "Post",
+            dataType: "json",
+            data: { Id: @Model.Id,imageId:imgId },
+            success: function (json) {
+                if(json ==null || json == "")
+                {
+                    alert("操作失败，请刷新重试！");
+                    return;
+                }
+
+                if(json.status =="true")
+                {
+                    // 成功
+                }else{
+                    alert(json.message);
+                }
+            }
+        });
+    }
+
+---------------------------------------------------------------------------------------- 

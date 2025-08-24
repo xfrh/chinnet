@@ -1,0 +1,69 @@
+﻿
+@model ManageSystem.Admin.Models.MicdataDistribution.ddGermModel
+@using ManageSystem.Admin.Extensions;
+@using ManageSystem.Services.Common;
+
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.germ_id)
+
+
+    <table class="adminContent">
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.title)：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.title)
+                @Html.ValidationMessageFor(m => m.title)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.title_en)：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.title_en)
+                @Html.ValidationMessageFor(m => m.title_en)
+            </td>
+        </tr>
+
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.code)：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.code)
+                @Html.ValidationMessageFor(m => m.code)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.sortid)：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.sortid)
+                @Html.ValidationMessageFor(m => m.sortid)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.isvalid)：</td>
+            <td class="adminData">
+                @Html.CheckBoxFor(m => m.isvalid, new { @class = "n-chk" })
+                @Html.ValidationMessageFor(m => m.isvalid)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.isdefault)：</td>
+            <td class="adminData">
+                @Html.CheckBoxFor(m => m.isdefault, new { @class = "n-chk" })
+                @Html.ValidationMessageFor(m => m.isdefault)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.mark)：</td>
+            <td class="adminData">
+                @Html.CheckBoxFor(m => m.mark, new { @class = "n-chk" })
+                @Html.ValidationMessageFor(m => m.mark)
+            </td>
+        </tr>
+        @*<tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.created_by)：</td>
+            <td class="adminData">
+                @Html.HiddenFor(m => m.created_by)
+                @Model.CreateName
+            </td>
+        </tr>*@
+    </table>

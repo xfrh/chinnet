@@ -1,0 +1,102 @@
+﻿@using ManageSystem.Web.Models.Project;
+@using Webdiyer.WebControls.Mvc;
+@using ManageSystem.Services.Articles;
+@using ManageSystem.Core.Domain.CRProjects;
+
+@model CenterProjectModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "CR复敏管理 ";
+}
+
+@section HeadSection{
+    <link href="~/Content/Css/Center.css" rel="stylesheet" />
+}
+
+    <div class="mbx">    <p>当前位置：首页 &gt; CR项目 </p></div>
+<div class="user_center">
+    <div class="user_center_r" style="width: 100%;padding-right: 10px;padding-left: 10px;">
+
+        <div class="user_center_r_a">
+            <input type="button" onclick="location.href='/CRProject/Add'" value="添加" style="margin-right:10px;">
+        </div>
+        <div class="user_center_r_b">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <thead>
+                    <tr style="text-align:center;">
+                        <th width="10%" style="text-align:center;">添加时间</th>
+                        <th width="15%" style="text-align:center;">医院名称</th>
+                        <th width="6%" style="text-align:center;">医院等级</th>
+                        <th width="6%" style="text-align:center;">微生物负责人</th>
+                        <th width="6%" style="text-align:center;">联系电话</th>
+                        <th width="5%" style="text-align:center;">上传文件</th>
+                        <th width="8%" style="text-align:center;">邮件确认</th>
+                        <th width="8%" style="text-align:center;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model != null && Model.PageList != null && Model.PageList.Any())
+                        {
+                            foreach (var item in Model.PageList)
+                            {
+                                <tr>
+                                    <td>@item.InsertTime.ToString("yyyy-MM-dd HH:mm")</td>
+                                    <td>@item.HospitalName</td>
+                                    <td>@item.HospitalGrade</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Phone</td>
+                                    <td>
+                                        @if (item.UploadFilePath != null && item.UploadFilePath != "")
+                                        {
+                                            <a href="@item.UploadFilePath">点击下载文件</a> <br />
+                                        }
+                                        else
+                                        {
+                                            <span>未上传</span>
+                                        }
+
+                                    </td>
+                                    <td>
+                                        @if (item.EmailStatus == (int)CRProjectEnum.Effective)
+                                        {
+                                            <span>未发送</span>
+                                        }
+                                        else if (item.EmailStatus == (int)CRProjectEnum.Invalid)
+                                        {
+                                            <span>已发送</span>
+                                        }
+                                        else if (item.EmailStatus == (int)CRProjectEnum.Wait)
+                                        {
+                                            <span>已确认</span>
+                                        }
+
+                                    </td>
+                                    <td>
+                                        <a class='td-aclass' href='@Url.Action("Detail", "CRProject")/@item.Id' target='_blank'>查看</a>&nbsp;
+                                        @if (item.EmailStatus == (int)CRProjectEnum.Effective)
+                                        {
+                                            <a class='td-aclass' href="@Url.Action("Edit", "CRProject")/@item.Id" target='_blank'>修改</a>
+                                            <a class='td-aclass' href="javascript:Delete('@item.Id.ToString()') " target='_blank'>删除</a>
+                                        }
+                                        else if (item.EmailStatus == (int)CRProjectEnum.Wait)
+                                        {
+                                            <a class='td-aclass' href="javascript:Import('@item.Id.ToString()') " target='_blank'>上传数据</a>
+                                        }
+
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+            </table>
+            <div id="page-box" class="page">
+                @Html.Pager(Model.PageList, MvcPagerExtensions.GetPagerOptions())
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="ProjectId" value="0" />
+<script src="~/Content/Scripts/CRProject/Index.js"></script>

@@ -1,0 +1,66 @@
+﻿.doct_center_r {
+    border-left-style: none;
+    padding-bottom: 0px;
+    min-height: 930px;
+}
+
+#divIncomeIntegral {
+    text-align: center;
+    margin: 10px 0px;
+    margin-top: 30px;
+    width: 100%;
+    margin: 0px auto;
+}
+
+    #divIncomeIntegral h3 {
+        font-weight: bold;
+        font-size: 20px;
+        margin: 20px;
+        margin-bottom: 50px;
+        margin-top: 50px;
+    }
+
+    #divIncomeIntegral p {
+        height: 30px;
+        line-height: 30px;
+        text-align: left;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    #divIncomeIntegral .sp1 {
+        font-weight: bold;
+    }
+
+.detail {
+    width: 100%;
+    height: auto;
+    margin: 20px 0px;
+    margin-bottom: 40px;
+}
+
+    .detail .title1 {
+        font-weight: bold;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .detail table {
+        border-top: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+        .detail table td {
+            border-bottom: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            height: 30px;
+            line-height: 30px;
+            padding: 5px 10px;
+            font-size:16px;
+        }
+
+        .detail table .l1 {
+            text-align: left;
+        }

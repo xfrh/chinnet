@@ -1,0 +1,75 @@
+﻿
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "医学中心";
+}
+
+
+    <div class="mbx">
+        <p>当前位置：首页 &gt; 医学中心 </p>
+    </div>
+    <div class="doct_center">
+        <div class="doct_select">
+            <li>
+                <select>
+                    <option>Select Orange</option>
+                </select>
+                <select>
+                    <option>Select Orange</option>
+                </select>
+                <select>
+                    <option>Select Orange</option>
+                </select>
+                <select>
+                    <option>Select Orange</option>
+                </select>
+                <select>
+                    <option>Select Orange</option>
+                </select>
+                <select>
+                    <option>Select Orange</option>
+                </select>
+            </li>
+            <li><input type="button" value="清空"> <input type="button" value="搜索" onclick="window.location.href='@Url.Action("Data1","Medical")'"></li>
+            <li>
+                <a href="javascript:;">tanle</a>
+                <a href="javascript:;">tanle</a>
+                <a href="javascript:;">tanle</a>
+                <a href="javascript:;">tanle</a>
+            </li>
+        </div>
+        <div class="doct_select_table">
+            <table width="100%" border="0" cellspacing="1" cellpadding="0" align="center">
+                <tbody>
+                    <tr>
+                        <td colspan="8">MIC </td>
+                    </tr>
+                    <tr>
+                        <td>Antimicrobial</td>
+                        <td>Code</td>
+                        <td>N=</td>
+                        <td>Suscep.%</td>
+                        <td>Int.%</td>
+                        <td>Res.%</td>
+                        <td>Susceptible</td>
+                        <td>Resistant</td>
+                    </tr>
+                    <tr>
+                        <td>Antimicrobial</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>2</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>The clinical</p>
+            <p>FDA-apptoved break....</p>
+            <p>The clinical FDA-apptoved break....</p>
+            <p>Organisms:<i>Becteroides</i>....</p>
+        </div>
+    </div>

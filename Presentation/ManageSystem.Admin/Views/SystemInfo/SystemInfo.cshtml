@@ -1,0 +1,158 @@
+﻿
+@model ManageSystem.Admin.Models.SystemInfo.SystemInfoModel
+
+@{
+    ViewBag.Title = "版本信息";
+}
+
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "系统信息", SecondName = "系统信息", LocationName = "版本信息" }); }
+}
+
+
+<script type="text/javascript">
+    function toggleLoadedAssemblies() {
+        $('#pnlLoadedAssemblies').toggle();
+        if ($('#pnlLoadedAssemblies').css('display') == 'none') {
+            $('#loadedAssembliesShowHide').html('显示');
+        }
+        else {
+            $('#loadedAssembliesShowHide').html('隐藏');
+        }
+    }
+
+    function toggleLoadedServerVariables() {
+        $('#pnlServerVariables').toggle();
+        if ($('#pnlServerVariables').css('display') == 'none') {
+            $('#serverVariablesShowHide').html('显示');
+        }
+        else {
+            $('#serverVariablesShowHide').html('隐藏');
+        }
+    }
+</script>
+
+<div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                </div>
+
+                <div class="widget-body " id="BaseDiv" runat="server">
+                    <div class="options add-page-options">
+                    </div>
+                    <div class="add-content ">
+                        <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                            <table class="adminContent">
+                                <tr>
+                                    <td class="adminTitle" style=" width:25%;">
+                                        @Html.NopLabelFor(model => model.NopVersion):
+                                    </td>
+                                    <td class="adminData" >
+                                        @Html.DisplayFor(model => model.NopVersion)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">
+                                        @Html.NopLabelFor(model => model.OperatingSystem):
+                                    </td>
+                                    <td class="adminData">
+                                        @Html.DisplayFor(model => model.OperatingSystem)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">
+                                        @Html.NopLabelFor(model => model.AspNetInfo):
+                                    </td>
+                                    <td class="adminData">
+                                        @Html.DisplayFor(model => model.AspNetInfo)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">
+                                        @Html.NopLabelFor(model => model.IsFullTrust):
+                                    </td>
+                                    <td class="adminData">
+                                        @Html.DisplayFor(model => model.IsFullTrust)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">
+                                        @Html.NopLabelFor(model => model.ServerTimeZone):
+                                    </td>
+                                    <td class="adminData">
+                                        @Html.DisplayFor(model => model.ServerTimeZone)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">
+                                        @Html.NopLabelFor(model => model.ServerLocalTime):
+                                    </td>
+                                    <td class="adminData">
+                                        @Model.ServerLocalTime.ToString("F")
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">
+                                        @Html.NopLabelFor(model => model.UtcTime):
+                                    </td>
+                                    <td class="adminData">
+                                        @Model.UtcTime.ToString("F")
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">
+                                        @Html.NopLabelFor(model => model.HttpHost):
+                                    </td>
+                                    <td class="adminData">
+                                        @Model.HttpHost
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">
+                                        @Html.NopLabelFor(model => model.ServerVariables):
+                                    </td>
+                                    <td class="adminData">
+                                        <a id="serverVariablesShowHide" href="javascript:toggleLoadedServerVariables();">显示</a>
+                                        <div style="display: none;white-space:nowrap;  white-space:normal;  word-break : break-all; word-wrap: break-word;" id="pnlServerVariables">
+                                     
+                                                @foreach (var serverVariable in Model.ServerVariables)
+                                                {
+                                                        @serverVariable.Name<text>:</text> @serverVariable.Value
+                                               <br/>
+                                                }
+                                            </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="adminTitle">
+                                        @Html.NopLabelFor(model => model.LoadedAssemblies):
+                                    </td>
+                                    <td class="adminData">
+                                        <a id="loadedAssembliesShowHide" href="javascript:toggleLoadedAssemblies();">显示</a>
+                                            <div style="display: none;white-space:nowrap;  white-space:normal;  word-break : break-all; word-wrap: break-word;" id="pnlLoadedAssemblies">
+                                                @foreach (var assembly in Model.LoadedAssemblies)
+                                                {
+                                                    @assembly.FullName
+                                                    if (!String.IsNullOrEmpty(assembly.Location))
+                                                    {
+                                                        <br />
+                                                        <em>@assembly.Location</em>
+                                                    }
+                                                    <br />
+                                                }
+                                            </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

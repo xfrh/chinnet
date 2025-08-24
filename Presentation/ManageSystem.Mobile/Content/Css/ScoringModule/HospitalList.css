@@ -1,0 +1,120 @@
+﻿.DN-img {
+    width: 1.133rem;
+}
+
+.header {
+    width: 100%;
+    height: 40px;
+    line-height: 45px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 999;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+}
+
+.middle {
+    width: auto;
+    background-color: #f9f9f9;
+}
+
+.m-r8 {
+    margin-right: 8px;
+}
+
+.btn-download {
+    display: inline-block;
+    border-radius: 4px;
+    background-image: url('/Content/Images/icon-download.png');
+    background-repeat: no-repeat;
+    position: relative;
+    padding: 0.6rem;
+    background-position: center;
+    background-size: 0.75rem;
+    background-color: #3c82c0;
+}
+
+a.btn-download,
+a.btn-download:link,
+a.btn-download:visited,
+a.btn-download:hover,
+a.btn-download:active {
+    display: inline-block !important;
+    border-radius: 4px;
+    background-image: url('/Content/Images/icon-download.png');
+    background-repeat: no-repeat;
+    position: relative;
+    padding: 0.6rem !important;
+    background-position: center !important;
+    background-size: 0.75rem !important;
+    background-color: #3c82c0;
+}
+
+.bg-color-white {
+    background-color: white;
+}
+
+.margin-b-15px {
+    margin-bottom: 15px;
+}
+
+.margin-t-15px {
+    margin-top: 15px;
+}
+
+a.a-block {
+    display: block;
+}
+
+.line-height-1dot5 {
+    line-height: 1.5;
+}
+
+.status {
+    color: #6ac7dc;
+    border: 1px solid #6ac7dc;
+    border-radius: 0.1rem;
+    font-size: 0.35rem;
+    padding: 0.1rem 0.2rem 0.125rem;
+}
+
+.title {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-right: 0.25rem;
+}
+
+    .title:before,
+    .title::before {
+        content: '';
+        display: block;
+        width: 0.125rem;
+        height: 0.5rem;
+        background-color: rgba(38, 174, 204, 1);
+        margin-right: 0.15rem;
+        -webkit-box-flex: 0;
+        -webkit-flex: none;
+        -moz-box-flex: 0;
+        -ms-flex: none;
+        flex: none;
+    }
+
+.weui-loadmore_line .weui-loadmore__tips {
+    background-color: #f9f9f9;
+}
+
+.show-score {
+    text-align: right;
+    font-weight: bold;
+    color: #f00;
+    font-size: 0.42rem;
+}

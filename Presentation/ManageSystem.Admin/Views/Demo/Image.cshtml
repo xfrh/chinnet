@@ -1,0 +1,51 @@
+﻿@model  ManageSystem.Admin.Models.Demo.ProductPictureModel
+
+@{
+    //page title
+    ViewBag.Title = "添加系统日志";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "系统维护", SecondName = "系统日志", LocationName = "添加系统日志" }); }
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="page-body">
+        <div class="row add-page">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget ">
+                    <div class="widget-header add-page-titlebox ">
+                        <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                    </div>
+                    <div class="widget-body " id="BaseDiv" runat="server">
+                        <div class="options add-page-options">
+                            <input type="submit" name="save" class="btn btn-blue " value="保存" />
+                        </div>
+                        <div class="add-content ">
+                            <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+
+                                <table class="adminContent">
+                                    <tr>
+                                        <td class="adminTitle">
+                                            图片：
+                                        </td>
+                                        <td class="adminData">
+                                            @Html.EditorFor(model => model.PictureId)
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+

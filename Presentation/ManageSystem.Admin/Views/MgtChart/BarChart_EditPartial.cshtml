@@ -1,0 +1,306 @@
+﻿@using ManageSystem.Core.Utility;
+@using ManageSystem.Core.Extensions;
+@using ManageSystem.Admin.Extensions;
+@using ManageSystem.Core.Domain.Chart;
+@using ManageSystem.Admin.Models.Chart;
+
+@model ManageSystem.Admin.Models.Chart.BarChartModel
+
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.DataSegmentId)
+@Html.HiddenFor(model => model.DataItemType)
+
+<style>
+    .adminData {
+        width: 300px;
+        padding-bottom: 15px;
+    }
+</style>
+<div style="width:20%;float:left">
+    <table>
+        <tr>
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.DataSegmentId)：
+                @Html.DropDownListFor(m => m.DataSegmentId, Model.DropDataSegment, new { data_val_number = "请选择所属数据段", data_val_range_min = "1", data_val_range = "请选择所属数据段", @readonly = "readonly", disabled = "disabled", style = "background: transparent;" })
+                @Html.ValidationMessageFor(m => m.DataSegmentId)
+            </td>
+            <td colspan="2">&emsp;</td>
+        </tr>
+        <tr>
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.Name)：
+                @Html.EditorFor(m => m.Name, new { htmlAttributes = new { placeholder = "请输入报表名称" } })
+                @Html.ValidationMessageFor(m => m.Name)
+                <a class="btn-link" style="text-decoration: none;" data-toggle="modal" data-target="#modal_title_toptip">什么是报表名称、报表标题、报表副标题？</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.Title)：
+                @Html.EditorFor(m => m.Title, new { htmlAttributes = new { placeholder = "请输入报表标题" } })
+                @Html.ValidationMessageFor(m => m.Title)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.SubTitle)：
+                @Html.EditorFor(m => m.SubTitle, new { htmlAttributes = new { placeholder = "请输入报表副标题" } })
+                @Html.ValidationMessageFor(m => m.SubTitle)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.Sort)：
+                @Html.EditorFor(m => m.Sort, new { htmlAttributes = new { placeholder = "排序必须大于等于1，且值越小越靠前", data_val_number = "排序必须大于等于1，且值越小越靠前", data_val_range_min = "1", data_val_range = "排序必须大于等于1，且值越小越靠前" } })
+                @Html.ValidationMessageFor(m => m.Sort)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.Display)：
+                @Html.DropDownListFor(m => m.Display, Model.DropDisplay)
+                @Html.ValidationMessageFor(m => m.Display)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.Unit)：
+                @Html.EditorFor(m => m.Unit, new { htmlAttributes = new { placeholder = "请输入数值单位", data_val = "true", data_val_required = "数值单位不能为空，如：%" } })
+                @Html.ValidationMessageFor(m => m.Unit)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.MobileDisplayScale)：
+                @Html.EditorFor(m => m.MobileDisplayScale, new { htmlAttributes = new { placeholder = "请输入显示比例，如：80", data_val_range_min = "1", data_val_range_max = "100", data_val_range = "显示比例应该在1-100之间" } })
+                @Html.ValidationMessageFor(m => m.MobileDisplayScale)
+                <span style="display: block; width: 100%; line-height: 20px; color: #ababab;">
+                    如果报表太长移动端会显示部分数据项<br />
+                    100表示全部显示，80表示显示80%的
+                </span>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="widget flat" style="width:80%;float:right">
+    <div class="widget-body">
+        <div class="widget-main">
+            <div class="tabbable">
+                @if (Model.DataItemType == ChartDataItemType.SingleData)
+                {
+                    ChartTypeEnum _chartTypeEnum = Model.ItemModel.GroupBy(r => r.ChartType).Select(r => r.Key).First();
+                    string _barColor = Model.ItemModel.GroupBy(r => r.BarColor).Select(r => r.Key).First();
+
+                    <ul class="nav nav-tabs tabs-flat" id="myTab11">
+                        <li class="active">
+                            <a data-toggle="tab" data-dataitemtype="@((byte)ManageSystem.Core.Domain.Chart.ChartDataItemType.SingleData)" href="#single_container">展示一：单数据</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content tabs-flat">
+                        <!-- 单数据 -->
+                        <div id="single_container" class="tab-pane active">
+                            <div class="flex flex-vertical-center">
+                                <label class="ChartTypeLabel" for="ChartType">报表类型：</label>
+                                <select id="ChartType" name="ChartType" class="">
+                                    <option value="@((byte)ChartTypeEnum.Bar)" @(_chartTypeEnum == ChartTypeEnum.Bar ? "selected=selected" : "")>@(EnumExtension.GetDescription(ChartTypeEnum.Bar))</option>
+                                    <option value="@((byte)ChartTypeEnum.Line)" @(_chartTypeEnum == ChartTypeEnum.Line ? "selected=selected" : "")>@(EnumExtension.GetDescription(ChartTypeEnum.Line))</option>
+                                </select>
+                                <label class="BarColorLabel" for="BarColor">颜色：</label>
+                                <input id="BarColor" name="BarColor" type="color" value="@_barColor" />
+                            </div>
+                            <div class="item-container">
+                                <div class="flex flex-vertical-center item-header">
+                                    <div class="flex-1">
+                                        <span class="item-active">报表数据项</span>
+                                    </div>
+                                    <div class="">
+                                        <button class="btn btn-primary btn-excel" type="button" data-toggle="modal" data-target="#singleExcelModal">Excel导入数据</button>
+                                    </div>
+                                </div>
+                                <table id="single_datatable" class="table table-bordered item-table">
+                                    <thead>
+                                        <tr>
+                                            <th>数据项名称</th>
+                                            <th class="text-center" style="width: 15%;">数值</th>
+                                            <th class="text-center" style="width: 15%;">是否显示</th>
+                                            <th class="text-center" style="width: 15%;">显示顺序</th>
+                                            <th class="text-center" style="width: 20%;">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="single_table_tbody">
+                                        @{
+                                            int rowIndex = 0;
+                                            foreach (var item in Model.ItemModel)
+                                            {
+                                                string rowId = @Guid.NewGuid().ToString("N");
+                                                <tr id="r@(rowId)">
+                                                    <td>
+                                                        <input id="n@(Guid.NewGuid().ToString("N"))" name="ItemModel[@rowIndex].Name" value="@item.Name" data-val="true" data-val-required="请输入数据项名称" data-val-length-min="2" data-val-length-max="20" data-val-length="数据项名称在2-20个字符之间" class="form-control" type="text" data-val-unique_dataitem_name-type="1" data-val-unique_dataitem_name="此数据项名称已经存在">
+                                                        <span data-valmsg-for="ItemModel[@rowIndex].Name" data-valmsg-replace="true"></span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input id="v@(Guid.NewGuid().ToString("N"))" name="ItemModel[@rowIndex].Value" value="@item.Value" class="form-control text-center" type="tel" placeholder="" data-val="true" data-val-required="请输入数值,浮点数,最多2位小数" data-val-number="只能输入浮点数,最多2位小数" data-val-range-min="0" data-val-range="数值必须大于或等于0">
+                                                        <span data-valmsg-for="ItemModel[@rowIndex].Value" data-valmsg-replace="true"></span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <select id="d@(Guid.NewGuid().ToString("N"))" name="ItemModel[@rowIndex].Display" class="form-control">
+                                                            <option value="True" @(item.Display ? "selected=selected" : "")>显&emsp;示</option>
+                                                            <option value="False" @(!item.Display ? "selected=selected" : "")>不显示</option>
+                                                        </select>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input id="s@(Guid.NewGuid().ToString("N"))" name="ItemModel[@rowIndex].Sort" value="@item.Sort" class="form-control text-center" type="tel" placeholder="" data-val="true" data-val-required="请录入排序值" data-val-digits="显示顺序只能是大于或等于1的整数" data-val-range-min="1" data-val-range="显示顺序只能是大于或等于1的整数">
+                                                        <span data-valmsg-for="ItemModel[@rowIndex].Sort" data-valmsg-replace="true"></span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a class="btn btn-delete" data-tagid="r@(rowId)" href="javascript: onDeleteItem('#r@(rowId)');">删&ensp;除</a>
+                                                    </td>
+                                                </tr>
+                                                rowIndex++;
+                                            }
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="5">
+                                                <a id="btnAddItemRow" class="btn btn-info ladda-button" data-style="zoom-in" href="javascript: onAddItemRow();" style="padding: 4px 12px; font-size: 12px;">增加一行数据</a>
+                                                <a class="btn btn-danger" href="javascript: void();" onclick="onPreview(); return false;" style="padding: 4px 12px; font-size: 12px;">预&emsp;览</a>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                }
+
+                @if (Model.DataItemType == ChartDataItemType.MultipleData)
+                {
+                    <ul class="nav nav-tabs tabs-flat" id="myTab11">
+                        <li class="active">
+                            <a data-toggle="tab" data-dataitemtype="@((byte)ManageSystem.Core.Domain.Chart.ChartDataItemType.MultipleData)" href="#multiple_container">展示二：多数据</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content tabs-flat">
+                        <!-- 多数据 -->
+                        <div id="multiple_container" class="tab-pane active">
+                            <div class="multitem-container">
+                                <div class="flex flex-vertical-center item-header">
+                                    <div class="flex-1">
+                                        <span class="item-active">报表数据项</span>
+                                    </div>
+                                    <div class="">
+                                        <button class="btn btn-primary btn-excel" type="button" data-toggle="modal" data-target="#multipleExcelModal">Excel导入数据</button>
+                                    </div>
+                                </div>
+                                <div class="multiple-colbar flex flex-vertical-center">
+                                    <button class="btn btn-info btn-excel" type="button" onclick="onAddTableCol(); return false;">添加一列数据</button>
+                                    <div id="multiple_cell_tooptip" class="red" style="margin-right: 20px;">多数据展示请点击右侧“添加一列数据”按钮添加展示数据&emsp;<i class="fa fa-hand-o-right" aria-hidden="true"></i></div>
+                                </div>
+                                <div class="multiple_datatable-container">
+                                    <table id="multiple_datatable" class="table table-bordered item-table">
+                                        @{
+                                            int rowIndex = 0;
+                                            int colIndex = 0;
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center" style="width: 75px; min-width: 75px;">操作</th>
+                                                    <th style="width: 150px; min-width: 150px">数据名称</th>
+                                                    <th class="text-center" style="width: 65px; min-width:65px;">颜色</th>
+                                                    <th style="width: 100px; min-width: 100px;">是否显示</th>
+                                                    <th style="width: 100px; min-width: 100px;">类型</th>
+                                                    @foreach (var item in Model.Antibiotics)
+                                                    {
+                                                        <th id="@item.Guid.ToString()" class="text-center pos-rel user-select-no cursor-pointer nowrap w8char" data-cell="@item.Guid.ToString()">
+                                                            <input type="hidden" hidden="hidden" value="@item.Guid.ToString()" name="Antibiotics[@colIndex].Guid" data-value="@item.Name">
+                                                            <input type="hidden" hidden="hidden" value="@item.Name" name="Antibiotics[@colIndex].Name" id="@Guid.NewGuid().ToString()">
+                                                            <span>@item.Name</span>
+                                                            <button type="button" class="btn btn-trash" data-cell="@item.Guid.ToString()" onclick="onTableDeleteCol(this);">
+                                                                <span class="typcn typcn-delete-outline text-danger"></span>
+                                                            </button>
+                                                        </th>
+                                                        colIndex++;
+                                                    }
+                                                </tr>
+                                            </thead>
+                                            <tbody id="single_table_tbody">
+                                                @foreach (var item in Model.ItemModel)
+                                                {
+                                                    string rowid = Guid.NewGuid().ToString("N");
+                                                    colIndex = 0;
+                                                    List<BarChartDataItemWithAntibioticModel> values = item.Value.DeserializeObject<List<BarChartDataItemWithAntibioticModel>>();
+
+                                                    <tr id="r@(rowid)">
+                                                        <td class="text-center">
+                                                            <a class="btn btn-delete" data-tagid="r@(rowid)" href="javascript: deleteRow('#r@(rowid)');">删&ensp;除</a>
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" id="n@(Guid.NewGuid().ToString())" name="ItemModel[@rowIndex].Name" value="@item.Name" type="text" data-val="true" data-val-required="请输入数据名称" data-val-length-min="2" data-val-length-max="20" data-val-length="数据名称需在2-20个字符之间" data-val-unique_dataitem_name-type="2" data-val-unique_dataitem_name="此数据名称已经存在" />
+                                                            <span data-valmsg-for="ItemModel[@rowIndex].Name" data-valmsg-replace="true"></span>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input class="form-control" id="c@(Guid.NewGuid().ToString())" name="ItemModel[@rowIndex].BarColor" value="@item.BarColor" type="color" />
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control" id="d@(Guid.NewGuid().ToString())" name="ItemModel[@rowIndex].Display">
+                                                                <option value="True" @(item.Display ? "selected=selected" : "")>显&emsp;示</option>
+                                                                <option value="False" @(!item.Display ? "selected=selected" : "")>不显示</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control" id="ct@(Guid.NewGuid().ToString())" name="ItemModel[@rowIndex].ChartType">
+                                                                <option value="@((byte)ChartTypeEnum.Bar)" @(item.ChartType == ChartTypeEnum.Bar ? "selected=selected" : "")>@(EnumExtension.GetDescription(ChartTypeEnum.Bar))</option>
+                                                                <option value="@((byte)ChartTypeEnum.Line)" @(item.ChartType == ChartTypeEnum.Line ? "selected=selected" : "")>@(EnumExtension.GetDescription(ChartTypeEnum.Line))</option>
+                                                            </select>
+                                                        </td>
+                                                        @foreach (var antibioticItem in Model.Antibiotics)
+                                                        {
+                                                            var _value = values.Where(r => r.Guid == antibioticItem.Guid).FirstOrDefault().Value;
+
+                                                            <td data-cell="@antibioticItem.Guid.ToString()">
+                                                                <input type="hidden" hidden="hidden" name="ItemModel[@rowIndex].Antibiotics[@colIndex].Guid" value="@antibioticItem.Guid.ToString()" />
+                                                                <input type="hidden" hidden="hidden" name="ItemModel[@rowIndex].Antibiotics[@colIndex].Guid" value="@antibioticItem.Name" />
+                                                                <input id="ant@(Guid.NewGuid().ToString())" name="ItemModel[@rowIndex].Antibiotics[@colIndex].Value" value="@_value" class="form-control text-center" type="tel" placeholder="" data-val="true" data-val-required="请输入数值,浮点数,最多2位小数" data-val-number="只能输入浮点数,最多2位小数" data-val-range-min="0" data-val-range="数值必须大于或等于0">
+                                                                <span data-valmsg-for="ItemModel[@rowIndex].Antibiotics[@colIndex].Value" data-valmsg-replace="true"></span>
+                                                            </td>
+                                                            colIndex++;
+                                                        }
+                                                    </tr>
+                                                    rowIndex++;
+                                                }
+                                            </tbody>
+                                        }
+
+                                    </table>
+                                </div>
+                                <div class="tfootbar">
+                                    <a id="btnInsertRow" class="btn btn-info ladda-button" data-style="zoom-in" href="javascript: insertRow();" style="padding: 4px 12px; font-size: 12px;">增加一行数据</a>
+                                    <a class="btn btn-danger" href="javascript: onPreview();" style="padding: 4px 12px; font-size: 12px;">预&emsp;览</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="options add-page-options" style="text-align:right">
+                    @if (Model.DataItemType == ChartDataItemType.SingleData)
+                    {
+                        <input type="submit" name="save" class="btn btn-blue" value="保存" />
+                    }
+                    @if (Model.DataItemType == ChartDataItemType.MultipleData)
+                    {
+                        <input type="submit" name="save" class="btn btn-blue" value="保存"onclick="return onSubmit();" />
+                    }
+                    @*<a class="btn btn-default" href="@Url.Action("BarChartList")">返回</a>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

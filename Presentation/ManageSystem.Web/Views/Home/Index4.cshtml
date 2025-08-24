@@ -1,0 +1,320 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "首页";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <link rel="shortcut icon" href="/favicon.ico?v=12" />
+
+    <script src="~/Content/Scripts/jquery-1.9.1.min.js"></script>
+
+    <title>首页</title>
+
+    <style>
+        @@font-face {
+            font-family: '时尚中黑简体';
+            src: url('/Content/Fonts/时尚中黑简体.ttf') format('truetype');
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            border: 0;
+            box-sizing: border-box;
+        }
+
+        /* 请浮动 */
+        .clearfix:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            background-color: #fff;
+        }
+
+        .outer {
+            height: 100%;
+            position: relative;
+            background: url(../../Content/Images/new_bg.jpg) no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .o-left {
+            width: 25%;
+            height: 100%;
+            float: left;
+            position: relative;
+        }
+
+            .o-left .l-on {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+        .l-title {
+            width: 50%;
+            position: absolute;
+            left: 25%;
+            top: 18%;
+        }
+
+        .l-m {
+            width: 30px;
+            position: absolute;
+            top: 37%;
+            left: 46%;
+            font-size: 22px;
+            color: #fff;
+        }
+
+        .right {
+            float: left;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .r-header,
+        .left-0le,
+        .right-img {
+            position: absolute;
+            left: 28%;
+        }
+
+        .right-img {
+            width: 650px;
+            top: 25%;
+        }
+
+        .right-b {
+            font-size: 14px;
+            color: #969696;
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            left: 0;
+            bottom: 5%;
+        }
+
+        .left-0le {
+            width: 650px;
+            top: 25%;
+            height: 444.22px;
+            z-index: 99999;
+        }
+
+        .left-im {
+            width: 40%;
+            left: 0;
+            top: 0;
+            height: 50%;
+        }
+
+        .le-d {
+            width: 225px;
+            height: 187px;
+            float: left;
+            cursor: pointer;
+        }
+
+        .le-ds {
+            width: 225px;
+            height: 187px;
+            float: right;
+            cursor: pointer;
+        }
+
+        .le-dd {
+            width: 225px;
+            height: 187px;
+            float: left;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        .le-dds {
+            width: 225px;
+            height: 187px;
+            float: right;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        .r-header {
+            width: 650px;
+            font-size: 22px;
+            margin-top: 8%;
+            text-align: center;
+        }
+
+        .h-header {
+            height: 120px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center;
+            text-align: center;
+            -webkit-box-pack: center;
+            -webkit-justify-content: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            background-image: url('/Content/Images/new_header_01.png');
+            background-repeat: no-repeat;
+            -webkit-background-size: cover;
+            background-size: cover;
+        }
+
+            .h-header img {
+                width: auto;
+                max-height: 100%;
+            }
+
+            .h-header span {
+                color: #f6f9fc;
+                letter-spacing: 0.5rem;
+                font-weight: 500;
+                font-size: 28px;
+                /*font-family: '时尚中黑简体';*/
+            }
+
+            .h-header .flex {
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-align: center;
+                -webkit-align-items: center;
+                -ms-flex-align: center;
+                align-items: center;
+            }
+
+        img.qrcode_com_chinets_m {
+            max-height: 70%;
+            margin-left: 8rem;
+        }
+
+        .copyright {
+            font-size: 14px;
+            color: #969696;
+            width: 100%;
+            text-align: center;
+            display: block;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+        }
+
+            .nav-list .nav-item {
+                border: 1px solid #DDD;
+                width: 20%;
+                height: 20%;
+            }
+
+            .nav-list .nav-link {
+            }
+
+        .home-page {
+            display: flex;
+            flex-direction: column;
+        }
+
+            .home-page .h-header {
+            }
+
+            .home-page .page-body {
+                flex: 1;
+            }
+
+            .home-page .page-footer {
+            }
+    </style>
+</head>
+
+<body>
+
+    <div class="outer clearfix">
+
+        <div class="o-left" style="display: none;">
+            <img class="l-on" src="../../Content/Images/new_left_01.jpg" alt="">
+            <img class="l-title" src="../../Content/Images/new_de_04.png" alt="">
+            <div class="l-m">@*细菌耐药监测数据共享平台*@</div>
+        </div>
+
+        <div class="home-page">
+            <header class="h-header">
+                @*<img class="l-on" src="/Content/Images/new_header_01.png" alt="" />
+                    <img class="l-title" src="../../Content/Images/new_de_04.png" alt="">*@
+                <span class="clearfix flex"><img src="/Content/Images/new_de_04.png" alt="" />&emsp;&ensp;新监测&emsp;&ensp;新平台</span>
+                <img class="qrcode_com_chinets_m" src="~/Content/Images/m.chinets.com.qrcode.png" />
+            </header>
+            @*<div  style="    height: 40px;
+                color: red;
+                width: 100%;
+                text-align: center;
+                padding-top: 20px;">
+                            通知：CHINET服务器将于2019年9月12日下午5点开始进行升级，期间您将无法访问。给您带来不便深表歉意。
+                        </div>*@
+            @*<header class="r-header" style="">细菌耐药监测数据共享平台</header>*@
+            <div class="page-body">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Chinet"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Shanghai"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Special"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://atlas-surveillance.com" target="_blank"></a>
+                    </li>
+                </ul>
+            </div>
+            @*<div class="left-0le clearfix">
+                    <div class="le-d" onclick="location.href = '/Chinet'"></div>
+                    <div class="le-ds" onclick="location.href = '/Shanghai'"></div>
+                    <div class="le-dd" onclick="location.href = '/Special'"></div>
+                    <div class="le-dds" onclick="window.open('https://atlas-surveillance.com');"></div>
+                </div>*@
+            <img class="right-img" src="../../Content/Images/new_main_08.png" alt="">
+            <div class="right-b">版权所有：复旦大学附属华山医院抗生素研究所</div>
+            <footer class="page-footer text-center">
+                <span class="copyright">版权所有：复旦大学附属华山医院抗生素研究所</span>
+            </footer>
+        </div>
+    </div>
+    <input type="hidden" id="returnUrl" value="@this.Request.QueryString["returnUrl"]" />
+    <input type="hidden" id="isHaveLogin" value="@this.Request.QueryString["type"]" />
+    <script src="~/Content/Scripts/layer-v2.4/layer_login.js"></script>
+    <script src="~/Content/Scripts/mobile.js"></script>
+    <script src="~/Content/Scripts/Home/Index.js"></script>
+</body>
+
+</html>

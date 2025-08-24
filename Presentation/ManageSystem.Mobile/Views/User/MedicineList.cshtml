@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "上传记录";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+<div id="app" v-cloak class="indexpage">
+    <div ref="middle" class="middle padding-20">
+        <div ref="swiper_container" class="swiper-container scroll">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide slidescroll">
+
+                    <div :class="{'UP-list': true, 'bg-blues': item.valid, 'bg-gay': (item.invalid && !item.valid), 'bg-yellow': (!item.valid && !item.invalid)}" v-for="item in items">
+                        <div :class="{'white': true, 'flex f-between f-center': (item.invalid && !item.valid || !item.invalid && !item.valid)}">
+                            <div class="fon-30">
+                                <div class="margin-b-10">{{item.filename}}</div>
+                                <div class="margin-b-10 fon-28">{{item.quarter}}</div>
+                                <div class="date fon-28">{{item.datetime}}</div>
+                            </div>
+                            <div class="fon-38 bold invalid-status" v-if="!item.valid && item.invalid">{{item.statusName}}</div>
+                            <div class="fon-38 bold wait-status" v-if="!item.valid && !item.invalid">{{item.statusName}}</div>
+                        </div>
+                    </div>
+                    <div v-if="pageNull" ref="listNullDiv" class="list-null"></div>
+                    <div v-if="nextPageLoading" class="weui-loadmore" style="margin: 0.23rem auto;">
+                        <i class="weui-loading"></i>
+                        <span class="weui-loadmore__tips">加载更多</span>
+                    </div>
+                    <div v-if="noNetxPage" class="weui-loadmore weui-loadmore_line" style="margin: 0.75rem auto 0;">
+                        <span class="weui-loadmore__tips">这是人家的底线</span>
+                    </div>
+                    <div v-if="!nextPageLoading&&!noNetxPage" style="height: 1rem;"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_FooterNavBar", "我的")
+
+    <div ref="failToast" id="failToast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_toast" style="font-size: 1.65rem;"></i>
+            <p class="weui-toast__content fon-32" v-text="resFailMessage" style="margin-top: 0.25rem;"></p>
+        </div>
+    </div>
+
+    <div ref="loadingToast" id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32" v-html="loadingText"></p>
+        </div>
+    </div>
+
+    <div ref="iosDialog" id="iosDialog" class="js_dialog" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd" v-html="dialogContent"></div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:void(0);" @@click="closeDialog" class="weui-dialog__btn weui-dialog__btn_primary" style="color: #005cad;">知道了</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section Styles{
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/User/MedicineList.css?v=1.0.0" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/swiper/swiper.min.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/fx.js"></script>
+    <script src="~/Content/Scripts/fx_methods.js"></script>
+    <script src="~/Content/Scripts/User/MedicineList.js?v=1.0.0"></script>
+}

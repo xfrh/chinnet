@@ -1,0 +1,228 @@
+﻿
+    #join_box #dt_join_bar_list.tc_c2 .tc_c_btn {
+        margin: 20px auto;
+        width: 960px;
+    }
+
+        #join_box #dt_join_bar_list.tc_c2 .tc_c_btn a {
+            border-radius: 5px;
+        }
+
+    #join_box #join_box_fee.tc_c2 .tc_c_btn a {
+        border-radius: 5px;
+    }
+
+    #join_box .tc_c_btn a:hover {
+        background-color: #0082c6;
+    }
+
+    #join_box .join_box_Xq {
+        overflow-y: auto;
+        margin-top: 5px;
+        max-height: 410px;
+    }
+
+        #join_box .join_box_Xq ul { /* margin:0 20px 0; */
+            overflow: hidden;
+            margin-top: 0\9;
+            *margin-top: 0;
+            padding-bottom: 0px;
+        }
+
+            #join_box .join_box_Xq ul li {
+                overflow: hidden;
+                margin-bottom: 10px;
+                margin-bottom: 0px\9;
+                *margin-bottom: 0px;
+            }
+
+                #join_box .join_box_Xq ul li .form_placeholder {
+                    font-size: 14px;
+                    color: #666;
+                    padding: 0 5px;
+                }
+
+                #join_box .join_box_Xq ul li .inpoutK {
+                    border: 1px solid #ccc;
+                    padding: 10px;
+                    background-color: #FFF;
+                }
+
+                    #join_box .join_box_Xq ul li .inpoutK:hover {
+                        border: 1px solid #0099e9;
+                    }
+
+                    #join_box .join_box_Xq ul li .inpoutK input {
+                        width: 99%;
+                        border: 1px solid #FFF;
+                        color: #666;
+                    }
+
+    #join_box {
+        border-radius: 5px;
+        overflow: hidden;
+        width: 730px;
+        min-height: 480px;
+        max-height: 600px;
+    }
+
+        #join_box .join_box_Xq_out {
+            overflow: hidden;
+            max-height: 600px;
+        }
+
+        #join_box #join_box_fee {
+            border-radius: 8px;
+        }
+
+    .tc_c2 {
+        width: 1000px;
+        overflow: hidden;
+        background-color: #f5f5f5;
+        z-index: 3000;
+    }
+
+    #join_box .tc_c_close {
+        background: #f5f5f5;
+        position: relative;
+        height: 45px;
+    }
+
+        #join_box .tc_c_close p {
+            margin: 0 0 0 15px;
+            line-height: 45px;
+            font-size: 16px;
+            color: #444;
+            display: none;
+        }
+
+    #join_box .tc_c_info {
+        margin-top: -3px;
+    }
+
+        #join_box .tc_c_info .tc_c_info_con {
+            width: 650px;
+            height: 30px;
+            margin: 0 auto;
+            background: url(/Content/Images/xuXian.png) repeat-x scroll center center;
+            text-align: center;
+        }
+
+            #join_box .tc_c_info .tc_c_info_con .join_detail {
+                width: 142px;
+                height: 30px;
+                background: #f5f5f5 url(/Content/Images/detail_pc_editor_pen.png) no-repeat scroll 9px center;
+                display: inline-block;
+                line-height: 30px;
+                text-indent: 30px;
+                font-size: 16px;
+                color: #444;
+            }
+
+            #join_box .tc_c_info .tc_c_info_con .join_mobile {
+                width: 115px;
+                height: 30px;
+                background: #f5f5f5;
+                display: inline-block;
+                line-height: 30px;
+                text-align: center;
+                font-size: 16px;
+                color: #444;
+            }
+
+    #join_box .tc_c_close div {
+        position: absolute;
+        width: 23px;
+        height: 23px;
+        right: 10px;
+        top: 10px;
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+        #join_box .tc_c_close div img {
+            width: 23px;
+            height: 46px;
+        }
+
+            #join_box .tc_c_close div img:hover {
+                margin-top: -23px;
+            }
+
+    #join_box .tc_c_close2 {
+        height: 45px;
+        overflow: hidden;
+        position: static;
+        height: auto;
+    }
+
+    #join_box #ul_join_property li {
+        margin-bottom: 0;
+        padding: 0 40px;
+    }
+
+    #join_box .optionsName {
+        height: 35px;
+        color: #777;
+        padding-left: 10px;
+        font-size: 14px;
+        line-height: 35px;
+    }
+
+    #join_box #xdBtn {
+        height: 110px;
+        margin: 0 auto;
+    }
+
+    #join_box .tc_c_btn2 {
+        overflow: hidden;
+        margin: 20px;
+    }
+
+        #join_box .tc_c_btn2 a.blueBtn {
+            display: inline-block;
+            color: #FFF;
+            background-color: #0099e9;
+            padding: 12px 0;
+            text-align: center;
+            border-radius: 8px;
+            float: right;
+            width: 90%;
+        }
+
+            #join_box .tc_c_btn2 a.blueBtn:hover {
+                background-color: #0082c6;
+            }
+
+        #join_box .tc_c_btn2 input {
+            width: 880px;
+            height: 50px;
+            color: #FFF;
+            background-color: #0099e9;
+            border-radius: 5px;
+            float: right;
+            font-size: 18px;
+        }
+
+            #join_box .tc_c_btn2 input:hover {
+                background-color: #0082c6;
+            }
+
+    #join_box .join_Btn {
+        width: 200px;
+        margin: 0 auto;
+        bottom: 38px;
+        height: 50px;
+        margin-top: 30px;
+    }
+
+        #join_box .join_Btn #a_submit {
+            width: 200px;
+            height: 50px;
+            line-height: 50px;
+            display: block;
+            padding: 0;
+            border-radius: 5px;
+            font-size: 18px;
+            color: #fff;
+        }

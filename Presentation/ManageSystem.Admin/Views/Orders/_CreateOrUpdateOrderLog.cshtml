@@ -1,0 +1,59 @@
+﻿@model ManageSystem.Admin.Models.Orders.OrderLogModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+		<table class="adminContent">
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.OrderId)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.OrderId, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.OrderId)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Type)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Type, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.Type)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Source)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Source, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.Source)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.UserId)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.UserId, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.UserId)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.UserName)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.UserName)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Content)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Content, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.Content)
+			</td>
+			</tr>
+		</table>
+
+        <script src="/Content/Scripts/TranTextBox.js"></script>
+<script type="text/javascript">
+
+
+
+   
+</script>

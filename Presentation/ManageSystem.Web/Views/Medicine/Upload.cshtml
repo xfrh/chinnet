@@ -1,0 +1,275 @@
+﻿@model UploadMedicalDataModel
+@using ManageSystem.Web.Models.Medicine
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "发布医学数据";
+}
+
+<link href="~/Content/Scripts/ladda/ladda-themeless.min.css" rel="stylesheet" />
+<link href="/Content/Scripts/bootstrap-fileinput-master/css/fileinput.css" rel="stylesheet" />
+<link href="~/Content/Css/Medicine/Upload.css?v=1.8" rel="stylesheet" />
+
+<div class="mbx">
+    <p>当前位置：首页 &gt; 上传数据 </p>
+</div>
+
+<div class="cy-wrap">
+    <span class="span-mark-author active">上传数据</span>
+</div>
+<input id="HiddenFaultiness" name="HiddenFaultiness" type="hidden" hidden="hidden" class="hidden" value="@ViewBag.isFaultiness" />
+<input id="HiddenHospitalWard" name="HiddenHospitalWard" type="hidden" hidden="hidden" class="hidden" value="@ViewBag.HospitalWard" />
+<input id="HiddenDepartment" name="HiddenDepartment" type="hidden" hidden="hidden" class="hidden" value="@ViewBag.Department" />
+<div class="container" style="padding: 10px 20px; width:100%;">
+    <div class="alert alert-warning " style="margin: 20px 0px; display:inline-block; padding-top: 20px; padding-bottom: 20px;">
+        <h3>
+            <b style="font-size:18px;">系统所支持的数据文件格式如下：请务必仔细阅读！</b>
+        </h3>
+        <ul class="warning-ul" style="    width: 55%;float: left;">
+            <li><span>1、通过 WHONET 5.6 软件导出的数据文件，<b class="red" style="font-weight: normal;">对文件扩展名无要求</b>；</span></li>
+            <li><span>2、与 WHONET 5.6 软件导出的数据文件格式所兼容的【<b class="red" style="font-weight: normal;">.DBF</b>】数据文件；</span></li>
+            @*<li><span>3、通过 Office Excel 2003 所另存的 Excel 文件，扩展名为【<b class="red" style="font-weight: normal;">.XLS</b>】；</span></li>*@
+            <li><span>3、通过 Office Excel 2007/2010 所另存的 Excel 文件，扩展名为【<b class="red" style="font-weight: normal;">.XLSX</b>】；</span></li>
+            <li><span>4、数据验证和处理规则【】；</span></li>
+            <li><span>5、上传文件最大支持70M；</span></li>
+            <li><span>6、【<a class="red" style="font-weight: normal;" href="~/Content/File/CHINET数据云数据上传帮助文档.pdf" target="_blank">查看帮助文档</a>】</span></li>
+        </ul>
+        <ul style=" width: 45%;float: left;border: 2px solid red;  padding: 20px; border-radius: 5px;">
+            <li style="    color: red;   font-weight: bold; margin-bottom: 10px;">重要提醒：</li>
+            <li><span class="red">1、仅支持后缀名为DBF和XLSX的数据文件上传；</span></li>
+            <li><span class="red" style="word-break:break-all;">2、WHONET导出的数据文件，请将文件后缀名改为“.DBF”再上传。如“W2018CHN.HSH”改为“W2018CHN.DBF”</span></li>
+        </ul>
+    </div>
+
+    <div class="title-2">
+        <p>细菌耐药监测数据上传 <span style="color:#b94a48;">【所有显示项均为必填项】</span></p>
+    </div>
+
+    <div id="post_form">
+        @if (ViewBag.isUpload)
+        {
+            <ul class="post_main_ul">
+                @if (this.ViewBag.IsTest)
+                {
+                    <li class="post_main_li">
+                        <div class="post_main_l_tit"><b class="red">*</b><span>所属医院：</span></div>
+                        <div class="red_outK">
+                            <div class="post_main_r" style="position:relative;">
+                                <input type="text" name="country" id="Hospital" class="txt3" placeholder="请输入医院名称" />
+                                <span style="display:block;margin-bottom:5px;color: #4d4d4d;font-size: 14px;">提示：如果不选择医院则是当前用户所属医院</span>
+                                <input type="hidden" value="" id="HospitalId" />
+                            </div>
+                        </div>
+                    </li>
+                }
+
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>上报数据所属年度：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.DropDownListFor(m => m.Year, Model.YearList)
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>上报数据所属季度：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.DropDownListFor(m => m.Quarter, Model.QuarterList)
+                        </div>
+                    </div>
+                </li>
+
+                <li class="post_main_li" style="display:none;">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>药敏实验方法：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative; width:100%;">
+                            <ul class="ul-div bacteria-type-item" style="width:100%; margin-top: 10px;display:inline-block;">
+                                @{
+
+                                    if (Model.BacteriaTypeList != null && Model.BacteriaTypeList.Any())
+                                    {
+                                        foreach (var item in Model.BacteriaTypeList)
+                                        {
+                                            <li><input type="checkbox" class="chk-item" ItemValue="@item.Id.ToString()" onchange="SelectBacteriaType()" />@item.Name</li>
+                                        }
+                                    }
+                                }
+                            </ul>
+                            <div style="width:100%;float:left;" class="bacteria-type-error">@Html.ValidationMessageFor(m => m.BacteriaIds)</div>
+                            @Html.TextBoxFor(m => m.BacteriaIds, new { style = " height:0px;" })
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>接收通知邮箱地址：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.TextBox("Email", Model.Email, new { style = "height: 40px; line-height: 40px;border: 1px solid #d9d9d9;width: 300px;padding-left: 15px; font-size: 14px;", placeholder = "请输入您的邮箱地址" })
+                            <span style="display:block;margin-bottom:5px;color: #4d4d4d;font-size: 14px;">提示：数据分析结束，信息将发送到您填写的邮箱<br />&ensp; &ensp;&ensp; &ensp;&ensp;如果未收到邮件请检查垃圾邮件或是否邮件退回</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>数据所属项目：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.DropDownListFor(m => m.ProjectType, Model.ProjectTypeList)
+                        </div>
+                        @if (ViewBag.Department == 1)
+                        {
+                            <div style="float: left;margin-top: 10px;">
+                                <a href="/HospitalDepartment/HospitalDepartmentList" style="color: #428bca; margin-right:30px;font-size: 14px;">科室配置</a><br />
+                            </div>
+                        }
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>选择数据文件：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" id="UploadFileBox" style="position:relative;padding-top:0px;">
+                            <input id="FilePath" name="FilePath" type="file" multiple class="file-loading" accept=".dbf,.xlsx">
+                            <input type="hidden" id="UploadFilePath" name="UploadFilePath" />
+                            <input type="hidden" id="OldeFileName" name="OldeFileName" />
+                            <input type="hidden" id="OldeFileSize" name="OldeFileSize" />
+                            <div class="post_main_note file-upload-message" style="width:100%;padding-top:10px; height:auto;font-size: 14px;"></div>
+                        </div>
+                        <div style="float: left;margin-top: 10px;">
+                            <a href="/Content/File/medicine-template.xlsx" target="_blank" style="color: #428bca; margin-right:30px;font-size: 14px;">点击下载《标准模版文件》</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="fb_Btn" style="margin-top:30px;">
+                    <div class="btn-loading bg-danger" style="padding: 10px;display:none; ">
+                        <div style="width:30px; height:30px; margin:0px auto; ">
+                            <div style="width:30px; float:left; margin-right:10px;"><img src="~/Content/Images/loading.gif" style="width:30px; height:30px;" /></div>
+                        </div>
+                        <div class="bg-danger" style="line-height: 30px;padding: 10px;font-size: 14px;">
+                            <p>数据上传成功，系统将自动按逐条规则开始审核并处理数据，结果将同时发送至填写的邮箱</p>
+                            <p>现在您可以关闭浏览器，系统后台将对数据进行自动处理</p>
+                        </div>
+                    </div>
+                    <button id="btnBEPost" type="button" onclick="Save(); return false;" class="btn_Post btn-save ladda-button" data-style="zoom-in" style="border: none;">开始上传</button>
+                </li>
+            </ul>
+        }
+        else
+        {
+            <ul class="post_main_ul">
+                @if (this.ViewBag.IsTest)
+                {
+                    <li class="post_main_li">
+                        <div class="post_main_l_tit"><b class="red">*</b><span>所属医院：</span></div>
+                        <div class="red_outK">
+                            <div class="post_main_r" style="position:relative;">
+                                <input disabled="disabled" type="text" name="country" id="Hospital" class="txt3" placeholder="请输入医院名称" />
+                                <span style="display:block;margin-bottom:5px;color: #4d4d4d;font-size: 14px;">提示：如果不选择医院则是当前用户所属医院</span>
+                                <input type="hidden" value="" id="HospitalId" />
+                            </div>
+                        </div>
+                    </li>
+                }
+
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>上报数据所属年度：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.DropDownListFor(m => m.Year, Model.YearList, new { disabled = "disabled" })
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>上报数据所属季度：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.DropDownListFor(m => m.Quarter, Model.QuarterList, new { disabled = "disabled" })
+                        </div>
+                    </div>
+                </li>
+
+                <li class="post_main_li" style="display:none;">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>药敏实验方法：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative; width:100%;">
+                            <ul class="ul-div bacteria-type-item" style="width:100%; margin-top: 10px;display:inline-block;">
+                                @{
+
+                                    if (Model.BacteriaTypeList != null && Model.BacteriaTypeList.Any())
+                                    {
+                                        foreach (var item in Model.BacteriaTypeList)
+                                        {
+                                            <li><input type="checkbox" disabled="disabled" class="chk-item" ItemValue="@item.Id.ToString()" onchange="SelectBacteriaType()" />@item.Name</li>
+                                        }
+                                    }
+                                }
+                            </ul>
+                            <div style="width:100%;float:left;" class="bacteria-type-error">@Html.ValidationMessageFor(m => m.BacteriaIds)</div>
+                            @Html.TextBoxFor(m => m.BacteriaIds, new { style = " height:0px;", disabled = "disabled" })
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>接收通知邮箱地址：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.TextBox("Email", Model.Email, new { disabled = "disabled", style = "height: 40px; line-height: 40px;border: 1px solid #d9d9d9;width: 300px;padding-left: 15px; font-size: 14px;", placeholder = "请输入您的邮箱地址" })
+                            <span style="display:block;margin-bottom:5px;color: #4d4d4d;font-size: 14px;">提示：数据分析结束，信息将发送到您填写的邮箱<br />&ensp; &ensp;&ensp; &ensp;&ensp;如果未收到邮件请检查垃圾邮件或是否邮件退回</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>数据所属项目：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.DropDownListFor(m => m.ProjectType, Model.ProjectTypeList, new { disabled = "disabled" })
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>选择数据文件：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" id="UploadFileBox" style="position:relative;padding-top:0px;">
+                            <input id="FilePath" name="FilePath" type="file" multiple class="file-loading" accept=".dbf,.xlsx" disabled="disabled" />
+                            <input type="hidden" id="UploadFilePath" name="UploadFilePath" />
+                            <input type="hidden" id="OldeFileName" name="OldeFileName" />
+                            <input type="hidden" id="OldeFileSize" name="OldeFileSize" />
+                            <div class="post_main_note file-upload-message" style="width:100%;padding-top:10px; height:auto;font-size: 14px;"></div>
+                        </div>
+                        <div style="float: left;margin-top: 10px;">
+                            <a href="#" onclick="return false;" style="color: #428bca; margin-right:30px;font-size: 14px;">点击下载《标准模版文件》</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="fb_Btn" style="margin-top:30px;">
+                    <div class="btn-loading bg-danger" style="padding: 10px;display:none; ">
+                        <div style="width:30px; height:30px; margin:0px auto; ">
+                            <div style="width:30px; float:left; margin-right:10px;"><img src="~/Content/Images/loading.gif" style="width:30px; height:30px;" /></div>
+                        </div>
+                        <div class="bg-danger" style="line-height: 30px;padding: 10px;font-size: 14px;">
+                            <p>数据上传成功，系统将自动按逐条规则开始审核并处理数据，结果将同时发送至填写的邮箱</p>
+                            <p>现在您可以关闭浏览器，系统后台将对数据进行自动处理</p>
+                        </div>
+                    </div>
+                    <button id="btnBEPost" type="button" onclick="return false;" class="btn_Post btn-save ladda-button" data-style="zoom-in" style="border: none;">开始上传</button>
+                </li>
+            </ul>
+            @section FooterSection{
+                <script>
+                    ErrorWindow('未分配上传数据所属项目,此功能暂不可用', false, null);
+                </script>
+            }
+        }
+    </div>
+
+    <input type="hidden" id="UploadMedicineId" data-remark="上传成功以后的数据Id" />
+
+    <script src="/Content/Scripts/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+    <script src="/Content/Scripts/bootstrap-fileinput-master/js/fileinput_locale_zh.js"></script>
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="/Content/Scripts/Medicine/Upload.js?v=@DateTime.Now.Ticks"></script>
+
+    <script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.js"></script>
+    <link href="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet">
+    <script src="~/Content/Scripts/Autocomplete/jquery.autocomplete.min.js"></script>
+
+</div>

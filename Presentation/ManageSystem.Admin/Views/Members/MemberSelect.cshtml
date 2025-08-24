@@ -1,0 +1,193 @@
+﻿@model  ManageSystem.Admin.Models.Members.MemberModel
+@{
+    Layout = "~/Views/Shared/_OpenLayout.cshtml";
+}
+
+
+@Html.AntiForgeryToken()
+<style type="text/css">
+    .btn-a-color {
+    color:#428bca;
+     cursor:pointer;
+    }
+
+</style>
+
+<div class="page-body">
+    <div class="row manage-page">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+
+                <div class="widget-body">
+                    <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+
+                        <div id="searchable_filter" class="dataTables_filter manage-but-box">
+                            <div style="width: 100%;">
+                                <div class="dataTables_filter manage-but-box">
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.Name)：</label>
+                                    <label class="lb-right"><input type="text" id="Name" class="form-control input-sm  search" aria-controls="searchable" name="Name" style="width:150px;" /></label>
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.NickName)：</label>
+                                    <label class="lb-right"><input type="text" id="NickName" class="form-control input-sm  search" aria-controls="searchable" name="NickName" style="width:150px;" /></label>
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.Phone)：</label>
+                                    <label class="lb-right">  <input type="text" id="Phone" class="form-control input-sm  search" aria-controls="searchable" name="Phone" style="width:150px;" /></label>
+                                    <label class="lb-left">@Html.NopLabelFor(m => m.StatusList)：</label>
+                                    <div class="form-control ddl lb-right " style="width: 10%;"> @Html.DropDownList("Status", Model.StatusList, new { @class = "form-control dropdown" })   </div>
+                                    <label class="lb-left">@Html.NopLabelFor(m => m.TypeList)：</label>
+                                    <div class="form-control ddl lb-right " style="width: 10%;">
+                                        <select id="Type" name="Type" class="form-control dropdown">
+                                            <option value="-1">全部</option>
+                                            <option value="0">未认证会员</option>
+                                            <option value="1">认证会员</option>
+                                            <option value="2">医生</option>
+                                            <option value="3">主任</option>
+                                        </select>
+                                        @*@Html.DropDownList("Type", Model.TypeList, new { @class = "form-control dropdown" })*@
+                                    </div>
+
+                                    <label> <input type="button" id="btn-search" class="btn btn-blue" value="查 询" /> </label>
+                                </div>
+                            </div>
+                  
+                        </div>
+                        <div class="table table-striped table-bordered dataTable no-footer table-select" id="ManageTableDiv" aria-describedby="editabledatatable_info">
+                            <div id="data-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#data-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("MemberList"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 30, 50]
+            },
+            scrollable: false,
+            groupable: true,
+            dataBound: onDataBound,
+            columns: [
+            	{
+            	    field: "Id",
+            	    title: "会员id",
+            	    width: 160
+            	},
+
+            	{
+            	    field: "InsertTime",
+            	    title: "注册时间",
+            	    width: 150
+            	},
+
+		{
+		    field: "Name",
+		    title: "真实姓名",
+		    width: 100
+		},
+
+		{
+		    field: "NickName",
+		    title: "用户昵称",
+		    width: 100
+		},
+		{
+		    field: "Phone",
+		    title: "手机号码",
+		    width: 100
+		},
+
+		{
+		    field: "Status",
+		    title: "帐号状态",
+		    width: 100
+		},
+		{
+		    field: "Sex",
+		    title: "用户性别",
+		    width: 100
+		},
+		{
+		    field: "Type",
+		    title: "帐号类型",
+		    width: 100
+		},
+              {
+                  field: "ActionHtml",
+                  title: "操作",
+                  width: 100,
+                  template: '<span class=\'btn-a-color\' onclick="SelectMember(this)" IdValue=\'#=Id#\' NameValue=\'#=Name#\'  PhoneValue=\'#=Phone#\' >确认选择</span> '
+
+              }]
+        });
+    });
+
+    //设置查询参数
+    function additionalData() {
+
+        var data = {
+            Name: $("#@Html.FieldNameFor(m => m.Name)").val(),
+            NickName: $("#@Html.FieldNameFor(m => m.NickName)").val(),
+            Phone: $("#@Html.FieldNameFor(m => m.Phone)").val(),
+            Status: $("#@Html.FieldNameFor(m=>m.Status)").val(),
+            Type: $("#@Html.FieldNameFor(m=>m.Type)").val(),
+        };
+
+        addAntiForgeryToken(data);
+        return data;
+    }
+
+
+    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+
+    function SelectMember(obj) {
+   
+        var IdValue = $(obj).attr("IdValue");
+        var NameValue = $(obj).attr("NameValue");
+        var PhoneValue = $(obj).attr("PhoneValue");
+
+        if (IdValue == null || IdValue.length <= 0) {
+            alert("请选择会员！")
+            return;
+        }
+
+        parent.SaveSelectMemberData(IdValue, NameValue, '@this.Request.QueryString["temp"]', PhoneValue);
+        parent.layer.close(index);
+    }
+
+
+</script>
+
+
+<script src="~/Content/Scripts/admin.listpage.js"></script>

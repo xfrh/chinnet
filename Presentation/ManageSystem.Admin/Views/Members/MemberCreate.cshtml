@@ -1,0 +1,155 @@
+﻿@model ManageSystem.Admin.Models.Members.MemberModel
+@{
+    //page title
+    ViewBag.Title = "添加会员";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "会员管理", SecondName = "会员管理", LocationName = this.ViewBag.Title }); }
+}
+<link href="~/Content/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<style type="text/css">
+    .display-none {
+        display: none;
+    }    
+    .chinets-chosen .chosen-single {
+        -webkit-border-radius: 0 !important;
+        -webkit-background-clip: padding-box !important;
+        -moz-border-radius: 0 !important;
+        -moz-background-clip: padding !important;
+        border-radius: 0 !important;
+        background-clip: padding-box !important;
+        color: #858585;
+        background-color: #fbfbfb;
+        border: 1px solid #d5d5d5;
+        font-family: inherit;
+        -webkit-transition: -webkit-box-shadow .45s,border-color .45s ease-in-out;
+        -moz-transition: -moz-box-shadow .45s,border-color .45s ease-in-out;
+        -o-transition: box-shadow .45s,border-color .45s ease-in-out;
+        transition: box-shadow .45s,border-color .45s ease-in-out;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        padding: 6px 12px;
+        display: block;
+        height: 20px;
+        line-height: 20px;
+        background-image: none;
+        box-sizing: content-box;
+    }
+
+    .chosen-container-single .chosen-single abbr {
+        top: 10px;
+        right: 22px;
+    }
+
+    .chosen-container-single .chosen-single div b {
+        background-position-x: 2px;
+        background-position-y: 7px;
+    }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div b {
+        background-position: -16px 7px;
+    }
+
+    .chosen-container-single .chosen-search input[type=text] {
+        -webkit-border-radius: 0 !important;
+        -webkit-background-clip: padding-box !important;
+        -moz-border-radius: 0 !important;
+        -moz-background-clip: padding !important;
+        border-radius: 0 !important;
+        background-clip: padding-box !important;
+        color: #858585;
+        background-color: #fbfbfb;
+        border: 1px solid #d5d5d5;
+        font-family: inherit;
+        -webkit-transition: -webkit-box-shadow .45s,border-color .45s ease-in-out;
+        -moz-transition: -moz-box-shadow .45s,border-color .45s ease-in-out;
+        -o-transition: box-shadow .45s,border-color .45s ease-in-out;
+        transition: box-shadow .45s,border-color .45s ease-in-out;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        padding: 6px 20px 6px 5px;
+        height: 28px;
+        line-height: 20px;
+        background-image: none;
+        box-sizing: border-box;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="page-body">
+        <div class="row add-page">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget ">
+                    <div class="widget-header add-page-titlebox ">
+                        <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                    </div>
+                    <div class="widget-body " id="BaseDiv" runat="server">
+                        <div class="options add-page-options">
+                            <input type="submit" name="save" class="btn btn-blue " value="保存" />
+                        </div>
+                        <div class="add-content ">
+                            <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                                @Html.Partial("_CreateOrUpdateMember", Model)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+<script type="text/javascript">
+    GetDistrictList(0, 1);
+    $("#Birthday").kendoDatePicker({ value: new Date(), format: "yyyy-MM-dd HH:mm" });
+
+</script>
+<script src="~/Content/Scripts/chosen/chosen.jquery.min.js"></script>
+<script>
+    $(function () {
+
+        $('#HospitalId').chosen({
+            no_results_text: '没有找到与之匹配的医院',
+            search_contains: true,
+            allow_single_deselect: true,
+            inherit_select_classes: true,
+            placeholder_text_single: '请输入或选择医院'
+        });
+
+        $('#HospitalId').css({
+            'display': 'block',
+            'width': '1px',
+            'height': '1px',
+            'position': 'absolute',
+            'left': '-1000rem'
+        });
+
+        $("#HospitalId").chosen().change(function () {
+            //$(this).valid();
+        });
+
+        var options = {
+            serviceUrl: '/Medicine/SearchHospitalByWardLocation',
+            type: 'POST',
+            paramName: 'name',
+            deferRequestBy: 300,
+            onSelect: function (suggestion) {
+                if (suggestion.id) {
+                    $('#HospitalId').val(suggestion.id);
+                }
+                else {
+                    $('#HospitalId').val('');
+                }
+            }
+        };
+        //$('#hospital').autocomplete(options);
+    })
+</script>

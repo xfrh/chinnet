@@ -1,0 +1,323 @@
+﻿
+@{
+    ViewBag.Title = "文件上传";
+    Layout = "~/Areas/CR/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .h3p {
+        margin: 20px auto;
+        text-align: center;
+        font-size: 20px;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .NoticeL {
+        margin-top: 10px;
+        background-color: #fcf8e3;
+        border: 1px solid #fbeed5;
+    }
+
+    .NoticeLZ {
+        float: left;
+        margin-bottom: 20px;
+    }
+
+        .NoticeLZ p {
+            color: #c09853;
+            line-height: 25px;
+            font-size: 14px;
+        }
+
+        .NoticeLZ a {
+            font-size: 14px;
+            color: red;
+        }
+
+    .inpotantNotic {
+        padding: 10px;
+        float: left;
+        color: red;
+        border: 2px red solid;
+        border-radius: 5px;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+        .inpotantNotic p {
+            color: red;
+            font-size: 14px;
+        }
+
+    .formL {
+        margin-top: 20px
+    }
+
+    .control-label {
+        font-size: 14px;
+    }
+
+    .upcontentl {
+        margin: auto;
+    }
+    /* 新的CSS */
+
+    .icon-wrap {
+        background-color: white;
+        color: #357ebd;
+        border-radius: 50%;
+        padding: 3px 7px;
+    }
+
+    .icon-wrap2 {
+        background-color: #357ebd;
+        color: white;
+        border-radius: 50%;
+        padding: 3px 7px;
+    }
+
+    .wz-classic .active {
+        background: #357ebd;
+        color: white !important;
+    }
+
+    .wz-classic li {
+        width: 120px;
+        height: 40px;
+        line-height: 40px;
+    }
+
+    .wz-classic .active a {
+        color: white !important;
+    }
+
+    .navlist {
+        border-bottom: #dadada 1px solid;
+        margin-bottom: 20px;
+        height: 40px;
+    }
+
+    .tab-item-mes2 {
+        color: #357ebd;
+    }
+
+    .ph3 {
+        margin-left: 20px;
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #c09853;
+    }
+
+    .mb20 {
+        margin-bottom: 20px;
+    }
+
+    .inputtext {
+        border-radius: 4px !important;
+    }
+
+    .p0 {
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+
+    .form-group {
+        margin-bottom: 30px;
+    }
+
+    .btn-file input[type=file] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        min-width: 100%;
+        min-height: 100%;
+        text-align: right;
+        opacity: 0;
+        background: none repeat scroll 0 0 transparent;
+        cursor: inherit;
+        display: block;
+    }
+
+    .btn-file {
+        margin-left: 15px;
+        margin-bottom: 20px;
+    }
+    @@media (max-width:768px) {
+    .col-xs-offset-4 {
+       margin-left:15.5%;
+    }
+}
+</style>
+<link href="~/Content/Css/Medicine/Upload.css?v=1.81" rel="stylesheet" />
+@*<link href="~/Areas/CRs/Content/Css/keyan.css" rel="stylesheet" />*@
+<div class="container upcontentl row">
+    <div class="col-md-12">
+        <span class="h3p"><b>《微生物实验室细菌诊断及替加环素药敏操作规范培训公益项目》</b></span>
+    </div>
+    <div class="col-md-12 navlist">
+        <ul class="wz-nav-off wz-icon-inline wz-classic">
+            <li class="col-xs-3 navlist_li">
+                <a href="@Url.Action("Edit", "CRUpload")" aria-expanded="true">
+                    <span class="icon-wrap2">1</span> <span class="tab-item-mes2">信息填写</span>
+                </a>
+            </li>
+            <li class="col-xs-3  active">
+                <a href="@Url.Action("Upload", "CRUpload")">
+                    <span class="icon-wrap ">2</span> <span class="tab-item-mes">上传数据</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-md-12 col-sm-12 col-xs-12 pull-right mb20">
+        <div class="NoticeL row">
+            <p class="ph3"><b>操作介绍</b></p>
+            <div class="NoticeLZ col-md-12">
+                <p>1、仅支持后缀名为xls、xlsx的数据文件上传；</p>
+                <p>2、可多次上传，系统记录最后一次上传数据；</p>
+                <p>3、上传文件最大支持50M；</p>
+                <p>4、<a href="~/Areas/CR/Content/替加环素项目数据采集模板.xlsx">下载数据模板；</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal formL col-md-8 col-sm-12 col-xs-12 ">
+        <div class="form-group">
+            <label class="col-sm-4 control-label">上报数据所属年度：<em style="color: red;">*</em></label>
+            <div class=" col-md-6 col-sm-9">
+                <select class="form-control" id="Year" onchange="Year()">
+                    <option value="">请选择</option>
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">上报数据所属季度：<em style="color: red;">*</em></label>
+            <div class=" col-md-6 col-sm-9">
+                <select class="form-control" id="Quarter">
+                    <option value="">请选择</option>
+                    <option value="上半年">上半年（1月 - 6月）</option>
+                    <option value="下半年">下半年（7月 - 12月）</option>
+                    <option value="全年">全年</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label" id="la1">年CRE平均检出率：<em style="color: red;">*</em></label>
+            <div class="col-md-6 col-sm-9 ">
+                <input type="text" class="form-control inputtext" id="CREDetectionRate" placeholder="请填写上年CRE平均检出率">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label" id="la2">年CRAB平均检出率：<em style="color: red;">*</em></label>
+            <div class="col-md-6 col-sm-9 ">
+                <input type="text" class="form-control inputtext" id="CREDrugRate" placeholder="请填写上年CRAB平均检出率">
+            </div>
+        </div>
+
+        <div class="form-group ">
+            <label class="col-sm-4 control-label">选择数据文件：<em style="color: red;">*</em></label>
+            <div class="col-md-6 col-sm-9 ">
+                <div class="red_outK">
+                    <div id="UploadFileBox" style="position:relative;padding-top:0px; width: 466px;float: left;">
+                        <input id="FilePath" name="FilePath" type="file" multiple class="file-loading" accept=".xls,.xlsx">
+                        <input type="hidden" id="UploadFilePath" name="UploadFilePath" />
+                        <input type="hidden" id="OldeFileName" name="OldeFileName" />
+                        <input type="hidden" id="OldeFileSize" name="OldeFileSize" />
+                        <div class="post_main_note file-upload-message" style="width:100%; height:auto;font-size: 14px;" id="UploadFilename"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style=" margin-bottom: 50px;">           
+            <div class="col-xs-12" style="margin:0 auto;" align="center">
+                <button id="btnBEPost" type="button" onclick="UploadFileCallback(); return false;"data-style="zoom-in" style="border: none;display: inline-block;width: 213px;height: 45px;line-height: 45px;text-align:center;font-size: 18px;color: #FFF;background-color: #0099e9;position: relative;">开始上传</button>
+            </div>
+        </div>
+
+
+    </div>
+    <input type="hidden" id="UploadMedicineId" data-remark="上传成功以后的数据Id" />
+    <script src="/Content/Scripts/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+    <script src="/Content/Scripts/bootstrap-fileinput-master/js/fileinput_locale_zh.js"></script>
+    <script src="~/Areas/CR/Content/js/CR/Upload.js"></script>
+
+    <script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.js"></script>
+    <link href="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet">
+    <script src="~/Content/Scripts/Autocomplete/jquery.autocomplete.min.js"></script>
+    <script>
+        $(function () {
+         var myDate = new Date();
+        //获取当前年
+            var year = myDate.getFullYear();
+            var year = year - 1;
+            var CRE = "【" + year + "】" + "年CRE平均检出率：<em style='color: red;'>*</em>";
+            var CRAB = "【" + year + "】" + "年CRAB平均检出率：<em style='color: red;'>*</em>";
+            $("#la1").html(CRE);
+            $("#la2").html(CRAB);
+            $.ajax({
+                async: false,
+                type: "get",
+                url: "/CR/CRUpload/GetDatalist",
+                data: {
+                    year: year
+                },
+                dataType: "json",
+                success: function (json) {
+                    if (json.length > 0) {
+                        for (var i = 0; i < json.length; i++) {
+                            $("#Year").val(parseInt(json[i].Year) + 1);
+                            $("#Quarter").val(json[i].Quarter);
+                            $("#CREDetectionRate").val(json[i].CREDetectionRate);
+                            $("#CREDrugRate").val(json[i].CREDrugRate);
+                        }
+                    } else {
+                        $("#Year").val(myDate.getFullYear());
+                        $("#Quarter").val("");
+                        $("#CREDetectionRate").val("");
+                        $("#CREDrugRate").val("");
+                    }
+                   
+                }
+            });
+
+        })
+        function Year()
+        {           
+            var year = $("#Year").val();
+            var year = year - 1;
+            var CRE = "【" + year + "】" + "年CRE平均检出率：<em style='color: red;'>*</em>";
+            var CRAB = "【" + year + "】" + "年CRAB平均检出率：<em style='color: red;'>*</em>";           
+            $("#la1").html(CRE);
+            $("#la2").html(CRAB);
+            $.ajax({
+                async: false,
+                type: "get",
+                url: "/CR/CRUpload/GetDatalist",
+                data: {
+                    year: year
+                },
+                dataType: "json",
+                success: function (json) {
+                    if (json.length > 0) {
+                        for (var i = 0; i < json.length; i++) {
+                            $("#Quarter").val(json[i].Quarter);
+                            $("#CREDetectionRate").val(json[i].CREDetectionRate);
+                            $("#CREDrugRate").val(json[i].CREDrugRate);
+                        }
+                    } else {
+                        $("#Quarter").val("");
+                        $("#CREDetectionRate").val("");
+                        $("#CREDrugRate").val("");
+                    }
+
+                }
+            });
+        }
+    </script>
+</div>

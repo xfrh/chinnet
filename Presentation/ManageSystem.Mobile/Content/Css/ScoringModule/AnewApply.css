@@ -1,0 +1,8 @@
+﻿textarea {
+    outline: none;
+}
+
+.has-error {
+    border-color: #F00;
+    color: #F00;
+}

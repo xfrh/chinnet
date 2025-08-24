@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = ViewBag.Name;
+    Layout = "~/Views/Shared/_SurveyLayout.cshtml";
+}
+
+
+@section Styles{
+    <style>
+        .chinet-icon {
+            color: #bbb;
+            height: 100%;
+            margin-top: -30%;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -moz-box-orient: vertical;
+            -moz-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+        }
+
+        .chinet-msg {
+            color: #999;
+            margin-top: 1.5rem;
+        }
+
+        #btnClose {
+            width: 100%;
+            text-align: center;
+            display: inline-block;
+            cursor: pointer;
+            line-height: 45px;
+            font-size: 0.875rem;
+            color: #666;
+            margin-top: 10%;
+        }
+    </style>
+}
+@section Scripts{
+    <script>
+
+        var vm = new Vue({
+            el: '#app',
+            mounted: function () {
+                var that = this;
+                that.$nextTick(function () {
+                });
+            },
+            methods: {
+                isWeiXin() {
+                    if (typeof window.WeixinJSBridge === 'undefined' || typeof window.WeixinJSBridge.invoke === 'undefined') {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                },
+                onClosePage() {
+                    var that = this;
+                    if (that.isWeiXin()) {
+                        WeixinJSBridge.call('closeWindow');
+                    }
+                    else {
+                        window.location.href = "about:blank";
+                    }
+                }
+            }
+        });
+    </script>
+}
+<div id="app" class="" style="height: 100%;">
+    <div class="flex flex-center chinet-icon">
+        <svg class="icon" style="width: 5rem; height: 5rem;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5371"><path d="M512 0C226.816 0 0 226.816 0 512s226.816 512 512 512 512-226.816 512-512S797.184 0 512 0z m0 950.784C263.424 950.784 73.216 760.576 73.216 512S263.424 73.216 512 73.216 950.784 263.424 950.784 512 760.576 950.784 512 950.784z m256-475.392H256c-22.016 0-36.608 14.592-36.608 36.608s14.592 36.608 36.608 36.608h512c22.016 0 36.608-14.592 36.608-36.608S790.016 475.392 768 475.392z" p-id="5372"></path></svg>
+        <p class="chinet-msg">抱歉，还没有到答题时间</p>
+    </div>
+    <a id="btnClose" ref="btnClose" href="javascript: void(0);" @@click="onClosePage">关闭</a>
+</div>

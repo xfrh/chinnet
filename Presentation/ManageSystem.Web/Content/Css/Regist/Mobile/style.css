@@ -1,0 +1,84 @@
+﻿@charset "utf-8";
+/**
+ * 私有样式
+ * 作者：吴军
+ * 时间：2017.09.02
+ */
+.logo{
+	width: 38%;
+	display: block;
+	margin: 0 auto;
+	margin-top: .84rem;
+}
+
+.txt_bt{
+	color: #c8c8c8;
+	font-size: .16rem;
+	text-align: center;
+	padding-top: .26rem;
+}
+
+.register{
+	width: 77%;
+	margin: 0 auto;
+}
+.register li{
+	overflow: hidden;
+	position: relative;
+	padding-top: .42rem;
+	line-height: .44rem;
+}
+.register li span{
+	width: .44rem;
+	height: .44rem;
+	float: left;
+}
+.register li input{
+	float: right;
+	width: calc(100% - .56rem);
+	text-indent: .25rem;
+	line-height: .44rem;
+	border-bottom: 1px solid #c8c8c8;
+}
+.register li input.button{
+	background: #129bdf;
+	color: #fff;
+	height: .58rem;
+	line-height: .58rem;
+	text-align: center;
+	border-radius: 6px;
+	width: 100%;
+	text-indent: 0;
+	margin-bottom: .15rem;
+}
+.register li.last{
+	margin-top: 1rem;
+	padding: 0;
+}
+.register li.last p,.register li.last a{
+	color: #1c4be7;
+	font-size: .16rem;
+}
+
+.ddl1 {
+border-style: none;
+    float: right;
+    width: calc(100% - .56rem);
+    text-indent: .25rem;
+    line-height: .44rem;
+    border-bottom: 1px solid #c8c8c8;
+    height: 0.5rem;
+    color: #969696;
+    font-size: .24rem;
+    display: block;
+    font-family: "微软雅黑", arial, sans-serif;
+}
+
+
+        .layui-layer-btn {
+            height: 0.5rem;
+    line-height: 0.5rem;
+        }
+        .layui-layer-btn a {
+          font-size:0.2rem;
+        }

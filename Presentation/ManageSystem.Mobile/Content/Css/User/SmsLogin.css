@@ -1,0 +1,20 @@
+﻿a.btn {
+    display: block;
+    text-align: center;
+    line-height: 1.1rem;
+}
+
+.ladda-label {
+    color: #fff;
+}
+
+input {
+    background-color: #FFFFFF;
+    background-image: none;
+    border-radius: 1px;
+    color: inherit;
+    display: block;
+    padding: 6px 12px;
+    width: 100%;
+}
+

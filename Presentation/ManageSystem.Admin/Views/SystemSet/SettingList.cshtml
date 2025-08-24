@@ -1,0 +1,169 @@
+﻿@model  ManageSystem.Admin.Models.Configuration.SettingModel
+
+    @{
+        ViewBag.Title = "系统配置（高级）";
+
+
+        bool IsEdit = UserinfoExtensions.CheckFunction(Url.Action("SettingEdit"));
+        bool IsView = UserinfoExtensions.CheckFunction(Url.Action("SettingView"));
+        bool IsCache = UserinfoExtensions.CheckFunction(Url.Action("SettingCache"));
+        string CacheHtml = IsCache ? "&nbsp;&nbsp;<a href=\"/SystemSet/SettingCache?key=#=Name#\" >刷新缓存</a>" : "";
+    }
+
+    @section HeadSection {
+    }
+
+    @section Breadcrumb{
+        @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "系统管理", SecondName = "系统配置（高级）", LocationName = this.ViewBag.Title }); }
+    }
+
+    @Html.AntiForgeryToken()
+
+    <div class="page-body">
+
+        <div class="row manage-page">
+            <div class="col-xs-12 col-md-12">
+                <div class="widget">
+                    <div class="widget-header bordered-bottom bordered-yellow manage-title-box">
+                        <span class="widget-caption manage-title"><i class="glyphicon glyphicon-th "></i>@ViewBag.Title </span>
+                        <div class="widget-buttons">
+                            <a href="#" data-toggle="maximize"><i class="fa fa-expand"></i></a>
+                            <a href="#" data-toggle="collapse"><i class="fa fa-minus"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="widget-body">
+                        <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+
+                            <div id="searchable_filter" class="dataTables_filter manage-but-box">
+                                <div style="width: 100%;">
+                                    @Html.ButtonHtml(HtmlButtonType.Add, "SettingCreate", "SystemSet")
+                                    @{ if (IsCache)
+                                        {
+                                            <a class="btn btn-danger" href="@(Url.Action("SettingCache","SystemSet",new {key=""}))">刷新所有缓存</a>
+                                        }
+                                    }
+
+                                </div>
+                                <div style="width: 100%;">
+                                    <div class="dataTables_filter manage-but-box">
+                                        <label class="lb-left">@Html.NopLabelFor(model => model.Name)：</label>
+                                        <label class="lb-right"><input type="text" id="input-search" class="form-control input-sm  search" aria-controls="searchable" name="searchKey" /></label>
+                                        <label class="lb-left">@Html.NopLabelFor(model => model.Title)：</label>
+                                        <label class="lb-right"><input type="text" id="input-titel" class="form-control input-sm  search" aria-controls="searchable" name="searchKey" /></label>
+                                        <label> <input type="button" id="btn-search" class="btn btn-blue" value="查 询" /> </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table table-striped table-bordered dataTable no-footer table-select" id="ManageTableDiv" aria-describedby="editabledatatable_info">
+                                <div id="data-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        $(document).ready(function () {
+
+            $("#data-grid").kendoGrid({
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: {
+                            url: "@Html.Raw(Url.Action("SettingList"))",
+                            type: "POST",
+                            dataType: "json",
+                            data: additionalData
+                        }
+                    },
+
+                    schema: {
+                        data: "Data",
+                        total: "Total",
+                        errors: "Errors"
+                    },
+                    error: function (e) {
+                        display_kendoui_grid_error(e);
+                        // Cancel the changes
+                        this.cancelChanges();
+                    },
+                    pageSize: 10,
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true
+
+                },
+                pageable: {
+                    refresh: true,
+                    pageSizes: [10, 30, 50]
+                },
+                scrollable: false,
+                groupable: true,
+                dataBound: onDataBound,
+                columns: [
+                {
+                    field: "Title",
+                    title: "配置名称",
+                    width: 200
+                },
+                  {
+                      field: "Type",
+                      title: "配置类型",
+                      width: 200
+                  },
+               {
+                   field: "Name",
+                   title: "配置关键字",
+                   width: 200
+               },
+
+            {
+                field: "Value",
+                title: "配置值"
+            },
+                  {
+                      field: "IsAdmin",
+                      title: "是否可操作",
+                      width: 100
+                  },
+                        {
+                            field: "IsCache",
+                            title: "是否缓存",
+                            width: 100
+                        },
+            {
+                field: "InsertTime",
+                title: "创建时间",
+                width: 150,
+                type: "date",
+                format: "{0:yyyy-MM-dd HH:mm}"
+            },
+                {
+                    field: "Id",
+                    title: "操作",
+                    width: 150,
+                    template: "@Html.KendoUIEditAndView(IsView, "SettingView", IsEdit, "SettingEdit")" + '@Html.Raw(CacheHtml) '
+                }]
+            });
+        });
+
+
+        //设置查询参数
+        function additionalData() {
+            var data = {
+                Name: $("#input-search").val(),
+                Title: $("#input-titel").val()
+            };
+
+            addAntiForgeryToken(data);
+            return data;
+        }
+
+    </script>
+
+    <script src="~/Content/Scripts/admin.listpage.js"></script>

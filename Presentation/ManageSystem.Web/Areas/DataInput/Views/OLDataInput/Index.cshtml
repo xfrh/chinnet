@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/DataInput/Views/Shared/_Layout.cshtml";
+}
+
+<h2>暂无权限</h2>
+<script>
+    $(function () { 
+        SuccessWindows("对不起您没有访问该页面的权限！", false, "/Data/AntibioticDrugFast");
+    })
+</script>
+

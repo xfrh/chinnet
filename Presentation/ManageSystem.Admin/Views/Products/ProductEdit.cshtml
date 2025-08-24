@@ -1,0 +1,40 @@
+﻿@model ManageSystem.Admin.Models.Products.ProductModel
+@{
+    //page title
+    ViewBag.Title ="编辑商品";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "商品管理", SecondName = "商品管理", LocationName = this.ViewBag.Title }); }
+}
+
+
+@using (Html.BeginForm("ProductEdit", "Products", FormMethod.Post, new { id = "form1" }))
+{
+  @Html.AntiForgeryToken()
+
+ <div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                </div>
+                <div class="widget-body " id="BaseDiv" runat="server">
+                    
+                    <div class="add-content ">
+                        <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                            @Html.Partial("_CreateOrUpdateProduct", Model)
+                        </div>
+                    </div>
+                </div>
+                <div class="options add-page-options" style="text-align:right">
+                    <input type="button" onclick="Save()" name="save" class="btn btn-blue " value="保存" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}
+

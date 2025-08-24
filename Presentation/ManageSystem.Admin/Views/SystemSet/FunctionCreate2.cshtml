@@ -1,0 +1,120 @@
+﻿@model ManageSystem.Admin.Models.SystemSet.FunctionModel
+@{
+    //page title
+    ViewBag.Title ="添加系统功能2";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "系统管理", SecondName = "系统管理", LocationName = this.ViewBag.Title }); }
+}
+
+
+@using (Html.BeginForm())
+{
+  @Html.AntiForgeryToken()
+
+ <div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                </div>
+                <div class="widget-body " id="BaseDiv" runat="server">
+                    <div class="options add-page-options">
+                    <input type="submit" name="save" class="btn btn-blue " value="保存" />
+                </div>
+                    <div class="add-content ">
+                        <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                      
+                                            @Html.HiddenFor(model => model.Id)
+
+
+                        <table class="adminContent">
+                            <tr>
+                                <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+                                <td class="adminData">
+                                    @Html.EditorFor(m => m.Name)
+                                    @Html.ValidationMessageFor(m => m.Name)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="adminTitle">@Html.NopLabelFor(m => m.Sort)：</td>
+                                <td class="adminData">
+                                    @Html.EditorFor(m => m.Sort)
+                                    @Html.ValidationMessageFor(m => m.Sort)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="adminTitle">@Html.NopLabelFor(m => m.Url)：</td>
+                                <td class="adminData">
+                                    @Html.EditorFor(m => m.Url)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="adminTitle">@Html.NopLabelFor(m => m.Type)：</td>
+                                <td class="adminData">
+                                    @Html.DropDownListFor(m => m.Type, Model.FunctionTypeList, new { @class = "form-control dropdown" })
+                                    @Html.ValidationMessageFor(m => m.Type)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="adminTitle">@Html.NopLabelFor(m => m.IsMenu)：</td>
+                                <td class="adminData">
+                                     @Html.CheckBoxFor(m=>m.IsMenu, new{ @class= "n-chk" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="adminTitle">@Html.NopLabelFor(m => m.ControlId)：</td>
+                                <td class="adminData">
+                                    @Html.EditorFor(m => m.ControlId)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="adminTitle">@Html.NopLabelFor(m => m.Image)：</td>
+                                <td class="adminData">
+                                    @Html.EditorFor(m => m.Image)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="adminTitle">@Html.NopLabelFor(m => m.CustomClass)：</td>
+                                <td class="adminData">
+                                    @Html.EditorFor(m => m.CustomClass)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="adminTitle">@Html.NopLabelFor(m => m.FunctionId)：</td>
+                                <td class="adminData">
+                                    @Html.DropDownListFor(model => model.FunctionId, Model.AvailableFunctions, new { @class = "form-control dropdown" })
+                                    @Html.ValidationMessageFor(m => m.FunctionId)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="adminTitle">@Html.NopLabelFor(m => m.Describe)：</td>
+                                <td class="adminData">
+                                    @Html.TextAreaFor(model => model.Describe, new { @class = "form-control txt", cols = "30", rows = "3" })
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="adminTitle">@Html.NopLabelFor(m => m.CreateName)：</td>
+                                <td class="adminData">
+                                    @Html.HiddenFor(m => m.CreateName)
+                                    @Model.CreateName
+                                </td>
+                            </tr>
+
+                        </table>
+
+
+
+                           </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}
+

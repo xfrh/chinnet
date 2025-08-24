@@ -1,0 +1,91 @@
+﻿@using ManageSystem.Web.Models.Researches;
+@using Webdiyer.WebControls.Mvc;
+@using ManageSystem.Services.Articles;
+
+@model PagedList<CenterResearchCollectionModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "科研合作收藏 ";
+}
+
+@section HeadSection{
+    <link href="~/Content/Css/Center.css" rel="stylesheet" />
+}
+
+
+<div class="mbx"><p>当前位置：首页 &gt; 我的收藏 </p></div>
+<div class="user_center">
+    @*<div>
+       @Html.Action("_Menu", "Center")
+    </div>*@
+    <div class="user_center_r" style="width: 100%;padding-right: 10px;padding-left: 10px;">
+
+        <div class="user_center_r_a center-title">
+            <h2>
+                <span class="span-item" onclick="location.href='@Url.Action("MeetingCollection", "Center")'">信息动态</span>
+                <span class="span-item span-item-action" onclick="location.href='@Url.Action("ResearchCollection", "Center")'">科研合作</span>
+            </h2>
+        </div>
+
+        <div class="user_center_r_b">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th width="25%"  style="text-align:center;">科研合作名称</th>
+                        <th width="10%"  style="text-align:center;">收藏时间</th>
+                        <th width="8%" style="text-align:center;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td >@item.ResearchName</td>
+                                    <td>@item.InsertTime.ToString("yyyy-MM-dd HH:mm")</td>
+                                    <td>
+                                        <a class='td-aclass' href='@Url.Action("Detail", "Research")/@item.ResearchId' target='_blank'>查看</a>&nbsp;
+                                        <a class='td-aclass' href="javascript:Delete('@item.Id.ToString()') " target='_blank'>删除</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+            </table>
+            <div id="page-box" class="page">
+                @Html.Pager(Model, MvcPagerExtensions.GetPagerOptions())
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function Delete(id) {
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "/Center/DelelteResearchCollection",
+            data: {
+                id: '' + id + '',
+            },
+            dataType: "json",
+            success: function (json) {
+
+                if (json == null || json == "")
+                    return;
+
+                if (json.status == "true") {
+                    SuccessWindow("删除成功！", true);
+                }
+                else {
+                    ErrorWindow(json.message, true);
+                }
+            }
+        });
+    }
+</script>
+

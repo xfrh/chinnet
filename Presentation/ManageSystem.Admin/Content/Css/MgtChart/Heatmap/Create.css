@@ -1,0 +1,76 @@
+﻿.item-container {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 25px;
+}
+
+    .item-container .item-header {
+        border-bottom: 1px solid #dedede;
+        padding: 10px 0;
+        margin-bottom: 20px;
+    }
+
+    .item-container .item-active {
+        font-weight: bold;
+        font-size: 14px;
+        margin-right: 8%;
+    }
+
+    .item-container .item-preview {
+    }
+
+    .item-container .btn-excel {
+        margin: 0;
+        padding: 4px 12px;
+    }
+
+    .item-container table.item-table {
+        width: 100%;
+    }
+
+    .item-container table.item-table {
+    }
+
+        .item-container table.item-table > thead > tr > th,
+        .item-container table.item-table > tbody > tr > td {
+            vertical-align: middle;
+            padding: 8px;
+        }
+
+        .item-container table.item-table > thead > tr > th {
+            background-color: #efefef;
+        }
+
+        .item-container table.item-table.table-bordered,
+        .item-container table.item-table.table-bordered > tbody > tr > td {
+            border-style: solid;
+        }
+
+            .item-container table.item-table .table-bordered th,
+            .item-container table.item-table .table-bordered td {
+                border: 1px solid #ddd !important;
+            }
+
+    .item-container .text-box {
+        outline: none;
+        box-sizing: border-box;
+        width: 100%;
+        height: 32px;
+        line-height: 32px;
+    }
+
+    .item-container input.input-validation-error {
+        border-color: #dd3d31;
+        color: #dd3d31;
+    }
+
+    .item-container a.btn-delete {
+        margin: 0;
+        font-size: 12px;
+        padding: 3px 12px;
+        color: #e74b37;
+        border-color: #e74b37;
+        display: block;
+        width: 55px;
+        margin: 0 auto;
+    }

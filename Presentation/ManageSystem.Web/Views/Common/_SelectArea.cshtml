@@ -1,0 +1,591 @@
+﻿
+<style type="text/css">
+    
+/*城市弹窗*/
+.k_site_K{position:absolute;width:700px;overflow:hidden;border-top:1px solid #d9d9d9;*border-left:1px solid #d9d9d9;*border-right:1px solid #d9d9d9;*border-bottom:1px solid #d9d9d9;border-left:1px solid #d9d9d9\9;border-right:1px solid #d9d9d9\9;border-bottom:1px solid #d9d9d9\9;left:0;left:-1px\9;*left:-1px;top:48px;display:none;z-index:2001;background-color:#FFF;box-shadow:0 2px 8px #ccc;}
+.k_site_K .k_site_K_top{height:36px;margin:15px 15px 0;position:relative;border-bottom:2px solid #d9d9d9;}
+.k_site_K .k_site_K_top .thisClose{position:absolute;width:20px;height:20px;right:0;top:3px;cursor:pointer;overflow:hidden;}
+.k_site_K .k_site_K_top .thisClose img{width:20px;height:40px;margin-top:0!important;}
+.k_site_K .k_site_K_top .thisClose:hover img{margin-top:-20px!important;}
+.k_site_K .k_site_K_top ul{margin-bottom:-2px;}
+.k_site_K .k_site_K_top ul li{height:36px;line-height:36px;display:inline-block;float:left;border-bottom:2px solid #d9d9d9;}
+.k_site_K .k_site_K_top ul li.thisOver{border-bottom:2px solid #00a2f7;}
+.k_site_K .k_site_K_top ul li a{display:inline-block;line-height:36px;padding:0 10px;cursor:pointer;}
+.k_site_K .k_site_K_city{overflow:hidden;margin:10px 0 10px 15px;}
+.k_site_K .k_site_K_qu{overflow:hidden;margin:10px 15px 10px 25px;border-top:2px solid #d9d9d9;display:none;}
+.k_site_K .k_site_K_qu ul{overflow:hidden;margin:5px auto;}
+.k_site_K .k_site_K_qu ul li{display:block;width:70px;height:26px;line-height:26px;float:left;margin:0 5px 5px 0;text-align:left;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow:hidden;}
+.k_site_K .k_site_K_qu ul li a{font-size:12px;color:#8e8e8e;cursor:pointer;}
+.k_site_K .k_site_K_qu ul li:hover a{color:#0099e9;}
+.k_site_K_city_zhu{overflow:hidden;margin:5px auto;display:none;}
+.k_site_K_city_zhu .K_city_lin{overflow:hidden;}
+.k_site_K_city_zhu .K_city_lin span{display:inline-block;width:45px;font-size:14px;color:#ff0000;height:26px;line-height:26px;float:left;text-align:left;}
+.k_site_K_city_zhu .K_city_lin.hot span{width:10px;}
+.k_site_K_city_zhu .K_city_lin ul{overflow:hidden;width:638px;}
+.k_site_K_city_zhu .K_city_lin.hot ul{width:650px;}
+.k_site_K_city_zhu .K_city_lin ul li{display:block;width:70px;height:22px;line-height:20px;float:left;margin:0 5px 5px 0;text-align:left;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow:hidden;}
+.k_site_K_city_zhu .K_city_lin ul li a{font-size:12px;color:#8e8e8e;cursor:pointer;}
+.k_site_K_city_zhu .K_city_lin ul li.thisOver a{color:#0099e9;}
+
+</style>
+
+<script type="text/javascript">
+
+    function OpenSelectArea()
+    {
+        debugger
+        $(".select-area-div").css("display", "block");
+    }
+    function CloseSelectArea() {
+        $(".select-area-div").css("display", "none");
+    }
+
+
+
+
+</script>
+
+<div class="k_site_K select-area-div" id="k_site_K" style="display: block;">
+    <div class="k_site_K_top">
+        <ul>
+            <li class="thisOver"><a>热门</a></li>
+            <li><a>ABCD</a></li>
+            <li><a>EFGH</a></li>
+            <li><a>JKLM</a></li>
+            <li class=""><a>NOPQRS</a></li>
+            <li><a>TUVW</a></li>
+            <li><a>XYZ</a></li>
+        </ul>
+        <div class="thisClose" onclick="CloseSelectArea()"><img src="http://img1.hudongba.com/static_v4/images/post/share_qr_close3_20.png" alt="" title="关闭"></div>
+    </div>
+    <div class="k_site_K_city">
+        <div class="k_site_K_city_zhu" id="K_city_style0" style="display: none;">
+            <div class="K_city_lin">
+                <span>hot</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('201',this)" class=""><a>北京</a></li>
+                    <li onclick="_partyPostPC._changeCity('472',this)" class="thisOver"><a>成都</a></li>
+                    <li onclick="_partyPostPC._changeCity('200',this)"><a>重庆</a></li>
+                    <li onclick="_partyPostPC._changeCity('362',this)"><a>长沙</a></li>
+                    <li onclick="_partyPostPC._changeCity('422',this)"><a>大连</a></li>
+                    <li onclick="_partyPostPC._changeCity('265',this)"><a>广州</a></li>
+                    <li onclick="_partyPostPC._changeCity('509',this)"><a>杭州</a></li>
+                    <li onclick="_partyPostPC._changeCity('397',this)"><a>南京</a></li>
+                    <li onclick="_partyPostPC._changeCity('3620',this)"><a>青岛</a></li>
+                    <li onclick="_partyPostPC._changeCity('202',this)"><a>上海</a></li>
+                    <li onclick="_partyPostPC._changeCity('266',this)"><a>深圳</a></li>
+                    <li onclick="_partyPostPC._changeCity('421',this)"><a>沈阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('408',this)"><a>苏州</a></li>
+                    <li onclick="_partyPostPC._changeCity('203',this)"><a>天津</a></li>
+                    <li onclick="_partyPostPC._changeCity('336',this)"><a>武汉</a></li>
+                    <li onclick="_partyPostPC._changeCity('353',this)"><a>厦门</a></li>
+                    <li onclick="_partyPostPC._changeCity('451',this)"><a>西安</a></li>
+                    <li onclick="_partyPostPC._changeCity('3828',this)"><a>线上活动</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="k_site_K_city_zhu" id="K_city_style1" style="display: none;">
+            <div class="K_city_lin">
+                <span>A</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('205',this)"><a>澳门</a></li>
+                    <li onclick="_partyPostPC._changeCity('244',this)"><a>安庆</a></li>
+                    <li onclick="_partyPostPC._changeCity('289',this)"><a>安顺</a></li>
+                    <li onclick="_partyPostPC._changeCity('322',this)"><a>安阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('429',this)"><a>鞍山</a></li>
+                    <li onclick="_partyPostPC._changeCity('460',this)"><a>安康</a></li>
+                    <li onclick="_partyPostPC._changeCity('490',this)"><a>阿坝</a></li>
+                    <li onclick="_partyPostPC._changeCity('544',this)"><a>阿拉善</a></li>
+                    <li onclick="_partyPostPC._changeCity('578',this)"><a>阿里</a></li>
+                    <li onclick="_partyPostPC._changeCity('589',this)"><a>阿克苏</a></li>
+                    <li onclick="_partyPostPC._changeCity('595',this)"><a>阿勒泰</a></li>
+                    <li onclick="_partyPostPC._changeCity('596',this)"><a>阿拉尔</a></li>
+                </ul>
+            </div>
+            <div class="K_city_lin">
+                <span>B</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('201',this)"><a>北京</a></li>
+                    <li onclick="_partyPostPC._changeCity('238',this)"><a>蚌埠</a></li>
+                    <li onclick="_partyPostPC._changeCity('254',this)"><a>白银</a></li>
+                    <li onclick="_partyPostPC._changeCity('294',this)"><a>毕节</a></li>
+                    <li onclick="_partyPostPC._changeCity('298',this)"><a>保定</a></li>
+                    <li onclick="_partyPostPC._changeCity('384',this)"><a>白山</a></li>
+                    <li onclick="_partyPostPC._changeCity('427',this)"><a>本溪</a></li>
+                    <li onclick="_partyPostPC._changeCity('449',this)"><a>滨州</a></li>
+                    <li onclick="_partyPostPC._changeCity('456',this)"><a>宝鸡</a></li>
+                    <li onclick="_partyPostPC._changeCity('485',this)"><a>巴中</a></li>
+                    <li onclick="_partyPostPC._changeCity('500',this)"><a>保山</a></li>
+                    <li onclick="_partyPostPC._changeCity('527',this)"><a>北海</a></li>
+                    <li onclick="_partyPostPC._changeCity('530',this)"><a>百色</a></li>
+                    <li onclick="_partyPostPC._changeCity('535',this)"><a>包头</a></li>
+                    <li onclick="_partyPostPC._changeCity('542',this)"><a>巴彦淖尔</a></li>
+                    <li onclick="_partyPostPC._changeCity('564',this)"><a>白沙县</a></li>
+                    <li onclick="_partyPostPC._changeCity('568',this)"><a>保亭县</a></li>
+                    <li onclick="_partyPostPC._changeCity('588',this)"><a>博尔塔拉</a></li>
+                    <li onclick="_partyPostPC._changeCity('590',this)"><a>巴音郭楞</a></li>
+                    <li onclick="_partyPostPC._changeCity('379',this)"><a>白城</a></li>
+                </ul>
+            </div>
+            <div class="K_city_lin">
+                <span>C</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('472',this)"><a>成都</a></li>
+                    <li onclick="_partyPostPC._changeCity('200',this)"><a>重庆</a></li>
+                    <li onclick="_partyPostPC._changeCity('362',this)"><a>长沙</a></li>
+                    <li onclick="_partyPostPC._changeCity('240',this)"><a>滁州</a></li>
+                    <li onclick="_partyPostPC._changeCity('247',this)"><a>巢湖</a></li>
+                    <li onclick="_partyPostPC._changeCity('248',this)"><a>池州</a></li>
+                    <li onclick="_partyPostPC._changeCity('271',this)"><a>潮州</a></li>
+                    <li onclick="_partyPostPC._changeCity('302',this)"><a>承德</a></li>
+                    <li onclick="_partyPostPC._changeCity('303',this)"><a>沧州</a></li>
+                    <li onclick="_partyPostPC._changeCity('364',this)"><a>常德</a></li>
+                    <li onclick="_partyPostPC._changeCity('370',this)"><a>郴州</a></li>
+                    <li onclick="_partyPostPC._changeCity('377',this)"><a>长春</a></li>
+                    <li onclick="_partyPostPC._changeCity('406',this)"><a>常州</a></li>
+                    <li onclick="_partyPostPC._changeCity('423',this)"><a>朝阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('465',this)"><a>长治</a></li>
+                    <li onclick="_partyPostPC._changeCity('501',this)"><a>楚雄</a></li>
+                    <li onclick="_partyPostPC._changeCity('529',this)"><a>崇左</a></li>
+                    <li onclick="_partyPostPC._changeCity('536',this)"><a>赤峰</a></li>
+                    <li onclick="_partyPostPC._changeCity('562',this)"><a>澄迈</a></li>
+                    <li onclick="_partyPostPC._changeCity('565',this)"><a>昌江县</a></li>
+                    <li onclick="_partyPostPC._changeCity('574',this)"><a>昌都</a></li>
+                    <li onclick="_partyPostPC._changeCity('587',this)"><a>昌吉</a></li>
+                </ul>
+            </div>
+            <div class="K_city_lin">
+                <span>D</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('422',this)"><a>大连</a></li>
+                    <li onclick="_partyPostPC._changeCity('261',this)"><a>定西</a></li>
+                    <li onclick="_partyPostPC._changeCity('309',this)"><a>大庆</a></li>
+                    <li onclick="_partyPostPC._changeCity('318',this)"><a>大兴安岭</a></li>
+                    <li onclick="_partyPostPC._changeCity('430',this)"><a>丹东</a></li>
+                    <li onclick="_partyPostPC._changeCity('437',this)"><a>德州</a></li>
+                    <li onclick="_partyPostPC._changeCity('438',this)"><a>东营</a></li>
+                    <li onclick="_partyPostPC._changeCity('462',this)"><a>大同</a></li>
+                    <li onclick="_partyPostPC._changeCity('475',this)"><a>德阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('486',this)"><a>达州</a></li>
+                    <li onclick="_partyPostPC._changeCity('505',this)"><a>德宏 </a></li>
+                    <li onclick="_partyPostPC._changeCity('507',this)"><a>迪庆</a></li>
+                    <li onclick="_partyPostPC._changeCity('508',this)"><a>大理</a></li>
+                    <li onclick="_partyPostPC._changeCity('559',this)"><a>东方</a></li>
+                    <li onclick="_partyPostPC._changeCity('560',this)"><a>定安</a></li>
+                    <li onclick="_partyPostPC._changeCity('276',this)"><a>东莞</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="k_site_K_city_zhu" id="K_city_style2" style="display: none;">
+            <div class="K_city_lin">
+                <span>E</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('342',this)"><a>鄂州</a></li>
+                    <li onclick="_partyPostPC._changeCity('348',this)"><a>恩施</a></li>
+                    <li onclick="_partyPostPC._changeCity('541',this)"><a>鄂尔多斯</a></li>
+                </ul>
+            </div>
+            <div class="K_city_lin">
+                <span>F</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('237',this)"><a>阜阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('280',this)"><a>佛山</a></li>
+                    <li onclick="_partyPostPC._changeCity('418',this)"><a>抚州</a></li>
+                    <li onclick="_partyPostPC._changeCity('424',this)"><a>阜新</a></li>
+                    <li onclick="_partyPostPC._changeCity('426',this)"><a>抚顺</a></li>
+                    <li onclick="_partyPostPC._changeCity('528',this)"><a>防城港</a></li>
+                    <li onclick="_partyPostPC._changeCity('354',this)"><a>福州</a></li>
+                    <li onclick="_partyPostPC._changeCity('3618',this)"><a>非中国地区</a></li>
+                </ul>
+            </div>
+            <div class="K_city_lin">
+                <span>G</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('265',this)"><a>广州</a></li>
+                    <li onclick="_partyPostPC._changeCity('264',this)"><a>甘南 </a></li>
+                    <li onclick="_partyPostPC._changeCity('287',this)"><a>贵阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('416',this)"><a>赣州</a></li>
+                    <li onclick="_partyPostPC._changeCity('473',this)"><a>广元</a></li>
+                    <li onclick="_partyPostPC._changeCity('477',this)"><a>广安</a></li>
+                    <li onclick="_partyPostPC._changeCity('491',this)"><a>甘孜</a></li>
+                    <li onclick="_partyPostPC._changeCity('521',this)"><a>桂林</a></li>
+                    <li onclick="_partyPostPC._changeCity('524',this)"><a>贵港</a></li>
+                    <li onclick="_partyPostPC._changeCity('550',this)"><a>固原</a></li>
+                    <li onclick="_partyPostPC._changeCity('604',this)"><a>果洛州</a></li>
+                    <li onclick="_partyPostPC._changeCity('726',this)"><a>高雄</a></li>
+                </ul>
+            </div>
+            <div class="K_city_lin">
+                <span>H</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('509',this)"><a>杭州</a></li>
+                    <li onclick="_partyPostPC._changeCity('236',this)"><a>淮北</a></li>
+                    <li onclick="_partyPostPC._changeCity('239',this)"><a>淮南</a></li>
+                    <li onclick="_partyPostPC._changeCity('245',this)"><a>黄山</a></li>
+                    <li onclick="_partyPostPC._changeCity('250',this)"><a>亳州</a></li>
+                    <li onclick="_partyPostPC._changeCity('270',this)"><a>河源</a></li>
+                    <li onclick="_partyPostPC._changeCity('275',this)"><a>惠州</a></li>
+                    <li onclick="_partyPostPC._changeCity('296',this)"><a>邯郸</a></li>
+                    <li onclick="_partyPostPC._changeCity('305',this)"><a>衡水</a></li>
+                    <li onclick="_partyPostPC._changeCity('308',this)"><a>黑河</a></li>
+                    <li onclick="_partyPostPC._changeCity('311',this)"><a>鹤岗</a></li>
+                    <li onclick="_partyPostPC._changeCity('323',this)"><a>鹤壁</a></li>
+                    <li onclick="_partyPostPC._changeCity('341',this)"><a>黄冈</a></li>
+                    <li onclick="_partyPostPC._changeCity('343',this)"><a>黄石</a></li>
+                    <li onclick="_partyPostPC._changeCity('369',this)"><a>衡阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('373',this)"><a>怀化</a></li>
+                    <li onclick="_partyPostPC._changeCity('434',this)"><a>葫芦岛</a></li>
+                    <li onclick="_partyPostPC._changeCity('450',this)"><a>菏泽</a></li>
+                    <li onclick="_partyPostPC._changeCity('457',this)"><a>汉中</a></li>
+                    <li onclick="_partyPostPC._changeCity('502',this)"><a>红河</a></li>
+                    <li onclick="_partyPostPC._changeCity('511',this)"><a>湖州</a></li>
+                    <li onclick="_partyPostPC._changeCity('531',this)"><a>河池</a></li>
+                    <li onclick="_partyPostPC._changeCity('533',this)"><a>贺州</a></li>
+                    <li onclick="_partyPostPC._changeCity('538',this)"><a>呼伦贝尔</a></li>
+                    <li onclick="_partyPostPC._changeCity('551',this)"><a>海口</a></li>
+                    <li onclick="_partyPostPC._changeCity('583',this)"><a>喀什</a></li>
+                    <li onclick="_partyPostPC._changeCity('586',this)"><a>哈密</a></li>
+                    <li onclick="_partyPostPC._changeCity('592',this)"><a>和田</a></li>
+                    <li onclick="_partyPostPC._changeCity('600',this)"><a>海东</a></li>
+                    <li onclick="_partyPostPC._changeCity('601',this)"><a>海贝</a></li>
+                    <li onclick="_partyPostPC._changeCity('602',this)"><a>黄南</a></li>
+                    <li onclick="_partyPostPC._changeCity('603',this)"><a>海南</a></li>
+                    <li onclick="_partyPostPC._changeCity('606',this)"><a>海西</a></li>
+                    <li onclick="_partyPostPC._changeCity('3621',this)"><a>淮安</a></li>
+                    <li onclick="_partyPostPC._changeCity('534',this)"><a>呼和浩特</a></li>
+                    <li onclick="_partyPostPC._changeCity('306',this)"><a>哈尔滨</a></li>
+                    <li onclick="_partyPostPC._changeCity('234',this)"><a>合肥</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="k_site_K_city_zhu" id="K_city_style3" style="display: none;">
+            <div class="K_city_lin">
+                <span>J</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('252',this)"><a>嘉峪关</a></li>
+                    <li onclick="_partyPostPC._changeCity('253',this)"><a>金昌</a></li>
+                    <li onclick="_partyPostPC._changeCity('256',this)"><a>酒泉</a></li>
+                    <li onclick="_partyPostPC._changeCity('273',this)"><a>揭阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('279',this)"><a>江门</a></li>
+                    <li onclick="_partyPostPC._changeCity('312',this)"><a>佳木斯</a></li>
+                    <li onclick="_partyPostPC._changeCity('315',this)"><a>鸡西</a></li>
+                    <li onclick="_partyPostPC._changeCity('325',this)"><a>焦作</a></li>
+                    <li onclick="_partyPostPC._changeCity('335',this)"><a>济源</a></li>
+                    <li onclick="_partyPostPC._changeCity('339',this)"><a>荆门</a></li>
+                    <li onclick="_partyPostPC._changeCity('345',this)"><a>荆州</a></li>
+                    <li onclick="_partyPostPC._changeCity('378',this)"><a>吉林</a></li>
+                    <li onclick="_partyPostPC._changeCity('409',this)"><a>江阴</a></li>
+                    <li onclick="_partyPostPC._changeCity('411',this)"><a>九江</a></li>
+                    <li onclick="_partyPostPC._changeCity('420',this)"><a>吉安</a></li>
+                    <li onclick="_partyPostPC._changeCity('433',this)"><a>锦州</a></li>
+                    <li onclick="_partyPostPC._changeCity('446',this)"><a>济宁</a></li>
+                    <li onclick="_partyPostPC._changeCity('466',this)"><a>晋城</a></li>
+                    <li onclick="_partyPostPC._changeCity('468',this)"><a>晋中</a></li>
+                    <li onclick="_partyPostPC._changeCity('512',this)"><a>嘉兴</a></li>
+                    <li onclick="_partyPostPC._changeCity('517',this)"><a>金华</a></li>
+                    <li onclick="_partyPostPC._changeCity('721',this)"><a>基隆</a></li>
+                    <li onclick="_partyPostPC._changeCity('725',this)"><a>嘉义</a></li>
+                    <li onclick="_partyPostPC._changeCity('412',this)"><a>景德镇</a></li>
+                    <li onclick="_partyPostPC._changeCity('436',this)"><a>济南</a></li>
+                </ul>
+            </div>
+            <div class="K_city_lin">
+                <span>K</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('493',this)"><a>昆明</a></li>
+                    <li onclick="_partyPostPC._changeCity('582',this)"><a>克拉玛依</a></li>
+                    <li onclick="_partyPostPC._changeCity('591',this)"><a>克州</a></li>
+                    <li onclick="_partyPostPC._changeCity('3813',this)"><a>开封</a></li>
+                </ul>
+            </div>
+            <div class="K_city_lin">
+                <span>L</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('246',this)"><a>六安</a></li>
+                    <li onclick="_partyPostPC._changeCity('251',this)"><a>兰州</a></li>
+                    <li onclick="_partyPostPC._changeCity('262',this)"><a>陇南</a></li>
+                    <li onclick="_partyPostPC._changeCity('263',this)"><a>临夏</a></li>
+                    <li onclick="_partyPostPC._changeCity('286',this)"><a>六盘水</a></li>
+                    <li onclick="_partyPostPC._changeCity('304',this)"><a>廊坊</a></li>
+                    <li onclick="_partyPostPC._changeCity('320',this)"><a>洛阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('328',this)"><a>漯河</a></li>
+                    <li onclick="_partyPostPC._changeCity('360',this)"><a>龙岩</a></li>
+                    <li onclick="_partyPostPC._changeCity('374',this)"><a>娄底</a></li>
+                    <li onclick="_partyPostPC._changeCity('382',this)"><a>辽源</a></li>
+                    <li onclick="_partyPostPC._changeCity('399',this)"><a>连云港</a></li>
+                    <li onclick="_partyPostPC._changeCity('428',this)"><a>辽阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('435',this)"><a>聊城</a></li>
+                    <li onclick="_partyPostPC._changeCity('444',this)"><a>临沂</a></li>
+                    <li onclick="_partyPostPC._changeCity('447',this)"><a>莱芜</a></li>
+                    <li onclick="_partyPostPC._changeCity('469',this)"><a>吕梁</a></li>
+                    <li onclick="_partyPostPC._changeCity('470',this)"><a>临汾</a></li>
+                    <li onclick="_partyPostPC._changeCity('480',this)"><a>乐山</a></li>
+                    <li onclick="_partyPostPC._changeCity('482',this)"><a>泸州</a></li>
+                    <li onclick="_partyPostPC._changeCity('492',this)"><a>凉山</a></li>
+                    <li onclick="_partyPostPC._changeCity('496',this)"><a>丽江</a></li>
+                    <li onclick="_partyPostPC._changeCity('499',this)"><a>临沧</a></li>
+                    <li onclick="_partyPostPC._changeCity('519',this)"><a>丽水</a></li>
+                    <li onclick="_partyPostPC._changeCity('522',this)"><a>柳州</a></li>
+                    <li onclick="_partyPostPC._changeCity('532',this)"><a>来宾</a></li>
+                    <li onclick="_partyPostPC._changeCity('545',this)"><a>兴安</a></li>
+                    <li onclick="_partyPostPC._changeCity('563',this)"><a>临高</a></li>
+                    <li onclick="_partyPostPC._changeCity('566',this)"><a>乐东县</a></li>
+                    <li onclick="_partyPostPC._changeCity('567',this)"><a>陵水县</a></li>
+                    <li onclick="_partyPostPC._changeCity('573',this)"><a>拉萨</a></li>
+                    <li onclick="_partyPostPC._changeCity('579',this)"><a>林芝</a></li>
+                </ul>
+            </div>
+            <div class="K_city_lin">
+                <span>M</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('241',this)"><a>马鞍山</a></li>
+                    <li onclick="_partyPostPC._changeCity('269',this)"><a>梅州</a></li>
+                    <li onclick="_partyPostPC._changeCity('283',this)"><a>茂名</a></li>
+                    <li onclick="_partyPostPC._changeCity('316',this)"><a>牡丹江</a></li>
+                    <li onclick="_partyPostPC._changeCity('474',this)"><a>绵阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('487',this)"><a>眉山</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="k_site_K_city_zhu" id="K_city_style4" style="display: none;">
+            <div class="K_city_lin">
+                <span>N</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('397',this)"><a>南京</a></li>
+                    <li onclick="_partyPostPC._changeCity('330',this)"><a>南阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('355',this)"><a>南平</a></li>
+                    <li onclick="_partyPostPC._changeCity('361',this)"><a>宁德</a></li>
+                    <li onclick="_partyPostPC._changeCity('404',this)"><a>南通</a></li>
+                    <li onclick="_partyPostPC._changeCity('476',this)"><a>南充</a></li>
+                    <li onclick="_partyPostPC._changeCity('479',this)"><a>内江</a></li>
+                    <li onclick="_partyPostPC._changeCity('506',this)"><a>怒江</a></li>
+                    <li onclick="_partyPostPC._changeCity('520',this)"><a>南宁</a></li>
+                    <li onclick="_partyPostPC._changeCity('571',this)"><a>南沙群岛</a></li>
+                    <li onclick="_partyPostPC._changeCity('577',this)"><a>那曲</a></li>
+                    <li onclick="_partyPostPC._changeCity('410',this)"><a>南昌</a></li>
+                    <li onclick="_partyPostPC._changeCity('510',this)"><a>宁波</a></li>
+                </ul>
+            </div>
+            <div class="K_city_lin">
+                <span>P</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('260',this)"><a>平凉</a></li>
+                    <li onclick="_partyPostPC._changeCity('321',this)"><a>平顶山</a></li>
+                    <li onclick="_partyPostPC._changeCity('326',this)"><a>濮阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('357',this)"><a>莆田</a></li>
+                    <li onclick="_partyPostPC._changeCity('415',this)"><a>萍乡</a></li>
+                    <li onclick="_partyPostPC._changeCity('432',this)"><a>盘锦</a></li>
+                    <li onclick="_partyPostPC._changeCity('484',this)"><a>攀枝花</a></li>
+                </ul>
+            </div>
+            <div class="K_city_lin">
+                <span>Q</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('3620',this)"><a>青岛</a></li>
+                    <li onclick="_partyPostPC._changeCity('259',this)"><a>庆阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('267',this)"><a>清远</a></li>
+                    <li onclick="_partyPostPC._changeCity('291',this)"><a>黔西南州</a></li>
+                    <li onclick="_partyPostPC._changeCity('292',this)"><a>黔东南州</a></li>
+                    <li onclick="_partyPostPC._changeCity('293',this)"><a>黔南州</a></li>
+                    <li onclick="_partyPostPC._changeCity('299',this)"><a>秦皇岛</a></li>
+                    <li onclick="_partyPostPC._changeCity('313',this)"><a>七台河</a></li>
+                    <li onclick="_partyPostPC._changeCity('350',this)"><a>潜江</a></li>
+                    <li onclick="_partyPostPC._changeCity('358',this)"><a>泉州</a></li>
+                    <li onclick="_partyPostPC._changeCity('467',this)"><a>忻州</a></li>
+                    <li onclick="_partyPostPC._changeCity('494',this)"><a>曲靖</a></li>
+                    <li onclick="_partyPostPC._changeCity('515',this)"><a>衢州</a></li>
+                    <li onclick="_partyPostPC._changeCity('526',this)"><a>钦州</a></li>
+                    <li onclick="_partyPostPC._changeCity('557',this)"><a>琼海</a></li>
+                    <li onclick="_partyPostPC._changeCity('569',this)"><a>琼中县</a></li>
+                    <li onclick="_partyPostPC._changeCity('307',this)"><a>齐齐哈尔</a></li>
+                </ul>
+            </div>
+            <div class="K_city_lin">
+                <span>R</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('443',this)"><a>日照</a></li>
+                    <li onclick="_partyPostPC._changeCity('576',this)"><a>日喀则</a></li>
+                </ul>
+            </div>
+            <div class="K_city_lin">
+                <span>S</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('202',this)"><a>上海</a></li>
+                    <li onclick="_partyPostPC._changeCity('266',this)"><a>深圳</a></li>
+                    <li onclick="_partyPostPC._changeCity('421',this)"><a>沈阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('408',this)"><a>苏州</a></li>
+                    <li onclick="_partyPostPC._changeCity('235',this)"><a>宿州</a></li>
+                    <li onclick="_partyPostPC._changeCity('268',this)"><a>韶关</a></li>
+                    <li onclick="_partyPostPC._changeCity('272',this)"><a>汕头</a></li>
+                    <li onclick="_partyPostPC._changeCity('274',this)"><a>汕尾</a></li>
+                    <li onclick="_partyPostPC._changeCity('314',this)"><a>双鸭山</a></li>
+                    <li onclick="_partyPostPC._changeCity('317',this)"><a>绥化</a></li>
+                    <li onclick="_partyPostPC._changeCity('329',this)"><a>三门峡</a></li>
+                    <li onclick="_partyPostPC._changeCity('331',this)"><a>商丘</a></li>
+                    <li onclick="_partyPostPC._changeCity('337',this)"><a>十堰</a></li>
+                    <li onclick="_partyPostPC._changeCity('347',this)"><a>随州</a></li>
+                    <li onclick="_partyPostPC._changeCity('352',this)"><a>神农架</a></li>
+                    <li onclick="_partyPostPC._changeCity('356',this)"><a>三明</a></li>
+                    <li onclick="_partyPostPC._changeCity('372',this)"><a>邵阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('380',this)"><a>松原</a></li>
+                    <li onclick="_partyPostPC._changeCity('381',this)"><a>四平</a></li>
+                    <li onclick="_partyPostPC._changeCity('400',this)"><a>宿迁</a></li>
+                    <li onclick="_partyPostPC._changeCity('417',this)"><a>上饶</a></li>
+                    <li onclick="_partyPostPC._changeCity('459',this)"><a>商洛</a></li>
+                    <li onclick="_partyPostPC._changeCity('464',this)"><a>朔州</a></li>
+                    <li onclick="_partyPostPC._changeCity('478',this)"><a>遂宁</a></li>
+                    <li onclick="_partyPostPC._changeCity('498',this)"><a>思茅</a></li>
+                    <li onclick="_partyPostPC._changeCity('514',this)"><a>绍兴</a></li>
+                    <li onclick="_partyPostPC._changeCity('547',this)"><a>石嘴山</a></li>
+                    <li onclick="_partyPostPC._changeCity('584',this)"><a>石河子</a></li>
+                    <li onclick="_partyPostPC._changeCity('575',this)"><a>山南</a></li>
+                    <li onclick="_partyPostPC._changeCity('552',this)"><a>三亚</a></li>
+                    <li onclick="_partyPostPC._changeCity('295',this)"><a>石家庄</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="k_site_K_city_zhu" id="K_city_style5" style="display: none;">
+            <div class="K_city_lin">
+                <span>T</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('203',this)"><a>天津</a></li>
+                    <li onclick="_partyPostPC._changeCity('243',this)"><a>铜陵</a></li>
+                    <li onclick="_partyPostPC._changeCity('255',this)"><a>天水</a></li>
+                    <li onclick="_partyPostPC._changeCity('290',this)"><a>铜仁</a></li>
+                    <li onclick="_partyPostPC._changeCity('297',this)"><a>唐山</a></li>
+                    <li onclick="_partyPostPC._changeCity('351',this)"><a>天门</a></li>
+                    <li onclick="_partyPostPC._changeCity('383',this)"><a>通化</a></li>
+                    <li onclick="_partyPostPC._changeCity('403',this)"><a>泰州</a></li>
+                    <li onclick="_partyPostPC._changeCity('425',this)"><a>铁岭</a></li>
+                    <li onclick="_partyPostPC._changeCity('448',this)"><a>泰安</a></li>
+                    <li onclick="_partyPostPC._changeCity('453',this)"><a>铜川</a></li>
+                    <li onclick="_partyPostPC._changeCity('516',this)"><a>台州</a></li>
+                    <li onclick="_partyPostPC._changeCity('539',this)"><a>通辽</a></li>
+                    <li onclick="_partyPostPC._changeCity('561',this)"><a>屯昌</a></li>
+                    <li onclick="_partyPostPC._changeCity('594',this)"><a>塔城</a></li>
+                    <li onclick="_partyPostPC._changeCity('597',this)"><a>图木舒克</a></li>
+                    <li onclick="_partyPostPC._changeCity('722',this)"><a>台中</a></li>
+                    <li onclick="_partyPostPC._changeCity('723',this)"><a>台南</a></li>
+                    <li onclick="_partyPostPC._changeCity('720',this)"><a>台北</a></li>
+                    <li onclick="_partyPostPC._changeCity('585',this)"><a>吐鲁番</a></li>
+                    <li onclick="_partyPostPC._changeCity('461',this)"><a>太原</a></li>
+                </ul>
+            </div>
+            <div class="K_city_lin">
+                <span>W</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('336',this)"><a>武汉</a></li>
+                    <li onclick="_partyPostPC._changeCity('242',this)"><a>芜湖</a></li>
+                    <li onclick="_partyPostPC._changeCity('258',this)"><a>武威</a></li>
+                    <li onclick="_partyPostPC._changeCity('441',this)"><a>潍坊</a></li>
+                    <li onclick="_partyPostPC._changeCity('442',this)"><a>威海</a></li>
+                    <li onclick="_partyPostPC._changeCity('455',this)"><a>渭南</a></li>
+                    <li onclick="_partyPostPC._changeCity('503',this)"><a>文山</a></li>
+                    <li onclick="_partyPostPC._changeCity('518',this)"><a>温州</a></li>
+                    <li onclick="_partyPostPC._changeCity('523',this)"><a>梧州</a></li>
+                    <li onclick="_partyPostPC._changeCity('537',this)"><a>乌海</a></li>
+                    <li onclick="_partyPostPC._changeCity('540',this)"><a>乌兰察布</a></li>
+                    <li onclick="_partyPostPC._changeCity('548',this)"><a>吴忠</a></li>
+                    <li onclick="_partyPostPC._changeCity('555',this)"><a>五指山</a></li>
+                    <li onclick="_partyPostPC._changeCity('556',this)"><a>文昌</a></li>
+                    <li onclick="_partyPostPC._changeCity('558',this)"><a>万宁</a></li>
+                    <li onclick="_partyPostPC._changeCity('581',this)"><a>乌鲁木齐</a></li>
+                    <li onclick="_partyPostPC._changeCity('598',this)"><a>五家渠</a></li>
+                    <li onclick="_partyPostPC._changeCity('407',this)"><a>无锡</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="k_site_K_city_zhu" id="K_city_style6" style="display: none;">
+            <div class="K_city_lin">
+                <span>X</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('353',this)"><a>厦门</a></li>
+                    <li onclick="_partyPostPC._changeCity('451',this)"><a>西安</a></li>
+                    <li onclick="_partyPostPC._changeCity('3828',this)"><a>线上活动</a></li>
+                    <li onclick="_partyPostPC._changeCity('204',this)"><a>香港</a></li>
+                    <li onclick="_partyPostPC._changeCity('249',this)"><a>宣城</a></li>
+                    <li onclick="_partyPostPC._changeCity('300',this)"><a>邢台</a></li>
+                    <li onclick="_partyPostPC._changeCity('324',this)"><a>新乡</a></li>
+                    <li onclick="_partyPostPC._changeCity('327',this)"><a>许昌</a></li>
+                    <li onclick="_partyPostPC._changeCity('334',this)"><a>信阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('338',this)"><a>襄樊</a></li>
+                    <li onclick="_partyPostPC._changeCity('340',this)"><a>孝感</a></li>
+                    <li onclick="_partyPostPC._changeCity('344',this)"><a>咸宁</a></li>
+                    <li onclick="_partyPostPC._changeCity('349',this)"><a>仙桃</a></li>
+                    <li onclick="_partyPostPC._changeCity('368',this)"><a>湘潭</a></li>
+                    <li onclick="_partyPostPC._changeCity('376',this)"><a>湘西</a></li>
+                    <li onclick="_partyPostPC._changeCity('398',this)"><a>徐州</a></li>
+                    <li onclick="_partyPostPC._changeCity('414',this)"><a>新余</a></li>
+                    <li onclick="_partyPostPC._changeCity('454',this)"><a>咸阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('504',this)"><a>西双版纳</a></li>
+                    <li onclick="_partyPostPC._changeCity('543',this)"><a>锡林郭勒</a></li>
+                    <li onclick="_partyPostPC._changeCity('570',this)"><a>西沙群岛</a></li>
+                    <li onclick="_partyPostPC._changeCity('599',this)"><a>西宁</a></li>
+                    <li onclick="_partyPostPC._changeCity('724',this)"><a>新竹</a></li>
+                </ul>
+            </div>
+            <div class="K_city_lin">
+                <span>Y</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('282',this)"><a>云浮</a></li>
+                    <li onclick="_partyPostPC._changeCity('284',this)"><a>阳江</a></li>
+                    <li onclick="_partyPostPC._changeCity('310',this)"><a>伊春</a></li>
+                    <li onclick="_partyPostPC._changeCity('346',this)"><a>宜昌</a></li>
+                    <li onclick="_partyPostPC._changeCity('365',this)"><a>益阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('366',this)"><a>岳阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('371',this)"><a>永州</a></li>
+                    <li onclick="_partyPostPC._changeCity('385',this)"><a>延边</a></li>
+                    <li onclick="_partyPostPC._changeCity('401',this)"><a>盐城</a></li>
+                    <li onclick="_partyPostPC._changeCity('402',this)"><a>扬州</a></li>
+                    <li onclick="_partyPostPC._changeCity('413',this)"><a>鹰潭</a></li>
+                    <li onclick="_partyPostPC._changeCity('419',this)"><a>宜春</a></li>
+                    <li onclick="_partyPostPC._changeCity('431',this)"><a>营口</a></li>
+                    <li onclick="_partyPostPC._changeCity('452',this)"><a>延安</a></li>
+                    <li onclick="_partyPostPC._changeCity('458',this)"><a>榆林</a></li>
+                    <li onclick="_partyPostPC._changeCity('463',this)"><a>阳泉</a></li>
+                    <li onclick="_partyPostPC._changeCity('471',this)"><a>运城</a></li>
+                    <li onclick="_partyPostPC._changeCity('483',this)"><a>宜宾</a></li>
+                    <li onclick="_partyPostPC._changeCity('489',this)"><a>雅安</a></li>
+                    <li onclick="_partyPostPC._changeCity('495',this)"><a>玉溪</a></li>
+                    <li onclick="_partyPostPC._changeCity('525',this)"><a>玉林</a></li>
+                    <li onclick="_partyPostPC._changeCity('546',this)"><a>银川</a></li>
+                    <li onclick="_partyPostPC._changeCity('593',this)"><a>伊犁哈萨克</a></li>
+                    <li onclick="_partyPostPC._changeCity('605',this)"><a>玉树</a></li>
+                    <li onclick="_partyPostPC._changeCity('440',this)"><a>烟台</a></li>
+                </ul>
+            </div>
+            <div class="K_city_lin">
+                <span>Z</span>
+                <ul>
+                    <li onclick="_partyPostPC._changeCity('257',this)"><a>张掖</a></li>
+                    <li onclick="_partyPostPC._changeCity('277',this)"><a>珠海</a></li>
+                    <li onclick="_partyPostPC._changeCity('278',this)"><a>中山</a></li>
+                    <li onclick="_partyPostPC._changeCity('281',this)"><a>肇庆</a></li>
+                    <li onclick="_partyPostPC._changeCity('285',this)"><a>湛江</a></li>
+                    <li onclick="_partyPostPC._changeCity('288',this)"><a>遵义</a></li>
+                    <li onclick="_partyPostPC._changeCity('301',this)"><a>张家口</a></li>
+                    <li onclick="_partyPostPC._changeCity('332',this)"><a>周口</a></li>
+                    <li onclick="_partyPostPC._changeCity('333',this)"><a>驻马店</a></li>
+                    <li onclick="_partyPostPC._changeCity('359',this)"><a>漳州</a></li>
+                    <li onclick="_partyPostPC._changeCity('363',this)"><a>张家界</a></li>
+                    <li onclick="_partyPostPC._changeCity('367',this)"><a>株洲</a></li>
+                    <li onclick="_partyPostPC._changeCity('405',this)"><a>镇江</a></li>
+                    <li onclick="_partyPostPC._changeCity('439',this)"><a>淄博</a></li>
+                    <li onclick="_partyPostPC._changeCity('445',this)"><a>枣庄</a></li>
+                    <li onclick="_partyPostPC._changeCity('481',this)"><a>自贡</a></li>
+                    <li onclick="_partyPostPC._changeCity('488',this)"><a>资阳</a></li>
+                    <li onclick="_partyPostPC._changeCity('497',this)"><a>昭通</a></li>
+                    <li onclick="_partyPostPC._changeCity('513',this)"><a>舟山</a></li>
+                    <li onclick="_partyPostPC._changeCity('549',this)"><a>中卫</a></li>
+                    <li onclick="_partyPostPC._changeCity('553',this)"><a>儋州</a></li>
+                    <li onclick="_partyPostPC._changeCity('572',this)"><a>中沙群岛</a></li>
+                    <li onclick="_partyPostPC._changeCity('319',this)"><a>郑州</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="k_site_K_qu" style="display: block;">
+        <ul id="cityAreaDiv"><li onclick="areaFetch(this)" tabid="成都"><a>锦江区</a></li><li onclick="areaFetch(this)" tabid="成都"><a>大邑县</a></li><li onclick="areaFetch(this)" tabid="成都"><a>蒲江县</a></li><li onclick="areaFetch(this)" tabid="成都"><a>新津县</a></li><li onclick="areaFetch(this)" tabid="成都"><a>都江堰市</a></li><li onclick="areaFetch(this)" tabid="成都"><a>彭州市</a></li><li onclick="areaFetch(this)" tabid="成都"><a>邛崃市</a></li><li onclick="areaFetch(this)" tabid="成都"><a>崇州市</a></li><li onclick="areaFetch(this)" tabid="成都"><a>高新区</a></li><li onclick="areaFetch(this)" tabid="成都"><a>新都区</a></li><li onclick="areaFetch(this)" tabid="成都"><a>郫县</a></li><li onclick="areaFetch(this)" tabid="成都"><a>温江区</a></li><li onclick="areaFetch(this)" tabid="成都"><a>青羊区</a></li><li onclick="areaFetch(this)" tabid="成都"><a>金牛区</a></li><li onclick="areaFetch(this)" tabid="成都"><a>武侯区</a></li><li onclick="areaFetch(this)" tabid="成都"><a>成华区</a></li><li onclick="areaFetch(this)" tabid="成都"><a>龙泉驿区</a></li><li onclick="areaFetch(this)" tabid="成都"><a>青白江区</a></li><li onclick="areaFetch(this)" tabid="成都"><a>金堂县</a></li><li onclick="areaFetch(this)" tabid="成都"><a>双流县</a></li><li onclick="areaFetch(this)" tabid="成都"><a>天府新区</a></li></ul>
+    </div>
+</div>

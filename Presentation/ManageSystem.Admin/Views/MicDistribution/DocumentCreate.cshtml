@@ -1,0 +1,141 @@
+﻿@model ManageSystem.Admin.Models.MicdataDistribution.ddDocumentModel
+@{
+    //page title
+    ViewBag.Title = "数据上传";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "MIC数据分布", SecondName = "数据管理", LocationName = this.ViewBag.Title }); }
+}
+<link href="~/Content/Scripts/ladda/ladda-themeless.min.css" rel="stylesheet" />
+<div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                </div>
+                <div class="widget-body " id="BaseDiv" runat="server">
+                    <div class="options add-page-options">
+                    </div>
+                    <div class="add-content ">
+                        <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                            @Html.Partial("_CreateOrUpdateDocument", Model)
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group clearfix">
+                                    <div style="margin-left:325px;margin-top:20px">
+                                        <button id="btnSubmit" class="btn btn-primary ladda-button" data-style="zoom-in" onclick="onSubmit(); return false;" type="button">&ensp;开始上传</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section FooterSection{
+    <script src="~/Content/Scripts/toastr/toastr.js"></script>
+    <script src="~/Content/Scripts/Autocomplete/jquery.autocomplete.js"></script>
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/chosen/chosen.jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //$("#PostFile").kendoUpload({
+            //    multiple: false,
+            //    validation: {
+            //        maxFileSize: 52428800 // 限制最大50BM
+            //    }
+            //});
+
+            $('#owner_cre').on('change', function () {
+                $('#owner_cre').prop('checked', function (index, value) {
+                    if (value) {
+                        $('#tr_link, #tr_cre_desc').show();
+                    }
+                    else {
+                        $('#tr_link, #tr_cre_desc').hide();
+                    }
+                });
+            });
+        });
+
+        $.validator.addMethod('owners', function (value, element, params) {
+            return value !== 'undefined' && typeof (value) !== 'undefined';
+        });
+
+        $.validator.unobtrusive.adapters.add("owners", function (options) {
+            options.rules["owners"] = {};
+            options.messages["owners"] = options.message;
+        });
+    </script>
+    <script>
+
+        $(function () {
+            change = function () {
+                var files = $('#PostFile')[0].files;
+                if (files || files.length >= 0) {
+                    $("#ul1").removeClass('hidden');
+                    $("#div1").addClass('k-state-focused');
+                    $("#span1").text(files[0].name)
+                }
+            };
+            clicks = function () {
+                $("#span1").text("");
+                $("#ul1").addClass('hidden');
+                $("#div1").removeClass('k-state-focused');
+            };
+            onSubmit = function () {
+                var l = Ladda.create(document.getElementById('btnSubmit')),
+                    year_id = $('#year_id').val() || 0,
+                    files = $('#PostFile')[0].files,
+                    formData = new FormData();
+
+                if (!year_id || year_id === 0 || year_id === '0') {
+                    alert('请选择年份');
+                    return false;
+                }
+
+                if (!files || files.length <= 0) {
+                    alert('请选择上传文件');
+                    return false;
+                }
+                if (!l.isLoading()) {
+                    formData.append('id', year_id);
+                    formData.append('file', files[0]);
+                    $.ajax({
+                        url: '/MicDistribution/OnSubmit_DocumentCreate',
+                        method: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        beforeSend: function () { l.start(); },
+                        complete: function () { setTimeout(function () { l.stop(); }, 600); },
+                        success: function (res) {
+                            if (!res.status) {
+                                if (confirm(res.message)) {
+                                    if (res.type == "抗生素") {
+                                        location.href = "/MicDistribution/AntibioticCreate"
+                                    } else if (res.type == "细菌") {
+                                        location.href = "/MicDistribution/GermCreate";
+                                    }
+                                }
+                            }
+                            else {
+                                alert(res.message);
+                                location.reload();
+                            }
+                        }
+                    });
+                }
+                return false;
+            };
+        });
+    </script>
+}
+

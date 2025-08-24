@@ -1,0 +1,15 @@
+﻿.button_ul {
+    float: left;
+    height: auto;
+    margin: 0px;
+    padding: 0px;
+}
+
+    .button_ul li {
+        float: left;
+        text-decoration: none;
+        list-style: none;
+        padding: 0px 5px;
+        width: auto;
+        margin-right: 10px;
+    }

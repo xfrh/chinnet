@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "评委评分";
+    Layout = "/Views/Shared/_MainLayout.cshtml";
+}
+
+@section Styles{
+    <link href="~/Content/Css/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/ScoringModule/EvaluateScoringResult.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/swiper/swiper.min.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/fx.js"></script>
+    <script src="~/Content/Scripts/fx_methods.js"></script>
+    <script src="~/Content/Scripts/ScoringModule/EvaluateScoringResult.js?v=1.0.0"></script>
+}
+@Html.Hidden("HiddenId", ViewContext.RouteData.Values["id"])
+
+<div id="app" v-cloak class="indexpage">
+
+    <div ref="middle" class="middle">
+        <div ref="swiper_container" class="swiper-container scroll">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide slidescroll">
+                    <header class="text-center header-title fon-32 bg-color-white padding-tb-40 margin-b-15px">
+                        <h4>@ViewData["ScoreTitle"]</h4>
+                        <h5>@ViewData["HospitalName"]</h5>
+                    </header>
+
+                    <div class="flex padding-20 margin-b-35 f-center f-between bg-color-white">
+                        <div class="flex-1">
+                            <div class="flex">
+                                <div class="flex-1 fon-30">感谢您的参与，根据您所提交的信息，系统自动计算得分为：</div>
+                            </div>
+                            <div class="flex flex-center fon-64 fon-bold padding-20" style="color: #F00; font-weight: bold; padding-top: 1.5rem; padding-bottom: 3rem;">
+                                @ViewData["Score"]
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex f-center f-between bg-color-white" style="margin-top: 15px;">
+                        <div class="flex-1">
+                            <a class="btn btn-footer flex flex-center" href="@Url.Action("EvaluateScoringList")" style="font-size:0.4rem; width: 75%; margin: 0 auto;">返回首页</a>
+                        </div>
+                        <div class="flex-1">
+                            <a class="btn btn-footer flex flex-center" href="@ViewData["HospitalListUrl"]" style="font-size:0.4rem; width: 75%; margin: 0 auto;">继续评分</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

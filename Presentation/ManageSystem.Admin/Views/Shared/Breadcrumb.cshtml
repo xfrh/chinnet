@@ -1,0 +1,19 @@
+﻿
+
+<div class=" page-breadcrumbs">
+    <div class="location-menu col-xs-9 col-md-9 ">
+        <ul class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="/">首页</a>  </li>
+            @Html.Raw(string.IsNullOrEmpty(Model.MenuName) ? "" : "<li class=''>" + Model.MenuName + " </li>")
+            @Html.Raw(string.IsNullOrEmpty(Model.SecondName) ? "" : "<li class=''>" + Model.SecondName + " </li>")
+            @Html.Raw(string.IsNullOrEmpty(Model.LocationName) ? "" : "<li class='active'>" + Model.LocationName + " </li>")
+        </ul>
+    </div>
+    <div class=" page-header position-relative col-xs-3 col-md-3 location-buttons ">
+        <div class="header-buttons">
+            <a class="sidebar-toggler" href="#"> <i class="fa fa-arrows-h"></i> </a>
+            <a class="refresh" id="refresh-toggler" href="">    <i class="glyphicon glyphicon-refresh"></i>  </a>
+            <a class="fullscreen" id="fullscreen-toggler" href="#"> <i class="glyphicon glyphicon-fullscreen"></i> </a>
+        </div>
+    </div>
+</div>

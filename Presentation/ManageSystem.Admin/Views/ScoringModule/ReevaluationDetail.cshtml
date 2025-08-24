@@ -1,0 +1,344 @@
+﻿@{
+    ViewBag.Title = "查看重评申请";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "评分管理", SecondName = "重评申请管理", LocationName = ViewBag.Title }); }
+}
+
+@section HeadSection{
+    <link href="~/Content/Scripts/layui-v2.5.4/css/layui.css" rel="stylesheet" />
+    <link href="~/Content/Scripts/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <style>
+        .k-content .adminContent tr {
+            height: 36px;
+            line-height: 36px;
+        }
+
+        td.show-value {
+            background-color: rgba(236, 240, 245, 1);
+            border-color: rgba(213, 213, 213, 1);
+            border-width: 1px;
+            border-style: solid;
+            padding: 0.25rem 0.5rem;
+        }
+    </style>
+}
+
+<div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@ViewBag.Title</span>
+                </div>
+                <div class="widget-body">
+                    <div class="add-content ">
+                        <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                            <div class="widget-main">
+                                <div class="tabbable">
+                                    <table class="adminContent">
+                                        <tbody>
+                                            <tr>
+                                                <td class="adminTitle">评比名称</td>
+                                                <td class="show-value" colspan="3">@ViewData["Title"]</td>
+                                            </tr>
+                                            <tr style="height: 15px; line-height: 15px;"></tr>
+                                            <tr>
+                                                <td class="adminTitle">评委姓名</td>
+                                                <td class="show-value">@ViewData["JuryName"]</td>
+                                                <td class="adminTitle">评价医院</td>
+                                                <td class="show-value">@ViewData["Hospital"]</td>
+                                            </tr>
+                                            <tr style="height: 15px; line-height: 15px;"></tr>
+                                            <tr>
+                                                <td class="adminTitle">状态</td>
+                                                <td class="show-value">@ViewData["Status"]</td>
+                                                <td class="adminTitle">评分</td>
+                                                <td class="show-value">@ViewData["Score"]</td>
+                                            </tr>
+                                            <tr style="height: 15px; line-height: 15px;"></tr>
+                                            <tr>
+                                                <td class="adminTitle">申请理由</td>
+                                                <td class="show-value" colspan="3">
+                                                    <div style="min-height: 98px;">@ViewData["Reason"]</div>
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 15px; line-height: 15px;"></tr>
+                                            <tr>
+                                                <td class="adminTitle">处理人</td>
+                                                <td class="show-value">@ViewData["Handler"]</td>
+                                                <td class="adminTitle">处理时间</td>
+                                                <td class="show-value">@ViewData["HandleTime"]</td>
+                                            </tr>
+                                            <tr style="height: 15px; line-height: 15px;"></tr>
+                                            <tr>
+                                                <td class="adminTitle">处理说明</td>
+                                                <td class="show-value" colspan="3">
+                                                    <div style="min-height: 98px;">@ViewData["HandleRemark"]</div>
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 25px; line-height: 25px;"></tr>
+                                            <tr>
+                                                <td class="adminTitle">&ensp;</td>
+                                                <td colspan="3">
+                                                    <a class="btn btn-blue btn-sm" href="javascript: history.go(-1);">返回</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section FooterSection{
+
+    <script id="sortTemplate" type="text/x-kendo-template">
+        <span>#=Sort.Value#</span>
+    </script>
+
+    <script id="explainTemplate" type="text/x-kendo-template">
+        <span>#=Explain.Value#</span>
+    </script>
+
+    <script src="~/Content/Scripts/layui-v2.5.4/layui.js"></script>
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/admin.listpage.js"></script>
+
+    <script>
+
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+            laydate.render({ elem: '#sr_begin_tiem' });
+            laydate.render({ elem: '#sr_end_tiem' });
+            laydate.render({ elem: '#log_begin_time' });
+            laydate.render({ elem: '#log_end_time' });
+        });
+
+        $("#data-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: '/ScoringModule/CreateWithCheckedHospitalList',
+                        type: "POST",
+                        dataType: "json",
+                        data: { id: $('#Id').val() }
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 30, 50]
+            },
+            scrollable: false,
+            groupable: false,
+            dataBound: onDataBound,
+            columns: [
+                {
+                    field: "HospitalName",
+                    title: "医院名称",
+                    width: 200
+                },
+                {
+                    field: "Contacts",
+                    title: '联系人',
+                    width: 100
+                },
+
+                {
+                    field: "ContactWay",
+                    title: '联系方式',
+                    width: 100
+                },
+                {
+                    field: "Sort",
+                    title: "显示顺序",
+                    width: 100,
+                    template: kendo.template(document.getElementById('sortTemplate').innerHTML)
+                },
+                {
+                    field: "Explain",
+                    title: "参与说明",
+                    width: 320,
+                    template: kendo.template(document.getElementById('explainTemplate').innerHTML)
+                }
+            ]
+        });
+
+        $('#sr-data-grid').kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: '/ScoringModule/RecordToList',
+                        type: "POST",
+                        dataType: "json",
+                        data: function () {
+                            var data = {
+                                id: $('#Id').val(),
+                                juryName: $("#tabScoreRecord #sr_user").val(),
+                                hospital: $("#tabScoreRecord #sr_hospital").val(),
+                                begin: $("#tabScoreRecord #sr_begin_tiem").val(),
+                                end: $("#tabScoreRecord #sr_end_tiem").val()
+                            };
+                            addAntiForgeryToken(data);
+                            return data;
+                        }
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 30, 50]
+            },
+            scrollable: false,
+            groupable: false,
+            dataBound: onDataBound,
+            columns: [
+                {
+                    field: "MarkingTime",
+                    title: "评分时间",
+                    width: 120
+                },
+                {
+                    field: "JuryName",
+                    title: '评委姓名',
+                    width: 100
+                },
+
+                {
+                    field: "HospitalName",
+                    title: '评价医院',
+                    width: 100
+                },
+                {
+                    field: "TotalScore",
+                    title: "总评分",
+                    width: 100
+                },
+                {
+                    field: "Comment",
+                    title: "评语",
+                    width: 320
+                }
+            ]
+        });
+
+        $('#log-data-grid').kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: '/ScoringModule/ActionLogToList',
+                        type: "POST",
+                        dataType: "json",
+                        data: function () {
+                            var data = {
+                                id: $('#Id').val(),
+                                userName: $("#tabLog #log_user").val(),
+                                actionType: $("#tabLog #log_action").val(),
+                                begin: $("#tabLog #log_begin_time").val(),
+                                end: $("#tabLog #log_end_time").val(),
+                                content: $("#tabLog #log_content").val()
+                            };
+                            addAntiForgeryToken(data);
+                            return data;
+                        }
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 30, 50]
+            },
+            scrollable: false,
+            groupable: false,
+            dataBound: onDataBound,
+            columns: [
+                {
+                    field: "ActionTime",
+                    title: "操作时间",
+                    width: 120
+                },
+                {
+                    field: "UserName",
+                    title: '操作人',
+                    width: 100
+                },
+
+                {
+                    field: "ActionType",
+                    title: '操作类型',
+                    width: 80
+                },
+                {
+                    field: "ActionLog",
+                    title: "操作内容",
+                    width: 350
+                }
+            ]
+        });
+
+        $('#btn_sr_search').on('click', function () {
+            var grid = $('#sr-data-grid').data('kendoGrid');
+            grid.dataSource.page(1);
+            return false;
+        });
+
+        $('#btn_log_search').on('click', function () {
+            var grid = $('#log-data-grid').data('kendoGrid');
+            grid.dataSource.page(1);
+            return false;
+        });
+    </script>
+}

@@ -1,0 +1,179 @@
+﻿@using ManageSystem.Core.Domain.CRProjects
+@model CRProject
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "CR复敏添加";
+}
+
+<link href="~/Content/Css/CRProject/Style.css?v=1.2" rel="stylesheet" />
+
+<div class="mbx">
+    <p>当前位置：首页 &gt; CR项目 </p>
+</div>
+<div class="user_center center-index-page ">
+    <div class="cr-title-mes">《微生物实验室细菌诊断及替加环素药敏操作规范培训公益项目》</div>
+    <div class="user_center_r" style="width: 100%;padding-right: 10px;padding-left: 10px;    ">
+        <ul class="wz-nav-off wz-icon-inline wz-classic">
+            <li class="col-xs-3 bg-mint active ">
+                <a href="@Url.Action("Edit", "CRProject")" aria-expanded="true">
+                    <span class="icon-wrap icon-wrap-xs">1</span> <span class="tab-item-mes">信息填写</span>
+                </a>
+            </li>
+            <li class="col-xs-3 bg-mint ">
+                <a href="javascript:Upload()">
+                    <span class="icon-wrap icon-wrap-xs">2</span> <span class="tab-item-mes">上传数据</span>
+                </a>
+            </li>
+        </ul>
+
+        @Html.HiddenFor(model => model.Id)
+        <div style="width:100%;border-bottom: 1px solid #dadada; height: 700px;">
+            <ul class="post_main_ul">
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>医院名称：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.TextBoxFor(m => m.HospitalName, new { @class = "post_title post_title_Party", placeholder = "请输入医院名称" })
+                        </div>
+                        <div class="post_main_note">
+                            <input type="hidden" id="HospitalId" />
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>医院等级：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.TextBoxFor(m => m.HospitalGrade, new { @class = "post_title post_title_Party", placeholder = "请输入医院等级" })
+                        </div>
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>省市区：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.Partial("~/Views/PartialView/_SelectArea.cshtml")
+                        </div>
+                        <div class="post_main_note">
+                            @Html.HiddenFor(a => a.ProvinceId)
+                            @Html.HiddenFor(a => a.CityId)
+                            @Html.HiddenFor(a => a.DistrictsId)
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>详细地址：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.TextBoxFor(m => m.Address, new { @class = "post_title post_title_Party", placeholder = "请输入详细地址" })
+                        </div>
+                    </div>
+                    <div class="post_main_note">
+                    </div>
+
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>上年CRE平均检出率：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.TextBoxFor(m => m.CREDetectionRate, new { @class = "post_title post_title_Party", placeholder = "请输入上年CRE平均检出率" })
+                        </div>
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>上年CRAB平均检出率：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.TextBoxFor(m => m.CREDrugRate, new { @class = "post_title post_title_Party", placeholder = "请输入上年CRAB平均检出率" })
+                        </div>
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>MH平板来源厂家：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.TextBoxFor(m => m.MHSource, new { @class = "post_title post_title_Party", placeholder = "请输入MH平板来源厂家" })
+                        </div>
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>微生物负责人：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "post_title post_title_Party", placeholder = "请输入微生物负责人" })
+                        </div>
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>联系电话：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r">
+                            @Html.TextBoxFor(m => m.Phone, new { @class = "post_title post_title_Party", placeholder = "请输入联系电话" })
+                        </div>
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>邮箱地址：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "post_title post_title_Party", placeholder = "请输入邮箱地址" })
+                        </div>
+
+                        <div class="post_main_note">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="container" style="padding: 10px 20px; width: 400PX;float: right;">
+                <div class="alert alert-warning ">
+                    <ul class="alert-warning-ul">
+                        <li style=" font-size:18px; font-weight: bold; margin-bottom: 10px;">操作介绍：</li>
+                        <li>1、请完善左侧的信息，并保存；</li>
+                        <li>2、<a class="aa" href="/Content/File/CR复敏-数据采集模板.xlsx" style="color:red;">下载数据模板</a>；</li>
+                        <li style="height:auto;">3、将实验结果填入数据模板；</li>
+                        <li style="height:auto;">4、在实验结束后，再次登录CHINET数据云，上传实验数据。</li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="user_center_r" style="min-height:auto;">
+                <input type="button" class="button" onclick="AddProject()" value="确认提交">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/Scripts/common-validate.js"></script>
+<script src="~/Content/Scripts/CRProject/Add.js?v=1.89"></script>
+
+<script type="text/javascript">
+    //设置省市区下拉选中
+    $(document).ready(function () {
+        //$(document).ready(function () {
+        //    GetDistrictList(0, 1);
+        //});
+        if (@Model.DistrictsId> 0) {
+            SetDistrictSelect(@Model.ProvinceId, @Model.CityId, @Model.DistrictsId);
+        } else {
+            GetDistrictList(0, 1);
+        }
+
+    })
+
+
+</script>

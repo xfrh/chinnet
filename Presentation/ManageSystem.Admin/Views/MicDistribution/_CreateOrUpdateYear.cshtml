@@ -1,0 +1,40 @@
+﻿
+@model ManageSystem.Admin.Models.MicdataDistribution.ddYearModel
+@using ManageSystem.Admin.Extensions;
+@using ManageSystem.Services.Common;
+
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.year_id)
+
+
+<table class="adminContent">
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.title)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.title)
+            @Html.ValidationMessageFor(m => m.title)
+        </td>
+    </tr> 
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.sortid)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.sortid)
+            @Html.ValidationMessageFor(m => m.sortid)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.isvalid)：</td>
+        <td class="adminData">
+            @Html.CheckBoxFor(m => m.isvalid, new { @class = "n-chk" })
+            @Html.ValidationMessageFor(m => m.isvalid)
+        </td>
+    </tr>
+    @*<tr>
+            <td class="adminTitle">@Html.NopLabelFor(m => m.created_by)：</td>
+            <td class="adminData">
+                @Html.HiddenFor(m => m.created_by)
+                @Model.CreateName
+            </td>
+        </tr>*@
+</table>

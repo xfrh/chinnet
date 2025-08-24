@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "设置登录密码";
+}
+
+<div class="mbx"><p>当前位置：设置登录密码 </p></div>
+<div class="user_center feedback-list-page">
+    <div class="user_center_r " style="width:100%;padding-right: 10px;padding-left: 10px;">
+        <div class="user_center_r_b_new" style="margin-top:20px;">
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("token", Request["token"])
+                @Html.Hidden("returnUrl", Request["returnUrl"])
+
+                <ul style="border-bottom-style:none;">
+
+                    <li>
+                        <span><em style="color:red">*</em>&ensp;登录密码：</span>
+                        <span>
+                            <input class="text" id="password" name="password" type="password" placeholder="请输入登录密码" autocomplete="new-password" style="padding: 4px 10px;" />
+                        </span>
+                    </li>
+                    <li>
+                        <span><em style="color:red">*</em>&ensp;确认登录密码：</span>
+                        <span>
+                            <input class="text" id="confirmPassword" name="confirmPassword" type="password" placeholder="请输入登录密码" autocomplete="new-password" style="padding: 4px 10px;" />
+                        </span>
+                    </li>
+                </ul>
+
+                <input type="submit" class="button" value="提交" style="height: 35px;" />
+                if (!string.IsNullOrWhiteSpace(Request["returnUrl"]))
+                {
+                <a class="button" href="@Request["returnUrl"]" style="background: #ababab; width: 110px; height: 35px; line-height: 35px; color: #fff; border-radius: 5px; margin-left: 15px; margin-top: 20px; display: inline-block; text-align: center; padding-left: 5px; vertical-align: middle; cursor: pointer;">以后设置</a>
+                }
+
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,140 @@
+﻿@using ManageSystem.Admin.Extensions;
+@model ManageSystem.Admin.Models.Chart.HeatmapModel
+
+@{
+    ViewBag.Title = "查看热图报表";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "图表管理", SecondName = "热图管理", LocationName = this.ViewBag.Title }); }
+}
+
+@section HeadSection{
+    <link href="~/Content/Scripts/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/MgtChart/Heatmap/Create.css" rel="stylesheet" />
+    <style>
+        .item-table.table > tbody > tr > td {
+            line-height: initial;
+        }
+        .adminData {
+            width: 300px;
+            padding-bottom: 15px;
+        }
+    </style>
+}
+@using (Html.BeginForm("HeatmapEdit", "MgtChart", FormMethod.Post, new { enctype = "multipart/form-data", id = "EditForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("DataItemConfig", Newtonsoft.Json.JsonConvert.SerializeObject(Model.ItemModel))
+    <div class="page-body">
+        <div class="row add-page">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget ">
+                    <div class="widget-header add-page-titlebox ">
+                        <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                    </div>
+                    <div class="widget-body " id="BaseDiv" runat="server" style="overflow: hidden; ">
+                        <div class="options add-page-options">
+                            <a class="btn btn-default" href="@Url.Action("HeatmapList")">返回</a>
+                        </div>
+                        <div class="add-content ">
+                            <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                                <div style="width:20%;float:left">
+                                    <table class="adminContent">
+                                        <tr>
+                                            <td class="adminData">
+                                                @Html.NopLabelFor(m => m.DataSegmentId)：
+                                                @Html.DropDownListFor(m => m.DataSegmentId, Model.DropDataSegment, new { data_val_number = "请选择所属数据段", data_val_range_min = "1", data_val_range = "请选择所属数据段", @readonly = "readonly", disabled = "disabled", style = "background: transparent;" })
+                                                @Html.ValidationMessageFor(m => m.DataSegmentId)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="adminData">
+                                                @Html.NopLabelFor(m => m.Name)：
+                                                @Html.NopLabelFor(m => m.Name)：
+                                                @Html.EditorFor(m => m.Name, new { htmlAttributes = new { placeholder = "请输入报表名称", @readonly = "readonly", disabled = "disabled", style = "background: transparent;" } })
+                                                @Html.ValidationMessageFor(m => m.Name)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="adminData">
+                                                @Html.NopLabelFor(m => m.Sort)：
+                                                @Html.EditorFor(m => m.Sort, new { htmlAttributes = new { placeholder = "排序必须大于等于1，且值越小越靠前", data_val_number = "排序必须大于等于1，且值越小越靠前", data_val_range_min = "1", data_val_range = "排序必须大于等于1，且值越小越靠前", @readonly = "readonly", disabled = "disabled", style = "background: transparent;" } })
+                                                @Html.ValidationMessageFor(m => m.Sort)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="adminData">
+                                                @Html.NopLabelFor(m => m.Display)：
+                                                @Html.DropDownListFor(m => m.Display, Model.DropDisplay, new { @readonly = "readonly", disabled = "disabled", style = "background: transparent;" })
+                                                @Html.ValidationMessageFor(m => m.Display)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="adminData">
+                                                @Html.NopLabelFor(m => m.ChartType)：
+                                                @Html.DropDownListFor(m => m.ChartType, Model.DropChartType, new { @readonly = "readonly", disabled = "disabled", style = "background: transparent;" })
+                                                @Html.ValidationMessageFor(m => m.ChartType)
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <section class="item-container" style="width:80%;float:right">
+                                    <div class="flex flex-vertical-center item-header">
+                                        <div class="flex-1">
+                                            <span class="item-active">报表数据项</span>
+                                        </div>
+                                    </div>
+                                    <table class="table table-bordered item-table">
+                                        <thead>
+                                            <tr>
+                                                <th>省份</th>
+                                                <th style="width: 20%;">数值</th>
+                                                <th>省份</th>
+                                                <th style="width: 20%;">数值</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="item_tbody">
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="4" style="padding: 35px 8px;">
+                                                    <div id="china-map" style="min-height: 500px;"></div>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </section>
+
+                                <script id="tpl_item_table_tr" type="text/html">
+                                    <tr id="{{row_id}}">
+                                        <td>{{text_col_1}}</td>
+                                        <td>{{value_col_1}}</td>
+                                        <td>{{text_col_2}}</td>
+                                        <td>{{value_col_2}}</td>
+                                    </tr>
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section FooterSection{
+    <script src="~/Content/Scripts/toastr/toastr.js"></script>
+    <script src="~/Content/Scripts/utils.min.js"></script>
+    <script src="~/Content/Scripts/underscore-min.js"></script>
+    <script src="~/Content/Scripts/underscore.string.min.js"></script>
+    <script src="~/Content/Scripts/template-web.js"></script>
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=CA6ec345eb03c609a8738322aa89905c"></script>
+    <script src="~/Content/Scripts/echarts/echarts.min.js"></script>
+    <script src="~/Content/Scripts/echarts/map/js/china.js"></script>
+    <script src="~/Content/Scripts/echarts/extension/bmap.min.js"></script>
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/MgtChart/Heatmap/Detail.js"></script>
+}

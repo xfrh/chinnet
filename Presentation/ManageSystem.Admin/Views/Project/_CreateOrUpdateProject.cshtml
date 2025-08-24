@@ -1,0 +1,107 @@
+﻿@model  ManageSystem.Admin.Models.Project.ProjectDataModel
+@using ManageSystem.Admin.Extensions;
+@using ManageSystem.Services.Common;
+
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.MemberId)
+@Html.HiddenFor(model => model.MemberName)
+@Html.HiddenFor(model => model.FileName)
+@Html.HiddenFor(model => model.UploadFilePath)
+@Html.HiddenFor(model => model.EmailStatus)
+
+
+<table class="adminContent">
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.HospitalName)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.HospitalName, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.HospitalName)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.HospitalGrade)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.HospitalGrade, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.HospitalGrade)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Area)：</td>
+        <td class="adminData">
+            @Html.Partial("~/Views/PartialView/_SelectArea.cshtml")
+
+            @Html.HiddenFor(a => a.ProvinceId)
+            @Html.HiddenFor(a => a.CityId)
+            @Html.HiddenFor(a => a.DistrictsId)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Address)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Address, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Address)
+        </td>
+    </tr>
+
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.CREDetectionRate)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.CREDetectionRate, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.CREDetectionRate)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.CREDrugRate)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.CREDrugRate, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.CREDrugRate)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.MHSource)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.MHSource, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.MHSource)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Name)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Phone)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Phone, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Phone)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Email)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Email)
+            @Html.ValidationMessageFor(m => m.Email)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle"></td>
+        <td class="adminData"></td>
+    </tr>
+
+</table>
+
+<script src="/Content/Scripts/TranTextBox.js"></script>
+<script>
+
+      if (@Model.DistrictsId> 0) {
+            SetDistrictSelect(@Model.ProvinceId, @Model.CityId, @Model.DistrictsId);
+        } else {
+            GetDistrictList(0, 1);
+    }
+</script>

@@ -1,0 +1,103 @@
+﻿@model  ManageSystem.Admin.Models.SystemSet.ScheduleTaskModel
+
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+<table class="adminContent">
+
+    <tr class="insert-time-tr" style="display:none;">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.InsertTime)：</td>
+        <td class="adminData">
+            @Model.InsertTime.ToString("yyyy-MM-dd HH:mm")
+        </td>
+    </tr>
+    <tr class="insert-time-tr" style="display:none;">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.UpdateTime)：</td>
+        <td class="adminData">
+            @Model.UpdateTime.ToString("yyyy-MM-dd HH:mm")
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Name)
+            @Html.ValidationMessageFor(m => m.Name)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Seconds)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Seconds)
+            @Html.ValidationMessageFor(m => m.Seconds)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Enabled)：</td>
+        <td class="adminData">
+            @Html.CheckBoxFor(m => m.Enabled, new { @class = "n-chk" })
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.StopOnError)：</td>
+        <td class="adminData">
+            @Html.CheckBoxFor(m => m.StopOnError, new { @class = "n-chk" })
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.LeasedByMachineName)：</td>
+        <td class="adminData">
+            @Model.LeasedByMachineName
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Type)：</td>
+        <td class="adminData">
+            @Model.Type
+        </td>
+    </tr>
+
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.LeasedUntilUtc)：</td>
+        <td class="adminData">
+            @(Model.LeasedUntilUtc == null ? "" : Model.LeasedUntilUtc.GetValueOrDefault().ToString("yyyy-MM-dd HH:mm"))
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.LastStartUtc)：</td>
+        <td class="adminData">
+            @(Model.LastStartUtc == null ? "" : Model.LastStartUtc.GetValueOrDefault().ToString("yyyy-MM-dd HH:mm"))
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.LastEndUtc)：</td>
+        <td class="adminData">
+            @(Model.LastEndUtc == null ? "" : Model.LastEndUtc.GetValueOrDefault().ToString("yyyy-MM-dd HH:mm"))
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.LastSuccessUtc)：</td>
+        <td class="adminData">
+            @(Model.LastSuccessUtc == null ? "" : Model.LastSuccessUtc.GetValueOrDefault().ToString("yyyy-MM-dd HH:mm"))
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Describe)：</td>
+        <td class="adminData">
+            @Model.Describe
+        </td>
+    </tr>
+
+
+</table>
+

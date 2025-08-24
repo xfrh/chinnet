@@ -1,0 +1,70 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutMonitor.cshtml";
+    ViewBag.Title = "主动监测";
+}
+
+<link href="~/Content/Css/Datas/Monitor.css?v=1.2" rel="stylesheet" />
+
+<div style="overflow:hidden;" id="pageContent">
+    <div class="data-home-box" style="margin-bottom:5px; height:10px;">
+
+    </div>
+    <div id="dataError" class="error-box" style="display:none;">
+        <img src="~/Content/Images/data-error.png" />
+        <p class="error-message">请选择数据段</p>
+    </div>
+
+    <div class="main-content2" style="width: 100%; display: block; overflow: hidden; margin-top: 15px;">
+        <div id="main" style="overflow: hidden; width: 1200px; margin-bottom: 0px;"></div>
+    </div>
+
+    <div style="width: 100%; display: block; overflow: hidden;  ">
+        <div class="index-bt">
+            <h2 style="padding: 5px 0px; display: inline-block;">
+                <i></i>细菌分类
+                <span class="item-title-3" style="margin-left: 100px; cursor: pointer;" onclick="SelectNull()">取消选择</span>
+                <img class="germ-btn-image btn-image-GermContent" src="~/Content/Images/jiantou-xia.png" style="height:13px;width:13px;cursor:pointer;" alt="" onclick="ShowStatus('GermContent')">
+            </h2>
+        </div>
+        <div class="fenlei" id="GermContent" data-status="1">
+            <ul id="germ_list" class="germ-list"></ul>
+        </div>
+
+        <div class="index-bt">
+            <h2>
+                <i></i>抗菌药物<span class="item-title-3" onclick="SelectNull()" style="cursor: pointer;">取消选择</span>
+                <img class="antibiotic-btn-image btn-image-AntibioticContent" src="~/Content/Images/jiantou-xia.png" style="height:13px;width:13px;cursor:pointer;" alt="" onclick="ShowStatus('AntibioticContent')">
+            </h2>
+        </div>
+        <div class="fenlei fenlei2" id="AntibioticContent" data-status="1">
+            <ul id="antibiotic_list" class="antibiotic-list"></ul>
+        </div>
+
+    </div>
+</div>
+<input type="hidden" id="TypeValue" data-remark="数据段名称" />
+
+
+@section FooterSection{
+    <script id="art_germ_li" type="text/html">
+        {{each data}}
+        <li id="data-{{$value.identity}}" class="germ-li date-item-va" data-title="{{$value.title}}">
+            <a href="javascript: SelectItem({{$value.identity}});" data-name="{{$value.title}}">{{$value.name}}</a>
+        </li>
+        {{/each}}
+    </script>
+
+    <script id="art_antibiotic_li" type="text/html">
+        {{each data}}
+        <li id="data-{{$value.identity}}" class="antibiotic-li date-item-va " data-title="{{$value.title}}">
+            <a href="javascript: SelectItem2({{$value.identity}});" data-name="{{$value.name}}">{{$value.name}}</a>
+        </li>
+        {{/each}}
+    </script>
+
+    <script src="~/Content/Scripts/template-web.js"></script>
+    <script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+    <script src="~/Content/Scripts/Datas/Monitor.js?v=1.689"></script>
+}
+
+

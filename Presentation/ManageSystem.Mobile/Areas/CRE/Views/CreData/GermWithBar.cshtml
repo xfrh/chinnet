@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewBag.Title = "柱状图";
+    Layout = "~/Areas/CRE/Views/Shared/_MainLayout.cshtml";
+}
+
+@section Styles{
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Data/GermWithBar.css?v=2.0.1" rel="stylesheet" />
+}
+<style>
+    .active {
+        color: red;
+    }
+</style>
+
+<div id="app" v-cloak class="indexpage">
+    <div id="header" class="flex padding-tb-20 fon-30 bold f-around top-nav">
+        @*<div style=" height: 40px;color: red;  text-align: center;font-size: 0.34rem; padding:0px 5%; padding-top:20px;">
+            通知：CHINET服务器将于2019年9月12日下午5点开始进行升级，期间您将无法访问。给您带来不便深表歉意。
+        </div>*@
+        <div @@click="toPage('@Url.Action("HeatMap", "CreData").ToLowerInvariant()')">热图</div>
+        <div class="border-b-2" @@click="toPage('@Url.Action("GermWithBar", "CreData").ToLowerInvariant()')">柱状图</div>
+        <div id="upload" @@click="toPage('@Url.Action("Dataupload", "CreUploadData").ToLowerInvariant()')">数据上传</div>
+    </div>
+    @*<div class="weui-search-bar weui-search-bar_focusing" id="searchBar" style="background-color:white;">
+            <div class="weui-search-bar__form">
+                <div class="weui-search-bar__box">
+                    <input id="searchText" type="search" class="weui-search-bar__input" placeholder="请输入细菌名或药物名称" v-model="searchText" />
+                    <a href="javascript:void(0);" @@click="onSearch" class="weui-search-bar__search-btn"><i class="weui-icon-search"></i></a>
+                </div>
+            </div>
+        </div>*@
+    <div ref="middle" class="middle">
+        <div ref="swiper_container" class="swiper-container scroll">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide slidescroll">
+                    <div style="width: 100%; display: block; overflow: hidden;" class="main-content">
+                        <div class="padding-lr-20" style="font-size: 0.4rem; text-align: center;  margin-bottom: 5px;margin-top: 0.4rem;" id="pageContentTitle"></div>
+                        <div style="font-size: 0.37rem; text-align: center;  margin-bottom: 10px;" v-text="pageContentSubTitle"></div>
+                        <div id="main" style="overflow: hidden; width: 100%; height:10rem; display: block; margin-bottom: 0px;"></div>
+                        @*<div style="font-size: 0.37rem; text-align: center;  margin-top: 10px;">往右拖动进度条浏览更多数据</div>*@
+                    </div>
+                    <div class="" style="margin-top: 0.5rem;">
+                        <div class="sjd-list-group">
+                            <h4 class="">主要标本来源</h4>
+                            <ul class="list-group">
+                                <li class="list-item data-item-va"><a style="cursor:pointer" class="active" data-year="" cateogry_id="1" data-code="痰">痰</a></li>
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="s" cateogry_id="1" data-code="血液">血液</a></li>
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="s" cateogry_id="1" data-code="粪便">粪便</a></li>
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="s" cateogry_id="1" data-code="肺泡灌洗液">肺泡灌洗液</a></li>
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="s" cateogry_id="1" data-code="脓液/伤口">脓液/伤口</a></li>
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="s" cateogry_id="1" data-code="尿道">尿道</a></li>
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="s" cateogry_id="1" data-code="中心静脉导管">中心静脉导管</a></li>
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="s" cateogry_id="1" data-code="穿刺液">穿刺液</a></li>
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="s" cateogry_id="1" data-code="其他">其他</a></li>
+                            </ul>
+                        </div>
+                        <div class="sjd-list-group">
+                            <h4 class="">主要科室来源</h4>
+                            <ul class="list-group">
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="d" cateogry_id="0" data-code="血液科">血液科</a></li>
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="d" cateogry_id="0" data-code="ICU">ICU</a></li>
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="d" cateogry_id="0" data-code="呼吸科">呼吸科</a></li>
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="d" cateogry_id="0" data-code="感染科">感染科</a></li>
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="d" cateogry_id="0" data-code="移植科">移植科</a></li>
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="d" cateogry_id="0" data-code="其他">其他</a></li>
+                            </ul>
+                        </div>
+                        <div class="sjd-list-group">
+                            <h4 class="">细菌分析</h4>
+                            <ul class="list-group">
+                                @foreach (var item in ViewBag.Essential)
+                                {
+                                    <li class="list-item data-item-va"><a style="cursor:pointer" data-year="" cateogry_id="@item.Germ_id" data-name="@item.Germ_name">@item.Germ_name</a></li>
+                                }
+                           </ul>
+                        </div>
+                        <div class="sjd-list-group">
+                            <h4 class="">抗菌药物</h4>
+                            <ul class="list-group">
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="" cateogry_id="" data="多粘菌素">多黏菌素</a></li>
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="" cateogry_id="" data="替加环素">替加环素</a></li>
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="" cateogry_id="" data="阿维巴坦">头孢他啶–阿维巴坦</a></li>
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="" cateogry_id="" data="磷霉素">磷霉素</a></li>
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="" cateogry_id="" data="氯霉素">氯霉素</a></li>
+                                <li class="list-item data-item-va"><a style="cursor:pointer" data-year="" cateogry_id="" data="联合药敏试验">联合药敏试验</a></li>
+                            </ul>
+                        </div>
+                        @foreach (var item in ViewBag.Essential)
+                        {
+                            <input id="Hidden1" name="Germ" type="hidden" value="@item.Germ_id" />
+                        }
+                        <div style="height: 25px;">
+                            @* @Html.Hidden("HiddenAutocompleteLookups", autocompleteLookups.SerializeObject(), new { @ref = "autocompletelookups" })*@
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    @Html.Partial("_FooterNavBar", "首页")
+
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_toast" style="font-size: 1.65rem;"></i>
+            <p class="weui-toast__content fon-32" v-text="weui_toast_content"></p>
+        </div>
+    </div>
+
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32">数据加载中</p>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/Content/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/swiper/swiper.min.js"></script>
+    <script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+    <script src="~/Areas/CRE/Content/Scripts/CreGerWithBar.js"></script>
+    @*<script src="~/Content/Scripts/Echarts/echarts.min.js"></script>*@
+    @*<script src="~/Content/Scripts/Echarts/theme/blue.js?v=1"></script>*@
+    <script src="~/Content/Scripts/fx.js"></script>
+    <script src="~/Content/Scripts/fx_methods.js"></script>
+    <script src="~/Content/Scripts/underscore-min.js"></script>
+    <script src="~/Content/Scripts/autocompleter/jquery.autocomplete.min.js"></script>
+    @*<script src="~/Content/Scripts/Data/GermWithBar.js?v=1.5.6"></script>*@
+
+<script>
+    $(function () {
+        var token = localStorage.getItem('token');
+        if (token == "") {
+            $("#upload").hide();
+        }
+        else {
+            $.post("/CreData/Getmember", { token: token }, function (data) {
+                if (data != "2")
+                {
+                     $("#upload").hide();
+                }
+            })
+        }
+    })
+</script>
+}

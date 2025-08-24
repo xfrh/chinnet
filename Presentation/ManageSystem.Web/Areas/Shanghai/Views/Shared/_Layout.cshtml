@@ -1,0 +1,163 @@
+﻿@using ManageSystem.Services.Configuration
+@{
+
+    string adminPageTitle = "";
+    if (!String.IsNullOrWhiteSpace(this.ViewBag.Title))
+    {
+        adminPageTitle = this.ViewBag.Title + " / ";
+    }
+
+    adminPageTitle = WebSettingService.GetWebName();
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <link rel="shortcut icon" href="/favicon.ico?v=12" />
+
+    <title>上海细菌真菌耐药监测网</title>
+    <link href="~/Content/Css/assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+
+    <link href="/Content/bootstrap-3.3.0/css/bootstrap.min.css?v=1.3" rel="stylesheet" />
+    <link href="/Content/Css/style.css??v=1.3" rel="stylesheet" />
+    <link href="/Content/Css/keyan.css?v=1.32" rel="stylesheet" />
+    <link href="/Content/Css/common.css?v=1.3" rel="stylesheet" />
+
+    <link href="/Content/Css/swiper-3.3.1.min.css?v=1.3" rel="stylesheet" />
+    <link href="/Content/Scripts/layer-v2.4/skin/layer.css?v=1.3" rel="stylesheet" />
+    <link href="/Content/Scripts/layer-v2.4/laydate/skins/dahong/laydate.css?v=1.3" rel="stylesheet" />
+    <link href="/Content/Css/pageer.css?v=1.3" rel="stylesheet" />
+    <script src="~/Content/Scripts/mobile.js"></script>
+    <script src="/Content/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="/Content/Scripts/jquery.validate.min.js"></script>
+    <script src="/Content/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/Content/Scripts/layer-v2.4/layer.js"></script>
+    <script src="/Content/Scripts/layer-v2.4/laydate/laydate.js"></script>
+    <script src="/Content/Scripts/common-validate.js"></script>
+
+    <link href="/Content/Css/Layout/base.css?v=1.3" rel="stylesheet" />
+    @*<link href="/Content/Css/Layout/global.css?v=1.234" rel="stylesheet" />*@
+    <link href="~/Areas/Shanghai/Content/css/global.css" rel="stylesheet" />
+    <link href="~/Content/Css/assets/introjs.css" rel="stylesheet" />
+    <script src="~/Content/Css/assets/intro.js"></script>
+
+    @RenderSection("HeadSection", required: false)
+
+    <style>
+        .clearfix:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+
+        .sh-logo-box {
+        }
+
+        .sh-logo-home {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            width: 350px;
+            height: 65px;
+            top: 2px;
+        }
+
+        .sh-logo {
+            width: 60px;
+            position: relative;
+            left: -10px;
+        }
+
+        .sh-logo-text {
+            color: #2464bb;
+            font-size: 20px;
+        }
+
+        .page-fooer-partner ul li {
+            width: 260px;
+        }
+    </style>
+</head>
+
+<body style="background-color:white;">
+
+    <div class="header wid-1200" style="height:100px;">
+        <div class="logo" style="margin-bottom: 10px; height:45px;">
+            <li class="l sh-logo-box" onclick="location.href='/'">
+                <a class="sh-logo-home" href="/">
+                    <img src="/Content/Images/sh_logo.png" draggable="false" alt="" title="上海细菌真菌耐药监测网" style="width: 90%; margin-left: -2px;" />
+                    @*<img class="sh-logo" src="~/Content/Images/chinet_sh_logo.png" draggable="false" alt="上海细菌真菌耐药监测网" title="上海细菌真菌耐药监测网" />
+                        <span class="sh-logo-text">上海细菌真菌耐药监测网</span>*@
+                </a>
+            </li>
+            <li class="r">
+                @{ Html.RenderAction("_MenuMember", "PartialView", new { area = "Shanghai" });}
+            </li>
+        </div>
+        @{ Html.RenderAction("_LayoutMenu", "PartialView", new { area = "Shanghai" });}
+    </div>
+    <div class="content wid-1200" id="pageContent">
+        <div style="min-height:400px;">@RenderBody()</div>
+    </div>
+    @RenderSection("FooteMenu", required: false)
+    <div style="width:100%;display:inline-block;">
+        <div class="wid-1200">
+            <h2 class="index-bt sj" style="font-size:14px;"><i></i>成员单位<span style="margin-left:10px; color:#ccc;font-size:12px;">成员单位名称排名不分先后（按拼音排序）</span>  </h2>
+        </div>
+    </div>
+    <div class="page-fooer-partner" style="height: auto;">
+        <ul data-step="15" data-intro="<p style='font-weight:bold;'>成员单位：</p>图表中显示数据来源的单位。" data-position='top' class="wid-1200 clearfix page-footer-main" id="ul1">
+            @*@{
+                List<string> hospitalDataSources = new List<string> { "复旦大学附属华山医院", "复旦大学附属中山医院", "复旦大学附属儿科医院", "复旦大学附属妇产科医院", "复旦大学附属眼耳鼻喉科医院", "复旦大学附属肿瘤医院", "复旦大学附属金山医院", "上海交通大学医学院附属仁济医院（东院）", "上海交通大学医学院附属仁济医院（西院）", "上海交通大学医学院附属仁济医院（南院）", "上海交通大学医学院附属瑞金医院", "上海交通大学医学院附属瑞金医院北院", "上海交通大学医学院附属新华医院", "上海交通大学医学院附属第九人民医院", "上海交通大学医学院附属第九人民医院（北部）", "上海交通大学医学院附属上海儿童医学中心", "上海中医药大学附属龙华医院", "上海中医药大学附属曙光医院", "上海中医药大学附属岳阳中西医结合医院", "上海长海医院", "上海长征医院", "上海东方肝胆外科医院", "上海市同济医院", "复旦大学附属华东医院", "上海市第一人民医院", "上海市第六人民医院", "上海市第六人民医院东院", "上海市第十人民医院", "上海市儿童医院", "上海市公共卫生临床中心", "上海市东方医院", "上海市东方医院（南院）", "上海市第五人民医院", "上海市第七人民医院", "上海市普陀区中心医院", "上海市宝山区中西医结合医院", "上海市杨浦区中心医院", "中国人民解放军第四五五医院", "上海市第八人民医院", "上海市奉贤区中心医院", "上海市嘉定区中心医院", "上海市同仁医院（仙霞路院区）", "上海市浦东医院", "上海市浦东新区人民医院", "上海市普陀区人民医院", "复旦大学附属中山医院青浦分院", "上海市松江区中心医院", "上海市浦东新区公利医院", "上海市静安区中心医院", "上海市闵行区中心医院", "上海市宝山区吴淞中心医院", "上海交通大学医学院附属新华医院崇明分院", "上海市浦南医院", "上海中医药大学附属曙光医院（东院）", "上海市肺科医院", "上海市普陀区利群医院", "上海交通大学医学院附属第九人民医院黄浦分院", "上海市第四人民医院", "复旦大学附属华山医院北院", "上海市胸科医院", "上海市徐汇区中心医院", "上海市浦东新区周浦医院" };
+
+                hospitalDataSources = hospitalDataSources.OrderBy(item => item).ToList();
+                foreach (string hospital in hospitalDataSources)
+                {
+                    <li>@hospital</li>
+                }
+            }*@
+        </ul>
+    </div>
+    <div class="footer" style="padding: 10px;">
+        <ul class="wid-1200">
+            <p class="center" style="font-size:12px;">电话：021-52888186 |  www.chinets.com  |   地址：上海市静安区乌鲁木齐中路12号</p>
+            <p class="center" style="font-size:12px;">版权所有：复旦大学附属华山医院抗生素研究所  |   技术支持：杭州杰毅生物技术有限公司</p>
+        </ul>
+    </div>
+
+    <script src="~/Content/Scripts/swiper-3.3.1.min.js"></script>
+    <script src="~/Content/Scripts/common.js"></script>
+    <script src="~/Content/Scripts/layer-v2.4/helper.js"></script>
+    <script src="~/Content/bootstrap-3.3.0/js/bootstrap.min.js"></script>
+    <script src="~/Content/Scripts/_Layout.js"></script>
+    <script>
+        $(function () {
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "/Shanghai/Data/GetTeamlist",
+                data: {},
+                dataType: "json",
+                success: function (json) {
+                    var html = ""
+                    for (var i = 0; i < json.length; i++) {
+                        html += "<li>" + json[i].Title + "</li>";
+                    }
+                    $("#ul1").html(html);
+                }
+            });
+
+        })
+    </script>
+    @RenderSection("FooterSection", required: false)
+
+</body>
+</html>

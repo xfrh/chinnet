@@ -1,0 +1,125 @@
+﻿
+@{
+    ViewBag.Title = "资料下载";
+    Layout = "~/Areas/CR/Views/Shared/_Layout.cshtml";
+}
+
+    <link href="~/Areas/CR/Content/Css/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Areas/CR/Content/Css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Areas/CR/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Areas/CR/Content/Css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="~/Areas/CR/Content/Css/Document/List.css" rel="stylesheet" />
+
+@*@section Scripts{
+    <script src="~/Areas/CR/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Areas/CR/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Areas/CR/Content/Scripts/swiper/swiper.min.js"></script>
+    <script src="~/Areas/CR/Content/Scripts/weui.min.js"></script>
+    <script src="~/Areas/CR/Content/js/List.js"></script>
+}*@
+<style>
+    .btna {
+        margin-bottom: 20px;
+    }
+
+    .swiper-container {
+        height: 100%;
+    }
+    .doc-item:before {
+    content: "";
+    background-image: url(/favicon.ico);
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-size: contain;
+    position: relative;
+    top: 2px;
+    margin-right: 5px;
+}
+</style>
+    <div id="app" v-cloak class="indexpage" style="min-height:500px;">
+        <span style="font-size: 16px;padding-bottom: 5px;border-bottom: 4px solid #f63756;display: inline-block;margin-top: 10px;">资料下载</span>
+        <div ref="middle" class="middle padding-20" id="alignIcon">
+            <div ref="swiper_container" class="swiper-container scroll">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide slidescroll">
+                        <div v-for="item in items" @@click="download(item)" class="flex padding-t-20 padding-b-20 border-b-1 f-center f-between">
+                            <div class="flex-1 m-r8" style="line-height:25px;margin-top:20px;">
+                                <div class="fon-30 margin-b-10" style="font-size:14px; cursor:pointer;"><i class="doc-item"></i> {{item.Name}}<a href="#" style="color: #5bc0de;">{{item.UrlName}}</a></div>
+                                <div class="flex f-center">
+                                    <div class="margin-r-20 f-center flex c96 fon-22" style="font-size:14px; float:right;color: #ccc !important">
+                                        <i class="fa fa-clock-o fa-fw" aria-hidden="true" style="margin-right: 0.1rem;"></i>
+                                        {{item.Date}}
+                                    </div>
+                                    <div class="c96 f-center flex fon-22" style="font-size:14px;color: #ccc !important">
+                                        <i class="fa fa-eye fa-fw" aria-hidden="true" style="margin-right: 0.1rem;"></i>
+                                        {{item.Count}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="download-btn-group">
+                                @*<a :id="'btn_download__' + item.Id" class="btn btn-download ladda-button" data-style="zoom-in" href="javascript:void(0);">
+                                        <span class="sr-only">下载</span>
+                                    </a>*@
+                            </div>
+                        </div>
+
+                        <div v-if="pageNull" ref="listNullDiv" class="list-null"></div>
+                        <div v-if="nextPageLoading" class="weui-loadmore" style="margin: 0.23rem auto;">
+                            <i class="weui-loading"></i>
+                            <span class="weui-loadmore__tips">加载更多</span>
+                        </div>
+                        <div v-if="noNetxPage&&pageConfig.pageSize>15" class="weui-loadmore weui-loadmore_line" style="margin: 5.75rem auto 0;margin-bottom:30px;">
+                            <span class="weui-loadmore__tips">这是人家的底线</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div v-if="!nextPageLoading&&!noNetxPage&&!pageNull" class="weui-loadmore" id="jazai_box" style="margin: 0.75rem auto 0; line-height:30px;margin-bottom:30px;">
+            <i class="fa fa-angle-double-up fa-lg"></i>
+            <p>上拉加载更多</p>
+        </div>
+        <div ref="failToast" id="failToast" style="display: none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-icon-warn weui-icon_toast" style="font-size: 1.65rem;"></i>
+                <p class="weui-toast__content fon-32" v-text="resFailMessage" style="margin-top: 0.25rem;"></p>
+            </div>
+        </div>
+
+        <div ref="loadingToast" id="loadingToast" style="display:none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-loading weui-icon_toast"></i>
+                <p class="weui-toast__content fon-32" v-html="loadingText"></p>
+            </div>
+        </div>
+
+        <div ref="iosDialog" id="iosDialog" class="js_dialog" style="display: none;">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__bd" v-html="dialogContent"></div>
+                <div class="weui-dialog__ft">
+                    <a href="javascript:void(0);" @@click="closeDialog" class="weui-dialog__btn weui-dialog__btn_primary" style="color: #005cad;">知道了</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+        function isMobile() {
+        try {
+            document.createEvent("TouchEvent");
+            return true;
+        } catch (e) {
+            return false;
+        }
+        }
+        if (isMobile())
+        {
+            $("#jazai_box").addClass("hidden");
+            $("#alignIcon").addClass("btna");
+        }
+    </script>
+

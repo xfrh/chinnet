@@ -1,0 +1,109 @@
+﻿@using ManageSystem.Web.Models.Meetings;
+@using Webdiyer.WebControls.Mvc;
+
+@model MeetingModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "信息动态基本信息 ";
+}
+
+@section HeadSection{
+    <link href="~/Content/Css/Center.css" rel="stylesheet" />
+}
+
+<style type="text/css">
+    .user_center .center-table {
+        width: 100%;
+        border-style: none;
+    }
+
+        .user_center .center-table td {
+            border-style: none;
+            height: 30px;
+            line-height: 30px;
+            font-size: 14px;
+            text-align: left;
+            padding: 2px;
+            box-sizing: border-box;
+        }
+</style>
+<div class="mbx"><p>当前位置：首页 &gt; 我发布的活动  @(Model == null ? "" : " > " + Model.Name + "") </p></div>
+<div class="user_center">
+    @*<div>
+      @Html.Action("_Menu", "Center")
+    </div>*@
+    <div class="user_center_r">
+
+        <div class="user_center_r_a center-title">
+            <h2>
+                <span class="span-item span-item-action " onclick="location.href='/Center/MeetingDetail/@Model.Id.ToString()'">基本信息</span>
+                <span class="span-item" onclick="location.href='/Center/MeetingDetailApplyList/@Model.Id.ToString()'">管理报名</span>
+                <span class="span-item    " onclick="location.href='/Center/MeetingDetailCommentList/@Model.Id.ToString()'">管理评论</span>
+            </h2>
+        </div>
+
+        <div class="user_center_r_b">
+            @{
+                if (Model == null || Model.Id <= 0)
+                {
+                    <p>活动不存在</p>
+                }
+                else
+                {
+
+                    <table class="center-table">
+                        <tr>
+                            <td style="width:10%;">会议海报：</td>
+                            <td style="width:90%;">@Html.Raw(string.IsNullOrWhiteSpace(Model.CoverImage) ? "无" : "<a  target='_blank' href='" + Model.CoverImage + "'>查看图片</a>")</td>
+                        </tr>
+                        <tr>
+                            <td>发布时间：</td>
+                            <td>@Model.InsertTime.ToString("yyyy-MM-dd HH:mm")</td>
+                        </tr>
+                        <tr>
+                            <td>会议主题：</td>
+                            <td>@Model.Name</td>
+                        </tr>
+                        <tr>
+                            <td>会议时间：</td>
+                            <td>@Model.StartTime.ToString("yyyy-MM-dd HH:mm") &nbsp;-&nbsp; @Model.EndTime.ToString("yyyy-MM-dd HH:mm") </td>
+                        </tr>
+                        <tr>
+                            <td>会议地点：</td>
+                            <td>@Model.AreaFullName  @Model.Address</td>
+                        </tr>
+                        <tr>
+                            <td>报名限制人数：</td>
+                            <td>@(Model.PersonMaxCount <= 0 ? "不限制" : Model.PersonMaxCount.ToString())</td>
+                        </tr>
+                        <tr>
+                            <td>被查看次数：</td>
+                            <td>@(Model.ViewCount)</td>
+                        </tr>
+                        <tr>
+                            <td>报名次数：</td>
+                            <td>@(Model.ApplyCount)</td>
+                        </tr>
+                        <tr>
+                            <td>收藏次数：</td>
+                            <td>@(Model.CollectCount)</td>
+                        </tr>
+                        <tr>
+                            <td>会议类型：</td>
+                            <td>@Model.TypeName</td>
+                        </tr>
+                        <tr>
+                            <td>收费金额：</td>
+                            <td>@(Model.Price <= 0 ? "免费" : Model.Price.ToString())</td>
+                        </tr>
+                        <tr>
+                            <td>会议详情：</td>
+                            <td><a href="/Meeting/Detail/@Model.Id.ToString()" target="_blank">点击查看</a></td>
+                        </tr>
+                    </table>
+                }
+            }
+        </div>
+    </div>
+</div>
+

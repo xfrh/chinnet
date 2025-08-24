@@ -1,0 +1,93 @@
+﻿.map-container {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -moz-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin-top: 0.75rem;
+}
+
+    .map-container > img {
+        -webkit-box-flex: 1;
+        -webkit-flex: 1;
+        -moz-box-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+.sjd-list-group {
+    padding: 0 0.35rem;
+}
+
+    .sjd-list-group > h4 {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -moz-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        font-size: 0.4rem;
+        border-bottom: 1px solid #efefef;
+        padding: 0.25rem 0;
+    }
+
+        .sjd-list-group > h4:before,
+        .sjd-list-group > h4::before {
+            content: " ";
+            display: block;
+            width: 0.25rem;
+            height: 0.5rem;
+            background: #2e479b;
+            margin-right: 0.25rem;
+        }
+
+    .sjd-list-group .list-group {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -moz-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        font-size: 0.4rem;
+        padding: 0.25rem 0 0;
+        border-bottom: 1px solid #efefef;
+    }
+
+    .sjd-list-group .list-item {
+        text-align: left;
+        margin-bottom: 0.25rem;
+        padding: 0.15rem 0.25rem;
+        cursor: pointer;
+    }
+
+    .sjd-list-group li.list-item.active {
+        color: #d81b60;
+    }
+
+
+.top-nav {
+    background-color: #EDFAFF;
+}

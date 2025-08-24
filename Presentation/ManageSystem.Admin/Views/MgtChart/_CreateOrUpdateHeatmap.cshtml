@@ -1,0 +1,176 @@
+﻿@model ManageSystem.Admin.Models.Chart.HeatmapModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.DataSegmentId)
+
+<style>
+    .adminData {
+        width: 300px;
+        padding-bottom: 15px;
+    }
+</style>
+<div style="width:20%;float:left">
+    <table>
+        <tr>
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.DataSegmentId)：
+                @Html.DropDownListFor(m => m.DataSegmentId, Model.DropDataSegment, new { data_val_number = "请选择所属数据段", data_val_range_min = "1", data_val_range = "请选择所属数据段", @readonly = "readonly", disabled = "disabled", style = "background: transparent;" })
+                @Html.ValidationMessageFor(m => m.DataSegmentId)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.Name)：
+                @Html.EditorFor(m => m.Name, new { htmlAttributes = new { placeholder = "请输入报表名称" } })
+                @Html.ValidationMessageFor(m => m.Name)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.Sort)：
+                @Html.EditorFor(m => m.Sort, new { htmlAttributes = new { placeholder = "排序必须大于等于1，且值越小越靠前", data_val_number = "排序必须大于等于1，且值越小越靠前", data_val_range_min = "1", data_val_range = "排序必须大于等于1，且值越小越靠前" } })
+                @Html.ValidationMessageFor(m => m.Sort)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.Display)：
+                @Html.DropDownListFor(m => m.Display, Model.DropDisplay)
+                @Html.ValidationMessageFor(m => m.Display)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminData">
+                @Html.NopLabelFor(m => m.ChartType)：
+                @Html.DropDownListFor(m => m.ChartType, Model.DropChartType)
+                @Html.ValidationMessageFor(m => m.ChartType)
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="item-container" style="width:80%;float:right">
+    <section >
+        <div class="flex flex-vertical-center item-header">
+            <div class="flex-1">
+                <span class="item-active">报表数据项</span>
+            </div>
+            <div class="">
+                <button class="btn btn-primary btn-excel" type="button" onclick="onExcel(); return false;">Excel导入数据</button>
+            </div>
+        </div>
+        <table class="table table-bordered item-table">
+            <thead>
+                <tr>
+                    <th>省份</th>
+                    <th class="text-center" style="width: 20%;">数值</th>
+                    <th class="text-center" style="width: 20%;">操作</th>
+                </tr>
+            </thead>
+            <tbody id="item_tbody">
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">
+                        <a class="btn btn-info" href="javascript: onAddItemRow();" style="padding: 4px 12px; font-size: 12px;">增加一行数据</a>
+                        <a class="btn btn-danger" href="javascript: onPreview();" style="padding: 4px 12px; font-size: 12px;">预&emsp;览</a>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="options add-page-options" style="text-align:right">
+            <input type="submit" name="save" class="btn btn-blue" value="保存" onclick="return onSubmit();" />
+            @*<a class="btn btn-default" href="@Url.Action("HeatmapList")">返回</a>*@
+        </div>
+    </section>
+</div>
+<script id="tpl_item_table_tr" type="text/html">
+    <tr id="{{row_id}}">
+        <td>
+            <select name="{{select_name}}" class="text-box single-line" data-tagfor="{{input_id}}">
+                {{each dropProvinces as value text}}
+                {{if text == province}}
+                <option value="{{value}}" selected="selected">{{text}}</option>
+                {{else}}
+                <option value="{{value}}">{{text}}</option>
+                {{/if}}
+                {{/each}}
+            </select>
+        </td>
+        <td class="text-center">
+            <input id="{{input_id}}" class="text-box single-line text-center" name="{{input_name}}" data-val="true" data-val-required="请录入数值" data-val-number="请录入正确的数值" value="{{input_value}}" />
+        </td>
+        <td class="text-center">
+            <a class="btn btn-delete" data-tagid="{{row_id}}" href="javascript: onDeleteItem('#{{row_id}}');">删&ensp;除</a>
+        </td>
+    </tr>
+</script>
+
+<div id="modal-preview" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">效果预览</h4>
+            </div>
+            <div class="modal-body">
+                <div id="china-map" style="min-height: 400px;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-excel" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myExcelModalLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myExcelModalLabel">数据导入</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group clearfix">
+                            <label class="control-label col-md-3"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&ensp;选择EXCEL文件：</label>
+                            <div class="col-md-9">
+                                <input id="excelFile" name="excelFile" type="file" accept=".xls,.xlsx" placeholder="选择文件">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group clearfix">
+                            <label class="control-label col-md-3"><i class="fa fa-bookmark-o" aria-hidden="true"></i>&ensp;导入说明：</label>
+                            <div class="col-md-9">
+                                <ul class="list-group">
+                                    <li class="list-group-item">1. 请下载&emsp;<a target="_blank" href="/Content/Files/热图数据导入模板.xlsx"><i class="fa fa-download" aria-hidden="true"></i>&ensp;热图数据导入模板.xlsx</a>&emsp;并填写对应省份的具体数值，数值范围0-100内的浮点数，最多2位小数；</li>
+                                    <li class="list-group-item">2. 请勿编辑模板中的省份信息；</li>
+                                    <li class="list-group-item">3. 请使用下载的<a target="_blank" href="/Content/Files/热图数据导入模板.xlsx">热图数据导入模板.xlsx</a>上传数据；</li>
+                                    <li class="list-group-item">4. 上传提交过程等待时间可能稍长，请勿离开或刷新本页面。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group clearfix">
+                            <label class="control-label col-md-3">&ensp;</label>
+                            <div class="col-md-9">
+                                <button id="btnSubmit" class="btn btn-primary ladda-button" data-style="zoom-in" onclick="onSubmitExcel(); return false;" type="button"><i class="fa fa-upload" aria-hidden="true"></i>&ensp;导入数据</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>

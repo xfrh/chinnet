@@ -1,0 +1,23 @@
+﻿@model ManageSystem.Admin.Models.MicdataDistribution.ddDocumentModel
+<div class="tab-pane  select-item" id="tabColumnData" style="margin-top: 15px; ">
+    <div style="width:100%;overflow-x:scroll;margin-bottom: 30px;">
+        <table class="table table-bordered  table2 table-hover">
+            <thead>
+                <tr>
+                    @{
+
+                        string[] header = Model.header.Split(',');
+                        for (int i = 0; i < header.Length; i++)
+                        {
+                            <td><div style="width: 110px;">@header[i].ToString()</div>   </td>
+                        }                       
+                    }
+                </tr>
+            </thead>
+            <tbody id="detailDataBody"></tbody>
+        </table>
+    </div>
+    <div id="detailDataPager" class="page-btn-main " style="text-align:center;"></div>
+</div>
+
+<script src="/Content/Scripts/MicDistribution/_Detail.Data.js"></script>

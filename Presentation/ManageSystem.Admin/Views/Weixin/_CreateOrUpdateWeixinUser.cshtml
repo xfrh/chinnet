@@ -1,0 +1,71 @@
+﻿@model ManageSystem.Admin.Models.Weixin.WeixinUserModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+		<table class="adminContent">
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                    @Html.ValidationMessageFor(m => m.Name)
+                </td>
+            </tr>
+
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Openid)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Openid, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.Openid)
+			</td>
+			</tr>
+
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(m => m.Area)：</td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.Area, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                    @Html.ValidationMessageFor(m => m.Area)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(m => m.SexName)：</td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.SexName, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                </td>
+            </tr>
+
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Subscribe)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.SubscribeValue, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.SubscribeValue)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.SubscribeTime)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.SubscribeTime, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.SubscribeTime)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.UnsubscribeTime)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.UnsubscribeTime, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+				@Html.ValidationMessageFor(m => m.UnsubscribeTime)
+			</td>
+			</tr>
+
+		</table>
+
+        <script src="/Content/Scripts/TranTextBox.js"></script>
+<script type="text/javascript">
+
+				$("#SubscribeTime").kendoDatePicker({ value: new Date(), format: "yyyy-MM-dd HH:mm" });
+				$("#UnsubscribeTime").kendoDatePicker({ value: new Date(), format: "yyyy-MM-dd HH:mm" });
+
+
+   
+</script>

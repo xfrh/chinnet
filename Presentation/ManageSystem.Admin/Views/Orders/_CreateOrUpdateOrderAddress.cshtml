@@ -1,0 +1,108 @@
+﻿@model ManageSystem.Admin.Models.Orders.OrderAddressModel
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+		<table class="adminContent">
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.OrderId)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.OrderId)
+				@Html.ValidationMessageFor(m => m.OrderId)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.MemberId)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.MemberId)
+				@Html.ValidationMessageFor(m => m.MemberId)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.MemberAddressId)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.MemberAddressId)
+				@Html.ValidationMessageFor(m => m.MemberAddressId)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Name)
+				@Html.ValidationMessageFor(m => m.Name)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Email)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Email)
+				@Html.ValidationMessageFor(m => m.Email)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Address)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Address)
+				@Html.ValidationMessageFor(m => m.Address)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Phone)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Phone)
+				@Html.ValidationMessageFor(m => m.Phone)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.ZipPostalCode)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.ZipPostalCode)
+				@Html.ValidationMessageFor(m => m.ZipPostalCode)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Tel)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Tel)
+				@Html.ValidationMessageFor(m => m.Tel)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.ProvinceId)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.ProvinceId)
+				@Html.ValidationMessageFor(m => m.ProvinceId)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.CityId)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.CityId)
+				@Html.ValidationMessageFor(m => m.CityId)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Districts)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Districts)
+				@Html.ValidationMessageFor(m => m.Districts)
+			</td>
+			</tr>
+		<tr>
+			<td class="adminTitle">@Html.NopLabelFor(m => m.Remark)：</td>
+				<td class="adminData">
+				@Html.EditorFor(m => m.Remark)
+				@Html.ValidationMessageFor(m => m.Remark)
+			</td>
+			</tr>
+		</table>
+
+
+<script type="text/javascript">
+
+
+
+   
+</script>

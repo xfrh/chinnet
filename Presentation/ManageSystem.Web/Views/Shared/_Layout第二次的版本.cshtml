@@ -1,0 +1,119 @@
+﻿@using ManageSystem.Services.Configuration
+@{
+
+    string adminPageTitle = "";
+    if (!String.IsNullOrWhiteSpace(this.ViewBag.Title))
+    {
+        adminPageTitle = this.ViewBag.Title + " / ";
+    }
+
+    adminPageTitle += WebSettingService.GetWebName() + "";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <title>@adminPageTitle</title>
+    <link href="~/Content/bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/style.css" rel="stylesheet" />
+    <link href="~/Content/Css/keyan.css" rel="stylesheet" />
+    <link href="~/Content/Css/common.css" rel="stylesheet" />
+
+    <link href="~/Content/Css/swiper-3.3.1.min.css" rel="stylesheet" />
+    <link href="~/Content/Scripts/layer-v2.4/skin/layer.css" rel="stylesheet" />
+    <link href="~/Content/Scripts/layer-v2.4/laydate/skins/dahong/laydate.css" rel="stylesheet" />
+    <link href="~/Content/Css/pageer.css" rel="stylesheet" />
+
+    <script src="~/Content/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="/Content/Scripts/jquery.validate.min.js"></script>
+    <script src="/Content/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Content/Scripts/layer-v2.4/layer.js"></script>
+    <script src="~/Content/Scripts/layer-v2.4/laydate/laydate.js"></script>
+    <script src="~/Content/Scripts/common-validate.js"></script>
+
+    <style type="text/css">
+        .cy-wrap {
+        width:100% !important; 
+        }
+        .mbx p {
+        padding-left:0px !important; 
+        }
+        .user_center_r{
+            width:100% !important;
+            border-left: none !important; 
+        }
+    </style>
+
+    @RenderSection("HeadSection", required: false)
+
+</head>
+<body style="background-color:white;padding-left: 20px;  padding-right: 20px;">
+
+@*<div class="head">
+    <div class="logo"></div>
+    <div class="top">
+        @Html.Action("_LoginInfo", "Shared")
+        <ul class="navtitle">
+            <li>
+                <a href="@Url.Action("Index","Home")">首页</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index","Medicine")">医学中心</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index","News")">资讯中心</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index","Research")">科研合作</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index","Meeting")">信息动态</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index","Mall")">积分兑换</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index","Center")">个人中心</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="content" style="min-height:650px;">
+    <div> @Html.Partial("Notifications")  </div>
+    @RenderBody()
+</div>
+<div class="foot">
+    <li>@@2011年版权所有</li>
+    <li>CHINET医学信息网站</li>
+</div>*@
+
+    <div> @Html.Partial("Notifications")  </div>
+
+@RenderBody()
+
+<script src="~/Content/Scripts/swiper-3.3.1.min.js"></script>
+<script src="~/Content/Scripts/common.js"></script>
+<script src="~/Content/Scripts/layer-v2.4/helper.js"></script>
+<script src="~/Content/bootstrap-3.3.0/js/bootstrap.min.js"></script>
+
+@RenderSection("FooterSection", required: false)
+
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        centeredSlides: true,
+        autoplay: 3600,
+        autoplayDisableOnInteraction: false
+    });
+</script>
+
+
+</body>
+</html>

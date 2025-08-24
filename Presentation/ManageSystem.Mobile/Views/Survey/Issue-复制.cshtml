@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewBag.Title = ViewBag.Name;
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 声明文档使用的字符编码 -->
+    <meta charset='utf-8'>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- 优先使用 IE 最新版本和 Chrome -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!-- 搜索引擎抓取 -->
+    <meta name="robots" content="index,follow" />
+    <!-- 为移动设备添加 viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <!-- iOS 设备 begin -->
+    <!-- 是否启用 WebApp 全屏模式，删除苹果默认的工具栏和菜单栏 -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- 设置苹果工具栏颜色 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <!-- 忽略页面中的数字识别为电话，忽略email识别 -->
+    <meta name="format-detection" content="telphone=no, email=no" />
+    <!-- 启用360浏览器的极速模式(webkit) -->
+    <meta name="renderer" content="webkit">
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 不让百度转码 -->
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
+    <meta name="HandheldFriendly" content="true">
+    <!-- 微软的老式浏览器 -->
+    <meta name="MobileOptimized" content="320">
+    <!-- UC应用模式 -->
+    <meta name="browsermode" content="application">
+    <!-- QQ应用模式 -->
+    <meta name="x5-page-mode" content="app">
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <!-- windows phone 点击无高光 -->
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/common.css" rel="stylesheet" />
+    <link href="~/Content/Css/style.css" rel="stylesheet" />
+    <script src="~/Content/Scripts/modernizr-2.8.3.js"></script>
+    <script src="~/Content/Scripts/common.js"></script>
+    <script src="~/Content/Scripts/prefixfree.min.js"></script>
+    <link href="~/Content/Css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Survey/Issue.css?v=@DateTime.Now.Ticks" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="app" v-locak>
+        <div class="swiper-container" ref="mySwiper" style="height: 100%;">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="swiper-container scroll">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide slidescroll">
+                                <h2>碳青霉烯类耐药细菌（CRO）检测能力现状调研要点</h2>
+                                <footer class="issue-footer">
+                                    <a class="btn btn-primary btn-issue-begin" href="javascript: void(0);" @@click="onBeginAnswer">开始答题</a>
+                                </footer>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide" v-if="beginAnswer">
+                    @Html.Partial("~/Views/Survey/PartialPage/_PartialPage2.cshtml")
+                </div>
+                <div class="swiper-slide" v-if="beginAnswer">
+                    @Html.Partial("~/Views/Survey/PartialPage/_PartialPage3.cshtml")
+                </div>
+                <div class="swiper-slide" v-if="beginAnswer">
+                    @Html.Partial("~/Views/Survey/PartialPage/_PartialPage4.cshtml")
+                </div>
+                <div class="swiper-slide" v-if="beginAnswer">
+                    @Html.Partial("~/Views/Survey/PartialPage/_PartialPage5.cshtml")
+                </div>
+                <div class="swiper-slide" v-if="beginAnswer">
+                    @Html.Partial("~/Views/Survey/PartialPage/_PartialPage6.cshtml")
+                </div>
+                <div class="swiper-slide" v-if="beginAnswer">
+                    @Html.Partial("~/Views/Survey/PartialPage/_PartialPage7.cshtml")
+                </div>
+                <div class="swiper-slide" v-if="beginAnswer">
+                    @Html.Partial("~/Views/Survey/PartialPage/_PartialPage8.cshtml")
+                </div>
+                <div class="swiper-slide" v-if="beginAnswer && Q26.answer === '是'">
+                    @Html.Partial("~/Views/Survey/PartialPage/_PartialPage9.cshtml")
+                </div>
+                <div class="swiper-slide" v-if="beginAnswer && Q26.answer === '是'">
+                    @Html.Partial("~/Views/Survey/PartialPage/_PartialPage10.cshtml")
+                </div>
+                <div class="swiper-slide" v-if="beginAnswer && Q26.answer === '是'">
+                    @Html.Partial("~/Views/Survey/PartialPage/_PartialPage11.cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Content/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/Scripts/respond.min.js"></script>
+    <script src="~/Content/Scripts/vue/vue.min.js"></script>
+    <script src="~/Content/Scripts/swiper/swiper.min.js"></script>
+    <script src="~/Content/Scripts/axios/axios.min.js"></script>
+    <script src="~/Content/Scripts/vee-validate/vee-validate.min.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/Survey/Issue.js?v=@DateTime.Now.Ticks"></script>
+</body>
+</html>
+

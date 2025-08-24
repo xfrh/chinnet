@@ -1,0 +1,186 @@
+﻿@using ManageSystem.Web.Models.Researches
+@using ManageSystem.Core.Domain.Researches
+@using ManageSystem.Core.Utility;
+@using ManageSystem.Services.Members;
+@using ManageSystem.Services.Researches
+
+@model ResearchDetailModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = Model.ResearchEntity.Name;
+}
+
+<link href="~/Content/Css/metting.css" rel="stylesheet" />
+<link href="~/Content/Css/Research.css" rel="stylesheet" />
+
+<div class="research-page">
+
+    <div class="mbx">
+        <p>当前位置：首页 &gt; 科研合作 </p>
+    </div>
+    <div class="center_keyan">
+        <div class="center_keyan_bm">
+            <ul class="img">
+                <li><img src="@(ResearchServiceExtensions.GetCoverImage(Model.ResearchEntity.CoverImage))"></li>
+            </ul>
+            <ul class="cen">
+                <li>
+                    <h2>@Model.ResearchEntity.Name</h2>
+                </li>
+                <li>简介：@Model.ResearchEntity.Remark.CutString(30) </li>
+                <li><span>发起人：@Model.ResearchEntity.Author</span><span>地区：@Model.ResearchEntity.AreaName</span></li>
+                @{
+                    if (Model.IsApply)
+                    {
+                        <li><input type="button" value="已经报名"></li>
+                    }
+                    else
+                    {
+                        <li><input type="button" onclick="OpenApplyWindow()" value="立即报名"></li>
+                    }
+                }
+
+                <li><span>参与人数：@Model.ResearchEntity.ApplyCount 人</span><span>浏览：@Model.ResearchEntity.ViewCount</span></li>
+                <li>
+                    <span>
+                        @{
+                            if (Model.IsCollect)
+                            {
+                                <a href="javascript:void();"><img src="/Content/Images/icon07.png">&nbsp;已收藏  </a>
+                            }
+                            else
+                            {
+                                <a href="javascript:SetResearchCollect();"><img src="/Content/Images/icon07.png">&nbsp;收藏  </a>
+                            }
+                        }
+
+                        @*&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;    <a href="javascript:;"><img src="/Content/Images/icon08.png">&nbsp;分享</a>*@
+                    </span>
+                    <span style="display:none;">
+                        好评：
+                        @{
+                            for (int i = 0; i < Model.ResearchEntity.Grade; i++)
+                            {
+                                <img src="/Content/Images/icon02.png">
+                            }
+                        }
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <div class="center_keyan_txt " id="nav-box">
+            <ul>
+                <li class="active" IdValue="remark" onclick="location.href = '#remark'">科研简介</li>
+                <li IdValue="content" onclick="location.href = '#content'">详细介绍</li>
+                <li IdValue="comment" onclick="location.href = '#comment'">科研评价<span>@Model.ResearchEntity.CommentCount </span></li>
+            </ul>
+        </div>
+
+        <div class="center_keyan_txt_ml" id="remark" style="width:100%;">
+            <h2>科研简介</h2>
+            <div class="remark-box">
+                <p>@Html.Raw(Model.ResearchEntity.Remark)</p>
+            </div>
+        </div>
+
+        <div class="center_keyan_txt_ml " id="content" style="width:100%;">
+            <h2>详细介绍</h2>
+            <div class="content-box">
+                @Html.Raw(Model.ResearchEntity.Content)
+            </div>
+        </div>
+
+        <div class="center_keyan_txt_ky" id="comment" style="width: 100%;">
+            <h2>科研评价 <span>(@Model.ResearchEntity.CommentCount)</span></h2>
+
+            <div class="dt_review" id="dt_review" style="border-style:none; margin-top:0px;">
+                <a name="dt_review_up" id="dt_review_up"></a>
+                <div class="dt_review_edit" style="margin-top:20px;">
+                    <div name="discuss_icon_0" class="dt_review_edit_l" style="margin-left:0px;">
+                        <p class="dt_review_edit_pic">
+                            <a class="dt_review_edit_pic_A" onclick="_user._toLogin()" href="#">
+                                @{
+                                    if (Model.MemberEntity == null || Model.MemberEntity.Id <= 0)
+                                    {
+                                        <img class="dt_review_edit_pic_img" src="" alt="">
+                                    }
+                                    else
+                                    {
+                                        <img class="dt_review_edit_pic_img" src="@MemberExtensions.GetHeadImage(Model.MemberEntity.HeadImage)" alt="">
+                                    }
+                                }
+
+                            </a>
+                        </p>
+                    </div>
+
+                    <div class="dt_review_edit_c" style="background-image:none;">
+                        <p style="margin:0px; padding:0px;"><textarea name="" cols="" rows="" id="dt_review_form_content" class="dt_review_form_content" placeholder="讨论："></textarea></p>
+                    </div>
+
+                    <div class="dt_review_edit_r submit-btn">
+                        <input Comment="0" type='button' class='dt_review_post_A' onclick="AddComment()" value='发表讨论' />
+                    </div>
+
+                </div>
+                <ul style="" class="dt_review_main" id="dt_review_main"></ul>
+                <div class="dt_review_more" id="review_loading" style="display: block;  ">
+                    <div class="loading-content">
+                        <div style="width:auto; float:left;"><img src="~/Content/Images/loading2.gif" /></div>
+                        <div style="width:80px; float:left;">正在加载...</div>
+                    </div>
+                </div>
+
+                <div class="center_keyan_txt_pl">
+                    <ul class="comment-ul" style="margin:20px 10px;"></ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- 报名弹窗 -->
+<div class="tc_c2 apply-window" id="join_box" style="display: none; ">
+    <div class="join_box_Xq_out">
+        <div class="tc_c_close">
+            <p>请填写报名信息</p>
+        </div>
+        <div class="tc_c_info">
+            <div class="tc_c_info_con"><p class="join_detail">确认报名信息</p></div>
+        </div>
+        <div class="join_box_Xq">
+            <ul id="ul_join_property" class="pop_massage">
+                <li type="danH">
+                    <div class="optionsName">姓名</div>
+                    <div class="inpoutK">
+                        <input value="@(Model.MemberEntity != null ? Model.MemberEntity.Name:"")" type="text" maxlength="40" class="font0 apply_name" id="input_pro_id_1">
+                    </div>
+                </li>
+                <li type="danH">
+                    <div class="optionsName">手机</div>
+                    <div class="inpoutK">
+                        <input value="@(Model.MemberEntity != null ? Model.MemberEntity.Phone:"")" type="text" maxlength="40" class="font0  apply_phone" id="input_pro_id_2">
+                    </div>
+                </li>
+
+                <li type="danH">
+                    <div class="optionsName">邮箱：</div>
+                    <div class="inpoutK">
+                        <input value="@(Model.MemberEntity != null ? Model.MemberEntity.Email:"")" type="text" maxlength="40" class="font0  apply_email" id="input_pro_id_47760">
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tc_c_btn2" id="xdBtn">
+            <div class="join_Btn"><a id="a_submit" class="blueBtn font02" href="javascript:void(0);" onclick="SaveApplyMeeting()">立即报名</a></div>
+        </div>
+
+    </div>
+</div>
+
+<input type="hidden" id="ResearchIndex" value="@Model.ResearchEntity.Id.ToString()" />
+
+<script src="~/Content/Scripts/Research/Detail.js"></script>

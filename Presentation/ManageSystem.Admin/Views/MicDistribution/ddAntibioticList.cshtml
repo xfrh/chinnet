@@ -1,0 +1,171 @@
+﻿@model  ManageSystem.Admin.Models.MicdataDistribution.ddAntibioticModel
+
+@{
+    ViewBag.Title = "抗生素管理";
+    //bool IsEdit = UserinfoExtensions.CheckFunction(Url.Action("HospitalEdit"));
+    //bool IsView = UserinfoExtensions.CheckFunction(Url.Action("HospitalView"));
+}
+
+@section HeadSection {
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "MIC数据分布", SecondName = "抗生素管理", LocationName = this.ViewBag.Title }); }
+}
+
+
+@Html.AntiForgeryToken()
+
+<div class="page-body">
+
+    <div class="row manage-page">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-yellow manage-title-box">
+                    <span class="widget-caption manage-title"><i class="glyphicon glyphicon-th "></i>@ViewBag.Title </span>
+                    <div class="widget-buttons">
+                        <a href="#" data-toggle="maximize"><i class="fa fa-expand"></i></a>
+                        <a href="#" data-toggle="collapse"><i class="fa fa-minus"></i></a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+
+                        <div id="searchable_filter" class="dataTables_filter manage-but-box">
+                            <div style="width: 100%;">
+                                @Html.ButtonHtml(HtmlButtonType.Add, "AntibioticCreate", "MicDistribution")
+                                @Html.ButtonHtml(HtmlButtonType.Delete, "HospitalDelete", "MicDistribution")
+                            </div>
+                            <div style="width: 100%;">
+                                <div class="dataTables_filter manage-but-box">
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.title)：</label>
+                                    <label class="lb-right"><input type="text" id="title" class="form-control input-sm  search" style="width:100%;" /></label>
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.code)：</label>
+                                    <label class="lb-right"><input type="text" id="code" class="form-control input-sm  search" style="width:100%;" /></label>
+                                    @*<label class="lb-right"><input type="text" id="FileName" class="form-control input-sm  search" style="width:100%;" /></label>*@
+                                    <label> <input type="button" id="btn-search" class="btn btn-blue" value="查 询" /> </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table table-striped table-bordered dataTable no-footer table-select" id="ManageTableDiv" aria-describedby="editabledatatable_info">
+                            <div id="data-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*删除数据的表单*@
+@using (Html.BeginForm("HospitalDelete", "Medicine", FormMethod.Post, new { id = "delete-selected-form" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="selectedIds" name="selectedIds" value="" />
+}
+
+<script>
+    $(document).ready(function () {
+
+        $("#data-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("ddAntibioticList"))",
+                        //url:"/MicDistribution/ddGermLists",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 30, 50]
+            },
+            scrollable: false,
+            groupable: true,
+            dataBound: onDataBound,
+            columns: [{
+                field: "antibiotic__id",
+                headerTemplate: "  <div class='' style='text-align: center;'>    <label><input type='checkbox' id='mastercheckbox' /><span class='text'></span> </label>   </div>",
+                headerAttributes: { style: "text-align:center" },
+                attributes: { style: "text-align:center" },
+                template: " <div class='' style='text-align: center;'>    <label><input type='checkbox' class='checkboxGroups'  value='#=antibiotic__id#' /><span class='text'></span> </label>   </div> ",
+                width: 50
+            },
+        {
+          field: "title",
+          title: "抗生素名称",
+          width: 150
+        },
+		{
+		    field: "title_en",
+		    title: "英文名称",
+		    width: 150
+		},
+		{
+		    field: "code",
+		    title: "抗生素代码",
+		    width: 100
+        },
+        {
+		    field: "sortid",
+            title: "<div style='text-align: center;'>排序</div>",
+            attributes: { style: "text-align:center" },
+		    width: 100
+		},
+		{
+		    field: "created",
+            title: "<div style='text-align: center;'>添加时间<div>",
+            attributes: { style: "text-align:center" },
+		    width: 150
+		},
+		{
+		    field: "username",
+		    title: "添加人",
+		    width: 100
+		},
+        {
+            field: "antibiotic__id",
+            title: "<div style='text-align: center;'>操作</div>",
+            width: 70,
+                //& nbsp;& nbsp; <a href='/MicDistribution/AntibioticEdit/#=antibiotic__id#'>删除</a>
+            template: "<div style='text-align: center;'><a href='/MicDistribution/AntibioticEdit/#=antibiotic__id#'>编辑</a></div>"
+        }]
+        });
+    });
+
+
+    //设置查询参数
+    function additionalData() {
+        var data = {
+            title: $("#title").val(),
+            code: $("#code").val(),
+        };
+
+        addAntiForgeryToken(data);
+        return data;
+    }
+</script>
+
+<script src="~/Content/Scripts/admin.listpage.js"></script>

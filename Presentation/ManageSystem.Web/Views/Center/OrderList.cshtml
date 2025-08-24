@@ -1,0 +1,178 @@
+﻿@using ManageSystem.Web.Models.Meetings
+@using Webdiyer.WebControls.Mvc
+@using ManageSystem.Services.Articles
+@using ManageSystem.Web.Models.Orders
+@using ManageSystem.Services.Products
+@using ManageSystem.Core.Domain.Orders
+
+@model  CenterOrderListModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "兑换记录 ";
+}
+
+@section HeadSection{
+    <link href="~/Content/Css/Center.css" rel="stylesheet" />
+}
+
+<style type="text/css">
+    .user_center_r_b table td {
+        height: 30px;
+        line-height: 30px !important;
+    }
+
+    .order-item-newline {
+        border-style: none;
+    }
+
+    .user_center_r_b table tr:last-child td {
+        border: 1px solid #ddd;
+    }
+
+    .user_center_r_b .order-item-tr td {
+        /*height: 80px !important;
+        line-height: 80px !important;*/
+    }
+
+    .order-item-title td {
+        height: 25px;
+        line-height: 25px !important;
+        text-align: center;
+    }
+
+    .order-item-tr td {
+        text-align: center;
+        padding-top: 20px !important;
+        line-height: 20px !important;
+    }
+
+        .order-item-tr td a {
+            margin-right: 0px !important;
+            color: #428bca;
+        }
+
+    .order-item-td {
+        text-align: left;
+        color: #9e9e9e;
+        height: 25px !important;
+        line-height: 25px !important;
+    }
+</style>
+
+<div class="mbx"><p>当前位置：首页 &gt; 兑换记录 </p></div>
+<div class="user_center">
+    @*<div>
+  @Html.Action("_Menu", "Center")
+    </div>*@
+    <div class="user_center_r" style="width: 100%;padding-right: 10px;padding-left: 10px;">
+        <div class="user_center_r_a">
+            @using (Html.BeginForm("OrderList", "Center", FormMethod.Get))
+            {
+                @Html.TextBoxFor(m => m.SN, new { style = "background: #fff; color: #000000; width: 203px; height: 26px; border: 1px solid #BBBBBB;margin-right:10px;", @class = "some_class", placeholder = "订单编号" })
+                @Html.DropDownListFor(model => model.Status, Model.OrderStatusList, new { @class = "" })
+                <input type="submit" value="搜索" style="margin-right:10px;">
+            }
+        </div>
+        <div class="user_center_r_b_new">
+            <table class="table table-bordered order-item-title">
+                <tr style="background-color:#ededed;">
+                    <td style="width:80px">图片</td>
+                    <td style="width:180px; text-align:left;">商品名称</td>
+                    <td style="width:80px">单价 (元)</td>
+                    <td style="width:70px">数量</td>
+                    <td style="width:80px">总金额 (元)</td>
+                    <td style="width:80px">订单状态	</td>
+                    <td style="width:80px">操作</td>
+                </tr>
+            </table>
+            @{
+                if (Model != null && Model.PageList != null)
+                {
+                    foreach (var item in Model.PageList)
+                    {
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td class="order-item-td" colspan="7">
+                                        <span style="color:black; ">订单编号：</span>@item.SN
+                                        <span style="color:black; margin-left:25px;">下单时间：</span>@item.InsertTime.ToString("yyyy-MM-dd HH:mm")
+                                        <span style="color:black; margin-left:25px;">订单总金额：</span><span style="color:#ff5959;">@item.Amount</span>
+                                    </td>
+                                </tr>
+
+                                @{
+                                    if (item.OrderItemList != null && item.OrderItemList.Any())
+                                    {
+                                        int index = 0;
+                                        foreach (var node in item.OrderItemList)
+                                        {
+                                            index++;
+                                            <tr class="order-item-tr">
+                                                <td style="width:80px; padding-top:0px;"><a  href="/Mall/Item/@node.ProductId"> <img src="@ProductExtensions.GetProductImage(node.ProductImage)" width="60" height="60"></a> </td>
+                                                <td style="width:180px;   text-align:left;"><a  href="/Mall/Item/@node.ProductId">@node.ProductName</a></td>
+                                                <td style="width:80px; ">@node.MarketPrice</td>
+                                                <td style="width:70px;  ">@node.Count</td>
+                                                <td style="width:80px; ">@node.Amount</td>
+                                                @{
+                                                    if (index == 1)
+                                                    {
+                                                        <td style="width:80px; " rowspan="@item.OrderItemList.Count">@item.StatusName</td>
+                                                        <td style="width:80px; " rowspan="@item.OrderItemList.Count">
+                                                            @if (item.Status == (int)OrderStatusEnum.WaitReceive)
+                                                            {
+                                                                <a href="javascript:Confirm('@item.SN') ">确认收货</a> <br />
+                                                            }
+                                                            <a href="/Center/OrderDetail?sn=@item.SN">详细</a>
+                                                        </td>
+                                                    }
+                                                }
+
+                                            </tr>
+                                     }
+                                    }
+                                }
+
+                            </tbody>
+
+                        </table>
+                                                    }
+
+                                                    <div id="page-box" class="page">
+                                                        @Html.Pager(Model.PageList, MvcPagerExtensions.GetPagerOptions())
+                                                    </div>
+                                                    }
+            }
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    //确认收货
+    function Confirm(orderSN)
+    {
+        if (orderSN == "")
+        {
+            ErrorWindow("订单号不能为空", false, "");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Center/OrderConfirm",
+            data: { sn: orderSN },
+            dataType: "json",
+            success: function (data) {
+                if (data == "" || data == null) return;
+
+                if (data.status == "true") {
+                    SuccessWindow("确认收货成功！", true, "");
+                } else {
+                    ErrorWindow(data.message, true, "");
+                }
+            }
+        });
+    }
+</script>

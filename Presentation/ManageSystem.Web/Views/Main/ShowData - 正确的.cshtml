@@ -1,0 +1,564 @@
+﻿@{
+    this.Layout = null;
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- META SECTION -->
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <!-- END META SECTION -->
+    <!-- CSS INCLUDE -->
+    <link rel="stylesheet" type="text/css" id="theme" href="~/Content/Scripts/Chinet/css/theme-default.css" />
+    <!-- EOF CSS INCLUDE -->
+
+    <style type="text/css">
+        .medical-statistics {
+            padding: 0px;
+            line-height: 30px;
+            margin: 0px;
+            padding: 0px 10px !important;
+        }
+
+            .medical-statistics a {
+                height: 100%;
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+
+        ul.panel-controls .pan-title-a {
+            display: block;
+            float: left;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            line-height: 28px;
+            color: #656d78;
+            border: 1px solid #BBB;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            border-radius: 50%;
+            margin-left: 3px;
+            -webkit-transition: all 200ms ease;
+            -moz-transition: all 200ms ease;
+            -ms-transition: all 200ms ease;
+            -o-transition: all 200ms ease;
+            transition: all 200ms ease;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+
+        <!-- START BREADCRUMB -->
+        <ul class="breadcrumb">
+            <li>
+                <a href="javascript:;">首页</a>
+            </li>
+            <li class="active">控制面板</li>
+        </ul>
+        <!-- END BREADCRUMB -->
+        <!-- PAGE CONTENT WRAPPER -->
+        <div class="page-content-wrap">
+
+            <!-- START WIDGETS -->
+            <div class="row">
+                <div class="col-md-3">
+
+                    <!-- START WIDGET MESSAGES -->
+                    <div class="widget widget-default widget-item-icon">
+                        <div class="widget-item-left">
+                            <span>
+                                <img src="~/Content/Scripts/Chinet/img/icons/icon01.png" />
+                            </span>
+                        </div>
+                        <div class="widget-data">
+                            <div class="widget-int num-count">@this.ViewBag.HospitalCount</div>
+                            <div class="widget-title">成员单位</div>
+                        </div>
+                    </div>
+                    <!-- END WIDGET MESSAGES -->
+
+                </div>
+                <div class="col-md-3">
+
+                    <!-- START WIDGET MESSAGES -->
+                    <div class="widget widget-default widget-item-icon">
+                        <div class="widget-item-left">
+                            <span>
+                                <img src="~/Content/Scripts/Chinet/img/icons/hand.png" />
+                            </span>
+                        </div>
+                        <div class="widget-data">
+                            <div class="widget-int num-count">@this.ViewBag.ResearchCount</div>
+                            <div class="widget-title">科研合作</div>
+                        </div>
+                    </div>
+                    <!-- END WIDGET MESSAGES -->
+
+                </div>
+                <div class="col-md-3">
+
+                    <!-- START WIDGET REGISTRED -->
+                    <div class="widget widget-default widget-item-icon">
+                        <div class="widget-item-left">
+                            <span class="fa fa-user"></span>
+                        </div>
+                        <div class="widget-data">
+                            <div class="widget-int num-count">@this.ViewBag.MeetingCount</div>
+                            <div class="widget-title">信息动态</div>
+                        </div>
+                    </div>
+                    <!-- END WIDGET REGISTRED -->
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <!-- START WIDGET CLOCK -->
+                    <div class="widget widget-danger widget-padding-sm">
+                        <div class="widget-item-left">
+                            <span class="fa fa-plus"></span>
+                        </div>
+                        <div class="widget-data">
+                            <a href="@Url.Action("Upload","Medicine")" class="widget-title sc" target="myframe" style="color: white;">上传数据</a>
+                        </div>
+                    </div>
+                    <!-- END WIDGET CLOCK -->
+
+                </div>
+            </div>
+            <!-- END WIDGETS -->
+            <div class="col-md-12" style="margin-bottom: 10px;display:none;">
+
+                <!-- START WIDGET MESSAGES -->
+                <div class="widget widget-default widget-item-icon" style="margin: 0px; padding: 10px;    margin-bottom: 20px;min-height: auto;">
+
+                    <div class="widget-data medical-statistics">
+                        <a href="javascript:parent.OpenMedicalStatistics('按省份统计','/MedicalStatistics/Area?breadcrumb=hidden')">按省份统计</a>
+                        <a href="javascript:parent.OpenMedicalStatistics('按年份统计','/MedicalStatistics/Year?breadcrumb=hidden')">按年份统计</a>
+                        <a href="javascript:parent.OpenMedicalStatistics('按年份和季度统计','/MedicalStatistics/YearAndQuarter?breadcrumb=hidden')">按年份和季度统计</a>
+                        <a href="javascript:parent.OpenMedicalStatistics('按标本统计','/MedicalStatistics/Specimen?breadcrumb=hidden')">按标本统计</a>
+                        <a href="javascript:parent.OpenMedicalStatistics('按分离细菌统计','/MedicalStatistics/TenGerm?breadcrumb=hidden')">按分离细菌统计</a>
+                        <a href="javascript:parent.OpenMedicalStatistics('革兰阴性菌菌种分布','/MedicalStatistics/GramNegativeBacteria?breadcrumb=hidden')">革兰阴性菌菌种分布</a>
+                        <a href="javascript:parent.OpenMedicalStatistics('革兰阳性菌菌种分布','/MedicalStatistics/GramPositiveBacteria?breadcrumb=hidden')">革兰阳性菌菌种分布</a>
+                        <a href="javascript:parent.OpenMedicalStatistics('细菌在标本中占比','/MedicalStatistics/BacteriaInSpecimen?breadcrumb=hidden')">细菌在标本中占比</a>
+                        <a href="javascript:parent.OpenMedicalStatistics('E.coli耐药率','/MedicalStatistics/EscherichiaColiSensitivityDrug?breadcrumb=hidden')">E.coli耐药率</a>
+                        <a href="javascript:parent.OpenMedicalStatistics('MRSA耐药率','/MedicalStatistics/MRSASensitivityDrug?breadcrumb=hidden')">MRSA耐药率</a>
+                        <a href="javascript:parent.OpenMedicalStatistics('MRCNS耐药率','/MedicalStatistics/MRCNSSensitivityDrug?breadcrumb=hidden')">MRCNS耐药率</a>
+                        <a href="javascript:parent.OpenMedicalStatistics('MSSA耐药率','/MedicalStatistics/MSSASensitivityDrug?breadcrumb=hidden')">MSSA耐药率</a>
+                    </div>
+                </div>
+                <!-- END WIDGET MESSAGES -->
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+
+                    <!-- START SALES BLOCK -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="panel-title-box" style="margin-top: 8px;">
+                                <h3>区域数据分布图</h3>
+                            </div>
+                            <ul class="panel-controls" style="margin-top: 2px;" onclick="location.href='/MedicalStatistics/Area'">
+                                <span class="pan-title-a">>></span>
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row stacked">
+                                <div id="data-area" style="width: 95%;height:450px; margin:0px auto; max-height:900px; max-width:900px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END SALES BLOCK -->
+
+                </div>
+                <div class="col-md-6">
+
+                    <!-- START PROJECTS BLOCK -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="panel-title-box" style="margin-top: 8px;">
+                                <h3>分离细菌统计</h3>
+                            </div>
+                            <ul class="panel-controls" style="margin-top: 2px;" onclick="location.href='/MedicalStatistics/TenGerm'">
+                                <span class="pan-title-a">>></span>
+                            </ul>
+                        </div>
+                        <div class="panel-body panel-body-table">
+                            <div id="data-tenGerm" style="width: 95%;height:500px; margin:0px auto; max-height:900px; max-width:900px;">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END PROJECTS BLOCK -->
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+
+                    <!-- START SALES BLOCK -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="panel-title-box" style="margin-top: 8px;">
+                                <h3>MRSA对抗菌药物的耐药率</h3>
+                            </div>
+                            <ul class="panel-controls" style="margin-top: 2px;" onclick="location.href='/MedicalStatistics/MRSASensitivityDrug'">
+                                <span class="pan-title-a">>></span>
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row stacked">
+                                <div id="data-MRSA" style="width: 95%;height:450px; margin:0px auto;  max-width:900px;">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END SALES BLOCK -->
+
+                </div>
+                <div class="col-md-6">
+
+                    <!-- START PROJECTS BLOCK -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="panel-title-box" style="margin-top: 8px;">
+                                <h3>革兰阴性菌菌种分布</h3>
+                            </div>
+                            <ul class="panel-controls" style="margin-top: 2px;" onclick="location.href='/MedicalStatistics/GramNegativeBacteria'">
+                                <span class="pan-title-a">>></span>
+                            </ul>
+                        </div>
+                        <div class="panel-body panel-body-table">
+                            <div id="data-GramNegative" style="width: 95%;height:500px; margin:0px auto;  max-width:900px;"></div>
+                        </div>
+                    </div>
+                    <!-- END PROJECTS BLOCK -->
+
+                </div>
+            </div>
+
+        </div>
+        <!-- END PAGE CONTENT WRAPPER -->
+    </div>
+
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/jquery/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/bootstrap/bootstrap.min.js"></script>
+    <!-- END PLUGINS -->
+    <!-- START THIS PAGE PLUGINS-->
+    <script type='text/javascript' src='~/Content/Scripts/Chinet/js/plugins/icheck/icheck.min.js'></script>
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/scrolltotop/scrolltopcontrol.js"></script>
+
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/morris/raphael-min.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/morris/morris.min.js"></script>
+    @*<script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/rickshaw/d3.v3.js"></script>
+        <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/rickshaw/rickshaw.min.js"></script>*@
+    <script type='text/javascript' src="~/Content/Scripts/Chinet/js/plugins/jvectormap/echarts.js"></script>
+    <script type='text/javascript' src="~/Content/Scripts/Chinet/js/plugins/bootstrap/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/owl/owl.carousel.min.js"></script>
+
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/moment.min.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- END THIS PAGE PLUGINS-->
+    <!-- START TEMPLATE -->
+    @*<script type="text/javascript" src="~/Content/Scripts/Chinet/js/settings.js"></script>*@
+
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/plugins.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/Chinet/js/actions.js"></script>
+
+    @*<script type="text/javascript" src="~/Content/Scripts/Chinet/js/demo_dashboard.js"></script>*@
+    <!-- END TEMPLATE -->
+    <!-- END SCRIPTS -->
+    <script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+    <script src="~/Content/Scripts/Echarts/bmap.js"></script>
+    <script src="~/Content/Scripts/Echarts/china.js"></script>
+    <script>
+        $(function() {
+
+            areaSetting();
+            setTenGerm();
+            setMRSA();
+            setGramNegative();
+        });
+
+        function areaSetting() {
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('data-area'));
+
+            option = {
+                title: {
+                    text: '',
+                    subtext: '',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item'
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: ['菌株数量']
+                },
+                visualMap: {
+                    min: 0,
+                    max: @ViewBag.AreaDataCount,
+                    left: 'left',
+                    top: 'bottom',
+                    text: ['高', '低'], // 文本，默认为数值文本
+                    calculable: true
+                },
+                toolbox: {
+                    show: true,
+                    orient: 'vertical',
+                    left: 'right',
+                    top: 'center',
+                    feature: {
+                        dataView: { readOnly: false },
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                series: [
+                    {
+                        name: '菌株数量',
+                        type: 'map',
+                        mapType: 'china',
+                        roam: false,
+                        label: {
+                            normal: {
+                                show: true
+                            },
+                            emphasis: {
+                                show: true
+                            }
+                        },
+                        data: [
+                            @Html.Raw(this.ViewBag.AreaData)
+                        ]
+                    }
+                ]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        }
+
+        function setTenGerm() {
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('data-tenGerm'));
+            option = {
+                color: ['#3398DB'],
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '15%',
+                    containLabel: true
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        axisLabel: {
+                            interval: 0,
+                            rotate: 45,
+                            margin: 10,
+                            textStyle: {
+                                fontSize: "14px"
+                            }
+                        },
+                        data: [@Html.Raw(this.ViewBag.TenGermPageText)],
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        axisLabel: {
+                            show: true,
+                            interval: 'auto',
+                            formatter: '{value} %'
+                        },
+                        show: true
+                    }
+                ],
+                series: [
+                    {
+                        name: '数量',
+                        type: 'bar',
+                        barWidth: '60%',
+                        data: [@Html.Raw(this.ViewBag.TenGermPageValue)],
+                        //以下为是否显示，显示位置和显示格式的设置了
+                        itemStyle: {
+                            normal: {
+                                color: function(params) {
+                                    // build a color map as your need.
+                                    var colorList = [
+                                        '#C1232B', '#B5C334', '#FCCE10', '#E87C25', '#27727B',
+                                        '#FE8463', '#9BCA63', '#FAD860', '#F3A43B', '#60C0DD',
+                                        '#D7504B', '#C6E579', '#F4E001', '#F0805A', '#26C0C0'
+                                    ];
+                                    return colorList[params.dataIndex];
+                                },
+                                //以下为是否显示，显示位置和显示格式的设置了
+                                label: {
+                                   // show: true,
+                                    position: 'top',
+                                    // formatter: '{c}'
+                                    formatter: '{c} %'
+                                }
+                            }
+                        },
+                    }
+                ],
+                textStyle:
+                {
+                    fontSize: 10
+                }
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        }
+
+
+        function setMRSA() {
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('data-MRSA'));
+
+
+            option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                legend: {
+                    data: ['耐药（R.%）', '中介（L.%）', '敏感（S.%）']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value'
+                },
+                yAxis: {
+                    type: 'category',
+                    data: [@Html.Raw(this.ViewBag.MRSAPageText)]
+                },
+                series: [
+                    {
+                        name: '耐药（R.%）',
+                        type: 'bar',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                //show: true,
+                                position: 'insideLeft'
+                            }
+                        },
+                        data: [@Html.Raw(this.ViewBag.MRSAPageResistanceValue)]
+                    },
+                    {
+                        name: '中介（L.%）',
+                        type: 'bar',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                //show: true,
+                                position: 'insideRight'
+                            }
+                        },
+                        data: [@Html.Raw(this.ViewBag.MRSAPageIntermediaryValue)]
+                    },
+                    {
+                        name: '敏感（S.%）',
+                        type: 'bar',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                //show: true,
+                                position: 'insideRight'
+                            }
+                        },
+                        data: [@Html.Raw(this.ViewBag.MRSAPageSensitiveValue)]
+                    }
+                ]
+            };
+
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        }
+
+        function setGramNegative() {
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('data-GramNegative'));
+            option = {
+                title: {
+                    text: '',
+                    subtext: '',
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    //orient: 'vertical',
+                    //left: 'left',
+                    top: 10,
+                    left: 'center',
+                    data: [@Html.Raw(this.ViewBag.GramNegativePageText)]
+                },
+                series: [
+                    {
+                        name: '数量',
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['50%', '60%'],
+                        data: [
+                            @Html.Raw(this.ViewBag.GramNegativePageValue)
+                        ],
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ],
+                textStyle:
+                {
+                    fontSize : 10
+                }
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+﻿@model ManageSystem.Admin.Models.Researches.ResearchApplyModel
+@using ManageSystem.Admin.Extensions;
+@using ManageSystem.Core.Utility;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+
+<table class="adminContent">
+    <tr class="insert-time-tr" style="display:none;">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.InsertTime)：</td>
+        <td class="adminData">
+            @Model.InsertTime.ToString("yyyy-MM-dd HH:mm")
+        </td>
+    </tr>
+    <tr class="insert-time-tr" style="display:none;">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.UpdateTime)：</td>
+        <td class="adminData">
+            @Model.UpdateTime.ToString("yyyy-MM-dd HH:mm")
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.MemberId)：</td>
+        <td class="adminData">
+            @Model.MemberId
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.MemberName)：</td>
+        <td class="adminData">
+            @Model.MemberName
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ResearchId)：</td>
+        <td class="adminData">
+            @Model.ResearchId
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ResearchName)：</td>
+        <td class="adminData">
+            @Model.ResearchName
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Name)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Email)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Email)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Phone)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Phone, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Phone)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Remark)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Remark, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Remark)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Status)：</td>
+        <td class="adminData">
+            @Html.DropDownListFor(model => model.Status, Model.ResearchApplyStatusList, new { @class = "form-control dropdown" })
+            @Html.ValidationMessageFor(m => m.Status)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.StatusTime)：</td>
+        <td class="adminData">
+            @Model.StatusTime.GetNormalString("L")
+        </td>
+    </tr>
+</table>
+<script src="/Content/Scripts/TranTextBox.js"></script>

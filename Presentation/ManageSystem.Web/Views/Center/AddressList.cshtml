@@ -1,0 +1,59 @@
+﻿@using ManageSystem.Web.Models.Meetings
+@using Webdiyer.WebControls.Mvc
+@using ManageSystem.Services.Articles
+@using ManageSystem.Web.Models.Members
+@using ManageSystem.Services.Products
+
+@model  List<MemberAddressModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "收货地址管理 ";
+}
+
+@section HeadSection{
+    <link href="~/Content/Css/Center.css" rel="stylesheet" />
+    <link href="~/Content/Css/CenterAddress.css" rel="stylesheet" />
+}
+
+<style type="text/css">
+
+</style>
+
+<div class="mbx"><p>当前位置：首页 &gt; 收货地址管理 </p></div>
+<div class="user_center">
+    @*<div>
+       @Html.Action("_Menu", "Center")
+    </div>*@
+    <div class="user_center_r">
+        <p style="text-align: right;">
+            <input type="button" class="btn btn-info" onclick="AddNewAddress()" value="新增收货地址" />
+        </p>
+        <div class="user_center_r_b_new">
+            @{
+                if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <div id="mapbox_@item.Id.ToString()" class="mapbox @(item.IsMain?"map_bga":"")">
+                            <h2 class="address-item-title" style="border-bottom-style: none;">
+                                <span class="fl">收货人信息</span>
+                                <span class="item-btn">@( item.IsMain ? "[默认]" : "")&nbsp;&nbsp;&nbsp;<a href="javascript:EditAddress('@item.Id.ToString()')"  style="color:#0099e9">修改</a>&nbsp;&nbsp;&nbsp;<a href="javascript:DeleteAddress('@item.Id.ToString()')" style="color:#0099e9">删除</a></span>
+                            </h2>
+                            <ul style="border-bottom-style:none;">
+                                <li class="mapli">收&nbsp;货&nbsp;人&nbsp;：@item.Name</li>
+                                <li>手机号码：@item.Phone</li>
+                                <li class="mapli">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱：@item.Email </li>
+                                <li>固定电话：@item.Tel</li>
+                                <li style="width:100%;">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：@item.Area&nbsp;@item.Address</li>
+                            </ul>
+                            <div class="map_rtangle"></div>
+                        </div>
+                    }
+                }
+            }
+
+        </div>
+    </div>
+</div>
+<script src="~/Content/Scripts/Center/AddressList.js"></script>

@@ -1,0 +1,179 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "首页";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <link rel="shortcut icon" href="/favicon.ico?v=12" />
+
+    <script src="~/Content/Scripts/jquery-1.9.1.min.js"></script>
+
+    <title>首页</title>
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            border: 0;
+            box-sizing: border-box;
+        }
+
+        /* 请浮动 */
+        .clearfix:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            background-color: #fff;
+        }
+
+        .outer {
+            height: 100%;
+            position: relative;
+            background: url(../../Content/Images/new_bg.jpg) no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .o-left {
+            width: 25%;
+            height: 100%;
+            float: left;
+   
+            position: relative;
+        }
+
+            .o-left .l-on {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+        .l-title {
+            width: 50%;
+            position: absolute;
+            left: 25%;
+            top: 18%;
+        }
+
+        .l-m {
+            width: 30px;
+            position: absolute;
+            top: 37%;
+            left: 46%;
+            font-size: 22px;
+            color: #fff;
+        }
+
+        .right {
+            float: left;
+            width: 75%;
+            height: 100%;
+            position: relative;
+        }
+
+        .right-img {
+            width: 550px;
+            position: absolute;
+            left: 22%;
+            top: 25%;
+        }
+
+        .right-b {
+            font-size: 14px;
+            color: #969696;
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            left: 0;
+            bottom: 5%;
+        }
+
+        .left-0le {
+            width: 550px;
+            position: absolute;
+            left: 22%;
+            top: 25%;
+            height: 375px;
+            z-index: 99999;
+
+        }
+
+        .left-im {
+            width: 40%;
+            left: 0;
+            top: 0;
+            height: 50%;
+        }
+
+        .le-d {
+            width: 225px;
+            height: 187px;
+            float: left;
+            cursor: pointer;
+        }
+
+        .le-ds {
+            width: 225px;
+            height: 187px;
+            float: right;
+            cursor: pointer;
+        }
+
+        .le-dd {
+            width: 225px;
+            height: 187px;
+            float: left;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        .le-dds {
+            width: 225px;
+            height: 187px;
+            float: right;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="outer clearfix">
+        <div class="o-left">
+            <img class="l-on" src="../../Content/Images/new_left_01.jpg" alt="">
+            <img class="l-title" src="../../Content/Images/new_de_04.png" alt="">
+            <div class="l-m">细菌耐药监测数据共享平台</div>
+        </div>
+        <div class="right">
+            <div class="left-0le clearfix">
+                <div class="le-d" onclick="location.href = '/Chinet'"></div>
+                <div class="le-ds" onclick="location.href = '/Shanghai'"></div>
+                <div class="le-dd"></div>
+                <div class="le-dds"></div>
+            </div>
+            <img class="right-img" src="../../Content/Images/new_main_08.png" alt="">
+            <div class="right-b">版权所有：复旦大学附属华山医院抗生素研究所</div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,284 @@
+﻿@model  ManageSystem.Admin.Models.Medicine.MedicalDataModel
+
+@{
+    /**/
+
+    ViewBag.Title = "项目上传情况";
+    bool IsEdit = false;
+    bool IsView = UserinfoExtensions.CheckFunction(Url.Action("MedicalDataView"));
+    bool IsDownload1 = UserinfoExtensions.CheckFunction(Url.Action("MedicalDataDownload1"));
+    bool IsDownload2 = UserinfoExtensions.CheckFunction(Url.Action("MedicalDataDownload2"));
+}
+
+@section HeadSection {
+    <style>
+        ul.dataTables_filter,
+        ul.dataTables_filter li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        ul.dataTables_filter {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            -moz-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+
+            ul.dataTables_filter li {
+                margin-right: 15px;
+                margin-bottom: 10px;
+            }
+
+                ul.dataTables_filter li:last-child {
+                    margin-right: 0;
+                }
+    </style>
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "医学信息", SecondName = "项目上传情况", LocationName = this.ViewBag.Title }); }
+}
+
+@Html.AntiForgeryToken()
+
+<div class="page-body">
+
+    <div class="row manage-page">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-yellow manage-title-box">
+                    <span class="widget-caption manage-title"><i class="glyphicon glyphicon-th "></i>@ViewBag.Title </span>
+                    <div class="widget-buttons">
+                        <a href="#" data-toggle="maximize"><i class="fa fa-expand"></i></a>
+                        <a href="#" data-toggle="collapse"><i class="fa fa-minus"></i></a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+
+                        <div id="searchable_filter" class="dataTables_filter manage-but-box">
+                            <div style="width: 100%;">
+                                <div class="dataTables_filter manage-but-box">
+                                    <label class="lb-left">@Html.NopLabelFor(m => m.ProjectType)：</label>
+                                    <div class="form-control ddl lb-right " style="width: 20%;">
+                                        @Html.DropDownList("ProjectType", Model.ProjectTypeItems, new { @class = "form-control dropdown" })
+                                    </div>
+                                    <label class="lb-left">@Html.NopLabelFor(m => m.Year)：</label>
+                                    <div class="form-control ddl lb-right " style="width: 10%;">
+                                        @Html.DropDownList("Year", Model.YearList, new { @class = "form-control dropdown" })
+                                    </div>
+                                    <label class="lb-left">@Html.NopLabelFor(m => m.Quarter)：</label>
+                                    <div class="form-control ddl lb-right " style="width: 15%;">
+                                        @Html.DropDownList("Quarter", Model.QuarterList, new { @class = "form-control dropdown" })
+                                    </div>
+                                    <label> <input type="button" id="btn-search" class="btn btn-blue" value="查 询" /> </label>
+                                    <label><a id="btnDataStatistics" href="javascript:;" class="btn btn-blue">数据分析</a></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table table-striped table-bordered dataTable no-footer table-select" id="ManageTableDiv" aria-describedby="editabledatatable_info">
+                            <div id="data-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('a#btnDataStatistics').click(function () {
+            var _projectId = $('select[name="ProjectType"]').val();
+            var _year = $('select[name="Year"]').val();
+            var _quarter = $('select[name="Quarter"]').val();
+            window.open(`/adminweb/dataStatistics?projectId=${_projectId}&year=${_year}&quarter=${_quarter}`,'_blank');
+        });
+        $("#data-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("ProjectSituationList"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 100,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 30, 50,70,90,100]
+            },
+            scrollable: true,
+            groupable: true,
+            dataBound: onDataBound,
+            columns: [
+            //{
+            //    field: "Id",
+            //    headerTemplate: "  <div class='' style='text-align: center;'>    <label><input type='checkbox' id='mastercheckbox' /><span class='text'></span> </label>   </div>",
+            //    headerAttributes: { style: "text-align:center" },
+            //    attributes: { style: "text-align:center" },
+            //    template: " <div class='' style='text-align: center;'>    <label><input type='checkbox' class='checkboxGroups'  value='#=Id#' /><span class='text'></span> </label>   </div> ",
+            //    width: 50
+            //},
+    	    {
+		        field: "Year",
+		        title: "年度",
+		        width: 60
+		    },
+		    {
+		        field: "Quarter",
+		        title: "季度",
+		        width: 110
+		    },
+            {
+		        field: "HospitalName",
+		        title: "所属医院",
+		        width: 230
+		    },
+    	    {
+                field: "FileName",
+                title: "文件名称",
+                /* template: "#if(UploadFilePath==''){##}else if(UploadFilePath!=''&&DisposeFilePath ==''){#" + "<a href='#=UploadFilePath#' target='_blank'>原始文件</a>#}else{#" + "<a href='#=UploadFilePath#' target='_blank'>原始文件</a>&nbsp;&nbsp;<a href='#=DisposeFilePath#' target='_blank'>容错文件</a>#}#",*/
+                template: "#if(UploadFilePath==''){##}else if(UploadFilePath!=''&&DisposeFilePath ==''){#" + "<a href='javascript: void (0); ' onclick='js_method()'>原始文件</a>#}else{#" + "<a href='javascript: void (0); ' onclick='js_method()'>原始文件</a>&nbsp;&nbsp;<a href='javascript: void (0); ' onclick='js_method()'>容错文件</a>#}#",
+             	width: 200
+            },
+
+            {
+                field: "Complete",
+                title: "<div style='text-align: center;'>完成</div>",
+                attributes: { style: "text-align:center" },
+                template: "#if(Complete =='重新生成'){#" + "<a href='/Medicine/DownloadNewData/#=Id#' target='_blank' style='color:red'>重新生成</a>#}else{#" + "<span>#=Complete#</span> #}#",
+                width: 100
+            },
+
+            {
+                field: "hangintheair",
+                title: "<div style='text-align: center;'>未完成</div>",
+                attributes: { style: "text-align:center" },
+                template: "<span style='color:red'>#=hangintheair#</span> ",
+                width: 100
+             },
+            {
+                field: "MemberName",
+                title: "上传人",
+                width: 120
+            },
+            {
+               field: "LoginId",
+               title: "上传账号",
+               width: 120
+            },
+      //      {
+      //          field: "Size",
+      //          title: "文件大小",
+      //          width: 120
+      //      },
+      //      {
+      //          field: "SN",
+      //          title: "编号",
+      //          width: 100
+      //      },
+		    //{
+		    //    field: "AreName",
+		    //    title: "区域",
+		    //    width:100
+		    //},
+
+            {
+                field: "Id",
+                title: "操作",
+                width: 120,
+                template: "#if(Id !=0){#" + " @Html.KendoUIEditAndView(IsView, "MedicalDataView", IsEdit, "MedicalDataEdit")#}#",
+            }]
+        });
+    });
+
+    //设置查询参数
+    function additionalData() {
+        var data = {
+            HospitalName: $("#HospitalName").val(),
+            AreaId: $("#AreaId").val(),
+            HospitalId: $("#HospitalId").val(),
+            Year: $("#Year").val(),
+            Quarter: $("#Quarter").val(),
+            ProjectType: $('#ProjectType').val()
+        };
+
+        addAntiForgeryToken(data);
+        return data;
+    }
+
+    $('#btnDownload1').click(function (e) {
+        if ($('#data-grid').find('input[type="checkbox"][value]:checked').length <= 0) {
+            alert("请勾选需要下载的数据！")
+            return;
+        }
+
+        if (confirm("确定要下载您所勾选的数据吗？")) {
+            e.preventDefault();
+            $('#data-grid').find('input[type="checkbox"][value]:checked').each(function (i, item) {
+                if (item.value) {
+                    $('#form-download-ids').append('<input type="hidden" hidden="hidden" id="input-download-ids" name="ids" value="' + item.value + '" />');
+                }
+            });
+            $('#form-download-ids #input-download-type').val(0);
+            $('#form-download-ids').attr('action', '@Url.Action("MedicalDataDownload1", "Medicine")');
+            $('#form-download-ids').submit();
+            return false;
+        }
+    });
+
+    $('#btnDownload2').click(function (e) {
+        if ($('#data-grid').find('input[type="checkbox"][value]:checked').length <= 0) {
+            alert("请勾选需要下载的数据！")
+            return;
+        }
+
+        if (confirm("确定要下载您所勾选的数据吗？")) {
+            e.preventDefault();
+            $('#data-grid').find('input[type="checkbox"][value]:checked').each(function (i, item) {
+                if (item.value) {
+                    $('#form-download-ids').append('<input type="hidden" hidden="hidden" id="input-download-ids" name="ids" value="' + item.value + '" />');
+                }
+            });
+            $('#form-download-ids #input-download-type').val(1);
+            $('#form-download-ids').attr('action', '@Url.Action("MedicalDataDownload2", "Medicine")');
+            $('#form-download-ids').submit();
+            return false;
+        }
+    });
+
+</script>
+
+
+<script src="~/Content/Scripts/admin.listpage.js"></script>
+

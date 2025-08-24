@@ -1,0 +1,186 @@
+﻿@model ManageSystem.Admin.Models.Researches.ResearchModel
+
+@using ManageSystem.Admin.Extensions;
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+
+<script src="~/Content/Scripts/ueditor/ueditor.config.js"></script>
+<script src="~/Content/Scripts/ueditor/ueditor.all.min.js"></script>
+<script src="~/Content/Scripts/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+<link href="~/Content/Scripts/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+<script src="~/Content/Scripts/bootstrap-fileinput/js/fileinput.min.js"></script>
+<script src="~/Content/Scripts/bootstrap-fileinput/js/locales/zh.js"></script>
+
+
+<table class="adminContent">
+    <tr class="insert-time-tr" style="display:none;">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.InsertTime)：</td>
+        <td class="adminData">
+            @Model.InsertTime.ToString("yyyy-MM-dd HH:mm")
+        </td>
+    </tr>
+    <tr class="insert-time-tr" style="display:none;">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.UpdateTime)：</td>
+        <td class="adminData">
+            @Model.UpdateTime.ToString("yyyy-MM-dd HH:mm")
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Name)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Code)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Code, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Code)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.StartTime)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.StartTime, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.StartTime)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Author)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Author, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Author)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Require)：</td>
+        <td class="adminData">
+            @Html.EditorFor(m => m.Require, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+            @Html.ValidationMessageFor(m => m.Require)
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ResearchTypeId)：</td>
+        <td class="adminData">
+            @Html.DropDownListFor(model => model.ResearchTypeId, Model.ResearchTypeList, new { @class = "form-control dropdown" })
+            @Html.ValidationMessageFor(m => m.ResearchTypeId)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.Remark)：</td>
+        <td class="adminData">
+            @Html.TextAreaFor(model => model.Remark, new { @class = "form-control txt", cols = "30", rows = "3" })
+            @Html.ValidationMessageFor(m => m.Remark)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.AreaId)：</td>
+        <td class="adminData">
+            @Model.AreaFullName
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.MemberName)：</td>
+        <td class="adminData">
+            @Model.MemberName
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.MemberId)：</td>
+        <td class="adminData">
+            @Model.MemberId
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ApplyCount)：</td>
+        <td class="adminData">
+            @Model.ApplyCount
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.ViewCount)：</td>
+        <td class="adminData">
+            @Model.ViewCount
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.CollectCount)：</td>
+        <td class="adminData">
+            @Model.CollectCount
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">@Html.NopLabelFor(m => m.CommentCount)：</td>
+        <td class="adminData">
+            @Model.CommentCount
+        </td>
+    </tr>
+
+
+    <tr class="image-none">
+        <td class="adminTitle">@Html.NopLabelFor(m => m.CoverImage)：</td>
+        <td class="adminData">
+            <input type="file" id="CoverImage" name="CoverImage" />
+            <span>支持格式：jpg | gif | png | jpeg | bmp</span>
+            @Html.ValidationMessageFor(m => m.CoverImage)
+
+        </td>
+    </tr>
+    @{
+        if (!string.IsNullOrWhiteSpace(Model.CoverImage))
+        {
+            <tr>
+                <td class="adminTitle">@Html.NopLabelFor(m => m.CoverImage)：</td>
+                <td class="adminData">
+                    <div><a target="_blank" href="@Model.CoverImage"><img src="@Model.CoverImage" style="width:300px; height:120px;" /></a> </div>
+                </td>
+            </tr>
+        }
+    }
+
+
+
+    <tr style="line-height:normal;">
+        <td class="adminTitle " colspan="2">
+            <textarea id="Content" name="Content" runat="server" onblur="setUeditor()" style="width:100%; min-height: 500px; margin-top:10px; text-align:left;">@Model.Content</textarea>
+        </td>
+
+    </tr>
+</table>
+
+<script src="/Content/Scripts/TranTextBox.js"></script>
+<script type="text/javascript">
+
+
+    $("#StartTime").kendoDatePicker({ format: "yyyy-MM-dd HH:mm" });
+
+    $(document).ready(function () {
+        $("#CoverImage").kendoUpload();
+    });
+
+    $(document).ready(function () {
+        var editor = new baidu.editor.ui.Editor();
+        editor.render("Content");
+        var ue = UE.getEditor('Content');
+        ue.ready(function () {
+            ue.execCommand('serverparam', {
+            });
+        });
+    });
+
+    function setUeditor() {
+        var myEditor = document.getElementById("Content");
+        myEditor.value = editor.getContent();
+
+        alert(myEditor.value);
+    }
+
+
+</script>

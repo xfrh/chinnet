@@ -1,0 +1,67 @@
+﻿@using ManageSystem.Core.Domain.Members
+@model Member
+
+    <div class="nav row container hidden-xs" style="hidden;height: 40px;margin: auto;">        
+        <li style="width: 25%;padding-left:0px;text-align: center;"><a href="/CR/CRData/Index">数据分析</a></li>
+        @if (Model != null&&Model.SpecialManager.Contains("cr"))
+        {           
+             <li  style="width: 25%;padding-left:0px;text-align: center;"><a href="/CR/CRUpload/Add">数据上传</a></li>           
+        }
+        <li style="width: 25%;padding-left:0px;text-align: center;"><a href="/CR/CRDocument/List">资料下载</a></li>
+        <li style="width: 25%;padding-left:0px;text-align: center;"><a href="/CR/CRData/Introduction">项目简介</a></li>
+    </div>
+    <div class="nav row visible-xs-block container" style="height: 40px;margin: auto; text-align:center;">
+        <li style="width: 20%;padding-left:0px;text-align: center;"><a href="/CR/CRData/Index">数据分析</a></li>
+        @if (Model != null && Model.SpecialManager.Contains("cr"))
+        {
+            <li style="width: 20%;padding-left:0px;text-align: center;"><a href="/CR/CRUpload/Add">数据上传</a></li>
+        }
+        <li style="width: 20%;padding-left:0px;text-align: center;"><a href="/CR/CRDocument/List">资料下载</a></li>
+        <li style="width: 20%;padding-left:0px;text-align: center;"><a href="/CR/CRData/Introduction">项目简介</a></li>
+        <li style="width: 20%;padding-left:0px;text-align: center;" id="myinfo">
+            <button type="button" id="mybtn" class="btnl dropdown-toggle" style="background:url('/Content/Images/01.jpg?v=212') repeat-x;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                我的 <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                @if (Model == null)
+                {
+                    <li><a onclick="Open(),goLogin()">登录</a></li>
+                    <li><a onclick="Open(),goRegister()">注册</a></li>
+                }
+                else
+                {
+                    <li><a href="/CR/CRLogin/Out">退出登录</a></li>
+                }
+            </ul>
+        </li>
+
+    </div>
+<style>
+    .navliactive {
+        text-decoration: none;
+        background-color: transparent;
+        color: #333;
+        border-bottom: solid 2px #333;
+    }
+
+    .conpl p {
+        text-indent: 32px;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .conpl {
+        margin-top: 20px;
+        padding-left: 0px;
+    }
+
+        .conpl h2 {
+            font-size: 24px;
+            color: #333;
+            border-bottom: 2px solid rgb(210, 71, 38);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            margin-top: 10px;
+        }
+</style>
+

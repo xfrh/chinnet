@@ -1,0 +1,231 @@
+﻿<div class="swiper-container scroll">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide slidescroll">
+            <article class="cro-page">
+                <div class="cro-qbox">
+                    <div class="cro-qbox-title" v-text="Q5.title"></div>
+                    <div :class="{'cro-qbox-awbox': true, 'has-error': errors.has(Q5.name)}">
+                        <input class="cro-qbox__input" :name="Q5.name" v-model="Q5.answer" v-validate="{required: true, min_value: 0}" type="tel" :placeholder="Q5.placeholder" />
+                    </div>
+                </div>
+                <div class="cro-qbox">
+                    <div class="cro-qbox-title" v-text="Q6.title"></div>
+                    <div :class="{'cro-qbox-awbox': true, 'has-error': errors.has(Q6.name)}">
+                        <input class="cro-qbox__input" :name="Q6.name" v-model="Q6.answer" v-validate="{required: true, min_value: 0}" type="tel" :placeholder="Q5.placeholder" />
+                    </div>
+                </div>
+                <div class="cro-qbox">
+                    <div class="cro-qbox-title" v-text="Q7.title"></div>
+                    <div class="cro-qbox-awbox">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox-control">
+                                            <input id="checkbox__7_1" v-model="Q7.answer" class="checkbox-control-input" type="checkbox" name="biaoben" value="痰" />
+                                            <label for="checkbox__7_1" class="checkbox-control-label"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <label for="checkbox__7_1">痰</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox-control">
+                                            <input id="checkbox__7_2" v-model="Q7.answer" class="checkbox-control-input" type="checkbox" name="biaoben" value="血液" />
+                                            <label for="checkbox__7_2" class="checkbox-control-label"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <label for="checkbox__7_2">血液</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox-control">
+                                            <input id="checkbox__7_3" v-model="Q7.answer" class="checkbox-control-input" type="checkbox" name="biaoben" value="粪便" />
+                                            <label for="checkbox__7_3" class="checkbox-control-label"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <label for="checkbox__7_3">粪便</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox-control">
+                                            <input id="checkbox__7_4" v-model="Q7.answer" class="checkbox-control-input" type="checkbox" name="biaoben" value="肺泡灌洗液" />
+                                            <label for="checkbox__7_4" class="checkbox-control-label"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <label for="checkbox__7_4">肺泡灌洗液</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox-control">
+                                            <input id="checkbox__7_5" v-model="Q7.answer" class="checkbox-control-input" type="checkbox" name="biaoben" value="脓液/伤口" />
+                                            <label for="checkbox__7_5" class="checkbox-control-label"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <label for="checkbox__7_5">脓液/伤口</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox-control">
+                                            <input id="checkbox__7_6" v-model="Q7.answer" class="checkbox-control-input" type="checkbox" name="biaoben" value="尿道" />
+                                            <label for="checkbox__7_6" class="checkbox-control-label"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <label for="checkbox__7_6">尿道</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox-control">
+                                            <input id="checkbox__7_7" v-model="Q7.answer" class="checkbox-control-input" type="checkbox" name="biaoben" value="中心静脉导管" />
+                                            <label for="checkbox__7_7" class="checkbox-control-label"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <label for="checkbox__7_7">中心静脉导管</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox-control">
+                                            <input id="checkbox__7_8" v-model="Q7.answer" class="checkbox-control-input" type="checkbox" name="biaoben" value="穿刺液" />
+                                            <label for="checkbox__7_8" class="checkbox-control-label"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <label for="checkbox__7_8">穿刺液</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox-control">
+                                            <input id="checkbox__7_9" v-model="Q7.answer" class="checkbox-control-input" type="checkbox" name="biaoben" value="其他" />
+                                            <label for="checkbox__7_9" class="checkbox-control-label"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div :class="{'flex cro-qbox-awbox__other': true, 'has-error': errors.has('Q7_other')}">
+                                            <label for="checkbox__7_9" style="width: 2.75rem;">其他：</label>
+                                            <input class="flex-1 cro-qbox__input" name="Q7_other" v-model="Q7.other" v-validate="{required: true, min: 1}" type="text" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr v-if="Q7.answer.length>0">
+                                    <td colspan="2">
+                                        <div class="flex align-items__baseline" style="margin-top: 0.75rem;">
+                                            <div class="">百分比：</div>
+                                            <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q7_Rate')}">
+                                                <input class="cro-qbox__input" name="Q7_Rate" v-model="Q7.rate" v-validate="{required: true}" type="text" placeholder="请选择百分比" style="background-color: transparent;" readonly="readonly" @@click="onQ7Picker($event)" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="cro-qbox">
+                    <div class="cro-qbox-title" v-text="Q8.title"></div>
+                    <div class="cro-qbox-awbox">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="checkbox-control">
+                                        <input id="checkbox__8_1" v-model="Q8.answer" class="checkbox-control-input" name="keshi" type="checkbox" value="血液科" />
+                                        <label for="checkbox__8_1" class="checkbox-control-label"></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <label for="checkbox__8_1">血液科</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="checkbox-control">
+                                        <input id="checkbox__8_2" v-model="Q8.answer" class="checkbox-control-input" name="keshi" type="checkbox" value="ICU" />
+                                        <label for="checkbox__8_2" class="checkbox-control-label"></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <label for="checkbox__8_2">ICU</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="checkbox-control">
+                                        <input id="checkbox__8_3" v-model="Q8.answer" class="checkbox-control-input" name="keshi" type="checkbox" value="呼吸科" />
+                                        <label for="checkbox__8_3" class="checkbox-control-label"></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <label for="checkbox__8_3">呼吸科</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="checkbox-control">
+                                        <input id="checkbox__8_4" v-model="Q8.answer" class="checkbox-control-input" name="keshi" type="checkbox" value="感染科" />
+                                        <label for="checkbox__8_4" class="checkbox-control-label"></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <label for="checkbox__8_4">感染科</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="checkbox-control">
+                                        <input id="checkbox__8_5" v-model="Q8.answer" class="checkbox-control-input" name="keshi" type="checkbox" value="移植科" />
+                                        <label for="checkbox__8_5" class="checkbox-control-label"></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <label for="checkbox__8_5">移植科</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="checkbox-control">
+                                        <input id="checkbox__8_6" v-model="Q8.answer" class="checkbox-control-input" name="keshi" type="checkbox" value="其他" />
+                                        <label for="checkbox__8_6" class="checkbox-control-label"></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div :class="{'flex cro-qbox-awbox__other': true, 'has-error': errors.has('Q8_other')}">
+                                        <label for="checkbox__8_6" style="width: 2.75rem;">其他：</label>
+                                        <input class="flex-1 cro-qbox__input" name="Q8_other" v-model="Q8.other" v-validate="{required: true, min: 1}" type="text" />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr v-if="Q8.answer.length>0">
+                                <td colspan="2">
+                                    <div class="flex align-items__baseline" style="margin-top: 0.75rem;">
+                                        <div class="">百分比：</div>
+                                        <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q8_Rate')}">
+                                            <input class="cro-qbox__input" name="Q8_Rate" v-model="Q8.rate" v-validate="{required: true}" type="text" placeholder="请选择百分比" style="background-color: transparent;" readonly="readonly" @@click="onQ8Picker($event)" />
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </article>
+            <footer class="flex flex-center">
+                <a class="btn flex-1" style="height: 45px; line-height: 45px; text-align: center; color: #005cad; background-color: transparent;" @@click="onPrevSlide">上一页</a>
+                <a class="btn flex-1 disabled" style="height: 45px; line-height: 45px; text-align: center; color: #005cad; background-color: transparent;" @@click="onNextSlide">下一页</a>
+            </footer>
+        </div>
+    </div>
+</div>

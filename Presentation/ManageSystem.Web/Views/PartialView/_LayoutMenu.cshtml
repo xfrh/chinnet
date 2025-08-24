@@ -1,0 +1,193 @@
+﻿@model ManageSystem.Core.Domain.Members.Member
+<style>
+.nav{display: flex;justify-content: space-between;}
+.nav li{margin-right:0px;}
+</style>
+<div class="nav">
+    <li><a href="/">首页</a></li>
+    <li onmouseover="SelectMenuItemOver(this)" onmouseout="SelectMenuItemOut(this)" class="menu-dropdown" style="/*margin-right: 20px;*/">
+        <a href="javascript:void(0)" class="menu-item-a">数据分析<img src="/Content/Images/06.jpg" alt="" /></a>
+        <div class="dropdown-content" style="position: absolute;">
+            <div class="row-fluid" style="width:230px; left:-50px;">
+                <div id="block-block-1" class="block block-block no-title">
+                    <div class="block-inner clearfix" style="margin-bottom:-15px">
+                        <ul id="country_list_dropdown  menu-medicine" class="country_list_dropdown">
+                            <li>
+                                <a href="/Chinet" data-nav-name="热图">热图</a>
+                            </li>
+                            <li>
+                                <a data-nav-name="柱状图" href="/Data/AntibioticDrugFast">柱状图</a>
+                            </li>
+                            <li>
+                                <a data-nav-name="趋势图" href="/Data/GermYear">趋势图</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+    <li><a class="nav-link" href="/DataDistribution/MicDistribution/Index">MIC分布</a></li>
+    @*<li><a href="/Data/Monitor">主动监测</a></li>*@
+    <li style=""><a href="/ECV">流行病学折点</a></li>
+    @*@{
+            if (Model != null && Model.LoginId.IndexOf("CRFW") == 0)
+            {
+                <li onmouseover="SelectMenuItemOver(this)" onmouseout="SelectMenuItemOut(this)" class="menu-dropdown" style="    margin-right: 10px;">
+                    <a href="javascript:void(0)" class="menu-item-a">上传数据<img src="/Content/Images/06.jpg" alt="" /></a>
+                    <div class="dropdown-content">
+                        <div class="row-fluid" style="width:230px; left:-50px;">
+                            <div id="block-block-1" class="block block-block no-title">
+                                <div class="block-inner clearfix" style="margin-bottom:-15px">
+                                    <ul id="country_list_dropdown  menu-medicine" class="country_list_dropdown">
+                                        <li>
+                                            <a href="/Medicine/Upload">上传数据</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "CRProject")">CR项目数据上传</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            }
+            else
+            {
+
+            }
+        }*@
+    <li><a href="/Team">成员单位</a></li>
+    <!--<li><a href="/Team"></a></li>-->
+    <li><a class="nav-link" href="/Shanghai"  target="_blank">上海网</a></li>
+    <!--<li><a href="@Url.Content("~/MICThird/MicSignUpView")">-->@*卫星网*@<!--</a></li>-->
+    <li><a href="@Url.Action("MapLogin", "Satellite")">卫星网</a></li>
+    <!--<li><a href="@Url.Action("MicSignUpView", "MicThird")">CRO报名</a></li>-->
+    <li><a href="/Medicine/Upload">上传数据</a></li>
+    <li><a href="/Document">资料下载</a></li>
+
+    @{
+        if (ViewBag.OnlineUpload != null && ViewBag.OnlineUpload == true)
+        {
+            <li onmouseover="SelectMenuItemOver(this)" onmouseout="SelectMenuItemOut(this)" class="menu-dropdown">
+                <a href="javascript:void(0)">实验上报<img src="/Content/Images/06.jpg" alt="" /></a>
+                <div class="dropdown-content">
+                    <div class="row-fluid" style="width:380px;left:-130px;">
+                        <div id="block-block-1" class="block block-block no-title">
+                            <div class="block-inner clearfix" style="margin-bottom:-15px">
+                                <ul id="country_list_dropdown  menu-usercenter" class="country_list_dropdown">
+                                    <li><a href="@Url.Action("Index", "ClinicalTrialReport")">实验上报</a></li>
+                                    <li><a href="@Url.Action("OnlineAudit", "ClinicalTrialReport")">在线审核</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        }
+    }
+
+
+    <li><a href="/Meeting">信息动态</a></li>
+    @*@{
+        if (ViewBag.Median != null && ViewBag.Median == true)
+        {
+            <li> <a href="/DataInput">ECOFF</a></li>
+        }
+        else
+        {
+            <li><a href="https://www.eucast.org/mic_distributions_and_ecoffs/" target="_blank">ECOFF</a></li>
+        }
+    }*@
+    @*<li><a href="https://atlas-surveillance.com/" target="_blank">ATLAS</a></li>*@
+    <li onmouseover="SelectMenuItemOver(this)" onmouseout="SelectMenuItemOut(this)" class="menu-dropdown">
+	    <a>多中心研究<img src="/Content/Images/06.jpg" alt="" /></a>
+		<div class="dropdown-content"  style="position: absolute;">
+			<div class="row-fluid" style="width:380px;left:-130px;">
+				<div id="block-block-1" class="block block-block no-title">
+					<div class="block-inner clearfix" style="margin-bottom:-15px">
+						<ul id="country_list_dropdown  menu-usercenter" class="country_list_dropdown">
+							<!--<li>
+								<a href="/contentweb/mdrStudy" target="_blank">RESIST-MAP研究</a>
+							</li>-->
+							<li>
+								<a href="/contentweb/sugarStudy" target="_blank">SUGAR多中心</a>
+							</li>
+							<li>
+								<a href="/contentweb/xacduroStudy" target="_blank">CRAB多中心</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+     </li>
+    <li onmouseover="SelectMenuItemOver(this)" onmouseout="SelectMenuItemOut(this)" class="menu-dropdown">
+        <a href="javascript:void(0)">个人中心<img src="/Content/Images/06.jpg" alt="" /></a>
+        <div class="dropdown-content" style="position: absolute;">
+            <div class="row-fluid" style="width:380px;left:-130px;">
+                <div id="block-block-1" class="block block-block no-title">
+                    <div class="block-inner clearfix" style="margin-bottom:-15px">
+                        <ul id="country_list_dropdown  menu-usercenter" class="country_list_dropdown">
+                            <li>
+                                <a href="@Url.Action("Index1", "Center")">个人中心</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("MeetingCollection", "Center")">我的收藏</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Feedback", "Center")"> 建议反馈 </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Upload", "Medicine")">上传医学数据</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("MedicineManage", "Center")">医学数据管理</a>
+                            </li>
+                            @{
+                                if (Model != null && !String.IsNullOrWhiteSpace(Model.ProjectItem))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("ProjectDataManage", "Center")">项目数据管理</a>
+                                    </li>
+                                }
+                                if (Model != null && Model.Department == true)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("HospitalDepartmentList", "HospitalDepartment")">科室配置管理</a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+    <!--<li><a href="/contentweb/sugarStudy">SUGAR多中心研究</a></li>
+    <li><a href="/contentweb/xacduroStudy">CRAB公益项目</a></li>-->
+    <li onmouseover="SelectMenuItemOver(this)" onmouseout="SelectMenuItemOut(this)" class="menu-dropdown" style="display:none;">
+        <a href="javascript:void(0);">更多<img src="/Content/Images/05.jpg" alt="" /></a>
+        <div class="dropdown-content" style="position: absolute;">
+            <div class="row-fluid" style="width:190px;left:-50px;">
+                <div id="block-block-1" class="block block-block no-title">
+                    <div class="block-inner clearfix" style="margin-bottom:-15px">
+                        <ul id="country_list_dropdown  menu-medicine" class="country_list_dropdown">
+                            <li>
+                                <a href="/News">资讯中心</a>
+                            </li>
+                            <li>
+                                <a href="/Research">科研合作</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+</div>
+
+<script language="javascript" type="text/javascript">
+    function sate() { window.location = "/MICThird/MicSignUpView.cshtml"; }
+</script>

@@ -1,0 +1,89 @@
+﻿@model  ManageSystem.Admin.Models.Satellite.SatelliteModel
+@{
+    Layout = "~/Views/Shared/_OpenLayout.cshtml";
+}
+
+<div class="page-body">
+    <div class="row manage-page">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-yellow manage-title-box">
+                    <span class="widget-caption manage-title"><i class="glyphicon glyphicon-th "></i>@ViewBag.Title </span>
+                    <div class="widget-buttons">
+                        <a href="#" data-toggle="maximize"><i class="fa fa-expand"></i></a>
+                        <a href="#" data-toggle="collapse"><i class="fa fa-minus"></i></a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+
+                        <div id="searchable_filter" class="dataTables_filter manage-but-box">
+                            <div style="width: 100%;">
+                                <a class="btn btn-purple" href="javascript:Save()">确认驳回</a>
+                                
+                            </div>
+                            <div style="width: 100%;">
+                                <div class="add-content ">
+                                    <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                                        <table class="adminContent">
+                                            <tr class="insert-time-tr">
+                                                <td class="adminTitle" style="width:30%;">驳回理由：</td>
+                                                <td class="adminData" style="width:60%;">
+                                                    <textarea id="rejectReason" cols="30" rows="4">信息填写不全，请补全所有信息后再提交，谢谢</textarea>
+                                                </td>
+                                            </tr>
+                                            <!--<tr class="insert-time-tr">-->
+                                                    @*<td class="adminTitle">@Html.NopLabelFor(m => m.MID)：</td>*@
+                                                    <!--<td class="adminData">
+                                                       
+                                                    </td>
+                                                </tr>-->
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table table-striped table-bordered dataTable no-footer table-select" id="ManageTableDiv" aria-describedby="editabledatatable_info">
+                            <div id="data-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+
+    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+
+
+    //选择文章以后的回调函数
+    function Save() {
+
+       if ($('#rejectReason').val() == "")
+        {
+            alert("请填写驳回原因！");
+            return;
+        }
+        $.ajax({
+            url: '@Url.Action("Reject", "Satellite")',
+            type: "POST",
+            dataType: "json",
+            data: { Id: '@Model.Id', Reason: '信息填写不全，请补全所有信息后再提交，谢谢' },
+            success: function (data) {
+                if (data == "" || data == null) return;
+
+                alert(data.message);
+                if (data.status == "true") {
+                    parent.ReloadPage();
+                    parent.layer.close(index);
+                }
+            }
+        })
+    }
+</script>

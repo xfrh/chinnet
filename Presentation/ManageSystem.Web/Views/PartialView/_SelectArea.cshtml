@@ -1,0 +1,188 @@
+﻿<select id="ddlProvince" class="select-area-ddl" onchange="ProvinceClick()">
+    <option value="">-- 请选择 --</option>
+</select>
+<select id="ddlCity" class="select-area-ddl" onchange="CityClick()">
+    <option value="">-- 请选择 --</option>
+</select>
+<select id="ddlArea" class="select-area-ddl" onchange="AreaClick()">
+    <option value="">-- 请选择 --</option>
+</select>
+
+
+<script type="text/javascript">
+
+ GetDistrictList(0,1)
+    //收货地址  根据指定的id获取下一级的列表区域数据
+    //parentId：区域id，如果小于等于0表示获取所有省份，否则返回该id的下一级的列表数据
+    //location : 固定值  1：省份下拉框   2：城市下拉框  3：区县下拉框
+    function GetDistrictList(parentId, location) {
+
+        $.ajax({
+            url: "/PartialView/GetDistrictList",
+            type: "Post",
+            dataType: "json",
+            data: { parentId: parentId },
+            success: function (json) {
+
+                if (json == null || json == "") {
+                    return;
+                }
+
+                var content = " <option value=\"0\" >-- 请选择 --</option>";
+                for (var i = 0; i < json.length; i++) {
+                    content += " <option value=\"" + json[i].Id + "\" >" + json[i].Name + "</option>";
+                }
+
+                switch (location) {
+                    case 1:
+                        //绑定省份
+                        $("#ddlProvince").html(content);
+                        break;
+                    case 2:
+                        //绑定市
+                        $("#ddlCity").html(content);
+                        break;
+                    case 3:
+                        //绑定区县
+                        $("#ddlArea").html(content);
+                        break;
+
+                    default:
+
+
+                }
+
+               
+            },
+
+            error: function (x, e) { },
+            complete: function (x) { }
+        });
+    }
+
+    //选择省份事件，绑定市数据
+    function ProvinceClick() {
+        var provinceId = $("#ddlProvince").val();
+        if (provinceId == null || provinceId == "" || provinceId == "0") {
+            $("#ddlArea").html("<option value=\"0\" >-- 请选择 --</option>");
+            $("#ddlCity").html("<option value=\"0\" >-- 请选择 --</option>");
+
+            $("#DistrictValue").val(0);
+            $("#DistrictText").val("");
+
+            return;
+        }
+
+        GetDistrictList(provinceId, 2);
+    }
+
+    //选择市事件，绑定区县数据
+    function CityClick() {
+        var cityId = $("#ddlCity").val();
+        if (cityId == null || cityId == "" || cityId == 0) {
+            $("#ddlArea").html("<option value=\"0\" >-- 请选择 --</option>");
+
+            $("#DistrictValue").val(0);
+            $("#DistrictText").val("");
+
+            return;
+        }
+        GetDistrictList(cityId, 3);
+    }
+
+    //选择区县事件
+    function AreaClick() {
+        var areaId = $("#ddlArea").val();
+
+        if (areaId == null || areaId == "" || areaId == 0) {
+            areaId = 0;
+        }
+
+        //$("#DistrictValue").val(areaId);
+        //var address = $("#ddlProvince").find("option:selected").text()+ " " + $("#ddlCity").find("option:selected").text()+ " " +$("#ddlArea").find("option:selected").text();
+        //$("#DistrictText").val(address);
+
+        //回调函数
+        SelectAreaCallBack(areaId);
+    }
+    //选择省市区以后的回调函数
+    function SelectAreaCallBack(areaId) {
+        $("#DistrictsId").val("" + areaId + "");
+        $("#ProvinceId").val($("#ddlProvince").val());
+        $("#CityId").val($("#ddlCity").val());
+    }
+</script>
+
+
+<script type="text/javascript">
+
+    //设置选中
+    function SetDistrictSelect(provinceId, cityId, areaId) {
+
+        if (provinceId == null || provinceId == "") return;
+
+        //绑定省
+        SetProvinceSelect(provinceId, cityId, areaId);
+    }
+    //绑定省
+    function SetProvinceSelect(provinceId, cityId, areaId) {
+        $.ajax({
+            url: "/PartialView/GetDistrictList",
+            type: "Post",
+            dataType: "json",
+            data: { parentId: 0 },
+            success: function (json) {
+
+                var html = GetSetDistrictSelectHtml(json);
+                $("#ddlProvince").html(html);
+                $("#ddlProvince").val(provinceId);
+                //绑定市
+                SetCitySelect(provinceId, cityId, areaId);
+            }
+        });
+    }
+
+    //绑定市
+    function SetCitySelect(provinceId, cityId, areaId) {
+        $.ajax({
+            url: "/PartialView/GetDistrictList",
+            type: "Post",
+            dataType: "json",
+            data: { parentId: provinceId },
+            success: function (json) {
+
+                var html = GetSetDistrictSelectHtml(json);
+                $("#ddlCity").html(html);
+                $("#ddlCity").val(cityId);
+
+                //绑定区
+                SetAreaSelect(provinceId, cityId, areaId);
+            }
+        });
+    }
+
+    //绑定区
+    function SetAreaSelect(provinceId, cityId, areaId) {
+        $.ajax({
+            url: "/PartialView/GetDistrictList",
+            type: "Post",
+            dataType: "json",
+            data: { parentId: cityId },
+            success: function (json) {
+                var html = GetSetDistrictSelectHtml(json);
+                $("#ddlArea").html(html);
+                $("#ddlArea").val(areaId);
+            }
+        });
+    }
+
+    //获取html
+    function GetSetDistrictSelectHtml(json) {
+        var content = " <option value=\"0\" >-- 请选择 --</option>";
+        for (var i = 0; i < json.length; i++) {
+            content += " <option value=\"" + json[i].Id + "\" >" + json[i].Name + "</option>";
+        }
+        return content;
+    }
+
+</script>

@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "问卷";
+    Layout = "~/Views/Shared/_SurveyLayout.cshtml";
+    string _version = DateTime.Now.Ticks.ToString();
+}
+
+@section Styles{
+    <link href="~/Content/Css/Survey/Page4.css?v=@_version" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/Survey/Page4.js?v=@_version"></script>
+}
+
+<div id="app" v-locak>
+    <input id="hidden_id" name="hidden_id" ref="hidden_id" type="hidden" hidden="hidden" value="@ViewContext.RouteData.Values["id"]" />
+    <div id="page" class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide slidescroll">
+                <div class="survey-body">
+                    <article class="cro-page">
+                        <div class="cro-qbox">
+                            <div class="cro-qbox-title" v-html="Q7.title"></div>
+                            <div class="cro-qbox-awbox">
+                                <div v-for="(item,index) in Q7.options" :class="{'flex': true, 'has-error': errors.has(item.name)}">
+                                    <div class="w20">
+                                        <div class="checkbox-control">
+                                            <input :id="item.id" v-model="Q7.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: [1, 3]}" v-if="index === 0" />
+                                            <input :id="item.id" v-model="Q7.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                            <label :for="item.id" class="checkbox-control-label"></label>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="" style="padding-top:2px;">
+                                            <label :for="item.id" v-text="item.text" v-if="item.value !== '其他'"></label>
+                                            <div v-if="item.value === '其他'" :class="{'flex cro-qbox-awbox__other': true, 'has-error': errors.has('Q7_other')}">
+                                                <label :for="item.id" style="width: 3rem;" v-text="item.text"></label>
+                                                <input class="flex-1 cro-qbox__input font-14px" name="Q7_other" v-model="Q7.other" v-validate="{required: Q7.answer.includes('其他'), min: 1}" type="text" />
+                                            </div>
+                                        </div>
+                                        <div class="flex align-items__baseline" v-if="Q7.answer.indexOf(item.value) >= 0">
+                                            <div class="font-12px">百分比：</div>
+                                            <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has(item.rate_name)}">
+                                                <input class="cro-qbox__input font-14px" :name="item.rate_name" v-model="item.rate" v-validate="{required: true}" type="text" placeholder="请选择百分比" style="background-color: transparent;" readonly="readonly" @@click="onQ7Picker($event,item)" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cro-qbox">
+                            <div class="cro-qbox-title" v-html="Q8.title"></div>
+                            <div class="cro-qbox-awbox">
+                                <div v-for="(item,index) in Q8.options" :class="{'flex': true, 'has-error': errors.has(item.name)}">
+                                    <div class="w20">
+                                        <div class="checkbox-control">
+                                            <input :id="item.id" v-model="Q8.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: [1, 3]}" v-if="index === 0" />
+                                            <input :id="item.id" v-model="Q8.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                            <label :for="item.id" class="checkbox-control-label"></label>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="" style="padding-top:2px;">
+                                            <label :for="item.id" v-text="item.text" v-if="item.value !== '其他'"></label>
+                                            <div v-if="item.value === '其他'" :class="{'flex cro-qbox-awbox__other': true, 'has-error': errors.has('Q8_other')}">
+                                                <label :for="item.id" style="width: 3rem;" v-text="item.text"></label>
+                                                <input class="flex-1 cro-qbox__input font-14px" name="Q8_other" v-model="Q8.other" v-validate="{required: Q8.answer.includes('其他'), min: 1}" type="text" />
+                                            </div>
+                                        </div>
+                                        <div class="flex align-items__baseline" v-if="Q8.answer.includes(item.value)">
+                                            <div class="font-12px">百分比：</div>
+                                            <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has(item.rate_name)}">
+                                                <input class="cro-qbox__input font-14px" :name="item.rate_name" v-model="item.rate" v-validate="{required: true}" type="text" placeholder="请选择百分比" style="background-color: transparent;" readonly="readonly" @@click="onQ8Picker($event,item)" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <footer class="cre-footer">
+                    <a class="btn btn-primary cre-submit a-btn" href="javascript: void(0);" @@click="onSubmit">下一页</a>
+                    <div style="height: 38px;"></div>
+                </footer>
+            </div>
+        </div>
+    </div>
+</div>

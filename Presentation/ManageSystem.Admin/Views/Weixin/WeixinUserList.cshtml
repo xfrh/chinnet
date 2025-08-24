@@ -1,0 +1,180 @@
+﻿@model  ManageSystem.Admin.Models.Weixin.WeixinUserModel
+
+@{
+    ViewBag.Title = "关注用户";
+}
+
+@section HeadSection {
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "微信管理", SecondName = "关注用户", LocationName = this.ViewBag.Title }); }
+}
+
+@Html.AntiForgeryToken()
+
+<div class="page-body">
+
+    <div class="row manage-page">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-yellow manage-title-box">
+                    <span class="widget-caption manage-title"><i class="glyphicon glyphicon-th "></i>@ViewBag.Title </span>
+                    <div class="widget-buttons">
+                        <a href="#" data-toggle="maximize"><i class="fa fa-expand"></i></a>
+                        <a href="#" data-toggle="collapse"><i class="fa fa-minus"></i></a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                <h5 class="row-title"><i class="fa fa-tags blue"></i>总关注人数：@this.ViewBag.SubscribeCount</h5>
+                                <h5 class="row-title " style="margin-left:30px;"><i class="fa fa-list-alt blue"></i>总取消关注人数：@this.ViewBag.UnSubscribeCount</h5>
+                                <h5 class="row-title before-darkorange" style="margin-left:30px;"><i class="fa fa-tags darkorange"></i>今日关注人数：@this.ViewBag.NowSubscribeCount</h5>
+                                <h5 class="row-title before-darkorange" style="margin-left:30px;"><i class="fa fa-list-alt darkorange"></i>今日取消关注人数：@this.ViewBag.NowUnSubscribeCount</h5>
+                            </div>
+                        </div>
+
+                        <div id="searchable_filter" class="dataTables_filter manage-but-box">
+
+                            <div style="width: 100%;">
+                                <div class="dataTables_filter manage-but-box">
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.Openid)：</label>
+                                    <label class="lb-right"><input type="text" id="input-search" class="form-control input-sm  search" aria-controls="searchable" name="searchKey" /></label>
+                                    <label class="lb-left">@Html.NopLabelFor(m => m.SubscribeList)：</label>
+                                    <div class="form-control ddl lb-right " style="width: 10%;">
+                                        @Html.DropDownList("SubscribeList", Model.SubscribeList, new { @class = "form-control dropdown" })
+                                    </div>
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.StartTime)：</label>
+                                    <label class="lb-right">@Html.EditorFor(m => m.StartTime, new { @class = "form-control input-sm" }) </label>
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.EndTime)：</label>
+                                    <label class="lb-right">@Html.EditorFor(m => m.EndTime, new { @class = "form-control input-sm" }) </label>
+                                     <label> <input type="button" id="btn-search" class="btn btn-blue" value="查 询" /> </label>
+                                </div>
+                            </div>
+                        </div>
+
+                       
+
+                        <div class="table table-striped table-bordered dataTable no-footer table-select" id="ManageTableDiv" aria-describedby="editabledatatable_info">
+                            <div id="data-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#data-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("WeixinUserList"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 30, 50]
+            },
+            scrollable: false,
+            groupable: true,
+            dataBound: onDataBound,
+            columns: [
+                	{
+                	    field: "Name",
+                	    title: "用户昵称 ",
+                	    width: 100
+                	},
+             		{
+             		    field: "Openid",
+             		    title: "用户OpenId",
+             		    width: 350
+
+             		},
+                    	{
+                    	    field: "Sex",
+                    	    title: "用户性别",
+                    	    width: 80
+                    	},
+
+		{
+		    field: "Subscribe",
+		    title: "关注状态 ",
+		    width: 100
+		},
+		{
+		    field: "SubscribeTime",
+		    title: "关注时间",
+		    type: "date",
+		    format: "{0:yyyy-MM-dd HH:mm}",
+		    width: 100
+		},
+		{
+		    field: "UnsubscribeTime",
+		    title: "取消关注时间",
+		    type: "date",
+		    format: "{0:yyyy-MM-dd HH:mm}",
+		    width: 100
+		},
+
+            {
+                field: "Id",
+                title: "操作",
+                width: 150,
+                template: '<a href="WeixinUserView/#=Id#">详细</a>'
+            }]
+        });
+    });
+
+
+    //设置查询参数
+    function additionalData() {
+        var data = {
+            Openid: $("#input-search").val(),
+            SubscribeValue: $("#@Html.FieldNameFor(m=>m.SubscribeList)").val(),
+            StartTime: $("#@Html.FieldIdFor(m=> m.StartTime)").val(),
+            EndTime: $("#@Html.FieldIdFor(m=> m.EndTime)").val()
+        };
+
+        addAntiForgeryToken(data);
+        return data;
+    }
+
+</script>
+
+<script type="text/javascript">
+
+    $("#@Html.FieldIdFor(m=> m.StartTime)").kendoDatePicker({  format: "yyyy-MM-dd HH:mm" });
+    $("#@Html.FieldIdFor(m => m.EndTime)").kendoDatePicker({ format: "yyyy-MM-dd HH:mm" });
+
+</script>
+<script src="~/Content/Scripts/admin.listpage.js"></script>

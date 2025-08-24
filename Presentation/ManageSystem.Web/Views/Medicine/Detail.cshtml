@@ -1,0 +1,164 @@
+﻿@using ManageSystem.Core.Domain.Medicine
+@using ManageSystem.Web.Models.Medicine
+@using ManageSystem.Core.Utility
+@using ManageSystem.Core.Extensions;
+
+@model MedicalDataModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "医学中心";
+}
+
+<link href="~/Content/Scripts/ladda/ladda-themeless.min.css" rel="stylesheet" />
+<link href="~/Content/Css/Medicine/Detail.css?v=1.23" rel="stylesheet" />
+
+
+<div class="mbx">
+    <p>当前位置：首页 &gt; 医学中心 </p>
+</div>
+<div class="doct_center" style="padding:10px;">
+    <div class="title-table">
+
+        @{
+            if (Model.UploadMessageEntity.BaseMessage != null)
+            {
+                <div class="tab" style="padding-top:0px;">
+                    <table width="100%" border="0" cellspacing="1" cellpadding="0" class="table table-bordered">
+                        <tbody>
+                            <tr class="info">
+                                <td colspan="8" style="text-align:center; font-weight:bold;">数据文件基本情况 </td>
+                            </tr>
+                            <tr>
+                                <td class="cb" style="width:8%;">文件名</td>
+                                <td style="width:15%;">@Model.UploadMessageEntity.BaseMessage.FileName</td>
+                                <td class="cb" style="width:6%;">文件大小</td>
+                                <td style="width:15%;">@Model.UploadMessageEntity.BaseMessage.FileLength</td>
+                            </tr>
+                            <tr>
+                                <td class="cb">数据所属时段</td>
+                                <td>@Model.UploadMessageEntity.BaseMessage.DataTime</td>
+                                <td class="cb">上传时间</td>
+                                <td>@Model.UploadMessageEntity.BaseMessage.UploadTime.ToString("yyyy-MM-dd HH:mm")</td>
+                            </tr>
+                            <tr>
+                                <td class="cb">编号</td>
+                                <td>	@Model.SN</td>
+                                <td class="cb">数据所属项目</td>
+                                <td>@Model.ProjectTypeName</td>
+                            </tr>
+                            @*<tr>
+                                    <td class="cb">药敏实验方法</td>
+                                    <td>	@Model.UploadMessageEntity.BaseMessage.BacteriaTypeName</td>
+                                    <td class="cb">编号</td>
+                                    <td>@Model.SN</td>
+                                </tr>*@
+                        </tbody>
+                    </table>
+                </div>
+            }
+        }
+    </div>
+    <div style="margin-top:20px;">
+        <ul class="nav nav-tabs tabs-flat" id="myTab11" style="font-size: 14px;">
+            <li class="active" style="width:11%">
+                <a data-toggle="tab" href="#tabResult">
+                    数据分析汇总
+                </a>
+            </li>
+            <li class=""style="width:11%">
+                <a data-toggle="tab" id="analysis" href="#tabFileData">
+                    上传情况分析
+                </a>
+            </li>
+            <li class=""style="width:11%">
+                <a data-toggle="tab" href="#tabColumnRatio">
+                    各字段说明
+                </a>
+            </li>
+            <li class=""style="width:11%">
+                <a data-toggle="tab" href="#tabColumnData">
+                    记录分析情况
+                </a>
+            </li>
+        </ul>
+
+        <div class="main-content">
+            <div class="tab-pane active select-item" id="tabResult">
+                <div class="col-lg-12">
+                    <div class="alert " style="margin-top: 15px;  line-height: 25px; border-color:#4BDB00;">
+
+                        @if (0 == Model.ValidateErrorCount)
+                        {
+                            <h4 style="padding: 8px 0px;">数据上报成功！</h4>
+                        }
+                        else
+                        {
+                            <h4 style="padding: 8px 0px;">数据上报成功！</h4>
+                            @*<h4 style="padding: 8px 0px;">数据上报成功，请根据错误提示处理好数据文件后重新上传，感谢您的支持。</h4>*@
+                        }
+                        <b>
+                            ** 警告 ** 共产生了<span class="bg-danger" style="cursor:pointer;text-decoration: underline;color:blue;" onclick="Analysiserror()">&nbsp; @Model.ValidateErrorCount &nbsp;</span>个数据项错误，请核对原始数据并修正！<br>
+                            ●&nbsp;共产生了<span class="bg-warning" style="cursor:pointer;text-decoration: underline; color:blue;" onclick="Analysiswarning()">&nbsp;@Model.ValidateWarningCount&nbsp;</span>个数据项警告！这并不影响整个文件的上报，但建议您查看相关警告信息，了解这些警告信息是如何产生的。<br>通过校验的记录数据已成功保存到数据库，具体情况请下载分析报告进行查看！
+                        </b>
+                    </div>
+                </div>
+                <div class="col-lg-3" style="margin-top: 15px; display:none;">
+                    <a href="@Model.CodeFilePath" target="_blank"><img src="@Model.CodeFilePath" class="img-responsive" style="width: 160px; height: 160px;" /></a>
+                </div>
+
+                <table class="table table2 table-bordered ">
+                    <tbody>
+                        <tr class="info">
+                            <td class="big" colspan="4"><b>数据行数统计</b></td>
+                        </tr>
+                        <tr>
+                            <td class="big right"><b>上传文件总行数</b></td>
+                            <td class="big center">@(Model.UploadMessageEntity.BaseMessage == null ? "" : Model.UploadMessageEntity.BaseMessage.ReadCount.ToString())</td>
+                            <td class="big right"><b>上传成功总行数</b></td>
+                            <td class="big center">@(Model.UploadMessageEntity.BaseMessage == null ? "" : Model.UploadMessageEntity.BaseMessage.SuccessCount.ToString())</td>
+                        </tr>
+                        @*<tr>
+                            <td class="big right"><b>系统可校验记录总数</b></td>
+                            <td class="big center">194</td>
+                            <td class="big right"><b></b></td>
+                            <td class="big center"></td>
+                        </tr>*@
+                    </tbody>
+                </table>
+            </div>
+
+            @Html.Partial("/Views/Medicine/_Detail.Validate.cshtml")
+            @Html.Partial("/Views/Medicine/_Detail.Column.cshtml")
+            @Html.Partial("/Views/Medicine/_Detail.Data.cshtml")
+
+        </div>
+
+    </div>
+
+    <div style="width:100%; margin-top:20px; text-align:center; margin-bottom: 50px;">
+        <a href="@Url.Action("DownloadOriginalData","Medicine",new { id = Model.Id.ToString() })" class="btn btn-primary">下载原始上传数据</a> &nbsp; &nbsp; &nbsp; &nbsp;
+        <a href="@Url.Action("DownloadNewData","Medicine",new { id = Model.Id.ToString() })" class="btn btn-success">下载经过容错处理的数据</a> &nbsp; &nbsp; &nbsp; &nbsp;
+        <a href="@Url.Action("DownloadWord","Medicine",new { id = Model.Id })" id="btnWord" onclick="downloadWordBefore();" class="btn btn-info ladda-button" data-style="zoom-in">生成PDF文件</a>
+    </div>
+</div>
+
+<input type="hidden" id="DataId" value="@Model.Id.ToString()" />
+
+
+<script src="~/Content/bootstrap-3.3.0/js/bootstrap.min.js"></script>
+<link href="/Content/Scripts/laypage-v1.3/skin/laypage.css" rel="stylesheet" />
+<script src="/Content/Scripts/laypage-v1.3/laypage.js"></script>
+<script src="~/Content/Scripts/ladda/spin.min.js"></script>
+<script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+<script src="~/Content/Scripts/Medicine/Detail.js?v=1.0.1"></script>
+<script>
+    function Analysiserror() {
+        $("#analysis").click();
+        $("#error").click()
+    }
+    function Analysiswarning() {
+        $("#analysis").click();
+        $("#warning").click()
+    }
+</script>

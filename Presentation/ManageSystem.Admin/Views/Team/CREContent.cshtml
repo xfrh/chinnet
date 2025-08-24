@@ -1,0 +1,68 @@
+﻿@model Team_CREContent
+
+@{
+    ViewBag.Title = "CRE成员单位";
+}
+
+@section HeadSection {
+
+}
+
+@section FooterSection {
+    <script src="~/Content/Scripts/ueditor/ueditor.config.js"></script>
+    <script src="~/Content/Scripts/ueditor/ueditor.all.min.js"></script>
+    <script src="~/Content/Scripts/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script>
+        $(document).ready(function () {
+            var editor = new baidu.editor.ui.Editor();
+            editor.render("Content");
+            var ue = UE.getEditor('Content');
+            ue.ready(function () {
+                ue.execCommand('serverparam', {
+                });
+            });
+        });
+
+        function setUeditor() {
+            var myEditor = document.getElementById("Content");
+            myEditor.value = editor.getContent();
+            alert(myEditor.value);
+        };
+    </script>
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "成员单位管理", SecondName = "CRE成员单位" }); }
+}
+
+<div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-user "></i>@this.ViewBag.Title</span>
+                </div>
+                <div class="widget-body " id="BaseDiv" runat="server">
+                    @using (Html.BeginForm("CREContent", "Team", FormMethod.Post, new { id = "form1" }))
+                    {
+                        <div class="add-content ">
+                            <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true)
+                                @Html.HiddenFor(model => model.Id)
+                                <article class="article">
+                                    <textarea id="Content" name="Content" runat="server" onblur="setUeditor()" style="width: 100%; min-height: 600px; margin-top:10px; text-align:left;">@Model.Content</textarea>
+                                </article>
+                            </div>
+                        </div>
+                        <hr class="wide">
+                        <div class="buttons-preview text-center">
+                            <button class="btn btn-primary" type="submit"><i class="fa fa-check-circle"></i> 提交</button>
+                            <button class="btn shiny btn-warning" type="reset" style="margin-left: 5rem;"><i class="fa fa-repeat"></i> 重置</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

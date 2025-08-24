@@ -1,0 +1,108 @@
+﻿@model ManageSystem.Core.Domain.Members.Member
+
+    <div class="nav">
+        <li style="width: 50px;margin-right: 40px;padding-left:0px;"><a href="/">首页</a></li>
+        <li onmouseover="SelectMenuItemOver(this)" onmouseout="SelectMenuItemOut(this)" class="menu-dropdown" style="    margin-right: 10px;">
+            <a href="javascript:void(0)" class="menu-item-a">数据分析<img src="/Content/Images/06.jpg" alt="" /></a>
+            <div class="dropdown-content">
+                <div class="row-fluid" style="width:230px; left:-50px;">
+                    <div id="block-block-1" class="block block-block no-title">
+                        <div class="block-inner clearfix" style="margin-bottom:-15px">
+                            <ul id="country_list_dropdown  menu-medicine" class="country_list_dropdown">
+                                <li>
+                                    <a href="/Chinet" data-nav-name="热图">热图</a>
+                                </li>
+                                <li>
+                                    <a data-nav-name="柱状图" href="/Data/AntibioticDrugFast">柱状图</a>
+                                </li>
+                                <li>
+                                    <a data-nav-name="趋势图" href="/Data/GermYear">趋势图</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li><a class="nav-link" href="/DataDistribution" target="_blank">MIC分布</a></li>
+        @*<li><a href="/Data/Monitor">主动监测</a></li>*@
+        <li><a class="nav-link" href="/Special" target="_blank">专项检测</a></li>
+        <li style="padding-left: 0px;"><a href="/ECV">流行病学折点</a></li>
+        <li><a href="/Medicine/Upload">上传数据</a></li>
+        <li><a href="/Document">资料下载</a></li>
+        <li><a href="/Team">成员单位</a></li>
+        <li><a href="/Meeting">信息动态</a></li>
+        @{
+            if (ViewBag.Median != null && ViewBag.Median == true)
+            {
+                <li> <a href="/DataInput">ECOFF</a></li>
+            }
+            else
+            {
+                <li><a href="https://www.eucast.org/mic_distributions_and_ecoffs/" target="_blank">ECOFF</a></li>
+            }
+        }
+        @*<li><a href="https://atlas-surveillance.com/" target="_blank">ATLAS</a></li>*@
+        <li onmouseover="SelectMenuItemOver(this)" onmouseout="SelectMenuItemOut(this)" class="menu-dropdown">
+            <a href="javascript:void(0)">会员中心<img src="/Content/Images/06.jpg" alt="" /></a>
+            <div class="dropdown-content">
+                <div class="row-fluid" style="width:380px;left:-130px;">
+                    <div id="block-block-1" class="block block-block no-title">
+                        <div class="block-inner clearfix" style="margin-bottom:-15px">
+                            <ul id="country_list_dropdown  menu-usercenter" class="country_list_dropdown">
+                                <li>
+                                    <a href="/Center/Index">个人中心</a>
+                                </li>
+                                <li>
+                                    <a href="/Center/MeetingCollection">我的收藏</a>
+                                </li>
+                                <li>
+                                    <a href="/Center/Feedback"> 建议反馈 </a>
+                                </li>
+                                <li>
+                                    <a href="/Medicine/Upload">上传医学数据</a>
+                                </li>
+                                <li>
+                                    <a href="/Center/MedicineManage">医学数据管理</a>
+                                </li>
+                                @{
+                                    if (Model != null && !String.IsNullOrWhiteSpace(Model.ProjectItem))
+                                    {
+                                        <li>
+                                            <a href="/Center/ProjectDataManage">项目数据管理</a>
+                                        </li>
+                                    }
+                                    if (Model != null && Model.Department == true)
+                                    {
+                                        <li>
+                                            <a href="/HospitalDepartment/HospitalDepartmentList">科室配置管理</a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li onmouseover="SelectMenuItemOver(this)" onmouseout="SelectMenuItemOut(this)" class="menu-dropdown" style="display:none;">
+            <a href="javascript:void(0);">更多<img src="/Content/Images/05.jpg" alt="" /></a>
+            <div class="dropdown-content">
+                <div class="row-fluid" style="width:190px;left:-50px;">
+                    <div id="block-block-1" class="block block-block no-title">
+                        <div class="block-inner clearfix" style="margin-bottom:-15px">
+                            <ul id="country_list_dropdown  menu-medicine" class="country_list_dropdown">
+                                <li>
+                                    <a href="/News">资讯中心</a>
+                                </li>
+                                <li>
+                                    <a href="/Research">科研合作</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </div>

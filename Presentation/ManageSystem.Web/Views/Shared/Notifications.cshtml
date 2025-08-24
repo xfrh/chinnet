@@ -1,0 +1,108 @@
+﻿@using ManageSystem.Framework.UI;
+
+
+
+@{
+    //success messages
+    var successMessages = new List<string>();
+    if (TempData[string.Format("nop.notifications.{0}", NotifyType.Success)] != null)
+    {
+        successMessages.AddRange(TempData[string.Format("nop.notifications.{0}", NotifyType.Success)] as IList<string>);
+    }
+    if (ViewData[string.Format("nop.notifications.{0}", NotifyType.Success)] != null)
+    {
+        successMessages.AddRange(ViewData[string.Format("nop.notifications.{0}", NotifyType.Success)] as IList<string>);
+    }
+
+
+    //error messages
+    var errorMessages = new List<string>();
+    if (TempData[string.Format("nop.notifications.{0}", NotifyType.Error)] != null)
+    {
+        errorMessages.AddRange(TempData[string.Format("nop.notifications.{0}", NotifyType.Error)] as IList<string>);
+    }
+    if (ViewData[string.Format("nop.notifications.{0}", NotifyType.Error)] != null)
+    {
+        errorMessages.AddRange(ViewData[string.Format("nop.notifications.{0}", NotifyType.Error)] as IList<string>);
+    }
+}
+
+
+
+
+<script type="text/javascript">
+
+    function OpenNotifications(type, title, detail) {
+
+        if (type == 1) {
+            //成功提示
+            layer.alert("" + detail + "", {
+                skin: 'layui-layer-molv',
+                closeBtn: 0
+            });
+
+        } else {
+
+            layer.alert(""+detail+"", {
+                skin: 'layui-layer-lan',
+                closeBtn: 0
+            });
+        }
+
+    }
+
+</script>
+
+@{
+
+    if (successMessages != null && successMessages.Any())
+    {
+        string messageHtml = "";
+        string messageTitle = "操作提示";
+
+        foreach (var message in successMessages)
+        {
+            var content = message;
+            var title = "操作提示";
+            if (message.IndexOf("|") > 0)
+            {
+                title = message.Split('|')[0];
+                content = message.Split('|')[1];
+            }
+
+            messageTitle = title;
+            messageHtml = content;
+        }
+
+        <script type="text/javascript">
+            OpenNotifications(1, '@messageTitle', '@messageHtml');
+        </script>
+    }
+}
+@{
+
+    if (errorMessages != null && errorMessages.Any())
+    {
+
+        string messageHtml = "";
+        string messageTitle = "操作提示";
+
+        foreach (var message in errorMessages)
+        {
+            var content = message;
+            var title = "操作提示";
+            if (message.IndexOf("|") > 0)
+            {
+                title = message.Split('|')[0];
+                content = message.Split('|')[1];
+            }
+
+            messageTitle = title;
+            messageHtml =content ;
+        }
+
+        <script type="text/javascript">
+            OpenNotifications(2, '@messageTitle', '@messageHtml');
+        </script>
+    }
+}

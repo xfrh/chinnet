@@ -1,0 +1,19 @@
+﻿
+
+@if (ViewBag.Name == "")
+{
+    @*<span onclick="Open()"><img src="~/Areas/CRs/Content/Images/u_default.png" alt="" style="max-width:40px; max-height:40px;"></span>*@
+    <span><a style="cursor:pointer;" href="http://www.chinets.com/">CHINET首页 </a></span>
+    <span style="padding-left: 6px; color: #999;"></span>
+    <span><a style="cursor:pointer;" onclick="Open(),goLogin()">登录 </a></span>
+    <span style="padding-left: 6px; color: #999;">|</span>
+    <span style="padding-left: 6px;"><a href="javascript:void(0);" style="cursor:pointer;" onclick="Open(),goRegister() ">注册 </a></span>
+    <input id="Hidden1" type="hidden" value="@ViewBag.Name" />
+}
+else
+{
+    <span><a style="cursor:pointer;" href="http://www.chinets.com/">CHINET首页 </a></span>
+    <span style="padding-left: 6px; color: #999;"></span>
+    <span>欢迎光临 @ViewBag.Name</span>
+    <span><a href="/CR/CRLogin/Out"><img src="/Content/Images/03.jpg" alt="" /></a></span>
+}

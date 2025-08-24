@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "修改密码";
+    Layout =  "~/Areas/CRE/Views/Shared/_MainLayout.cshtml";
+}
+
+<div id="app" v-cloak class="indexpage">
+    <div class="middle">
+        <div class="padding-lr-40">
+            <div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('orgPassword')}">
+                <input class="flex1 fon-28 PI-Input" placeholder="请输入原始密码" type="password"
+                       name="orgPassword"
+                       v-model="orgPassword"
+                       v-validate="'required|min:5'" />
+            </div>
+            <div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('newPassword')}">
+                <input class=" flex1 fon-28 PI-Input" placeholder="请输入新密码" type="password"
+                       name="newPassword"
+                       ref="newPassword"
+                       v-model="newPassword"
+                       v-validate="'required|min:5'" />
+
+            </div>
+            @*<div :class="{'flex f-center f-between padding-tb-40 border-b-1': true, 'has-error': errors.has('cfmPassword')}">
+                <input class="flex1 fon-28 PI-Input" placeholder="请再次输入新密码" type="password"
+                       name="cfmPassword"
+                       v-model="cfmPassword"
+                       v-validate="'required|confirmed:newPassword'"
+                       data-vv-as="newPassword" />
+
+            </div>*@
+            <a ref="btnSubmit" class="btn margin-t-40 margin-b-20 ladda-button" data-style="zoom-in" @@click="onSubmit" href="javascript:void(0);">提&ensp;交</a>
+
+        </div>
+    </div>
+    @Html.Partial("_FooterNavBar", "我的")
+
+    <div id="successToast" ref="successToast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32" v-text="resSuccessMessage"></p>
+        </div>
+    </div>
+    <div id="failToast" ref="failToast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_toast" style="font-size: 1.65rem;"></i>
+            <p class="weui-toast__content fon-32" v-text="resFailMessage" style="margin-top: 0.25rem;"></p>
+        </div>
+    </div>
+    <div id="submitToast" ref="submitToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32">数据提交中</p>
+        </div>
+    </div>
+</div>
+
+
+@section Styles{
+    <link href="~/Content/Css/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/User/Cipher.css?v=1.0.0" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/vee-validate/vee-validate.min.js"></script>
+    <script src="~/Content/Scripts/vee-validate/locale/zh_CN.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/template-web.js"></script>
+    <script src="~/Content/Scripts/fx.js"></script>
+    <script src="~/Content/Scripts/fx_methods.js"></script>
+    <script src="~/Areas/CRE/Content/Scripts/CreUser/Cipher.js?v=1.0.0"></script>
+}

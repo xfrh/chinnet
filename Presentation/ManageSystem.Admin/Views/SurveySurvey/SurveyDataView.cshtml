@@ -1,0 +1,400 @@
+﻿@model  ManageSystem.Admin.Models.Survey.SurveySurveyModel
+@{
+    //page title
+    ViewBag.Title = "查看数据";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "问卷记录", SecondName = "问卷调查管理", LocationName = this.ViewBag.Title }); }
+}
+
+@*下载数据*@
+@using (Html.BeginForm("SurveyDownloadExcel", "SurveySurvey", FormMethod.Post, new { id = "form-download-ids" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" hidden="hidden" id="input-download-type" name="downloadEvent" />
+}
+
+<style>
+    .col-lg-10 {
+        width: 60%;
+    }
+
+    .add-page .add-content label {
+        width: 180px;
+    }
+
+    .input-no {
+        background-color: #f3f3f3;
+    }
+
+
+
+    .k-content .adminContent .adminTitle {
+        text-align: left;
+    }
+
+    .add-page .add-content label {
+        width: 100px;
+        text-align: right;
+        margin-bottom: 0;
+    }
+
+    .adminTitle {
+        width: 120px;
+    }
+
+        .adminTitle img {
+            display: none;
+        }
+
+    #SEODiv .lb-left {
+        width: 45px;
+    }
+
+    #SEODiv .dataTables_filter {
+        margin: 10px 0;
+    }
+
+    .btna {
+        color: #428bca;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+        .btna:hover {
+            text-decoration: underline;
+        }
+</style>
+<div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                </div>
+
+                <div class="widget-body add-content " style="padding-top: 30px;">
+                    <div class="form-horizontal bv-form">
+
+
+                        <div>
+                            <div class="widget-main ">
+                                <div class="tabbable">
+                                    <ul class="nav nav-tabs tabs-flat" id="myTab11" style="font-size: 14px;">
+                                        <li class="active">
+                                            <a data-toggle="tab" href="#SystemDiv">
+                                                基本信息
+                                            </a>
+                                        </li>
+                                        <li class="">
+                                            <a data-toggle="tab" href="#SEODiv">
+                                                调查记录
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content tabs-flat" style="background-color: white; padding: 30px 12px; min-height: 350px;">
+                                        <input type="hidden" id="id" value="@Model.Id" />
+                                        <!-- 基本信息 -->
+                                        <div id="SystemDiv" class="tab-pane active">
+
+                                            <table class="adminContent">
+                                                <tr>
+                                                    <td class="adminTitle">@Html.NopLabelFor(m => m.Name)：</td>
+                                                    <td class="adminData">
+                                                        @Html.EditorFor(m => m.Name)
+                                                        @Html.ValidationMessageFor(m => m.Name)
+                                                    </td>
+                                                </tr>
+
+                                                @*<tr>
+                                                        <td class="adminTitle">@Html.NopLabelFor(m => m.QR)：</td>
+                                                        <td class="adminData">
+                                                            @Html.EditorFor(m => m.QR)
+                                                            @Html.ValidationMessageFor(m => m.QR)
+                                                        </td>
+                                                    </tr>*@
+                                                <tr>
+                                                    <td class="adminTitle">@Html.NopLabelFor(m => m.StartTime)：</td>
+                                                    <td class="adminData">
+                                                        @Html.EditorFor(m => m.StartTime)
+                                                        @Html.ValidationMessageFor(m => m.StartTime)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="adminTitle">@Html.NopLabelFor(m => m.EndTime)：</td>
+                                                    <td class="adminData">
+                                                        @Html.EditorFor(m => m.EndTime)
+                                                        @Html.ValidationMessageFor(m => m.EndTime)
+                                                    </td>
+                                                </tr>
+
+
+                                                <tr>
+                                                    <td class="adminTitle">@Html.NopLabelFor(m => m.State)：</td>
+                                                    <td class="adminData">
+                                                        @Html.DropDownList("State", Model.StateList, new { @class = "form-control dropdown" })
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="adminTitle">@Html.NopLabelFor(m => m.Sort)：</td>
+                                                    <td class="adminData">
+                                                        @Html.EditorFor(m => m.Sort)
+                                                        @Html.ValidationMessageFor(m => m.Sort)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="adminTitle">@Html.NopLabelFor(m => m.Remark)：</td>
+                                                    <td class="adminData">
+                                                        @Html.Raw(Model.Remark)
+                                                    </td>
+                                                </tr>
+                                                @if (!string.IsNullOrWhiteSpace(Model.QR))
+                                                {
+                                                    <tr>
+                                                        <td class="adminTitle">@Html.NopLabelFor(m => m.QR)：</td>
+                                                        <td class="adminData">
+                                                            <style>
+                                                                .qrcode200 {
+                                                                    width: 100px;
+                                                                    height: 100px;
+                                                                }
+
+                                                                    .qrcode200 > img {
+                                                                        max-height: 100%;
+                                                                        max-width: 100%;
+                                                                    }
+                                                            </style>
+                                                            <div class="flex flex-center qrcode200">
+                                                                <img class="flex-1" src="@Model.QR" alt="" title="" draggable="false" />
+                                                            </div>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="adminTitle"></td>
+                                                        <td class="adminData">
+                                                            @(ManageSystem.Core.Utility.ConfigHelper.GetConfigString("m.chinet.com").TrimEnd('/'))/survey?id=@Model.Id
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        </div>
+
+                                        <!-- 问卷记录数据 -->
+                                        <div id="SEODiv" class="tab-pane">
+                                            <div style="width: 100%;">
+                                                <button class="btn btn-primary" style="color:#fff;" type="button" onclick="DataExport()">导出上传数据</button>
+                                            </div>
+                                            <div style="width: 100%;">
+                                                <div class="dataTables_filter manage-but-box">
+                                                    <label class="lb-left">医院</label>
+                                                    <label class="lb-right"><input type="text" id="Content29" class="form-control input-sm  search" style="width:100%;" /></label>
+                                                    <label class="lb-left">姓名</label>
+                                                    <label class="lb-right"><input type="text" id="Content30" class="form-control input-sm  search" style="width:100%;" /></label>
+                                                    <label class="lb-left">手机号</label>
+                                                    <label class="lb-right"><input type="text" id="Content31" class="form-control input-sm  search" style="width:100%;" /></label>
+
+                                                    <label> <input type="button" id="btn-search" class="btn btn-blue" value="查 询" /> </label>
+                                                </div>
+                                            </div>
+                                            <div class="table table-striped table-bordered dataTable no-footer table-select" id="ManageTableDiv" aria-describedby="editabledatatable_info">
+                                                <div id="data-grid"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*导出数据的表单*@
+@using (Html.BeginForm("SurveyExport", "SurveySurvey", FormMethod.Post, new { id = "export-form" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="parameter" name="parameter" value="" />
+
+    <script type="text/javascript">
+        //导出数据
+        function DataExport() {
+            var data = additionalData();
+            $("#parameter").val(JSON.stringify(data));
+            $("#export-form").submit();
+        }
+    </script>
+}
+
+
+<script>
+    $(document).ready(function () {
+
+        //基本样式
+        //$("input").attr("disabled", "disabled");
+        //$("textarea").attr("disabled", "disabled");
+        //$("select").attr("disabled", "disabled");
+        //$("input").addClass("input-no");
+        //$("textarea").addClass("input-no");
+
+        $("#data-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("SurveyDataViewList"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 30, 50]
+            },
+            scrollable: true,
+            groupable: true,
+            dataBound: onDataBound,
+            columns: [{
+                field: "Id",
+                headerTemplate: "  <div class='' style='text-align: center;'>    <label><input type='checkbox' id='mastercheckbox' /><span class='text'></span> </label>   </div>",
+                headerAttributes: { style: "text-align:center" },
+                attributes: { style: "text-align:center" },
+                template: " <div class='' style='text-align: center;'>    <label><input type='checkbox' class='checkboxGroups'  value='#=Id#' /><span class='text'></span> </label>   </div> ",
+                width: 50
+            },
+                {
+                    field: "InsertTime",
+                    title: "添加时间",
+                    width: 150
+                },
+                {
+                    field: "Content29",
+                    title: "医院",
+                    width: 80
+                },
+                {
+                    field: "Content30",
+                    title: "名称",
+                    width: 110
+                },
+                {
+                    field: "Content31",
+                    title: "手机号",
+                    width: 180
+                },
+                {
+                    field: "MemberName",
+                    title: "提交人名称",
+                    width: 180
+                },
+                {
+                    field: "MemberPhone",
+                    title: "提交人手机号",
+                    width: 180
+                },
+                {
+                    field: "Id",
+                    title: "操作",
+                    width: 150,
+                    template: "<div class='btna' data-id='#=Id#' onclick='SetDetail(this)' >详细</div>"
+                }]
+        });
+    });
+
+    //设置查询参数
+    function additionalData() {
+        var data = {
+            surveyId: $("#id").val(),
+            Content29: $("#Content29").val(),
+            Content30: $("#Content30").val(),
+            Content31: $("#Content31").val()
+        };
+
+        addAntiForgeryToken(data);
+        return data;
+    }
+
+    //确认发货
+    function SetDetail(obj) {
+        //iframe层-父子操作
+        layer.open({
+            type: 2,
+            area: ['1100px', '680px'],
+            fix: false, //不固定
+            maxmin: true,
+            shadeClose: false,
+            title: "查看调查报告",
+            content: '/SurveySurvey/SurveyDetailView/' + obj.attributes[1].value
+        });
+    }
+
+    $("#btnDownload1").click(function () {
+
+        $.ajax({
+                type: "POST",
+                url: "@Url.Action("SurveyDownloadExcel", "SurveySurvey")",
+                data: {
+                    surveyId: $("#id").val(),
+                    Content29: $("#Content29").val(),
+                    Content30: $("#Content30").val(),
+                    Content31: $("#Content31").val()
+                },
+                dataType: "json",
+                success: function (data) {
+                    if (data == "" || data == null) return;
+
+                    if (data.status == "true") {
+                        alert(data.message);
+                        location.reload;
+                        //parent.ReloadPage();
+                        //parent.layer.close(index);
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
+    })
+
+      $('#btnDownload1').click(function (e) {
+
+        $('#form-download-ids').html("");
+
+        $('#data-grid').find('input[type="checkbox"][value]:checked').each(function (i, item) {
+            if (item.value) {
+                $('#form-download-ids').append('<input type="hidden" hidden="hidden" id="input-download-ids" name="ids" value="' + item.value + '" />');
+            }
+        });
+
+        $('#form-download-ids').attr('action', '@Url.Action("SurveyDownloadExcel", "SurveySurvey")');
+        $('#form-download-ids').submit();
+            return false;
+    });
+
+
+</script>
+
+
+<script src="~/Content/Scripts/layer/layer.js"></script>
+<script src="~/Content/Scripts/admin.listpage.js"></script>
+@Html.Partial("~/Views/Common/_ViewPageJs.cshtml")

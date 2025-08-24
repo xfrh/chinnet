@@ -1,0 +1,344 @@
+﻿@using ManageSystem.Web.Models.Members
+@model  CenterIndexMemberModel
+@{
+    /**/
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "个人中心";
+}
+
+@section HeadSection{
+    <link href="~/Content/Scripts/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Scripts/searchableSelect/jquery.searchableSelect.css" rel="stylesheet" />
+    <style type="text/css">
+
+        .center-index-page .text {
+            padding: 4px 10px;
+        }
+
+        .give {
+            position: relative;
+            line-height: 30px;
+            width: 53px;
+            padding: 0;
+            text-align: center;
+            z-index: 9;
+            background-color: #337ab7;
+            border: 1px solid #337ab7;
+            list-style-type: none;
+            margin: 5px 10px;
+            box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+        }
+
+            .give, .give:hover .give:active {
+                color: #fff !important;
+            }
+
+        [class^="weui-icon-"],
+        [class*=" weui-icon-"] {
+            display: inline-block;
+            vertical-align: middle;
+            width: 24px;
+            height: 24px;
+            -webkit-mask-position: 50% 50%;
+            mask-position: 50% 50%;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-size: 100%;
+            mask-size: 100%;
+            background-color: currentColor;
+        }
+
+        .weui-icon-success-circle {
+            color: #07C160;
+            -webkit-mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010zm0-1.2a8.8%208.8%200%20100-17.6%208.8%208.8%200%20000%2017.6zm-1.172-6.242l5.809-5.808.848.849-5.95%205.95a1%201%200%2001-1.414%200L7%2012.426l.849-.849%202.98%202.98z%22%2F%3E%3C%2Fsvg%3E');
+            mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010zm0-1.2a8.8%208.8%200%20100-17.6%208.8%208.8%200%20000%2017.6zm-1.172-6.242l5.809-5.808.848.849-5.95%205.95a1%201%200%2001-1.414%200L7%2012.426l.849-.849%202.98%202.98z%22%2F%3E%3C%2Fsvg%3E');
+        }
+
+        .ladda-button[data-style=zoom-in] .ladda-label {
+            width: inherit;
+            line-height: normal;
+            clear: both;
+            float: inherit;
+        }
+        .spanbr {
+            float: left;
+            line-height: 4.5;
+            width: 80%;
+        }
+    </style>
+}
+
+
+<div class="mbx"><p>当前位置：首页 &gt; 个人中心 </p></div>
+<div class="user_center center-index-page ">
+    @*<div>
+            @Html.Action("_Menu", "Center")
+        </div>*@
+    <div class="user_center_r" style="width: 100%;padding-right: 10px;padding-left: 10px;">
+        <div class="user_center_r_a center-title">
+            <h2>
+                <span class="span-item span-item-action" style="margin-left: 0; " onclick="location.href='@Url.Action("Index1", "Center")'">个人信息</span>
+                <span style="display: none;" class="span-item" onclick="location.href='@Url.Action("Attestation", "Center")'">认证信息</span>
+            </h2>
+        </div>
+
+        @using (Html.BeginForm("index1", "Center", FormMethod.Post, new { enctype = "multipart/form-data", id = "createindex" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Id)
+            <input id="Hidden1" type="hidden" value="@ViewBag.HospitalId"  />
+            <ul style="border-bottom: none;">
+                <li>
+                    <span>用户名：</span>
+                    <span>
+                        @Model.LoginId
+                    </span>
+                </li>
+                <li class="post_main_li">
+                    <span>上传头像图片：</span>
+                    <span><input type="file" id="uploadFilePath" name="uploadFilePath" style="height: 25px; line-height: 25px;" /></span>
+                </li>
+                <li>
+                    <span>真实姓名<em style="color:red">*</em>：</span>
+                    <span>
+                        @if (Model.ProjectUploadItem!=""&&Model.ProjectUploadItem!=null&&Model.ProjectUploadItem!="[]")
+                        {
+                            @Html.TextBoxFor(m => m.Name, new { @class = "text", @disabled="disabled"})
+                            @Html.ValidationMessageFor(m => m.Name)
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.Name, new { @class = "text" })
+                            @Html.ValidationMessageFor(m => m.Name)
+                        }
+                    </span>
+                </li>
+                <li>
+                    <span>性别<em style="color:red">*</em>：</span>
+                    <span>
+                        <label style="font-weight:normal;">
+                            @Html.RadioButtonFor(m => m.Sex, "1") 男
+                        </label>
+                        <label style="font-weight:normal;">
+                            @Html.RadioButtonFor(m => m.Sex, "2") 女
+                        </label>
+                        <label style="font-weight:normal;">
+                            @Html.RadioButtonFor(m => m.Sex, "3") 保密
+                        </label>
+                        @Html.ValidationMessageFor(m => m.Sex)
+                    </span>
+                </li>
+                <li>
+                    <span>邮箱 <em style="color:red">*</em>：</span>
+                    <span>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "text", data_oemail = Model.Email, data_oemail_valid = Model.IsCheckEmail ? "true" : "false" })
+                        @Html.ValidationMessageFor(m => m.Email)
+                        @*@if (Model.IsCheckEmail)
+                        {
+                            <i class="__email-valid weui-icon-success-circle"></i>
+                        }
+                        else
+                        {
+                            <a class="give btn btn-large btn-success-help" href="javascript:void(0);" id="sendEmail" onclick="SendCheckEmail()">验证</a>
+                            <span class="__email-noValid" style="line-height: 1.5rem; color: #ea4f4f; font-weight: 600;">
+                                邮箱未验证，可能造成无法及时收到来自CHINET的通知。请单击这里进行&ensp;<a class="btn-link ladda-button" data-style="zoom-in" data-size="xs" data-spinner-color="#428bca" href="#" id="btnValidateEmail" onclick="SendCheckEmail(); return false;" style="text-decoration: none;"><strong style="display: inline-block; padding-bottom: 1px; border-bottom: 1px solid #428bca;">&ensp;验&ensp;证&ensp;</strong></a>
+                            </span>
+                            <span id="showEmailValidate" class="__email-noValid" style="line-height: 1.5rem; color: #07C160; margin-top: 8px; display: none;">
+                                邮箱验证通知已发送成功，请留意查收。如在&ensp;<strong id="emailSecText">0</strong>&ensp;秒后仍未收到CHINET邮箱验证通知，请确认邮箱无误后重新验证
+                            </span>
+                        }*@
+                    </span>
+                </li>
+                <li>
+                    <span>手机<em style="color:red"></em>：</span>
+                    <span>
+                        @Html.TextBoxFor(m => m.Phone, new { @class = "text" })
+                        @Html.ValidationMessageFor(m => m.Phone)
+                    </span>
+                </li>
+                <li>
+                    <span>所属省份<em style="color:red">*</em>：</span>
+                    <span>
+                        @Html.DropDownList("ProvinceId", Model.ProvinceList, new { @class = "text", @onchange = @"selectchange()" })
+                        @Html.ValidationMessageFor(m => m.ProvinceId)
+
+                    </span>
+                </li>
+                <div>
+                    <span style="margin-left:146px;">所属医院名称<em style="color:red">*</em>：</span>
+                    <span >
+                        @Html.DropDownList("HospitalId", Model.HospitalList, new { @class = "text",@onchange = @"selectchange()" })
+                        @Html.ValidationMessageFor(m => m.HospitalId)
+                    </span>
+                    @*<div style="margin-top:7px;" id="div1">
+                        <span class="__email-noValid" style="line-height: 1.5rem; color: #ea4f4f; font-weight: 600; margin-left:240px;">
+                            没找到医院请在下方添加
+                        </span>
+                    </div>*@
+                </div>
+                <li id="li1">
+                    <span>医院名称<em style="color:red"></em>：</span>
+                    <span>
+                        @Html.TextBoxFor(m => m.HospitalName, new { @class = "text" })
+                        @Html.ValidationMessageFor(m => m.HospitalName)
+                    </span>
+                </li>
+                <li style="display: none;">
+                    <span>可用积分：</span>
+                    <span style="color: #ff6700;">   @Model.IntegralAmount  </span>
+                </li>
+
+                <li class="post_main_li">
+                    <span>上传图片：</span>
+                    <span><input type="file" id="uploadFilePath" name="uploadFilePath" style="height: 25px; line-height: 25px;" /></span>
+                </li>
+            </ul>
+
+            <h2>修改密码</h2>
+            <ul>
+                <li>
+                    <span>原密码：</span>
+                    <span>
+                        @Html.PasswordFor(m => m.Password, new { @class = "text" })
+                        @Html.ValidationMessageFor(m => m.Password)
+                    </span>
+                </li>
+                <li>
+                    <span>新密码：</span>
+                    <span>
+                        @Html.PasswordFor(m => m.NewPassword, new { @class = "text" })
+                        @Html.ValidationMessageFor(m => m.NewPassword)
+                    </span>
+                </li>
+                <li>
+                    <span>确定密码：</span>
+                    <span>
+                        @Html.PasswordFor(m => m.NewPassword2, new { @class = "text" })
+                        @Html.ValidationMessageFor(m => m.NewPassword2)
+                    </span>
+                </li>
+            </ul>
+            <input type="button" class="button" value="确认提交" onclick="Validators()">
+        }
+    </div>
+</div>
+
+@section FooterSection{
+    <script id="template_email_noValidate" type="text/html">
+        <span class="__email-noValid" style="line-height: 1.5rem; color: #ea4f4f; font-weight: 600;">
+            邮箱未验证，可能造成无法及时收到来自CHINET的通知。请单击这里进行&ensp;<a class="btn-link ladda-button" data-style="zoom-in" data-size="xs" data-spinner-color="#428bca" href="#" id="btnValidateEmail" onclick="SendCheckEmail(); return false;" style="text-decoration: none;"><strong style="display: inline-block; padding-bottom: 1px; border-bottom: 1px solid #428bca;">&ensp;验&ensp;证&ensp;</strong></a>
+        </span>
+        <span id="showEmailValidate" class="__email-noValid" style="line-height: 1.5rem; color: #07C160; margin-top: 8px; display: none;">
+            邮箱验证通知已发送成功，请留意查收。如在&ensp;<strong id="emailSecText">0</strong>&ensp;秒后仍未收到CHINET邮箱验证通知，请确认邮箱无误后重新验证
+        </span>
+    </script>
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/template-web.js"></script>
+    <script src="~/Content/Scripts/searchableSelect/jquery.searchableSelect.js"></script>
+    <script>
+
+        $(function () {
+            $('#HospitalId').searchableSelect();
+            var id = $("#Hidden1").val();
+            if (id != '0') {
+                $("#li1").css("display", "none");
+                $("#div1").css("display", "none");
+            }
+        });
+
+        function Validators()
+        {
+            var HospitalId = $('#HospitalId').val();
+            var HospitalName = $('#HospitalName').val();
+            var HospitalId1 = $("#Hidden1").val();
+            if (HospitalId == 0 && HospitalName == null)
+            {
+                return ErrorWindow("请选择医院或者添加医院", true);
+            }
+            if (HospitalId == 0&&HospitalName != null) {
+                if (HospitalName.length < 5) {
+                    return ErrorWindow("请填写完整的医院名称", true);
+                };
+            }
+            if (HospitalId1!=0&& HospitalId == 0 && HospitalName != null)
+            {
+                $('#HospitalName').val("");
+            }
+            $("#createindex").submit();
+        }
+        function SendCheckEmail() {
+            var $btn = $('#btnValidateEmail');
+            var l = Ladda.create(document.getElementById('btnValidateEmail'));
+            if (!l.isLoading()) {
+
+                $.ajax({
+                    method: 'POST',
+                    url: '/Center/SendCheckEmail',
+                    data: { Email: $("#Email").val() },
+                    dataType: 'JSON',
+                    beforeSend: function () { l.start(); },
+                    success: function (res) {
+                        setTimeout(function () {
+                            l.stop();
+
+                            layer.alert(res.message);
+                            if (res.status) {
+                                $btn.attr('onclick', 'return false;').css('cursor', 'not-allowed');
+                                $('#showEmailValidate').show();
+                                daojishi(60);
+                            }
+                            else {
+                                $('#showEmailValidate').hide();
+                            }
+                        }, 1500);
+
+                        //var sendEmailbtn = document.getElementById("sendEmail");
+                        //sendEmailbtn.onclick = "";
+                        //sendEmailbtn.text = "已发送";
+                    },
+                    error: function () {
+                        layer.alert('网络请求错误');
+                    }
+                });
+            }
+            return false;
+        }
+
+        function daojishi(sec) {
+            $('#emailSecText').text(sec);
+            if (sec === 0) {
+                var $btn = $('#btnValidateEmail');
+                $btn.attr('onclick', 'SendCheckEmail(); return false;').css('cursor', 'pointer');
+                $('#showEmailValidate').show();
+                return;
+            }
+            setTimeout(_daojishi(--sec), 1000);
+        }
+
+        function _daojishi(sec) {
+            return function () {
+                daojishi(sec);
+            }
+        }
+
+        $('#Email').on('input propertychange', function () {
+            var $email = $('#Email'),
+                $span = $email.closest('span');
+            var nemail = $.trim($email.val()),
+                oemail = $email.data('oemail'),
+                oemailValid = $email.data('oemail-valid');
+            if (oemail) {
+                if (nemail === oemail && (oemailValid === true || oemailValid === 'true')) {
+                    $('i[class*="__email-valid"], span[class="__email-noValid"]').remove();
+                    $span.append('<i class="__email-valid weui-icon-success-circle"></i>');
+                }
+                else {
+                    $('i[class*="__email-valid"], span[class="__email-noValid"]').remove();
+                    $span.append(template('template_email_noValidate', {}));
+                }
+            }
+        });
+    </script>
+}

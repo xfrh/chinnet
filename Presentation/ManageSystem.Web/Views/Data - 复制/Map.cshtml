@@ -1,0 +1,43 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "主页";
+}
+
+<link href="~/Content/Css/Datas/Map.css" rel="stylesheet" />
+
+<style>
+   
+</style>
+<div style="overflow:hidden;">
+   
+    <div  class="data-home-box" style="margin-top: 15px;">
+        <ul id="change_chart" class="clickable clearfix greybuttons">
+            <li class="" data-name="热图" id="change_chart_chart" onclick="location.href='/Chinet'" style="margin-left: 0px;">热图</li>
+            <li class="" data-name="柱状图" id="change_chart_trend" onclick="location.href='/Data/AntibioticDrugFast'">柱状图</li>
+            <li class="" data-name="趋势图" id="change_chart_chart" onclick="location.href='/Data/GermYear'">趋势图</li>
+            <li class="active" data-name="关于CHINET" id="change_chart_map" onclick="location.href='/Data/Map'">关于CHINET</li>
+        </ul>
+    </div>
+    <div class="chars-title2 ">CHINET中国细菌耐药监测网成员单位分布图</div>
+    <div style="width:100%;display:block;overflow:hidden;">
+        <div id="main" style="width:1000px;">  </div>
+        <div style="width:100%;display:inline-block;    margin-bottom: 30px; font-size: 14px;">
+            <div style=" color: #666666; text-align:center;">2004年9月，由复旦大学附属华山医院抗生素研究所汪复教授联合国内已开展细菌耐药性监测工作多年的8所医院，共同组建“CHINET中国细菌耐药监测网（China Antimicrobial Surveillance Network, CHINET）”。目前该监测网成员单位包含来自全国28个省、市或自治区的39所医院，其中综合性医院34所，儿童专科医院5所；三级医院35所，二级医院4所。</div>
+        </div>
+    </div>
+</div>
+
+@section  FooteMenu
+{
+
+}
+
+<input type="hidden" id="returnUrl" value="@this.Request.QueryString["returnUrl"]" />
+<input type="hidden" id="isHaveLogin" value="@this.Request.QueryString["type"]" />
+
+<script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+<script src="~/Content/Scripts/Echarts/bmap.js"></script>
+<script src="~/Content/Scripts/Echarts/china.js"></script>
+
+<script src="~/Content/Scripts/Echarts/theme/blue.js?v=1"></script>
+<script src="~/Content/Scripts/Datas/Map.js?v=123"></script>

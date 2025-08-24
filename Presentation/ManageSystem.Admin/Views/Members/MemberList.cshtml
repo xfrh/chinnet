@@ -1,0 +1,213 @@
+﻿@model  ManageSystem.Admin.Models.Members.MemberModel
+
+@{
+    ViewBag.Title = "会员管理";
+
+    bool IsEdit = UserinfoExtensions.CheckFunction(Url.Action("MemberEdit"));
+    bool IsView = UserinfoExtensions.CheckFunction(Url.Action("MemberView"));
+}
+
+@section HeadSection {
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "会员管理", SecondName = "会员管理", LocationName = this.ViewBag.Title }); }
+}
+
+@Html.AntiForgeryToken()
+
+<div class="page-body">
+
+    <div class="row manage-page">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-yellow manage-title-box">
+                    <span class="widget-caption manage-title"><i class="glyphicon glyphicon-th "></i>@ViewBag.Title </span>
+                    <div class="widget-buttons">
+                        <a href="#" data-toggle="maximize"><i class="fa fa-expand"></i></a>
+                        <a href="#" data-toggle="collapse"><i class="fa fa-minus"></i></a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+
+                        <div id="searchable_filter" class="dataTables_filter manage-but-box">
+                            <div style="width: 100%;">
+                                @Html.ButtonHtml(HtmlButtonType.Add, "MemberCreate", "Members")
+                                @Html.ButtonHtml(HtmlButtonType.Delete, "MemberDelete", "Members")
+                                @Html.ButtonHtml(HtmlButtonType.Import, "MemberImport", "Members")
+                            </div>
+                            <div style="width: 100%;">
+                                <div class="dataTables_filter manage-but-box">
+                                    <label class="lb-left" style="margin-left: 0;">@Html.NopLabelFor(model => model.Name)：</label>
+                                    <label class="lb-right"><input type="text" id="Name" class="form-control input-sm  search" aria-controls="searchable" name="Name" style="width:150px;" /></label>
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.NickName)：</label>
+                                    <label class="lb-right"><input type="text" id="NickName" class="form-control input-sm  search" aria-controls="searchable" name="NickName" style="width:150px;" /></label>
+                                    <label class="lb-left">@Html.NopLabelFor(model => model.Phone)：</label>
+                                    <label class="lb-right">  <input type="text" id="Phone" class="form-control input-sm  search" aria-controls="searchable" name="Phone" style="width:150px;" /></label>
+                                    <label class="lb-left">
+                                        <img alt="医院名称" src="/Content/images/ico-help.gif" title="医院名称" draggable="false" /><label for="hospital" title="医院名称">医院名称</label><span class="html-label-required">*</span>：
+                                    </label>
+                                    <label class="lb-right">
+                                        <input type="text" id="hospital" name="hospital" class="form-control input-sm  search" aria-controls="searchable" style="width: 150px;" />
+                                    </label>
+                                </div>
+                                <div class="dataTables_filter manage-but-box">
+                                    <label class="lb-left" style="margin-left: 0;">@Html.NopLabelFor(model => model.LoginId)：</label>
+                                    <label class="lb-right"><input type="text" id="LoginId" class="form-control input-sm  search" aria-controls="searchable" name="NickName" style="width:150px;" /></label>
+                                    <label class="lb-left">@Html.NopLabelFor(m => m.StatusList)：</label>
+                                    <div class="form-control ddl lb-right" style="width: 150px; margin-right: 20px;">
+                                        @Html.DropDownList("Status", Model.StatusList, new { @class = "form-control dropdown" })
+                                    </div>
+                                    <label class="lb-left">@Html.NopLabelFor(m => m.TypeList)：</label>
+                                    <div class="form-control ddl lb-right" style="width: 150px; margin-right: 20px;">
+                                        @Html.DropDownList("Type", Model.TypeList, new { @class = "form-control dropdown" })
+                                    </div>
+                                    <label class="lb-left">@Html.NopLabelFor(m => m.ProjectType)：</label>
+                                    <div class="form-control ddl lb-right" style="width: 150px; margin-right: 20px;">
+                                        @Html.DropDownList("ProjectType", Model.ProjectTypeList, new { @class = "form-control dropdown" })
+                                    </div>
+                                    <label>
+                                        <input type="button" id="btn-search" class="btn btn-blue" value="查 询" />
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table table-striped table-bordered dataTable no-footer table-select" id="ManageTableDiv" aria-describedby="editabledatatable_info">
+                            <div id="data-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*删除数据的表单*@
+@using (Html.BeginForm("MemberDelete", "Members", FormMethod.Post, new { id = "delete-selected-form" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="selectedIds" name="selectedIds" value="" />
+
+}
+
+<script>
+    $(document).ready(function () {
+
+        $("#data-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("MemberList"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 30, 50]
+            },
+            scrollable: true,
+            groupable: true,
+            dataBound: onDataBound,
+            columns: [
+                {
+                    field: "Id",
+                    headerTemplate: "  <div class='' style='text-align: center;'>    <label><input type='checkbox' id='mastercheckbox' /><span class='text'></span> </label>   </div>",
+                    headerAttributes: { style: "text-align:center" },
+                    attributes: { style: "text-align:center" },
+                    template: " <div class='' style='text-align: center;'>    <label><input type='checkbox' class='checkboxGroups'  value='#=Id#' /><span class='text'></span> </label>   </div> ",
+                    width: 50
+                },
+            	{
+                    field: "LoginId",
+            	    title: "登录账号",
+            	    width: 150
+            	},
+		        {
+		            field: "Name",
+		            title: "真实姓名",
+                    width: 150
+		        },
+		        {
+		            field: "Phone",
+		            title: "手机号码",
+                    width: 150
+		        },
+                {
+                    field: 'Hospital',
+                    title: '所在医院',
+                    width: 150
+                },
+                {
+                    field: 'DoctorTitle',
+                    title: '职称',
+                    width: 100
+                },
+		        {
+		            field: "ProjectItem",
+		            title: "项目名称",
+		        },
+		        {
+		            field: "Type",
+		            title: "帐号类型",
+		            width: 100
+                },
+                {
+                    field: "InsertTime",
+                    title: "注册时间",
+                    width: 160
+                },
+                {
+                    field: "Id",
+                    title: "操作",
+                    width: 150,
+                    template: "@Html.KendoUIEditAndView(IsView, "MemberView", IsEdit, "MemberEdit")"
+                }
+            ]
+        });
+    });
+
+    //设置查询参数
+    function additionalData() {
+
+        var data = {
+            Name: $("#@Html.FieldNameFor(m => m.Name)").val(),
+            NickName: $("#@Html.FieldNameFor(m => m.NickName)").val(),
+            Phone: $("#@Html.FieldNameFor(m => m.Phone)").val(),
+            Status: $("#@Html.FieldNameFor(m=>m.Status)").val(),
+            Type: $("#@Html.FieldNameFor(m=>m.Type)").val(),
+            hospital: $('#hospital').val(),
+            LoginId: $("#@Html.FieldNameFor(m => m.LoginId)").val(),
+            ProjectType:$("#@Html.FieldNameFor(m=>m.ProjectType)").val()
+        };
+
+        addAntiForgeryToken(data);
+        return data;
+    }
+
+</script>
+
+
+<script src="~/Content/Scripts/admin.listpage.js"></script>

@@ -1,0 +1,485 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3DC45396-DC16-4685-8345-3E8F401E3FB1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ManageSystem.Services</RootNamespace>
+    <AssemblyName>ManageSystem.Services</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aspose.Words, Version=18.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Aspose.Words.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Dapper, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetDBF, Version=6.0.0.3, Culture=neutral, PublicKeyToken=9c071727b589770e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DotNetDBF.6.0.0.3\lib\net35\DotNetDBF.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.Extended, Version=6.0.0.0, Culture=neutral, PublicKeyToken=05b7e29bdd433584, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.Extended.6.0.0.86\lib\net45\EntityFramework.Extended.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPPlus.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPPlus.Extensions.1.0.0.0\lib\net40\EPPlus.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.0.0.999, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SharpZipLib.1.0.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageResizer">
+      <HintPath>..\..\packages\ImageResizer.3.4.3\lib\ImageResizer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Office.Interop.Word.15.0.4797.1003\lib\net20\Microsoft.Office.Interop.Word.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Senparc.Weixin, Version=4.6.0.23902, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Senparc.Weixin.4.6.2\lib\net45\Senparc.Weixin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Senparc.Weixin.MP, Version=14.2.3.32547, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Senparc.Weixin.MP.14.2.3\lib\net45\Senparc.Weixin.MP.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Senparc.Weixin.MP.MvcExtension, Version=4.0.1.32125, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Senparc.Weixin.MP.MVC.4.1.0\lib\net45\Senparc.Weixin.MP.MvcExtension.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Senparc.Weixin.QY, Version=4.1.1.19046, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Senparc.Weixin.QY.4.1.1\lib\net45\Senparc.Weixin.QY.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StructureMap, Version=2.6.1.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\structuremap.2.6.1.0\lib\StructureMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.20505.0\lib\net40\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.4.0.20505.0\lib\net40\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.2.0.20505.0\lib\net40\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.20505.0\lib\net40\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.20505.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.20505.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Articles\ArticleAttachmentService.cs" />
+    <Compile Include="Articles\ArticleExtensions.cs" />
+    <Compile Include="Articles\ArticleService.cs" />
+    <Compile Include="Articles\ArticleTypeService.cs" />
+    <Compile Include="Articles\ArticleViewService.cs" />
+    <Compile Include="Articles\IArticleAttachmentService.cs" />
+    <Compile Include="Articles\IArticleService.cs" />
+    <Compile Include="Articles\IArticleTypeService.cs" />
+    <Compile Include="Articles\IArticleViewService.cs" />
+    <Compile Include="Authentication\FormsMemberAuthenticationService.cs" />
+    <Compile Include="Authentication\FormsAuthenticationService.cs" />
+    <Compile Include="Authentication\IAuthenticationService.cs" />
+    <Compile Include="BaseService.cs" />
+    <Compile Include="Caching\CacheKey.cs" />
+    <Compile Include="Chart\BarChartService.cs" />
+    <Compile Include="Chart\BarChartWithItemDataService.cs" />
+    <Compile Include="Chart\DataSegmentService.cs" />
+    <Compile Include="Chart\HeatmapItemService.cs" />
+    <Compile Include="Chart\HeatmapService.cs" />
+    <Compile Include="Chart\IBarChartService.cs" />
+    <Compile Include="Chart\IBarChartWithItemDataService.cs" />
+    <Compile Include="Chart\IDataSegmentService.cs" />
+    <Compile Include="Chart\IHeatmapItemService.cs" />
+    <Compile Include="Chart\IHeatmapService.cs" />
+    <Compile Include="Ctr\ClinicalTrialReportService.cs" />
+    <Compile Include="Ctr\IClinicalTrialReportService.cs" />
+    <Compile Include="Members\IMICPermissionapplication.cs" />
+    <Compile Include="Members\MICPermissionapplicationSevers.cs" />
+    <Compile Include="Satellites\ISatelliteService.cs" />
+    <Compile Include="Satellites\ISatelliteUserService .cs" />
+    <Compile Include="Satellites\SatelliteService.cs" />
+    <Compile Include="Satellites\SatelliteUserService.cs" />
+    <Compile Include="SHChart\ISHBarChartService.cs" />
+    <Compile Include="SHChart\ISHBarChartWithItemDataService.cs" />
+    <Compile Include="Chart\ITrendChartService.cs" />
+    <Compile Include="Chart\ITrendChartWithItemDataService.cs" />
+    <Compile Include="SHChart\ISHDataSegmentService.cs" />
+    <Compile Include="SHChart\SHBarChartService.cs" />
+    <Compile Include="SHChart\SHBarChartWithItemDataService.cs" />
+    <Compile Include="Chart\TrendChartService.cs" />
+    <Compile Include="Chart\TrendChartWithItemDataService.cs" />
+    <Compile Include="Common\WebConfigService.cs" />
+    <Compile Include="Configuration\ISettingService.cs" />
+    <Compile Include="Configuration\SettingExtensions.cs" />
+    <Compile Include="Configuration\SettingService.cs" />
+    <Compile Include="Configuration\WebSettingService.cs" />
+    <Compile Include="Configuration\WeixinSettingService.cs" />
+    <Compile Include="CRE\CreBackstageService.cs" />
+    <Compile Include="CRE\CreDataService.cs" />
+    <Compile Include="CRE\CreUploatDataService.cs" />
+    <Compile Include="CRE\ICreBackstageService.cs" />
+    <Compile Include="CRE\ICreDataService.cs" />
+    <Compile Include="CRE\ICreUploatDataService.cs" />
+    <Compile Include="CRProjects\CRProjectLogService.cs" />
+    <Compile Include="CRProjects\ICRProjectLogService.cs" />
+    <Compile Include="CRs\CRItemService.cs" />
+    <Compile Include="CRs\CRLogService.cs" />
+    <Compile Include="CRs\CRService.cs" />
+    <Compile Include="CRs\ICRItemService.cs" />
+    <Compile Include="CRs\ICRLogService.cs" />
+    <Compile Include="CRs\ICRService.cs" />
+    <Compile Include="DataInput\IOLDataInputService.cs" />
+    <Compile Include="DataInput\IOLGermService.cs" />
+    <Compile Include="DataInput\IOLMemberService.cs" />
+    <Compile Include="DataInput\OLDataInputService.cs" />
+    <Compile Include="DataInput\IOLFieldmodelService.cs" />
+    <Compile Include="DataInput\IOLProjectService.cs" />
+    <Compile Include="DataInput\IOLTemplateService.cs" />
+    <Compile Include="DataInput\OLFieldmodelService.cs" />
+    <Compile Include="DataInput\OLGermService.cs" />
+    <Compile Include="DataInput\OLMemberService.cs" />
+    <Compile Include="DataInput\OLProjectService.cs" />
+    <Compile Include="DataInput\OLTemplateService.cs" />
+    <Compile Include="Datas\DataGermYearService.cs" />
+    <Compile Include="Datas\DataAntibioticDrugFastService.cs" />
+    <Compile Include="Datas\IDataGermYearService.cs" />
+    <Compile Include="Datas\IDataAntibioticDrugFastService.cs" />
+    <Compile Include="Documents\DocumentDownloadLogService.cs" />
+    <Compile Include="Documents\DocumentService.cs" />
+    <Compile Include="Documents\IDocumentDownloadLogService.cs" />
+    <Compile Include="Documents\IDocumentService.cs" />
+    <Compile Include="HttpContext\DefaultSessionManager.cs" />
+    <Compile Include="HttpContext\ISessionManager.cs" />
+    <Compile Include="HttpContext\RedisSessionManager.cs" />
+    <Compile Include="IBaseService.cs" />
+    <Compile Include="Infrastructure\AzureWebsitesMachineNameProvider.cs" />
+    <Compile Include="Infrastructure\DefaultMachineNameProvider.cs" />
+    <Compile Include="Infrastructure\IMachineNameProvider.cs" />
+    <Compile Include="Installation\CodeFirstInstallationService.cs" />
+    <Compile Include="Installation\IInstallationService.cs" />
+    <Compile Include="Installation\SqlFileInstallationService.cs" />
+    <Compile Include="Integrals\IIntegralSettingService.cs" />
+    <Compile Include="Integrals\IntegralSettingService.cs" />
+    <Compile Include="LogData\IActionLogService.cs" />
+    <Compile Include="LogData\ActionLogService.cs" />
+    <Compile Include="LogData\ISystemLogService.cs" />
+    <Compile Include="LogData\SystemLogService.cs" />
+    <Compile Include="Media\DownloadService.cs" />
+    <Compile Include="Media\Extensions.cs" />
+    <Compile Include="Media\IDownloadService.cs" />
+    <Compile Include="Media\IPictureService.cs" />
+    <Compile Include="Media\PictureService.cs" />
+    <Compile Include="Media\ResizeType.cs" />
+    <Compile Include="CRProjects\ICRProjectItemService.cs" />
+    <Compile Include="CRProjects\ICRProjectService.cs" />
+    <Compile Include="CRProjects\CRProjectItemService.cs" />
+    <Compile Include="CRProjects\CRProjectService.cs" />
+    <Compile Include="Medicine\BacteriaTypeService.cs" />
+    <Compile Include="Medicine\HospitalWardLocationService.cs" />
+    <Compile Include="Medicine\IHospitalWardLocationService.cs" />
+    <Compile Include="Medicine\IMedicalAntibioticRuleService.cs" />
+    <Compile Include="Medicine\IMedicalAntibioticService.cs" />
+    <Compile Include="Medicine\IMedicalAntibioticResultService.cs" />
+    <Compile Include="Medicine\IMedicalDataDisposeLogService.cs" />
+    <Compile Include="Medicine\IMedicalDataHandleLockService.cs" />
+    <Compile Include="Medicine\IMedicalDataProjectService.cs" />
+    <Compile Include="Medicine\IMedicalOrganismService.cs" />
+    <Compile Include="Medicine\IMedicalOrganismTypeService.cs" />
+    <Compile Include="Medicine\IMedicalSpecTypeService.cs" />
+    <Compile Include="Medicine\IMedicalDepartmentTypeService.cs" />
+    <Compile Include="Medicine\IMedicalDataWardTypeService.cs" />
+    <Compile Include="Medicine\MedicalAntibioticRuleService.cs" />
+    <Compile Include="Medicine\MedicalAntibioticService.cs" />
+    <Compile Include="Medicine\MedicalAntibioticResultService.cs" />
+    <Compile Include="Medicine\MedicalDataDisposeLogService.cs" />
+    <Compile Include="Medicine\MedicalDataHandleLockService.cs" />
+    <Compile Include="Medicine\MedicalDataItemValidateService.cs" />
+    <Compile Include="Medicine\DoctorTitleService.cs" />
+    <Compile Include="Medicine\HospitalDepartmentService.cs" />
+    <Compile Include="Medicine\HospitalService.cs" />
+    <Compile Include="Medicine\IBacteriaTypeService.cs" />
+    <Compile Include="Medicine\IMedicalDataItemValidateService.cs" />
+    <Compile Include="Medicine\IDoctorTitleService.cs" />
+    <Compile Include="Medicine\IHospitalDepartmentService.cs" />
+    <Compile Include="Medicine\IHospitalService.cs" />
+    <Compile Include="Medicine\IMedicalDataItemService.cs" />
+    <Compile Include="Medicine\IMedicalDataService.cs" />
+    <Compile Include="Medicine\ISpecimenService.cs" />
+    <Compile Include="Medicine\MedicalDataItemService.cs" />
+    <Compile Include="Medicine\MedicalDataProjectService.cs" />
+    <Compile Include="Medicine\MedicalDataValidationRulesExtensions.cs" />
+    <Compile Include="Medicine\MedicalDataServiceExtensions.cs" />
+    <Compile Include="Medicine\MedicalDataService.cs" />
+    <Compile Include="Medicine\MedicalDataWordServiceExtensions.cs" />
+    <Compile Include="Medicine\MedicalOrganismService.cs" />
+    <Compile Include="Medicine\MedicalOrganismTypeService.cs" />
+    <Compile Include="Medicine\MedicalSpecTypeService.cs" />
+    <Compile Include="Medicine\MedicalDepartmentTypeService.cs" />
+    <Compile Include="Medicine\MedicalDataWardTypeService.cs" />
+    <Compile Include="Medicine\Model\GetAntibioticResultModel.cs" />
+    <Compile Include="Medicine\Model\MedicalDataWordModel.cs" />
+    <Compile Include="Medicine\SpecimenService.cs" />
+    <Compile Include="Medicine\Statistics\MedicalStatisticsService.cs" />
+    <Compile Include="Medicine\Statistics\HospitalStatisticsService.cs" />
+    <Compile Include="Meetings\IMeetingApplyService.cs" />
+    <Compile Include="Meetings\IMeetingCollectService.cs" />
+    <Compile Include="Meetings\IMeetingCommentService.cs" />
+    <Compile Include="Meetings\IMeetingService.cs" />
+    <Compile Include="Meetings\IMeetingTypeService.cs" />
+    <Compile Include="Meetings\IMeetingViewService.cs" />
+    <Compile Include="Meetings\MeetingApplyService.cs" />
+    <Compile Include="Meetings\MeetingCollectService.cs" />
+    <Compile Include="Meetings\MeetingCommentService.cs" />
+    <Compile Include="Meetings\MeetingServiceExtensions.cs" />
+    <Compile Include="Meetings\MeetingService.cs" />
+    <Compile Include="Meetings\MeetingTypeExtensions.cs" />
+    <Compile Include="Meetings\MeetingTypeService.cs" />
+    <Compile Include="Meetings\MeetingViewService.cs" />
+    <Compile Include="Members\FeedbackService.cs" />
+    <Compile Include="Members\IFeedbackService.cs" />
+    <Compile Include="Members\IMemberAddressService.cs" />
+    <Compile Include="Members\IMemberAttestationService.cs" />
+    <Compile Include="Members\IMemberCartService.cs" />
+    <Compile Include="Members\IMemberIntegralLogService.cs" />
+    <Compile Include="Members\MemberAddressService.cs" />
+    <Compile Include="Members\MemberAttestationService.cs" />
+    <Compile Include="Members\MemberCartService.cs" />
+    <Compile Include="Members\MemberExtensions.cs" />
+    <Compile Include="Members\IMemberService.cs" />
+    <Compile Include="Members\MemberIntegralLogService.cs" />
+    <Compile Include="Members\MemberService.cs" />
+    <Compile Include="Messages\MessageEmailService.cs" />
+    <Compile Include="Messages\IMessageEmailService.cs" />
+    <Compile Include="MicdataDistribution\ddAntibioticService.cs" />
+    <Compile Include="MicdataDistribution\ddCategoryService.cs" />
+    <Compile Include="MicdataDistribution\ddCategoryValueService.cs" />
+    <Compile Include="MicdataDistribution\ddDocumentItemService.cs" />
+    <Compile Include="MicdataDistribution\ddDocumentService.cs" />
+    <Compile Include="MicdataDistribution\ddGermService.cs" />
+    <Compile Include="MicdataDistribution\ddYearService.cs" />
+    <Compile Include="MicdataDistribution\IddAntibioticService.cs" />
+    <Compile Include="MicdataDistribution\IddCategoryService.cs" />
+    <Compile Include="MicdataDistribution\IddCategoryValueService.cs" />
+    <Compile Include="MicdataDistribution\IddDocumentItemService.cs" />
+    <Compile Include="MicdataDistribution\IddDocumentService.cs" />
+    <Compile Include="MicdataDistribution\IddGermService.cs" />
+    <Compile Include="MicdataDistribution\IddYearService.cs" />
+    <Compile Include="Orders\IOrderAddressService.cs" />
+    <Compile Include="Orders\IOrderItemService.cs" />
+    <Compile Include="Orders\IOrderLogService.cs" />
+    <Compile Include="Orders\IOrderService.cs" />
+    <Compile Include="Orders\OrderAddressService.cs" />
+    <Compile Include="Orders\OrderItemService.cs" />
+    <Compile Include="Orders\OrderLogService.cs" />
+    <Compile Include="Orders\OrderService.cs" />
+    <Compile Include="Organism\BacteriaDetailedDataService.cs" />
+    <Compile Include="Organism\IBacteriaDetailedDataService.cs" />
+    <Compile Include="Products\ProductExtensions.cs" />
+    <Compile Include="Products\IProductBrandService.cs" />
+    <Compile Include="Products\IProductCategoryService.cs" />
+    <Compile Include="Products\IProductImageService.cs" />
+    <Compile Include="Products\IProductService.cs" />
+    <Compile Include="Products\ProductBrandService.cs" />
+    <Compile Include="Products\ProductCategoryService.cs" />
+    <Compile Include="Products\ProductImageService.cs" />
+    <Compile Include="Products\ProductService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Researches\IResearchCommentService.cs" />
+    <Compile Include="Researches\IResearchApplyService.cs" />
+    <Compile Include="Researches\IResearchCollectService.cs" />
+    <Compile Include="Researches\IResearchViewService.cs" />
+    <Compile Include="Researches\IResearchService.cs" />
+    <Compile Include="Researches\IResearchTypeService.cs" />
+    <Compile Include="Researches\ResearchCommentService.cs" />
+    <Compile Include="Researches\ResearchApplyService.cs" />
+    <Compile Include="Researches\ResearchCollectService.cs" />
+    <Compile Include="Researches\ResearchViewService.cs" />
+    <Compile Include="Researches\ResearchServiceExtensions.cs" />
+    <Compile Include="Researches\ResearchService.cs" />
+    <Compile Include="Researches\ResearchTypeService.cs" />
+    <Compile Include="ScoringModule\DataQualityActionLogService.cs" />
+    <Compile Include="ScoringModule\DataQualityHospitalPageInitService.cs" />
+    <Compile Include="ScoringModule\DataQualityHospitalService.cs" />
+    <Compile Include="ScoringModule\DataQualityJuryService.cs" />
+    <Compile Include="ScoringModule\DataQualityReevaluationApplyService.cs" />
+    <Compile Include="ScoringModule\DataQualityScoreDetailService.cs" />
+    <Compile Include="ScoringModule\DataQualityScoreRecordService.cs" />
+    <Compile Include="ScoringModule\DataQualityScoreService.cs" />
+    <Compile Include="ScoringModule\IDataQualityActionLogService.cs" />
+    <Compile Include="ScoringModule\IDataQualityHospitalPageInitService.cs" />
+    <Compile Include="ScoringModule\IDataQualityHospitalService.cs" />
+    <Compile Include="ScoringModule\IDataQualityJuryService.cs" />
+    <Compile Include="ScoringModule\IDataQualityReevaluationApplyService.cs" />
+    <Compile Include="ScoringModule\IDataQualityScoreDetailService.cs" />
+    <Compile Include="ScoringModule\IDataQualityScoreRecordService.cs" />
+    <Compile Include="ScoringModule\IDataQualityScoreService.cs" />
+    <Compile Include="Security\EncryptionService.cs" />
+    <Compile Include="Security\IEncryptionService.cs" />
+    <Compile Include="SHChart\SHDataSegmentService.cs" />
+    <Compile Include="Survey\ISurveyRecordService.cs" />
+    <Compile Include="Survey\ISurveySubjectService.cs" />
+    <Compile Include="Survey\ISurveySubjectOptionService.cs" />
+    <Compile Include="Survey\SurveyRecordService.cs" />
+    <Compile Include="Survey\SurveySubjectService.cs" />
+    <Compile Include="Survey\SurveySubjectOptionService.cs" />
+    <Compile Include="Survey\SurveySurveyService.cs" />
+    <Compile Include="Survey\ISurveySurveyService.cs" />
+    <Compile Include="SystemSet\AutoCodeService.cs" />
+    <Compile Include="SystemSet\FunctionExtensions.cs" />
+    <Compile Include="SystemSet\FunctionService.cs" />
+    <Compile Include="SystemSet\IAutoCodeService.cs" />
+    <Compile Include="SystemSet\IFunctionService.cs" />
+    <Compile Include="SystemSet\IRoleFunctionService.cs" />
+    <Compile Include="SystemSet\IRoleService.cs" />
+    <Compile Include="SystemSet\ISatelliteMenuRoleService.cs" />
+    <Compile Include="SystemSet\ISatelliteMenuService.cs" />
+    <Compile Include="SystemSet\ISystemConfigService.cs" />
+    <Compile Include="SystemSet\ISatelliteRoleService.cs" />
+    <Compile Include="SystemSet\IUserRoleService.cs" />
+    <Compile Include="SystemSet\IAreaCodeService.cs" />
+    <Compile Include="SystemSet\IValidateCodeService.cs" />
+    <Compile Include="SystemSet\RoleFunctionService.cs" />
+    <Compile Include="SystemSet\RoleService.cs" />
+    <Compile Include="SystemSet\SatelliteMenuService.cs" />
+    <Compile Include="SystemSet\SatelliteMenuRoleService.cs" />
+    <Compile Include="SystemSet\SystemConfigService.cs" />
+    <Compile Include="SystemSet\SatelliteRoleService.cs" />
+    <Compile Include="SystemSet\UserRoleService.cs" />
+    <Compile Include="SystemSet\AreaService.cs" />
+    <Compile Include="SystemSet\ValidateCodeService.cs" />
+    <Compile Include="Tasks\IScheduleTaskService.cs" />
+    <Compile Include="Tasks\ITask.cs" />
+    <Compile Include="Tasks\ScheduleTaskService.cs" />
+    <Compile Include="Tasks\Task.cs" />
+    <Compile Include="Tasks\TaskManager.cs" />
+    <Compile Include="Tasks\TaskThread.cs" />
+    <Compile Include="Tasks\Test2.cs" />
+    <Compile Include="Tasks\Test.cs" />
+    <Compile Include="Teams\ITeamCREContentService.cs" />
+    <Compile Include="Teams\ITeamService.cs" />
+    <Compile Include="Teams\TeamCREContentService.cs" />
+    <Compile Include="Teams\TeamService.cs" />
+    <Compile Include="Users\ChangePasswordRequest.cs" />
+    <Compile Include="Users\UserinfoExtensions.cs" />
+    <Compile Include="Users\UserRegistrationService.cs" />
+    <Compile Include="Users\UserPasswordResult.cs" />
+    <Compile Include="Users\UserRegistrationResult.cs" />
+    <Compile Include="Users\IUserRegistrationService.cs" />
+    <Compile Include="Users\IUserinfoService.cs" />
+    <Compile Include="Users\UserinfoService.cs" />
+    <Compile Include="Users\UserRegistrationRequest.cs" />
+    <Compile Include="Weixin\IWeixinUserService.cs" />
+    <Compile Include="Weixin\WeixinMenuExtensions.cs" />
+    <Compile Include="Weixin\IWeixinMenuService.cs" />
+    <Compile Include="Weixin\WeixinMenuService.cs" />
+    <Compile Include="Weixin\WeixinUserService.cs" />
+    <Compile Include="修改验证规则和上传记录.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ManageSystem.Core\ManageSystem.Core.csproj">
+      <Project>{cf99c5e9-aae4-4feb-abb4-e5338e5d2008}</Project>
+      <Name>ManageSystem.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ManageSystem.Data\ManageSystem.Data.csproj">
+      <Project>{106dd3f6-7667-41b9-9bd3-bc8eef776ae4}</Project>
+      <Name>ManageSystem.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".editorconfig" />
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DLL\Aspose.Words.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ShanghaiData\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

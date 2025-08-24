@@ -1,0 +1,273 @@
+﻿
+@{
+    ViewBag.Title = ViewBag.title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Areas/DataInput/Content/css/OLDataInput.css" rel="stylesheet" />
+<style type="text/css">
+    .modal.fade.in {
+        top: 150px;
+    }
+</style>
+@*<div id="app">*@
+<div class="W">
+    <div class="my_title" id="title">
+        当前位置： 首页 / 折点数据上传 / 添加字段模板
+    </div>
+    <div class="ol_table">
+        @{
+            if (ViewBag.Median == true)
+            {
+                <div class="ol_left">
+                    <ul>
+                        <li><a href="/DataInput/OLDataInput/OLproject">项目管理</a></li>
+                        <li style="background-color:#dceef6"><a href="/DataInput/OLDataInput/OLtemplate">字段模板</a></li>
+                        <li><a href="/DataInput/OLDataInput/ProjectStatistics">项目统计</a></li>
+                    </ul>
+                </div>
+            }
+        }
+        <!-- 添加字段模板 开始 -->
+        <div class="ol_right">
+
+            <input type="text" id="txt_model_name" class="add_text_model_inp" placeholder="请输入模板名称" style="margin:0 402px 30px;">
+            <table cellpadding="0" cellspacing="0" width="100%" id="text_model_table" class="no-collapse" style="background-color:grey;color:#333;">
+                <thead>
+                    <tr style="text-align:center;background-color: #42a3ce;height:35px;color: #fff;">
+                        <th width="10%" style="text-align:center;padding-left: 25px;box-sizing: border-box;">是否必填</th>
+                        <th width="15%" style="text-align:center;padding-left: 25px;box-sizing: border-box;">字段名称</th>
+                        <th width="15%" style="text-align:center;">字段代码</th>
+                        <th width="10%" style="text-align:center;">字段规则</th>
+                        @if (ViewBag.temp)
+                        {
+                            <th width="2%" style="text-align:center;">操作</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody id="add_field_tbody">
+                </tbody>
+            </table>
+            @if (ViewBag.temp)
+            {
+                <div class="cbtn" onclick="addTableTr()" style="margin-top: 30px;">添加一行</div>
+                <div class="cbtn" style="float:right;margin-top: 30px;margin-right: 0;" onclick="template()">提交</div>
+            }
+        </div>
+        <!-- 添加字段模板 结束 -->
+        <input id="Median" type="hidden" value="@ViewBag.Median.ToString()" />
+        <input id="temp" type="hidden" value="@ViewBag.temp.ToString()" />
+    </div>
+</div>
+@*</div>*@
+<script src="~/Areas/DataInput/Content/js/jquery.min.js"></script>
+<script src="~/Areas/DataInput/Content/js/Sortable.js"></script>
+<script src="~/Areas/DataInput/Content/js/Sortable.min.js"></script>
+<script>
+    var el = document.getElementById('add_field_tbody');
+    var sortable = Sortable.create(el, {
+        animation: 150,
+        ghostClass: 'blue-background-class',
+        chosenClass: 'blue-background-class',
+        onEnd: function (/**Event*/evt) {
+            //evt.oldIndex;  // element's old index within parent
+            //evt.newIndex;  // element's new index within parent
+            //template();
+        },
+    });
+    $(function () {
+        var Id = getQueryString("Id");
+        if (Id != null && Id > 0) {
+            $("#title").html("当前位置： 首页 / 折点数据上传 / 修改字段模板")
+            fillingback();
+        }
+        var Median = $("#Median").val();
+        if (Median != "" && Median != null && Median != "True") {
+            location.href = "/DataInput/OLDataInput/index";
+        }
+    })
+
+    function deleteCurrentRow($obj) {
+        $($obj).parent().parent().parent().remove();
+    }
+    ///获取url传递的id参数
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+    function isCheck(arr) {
+        var hash = {};
+        for (var i in arr) {
+
+            if (hash[arr[i]])
+
+                return true;
+
+            hash[arr[i]] = true;
+
+        }
+        return false;
+
+    }
+    function template() {
+        var Id = getQueryString("Id");
+        var template_name = $('#txt_model_name').val();
+        if (template_name == "") {
+            return MessageWindow("请输入模板名称");
+        }
+        var sfbt = [];
+        var fieldname = [];
+        var fieldcode = [];
+        var fieldvalue = [];
+        var order_px = [];
+        ///循环取得字段名称
+        for (let i = 0; i < $("input[nam]").length; i++) {
+            if ($("input[nam]")[i].value == "") {
+                break;
+                return MessageWindow("字段名称存在空值");
+            }
+            fieldname.push($("input[nam]")[i].value)
+            order_px.push(i)
+        }
+        if (isCheck(fieldname)) {
+            return MessageWindow("字段名称存在重复值")
+        }
+        ///循环取得字段代码
+        for (let i = 0; i < $("input[code]").length; i++) {
+            if ($("input[code]")[i].value == "") {
+                break;
+                return MessageWindow("字段代码存在空值");
+            }
+            fieldcode.push($("input[code]")[i].value)
+        }
+        for (let i = 0; i < $("input[rao]").length; i++) {
+
+            if ($("input[rao]")[i].checked) {
+                sfbt.push($("input[rao]")[i].value)
+            }
+
+        }
+        if (isCheck(fieldcode)) {
+            return MessageWindow("字段代码存在重复值")
+        }
+        /////循环取得字段默认值
+        for (let i = 0; i < $("input[val]").length; i++) {
+            //if ($("input[val]")[i].value == "") {
+            //    return MessageWindow("字段默认值存在空值");
+            //}
+            fieldvalue.push($("input[val]")[i].value)
+        }
+        if (Id < 0 || Id == null) {
+            ///模板名称
+            $.ajax({
+                url: "/DataInput/OLDataInput/Addtemplate",
+                type: "Post",
+                dataType: "json",
+                data: { fieldname: fieldname, fieldcode: fieldcode, fieldvalue: fieldvalue, template_name: template_name, sfbt: sfbt, order_px: order_px },
+                success: function (json) {
+                    if (json == null || json == "") {
+                        return false;
+                    }
+
+                    if (json.status == "true") {
+                        SuccessWindow("添加模板成功！", true);
+                        location.href = "/DataInput/OLDataInput/OLtemplate";
+                    }
+                    else {
+                        ErrorWindow(json.message, true);
+                    }
+                }
+            });
+        }
+        else {
+            var templateId = getQueryString("Id");
+            for (let i = 0; i < $("input[rao]").length; i++) {
+
+                sfbt.push($("input[rao]")[i].value)
+
+            }
+            $.ajax({
+                url: "/DataInput/OLDataInput/Updatetemplate",
+                type: "Post",
+                dataType: "json",
+                data: { fieldname: fieldname, fieldcode: fieldcode, fieldvalue: fieldvalue, template_name: template_name, templateId: templateId,sfbt: sfbt, order_px: order_px},
+                success: function (json) {
+                    if (json == null || json == "") {
+                        return false;
+                    }
+
+                    if (json.status == "true") {
+                        SuccessWindow("修改模板成功！", true);
+                        location.href = "/DataInput/OLDataInput/OLtemplate";
+                    }
+                    else {
+                        ErrorWindow(json.message, true);
+                    }
+                }
+            });
+
+        }
+    }
+
+    ///返填数据
+    function fillingback() {
+
+        var Id = getQueryString("Id");
+        var temp = $("#temp").val();
+        console.log(temp);
+        $.ajax({
+            url: "/DataInput/OLDataInput/UpdattemplateList",
+            type: "Post",
+            dataType: "json",
+            data: { Id: Id },
+            success: function (json) {
+                var htmldefault = "";
+                if (temp == "False") {
+                    for (let i = 0; i < json.length; i++) {
+                        $("#txt_model_name").val(json[i].template_name);
+                        var _radioStr = "";
+                        if (json[i].sfbt == "1") {
+                            _radioStr = "<td style='text-align:center;box-sizing: border-box;'><input type='hidden' rao='' value=" + json[i].sfbt+"><font style='color:red'>必填字段</font></td>"
+                        } else {
+                            _radioStr = "<td style='text-align:center;box-sizing: border-box;'><input type='hidden' rao='' value=" + json[i].sfbt +"><font style='color:blue'>选填字段</font></td>"
+                        }
+                        htmldefault += " <tr style='text-align:center;background-color: #fff;height:58px;color: #000;line-height:58px;'>" +
+                            _radioStr +
+                            "<td> <input type='text' nam='' class='add_text_model_inp' value='" + json[i].field_name + "'placeholder='字段名称'></td>" +
+                            "<td> <input type='text' code='' class='add_text_model_inp' value='" + json[i].field_code + "'placeholder='字段代码'></td>" +
+                            "<td> <input type='text' val='' class='add_text_model_inp' value='" + json[i].default_value + "'placeholder='字段规则'></td>" +
+                            "</tr>"
+                    }
+                    $("#add_field_tbody").html(htmldefault)
+                } else {
+                    for (let i = 0; i < json.length; i++) {
+                        $("#txt_model_name").val(json[i].template_name);
+                        var _radioStr = "";
+                        if (json[i].sfbt == "1") {
+                            _radioStr = "<td style='text-align:center;box-sizing: border-box;'><label class='lable_radio'><input type='radio' rao='' name='sfbt_" + i + "' class='add_text_model_radio' value='0' >必填</label><label class='lable_radio'><input type='radio' rao=''name='sfbt_" + i + "' class='add_text_model_radio' value='1' checked='true' >选填</label></td>"
+                        } else {
+                            _radioStr = "<td style='text-align:center;box-sizing: border-box;'><label class='lable_radio'><input type='radio' rao='' name='sfbt_" + i + "' class='add_text_model_radio' checked='true' value='0' >必填</label><label class='lable_radio'><input type='radio' rao=''name='sfbt_" + i + "' class='add_text_model_radio' value='1' >选填</label></td>"
+                        }
+                        htmldefault += " <tr style='text-align:center;background-color: #fff;height:58px;color: #000;line-height:58px;'>" +
+                            _radioStr +
+                            "<td> <input type='text' nam='' class='add_text_model_inp' value='" + json[i].field_name + "'placeholder='字段名称'></td>" +
+                            "<td> <input type='text' code='' class='add_text_model_inp' value='" + json[i].field_code + "'placeholder='字段代码'></td>" +
+                            "<td> <input type='text' val='' class='add_text_model_inp' value='" + json[i].default_value + "'placeholder='字段规则'></td>" +
+                            "<td><div style='padding-left: 10px;'> <a class='opera_btn'  onclick='deleteCurrentRow(this)'>删除</a></div></td>" +
+                            "</tr>"
+                    }
+                    $("#add_field_tbody").html(htmldefault)
+                }
+
+            }
+        });
+    }
+    function addTableTr() {
+        //var $td = $("#clo").clone(); //增加一行,克隆第一个对象
+        this.tr_id += 1;
+        var length = parseInt($("#add_field_tbody tr").length);
+        var tr2 = "<tr style='text-align:center;background-color: #fff;height:58px;color: #000;line-height:58px;'><td style='text-align:center;box-sizing: border-box;'><label class='lable_radio'><input type='radio' rao='' name='sfbt_" + length + "' class='add_text_model_radio' checked='true' value='1' >必填</label><label class='lable_radio'><input type='radio' rao=''name='sfbt_" + length + "' class='add_text_model_radio' value='0' >选填</label></td><td style='text-align:center;box-sizing: border-box;'><input type='text' nam='' class='add_text_model_inp' placeholder='字段名称'></td><td><input type='text' code='' class='add_text_model_inp' placeholder='字段代码'></td><td><input type='text' val='' class='add_text_model_inp' placeholder='字段规则'></td><td><div  style='padding-left: 10px;' ><a class='opera_btn' onclick='deleteCurrentRow(this)'>删除</a></div></td></tr>"
+        $("#text_model_table").append(tr2);
+
+    }
+</script>

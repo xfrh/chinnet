@@ -1,0 +1,32 @@
+﻿@model <$$ModelPath$$>
+@{
+    //page title
+    ViewBag.Title ="<$$TableTitle$$>";
+}
+
+@section Breadcrumb{
+    @{Html.RenderAction("Breadcrumb", "Shared", new Breadcrumb { MenuName = "XXXXXX", SecondName = "XXXXXX", LocationName = this.ViewBag.Title }); }
+}
+
+ <div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                </div>
+                <div class="widget-body " id="BaseDiv" runat="server">
+                    <div class="options add-page-options">
+                </div>
+                    <div class="add-content ">
+                        <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                            @Html.Partial("_CreateOrUpdate<$$TableName$$>", Model)
+                           </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Views/Common/_ViewPageJs.cshtml")

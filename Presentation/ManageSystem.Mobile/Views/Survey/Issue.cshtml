@@ -1,0 +1,789 @@
+﻿@using ManageSystem.Services.Configuration
+
+@{
+    Layout = null;
+    ViewBag.Title = ViewBag.Name;
+    string pageTitle = "";
+    if (!String.IsNullOrWhiteSpace(this.ViewBag.Title))
+    {
+        pageTitle = this.ViewBag.Title + " / ";
+    }
+
+    pageTitle += WebSettingService.WebSEO_Title;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 声明文档使用的字符编码 -->
+    <meta charset='utf-8'>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- 优先使用 IE 最新版本和 Chrome -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!-- 搜索引擎抓取 -->
+    <meta name="robots" content="index,follow" />
+    <!-- 为移动设备添加 viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <!-- iOS 设备 begin -->
+    <!-- 是否启用 WebApp 全屏模式，删除苹果默认的工具栏和菜单栏 -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- 设置苹果工具栏颜色 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <!-- 忽略页面中的数字识别为电话，忽略email识别 -->
+    <meta name="format-detection" content="telphone=no, email=no" />
+    <!-- 启用360浏览器的极速模式(webkit) -->
+    <meta name="renderer" content="webkit">
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 不让百度转码 -->
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
+    <meta name="HandheldFriendly" content="true">
+    <!-- 微软的老式浏览器 -->
+    <meta name="MobileOptimized" content="320">
+    <!-- UC应用模式 -->
+    <meta name="browsermode" content="application">
+    <!-- QQ应用模式 -->
+    <meta name="x5-page-mode" content="app">
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <!-- windows phone 点击无高光 -->
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="keywords" content="@WebSettingService.WebSEO_Key">
+    <meta name="description" content="@WebSettingService.WebSEO_Describe">
+    <title>@pageTitle</title>
+    <link href="~/Content/Css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/common.css" rel="stylesheet" />
+    <link href="~/Content/Css/style.css" rel="stylesheet" />
+    <script src="~/Content/Scripts/modernizr-2.8.3.js"></script>
+    <script src="~/Content/Scripts/common.js"></script>
+    <script src="~/Content/Scripts/prefixfree.min.js"></script>
+    <link href="~/Content/Css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Survey/Issue.css?v=@DateTime.Now.Ticks" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="app" v-locak>
+        <input id="hidden_id" name="hidden_id" ref="hidden_id" type="hidden" value="@ViewContext.RouteData.Values["id"]" />
+        <div v-if="!isSubmit" class="swiper-container" ref="mySwiper" style="height: 100%; margin-bottom: 0.75rem; background: #f9f9f9; padding: 0.75rem;">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" v-if="!isSubmit">
+                    <header class="header-title" v-text="survey.title"></header>
+                    <section class="header-content" v-html="survey.content"></section>
+
+                    <div class="survey-body">
+                        <!-- 01-04 -->
+                        <article class="cro-page">
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q1.title"></div>
+                                <div :class="{'cro-qbox-awbox': true, 'has-error': errors.has(Q1.name)}">
+                                    <input class="cro-qbox__input" :name="Q1.name" v-model="Q1.answer" v-validate="{required: true, min_value: 0, numeric: true}" type="tel" :placeholder="Q1.placeholder" />
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q2.title"></div>
+                                <div :class="{'cro-qbox-awbox': true, 'has-error': errors.has(Q2.name)}">
+                                    <input class="cro-qbox__input" :name="Q2.name" v-model="Q2.answer" v-validate="{required: true, min_value: 0, numeric: true}" type="tel" :placeholder="Q1.placeholder" />
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q3.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tbody>
+                                            <tr v-for="(item,index) in Q3.options" :class="{'has-error': errors.has(item.name)}">
+                                                <td>
+                                                    <div class="checkbox-control">
+                                                        <input :id="item.id" v-model="Q3.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: 3}" v-if="index === 0" />
+                                                        <input :id="item.id" v-model="Q3.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                                        <label :for="item.id" class="checkbox-control-label"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <label :for="item.id" v-text="item.text" v-if="item.value !== '其他'"></label>
+                                                    <div v-if="item.value === '其他'" :class="{'flex cro-qbox-awbox__other': true, 'has-error': errors.has('Q3_other')}">
+                                                        <label :for="item.id" style="width: 2.75rem;" v-text="item.text"></label>
+                                                        <input class="flex-1 cro-qbox__input" name="Q3_other" v-model="Q3.other" v-validate="{required: Q3.answer.includes('其他'), min: 1}" type="text" />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr v-if="Q3.answer.length>0">
+                                                <td colspan="2">
+                                                    <div class="flex align-items__baseline" style="margin-top: 0.75rem;">
+                                                        <div class="">百分比：</div>
+                                                        <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q3_Rate')}">
+                                                            <input class="cro-qbox__input" name="Q3_Rate" v-model="Q3.rate" v-validate="{required: true}" type="text" placeholder="请选择百分比" style="background-color: transparent;" readonly="readonly" @@click="onQ3Picker($event)" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q4.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tr v-for="(item,index) in Q4.options" :class="{'has-error': errors.has(item.name)}">
+                                            <td>
+                                                <div class="checkbox-control">
+                                                    <input :id="item.id" v-model="Q4.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: 3}" v-if="index === 0" />
+                                                    <input :id="item.id" v-model="Q4.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                                    <label :for="item.id" class="checkbox-control-label"></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <label :for="item.id" v-text="item.text" v-if="item.value !== '其他'"></label>
+                                                <div v-if="item.value === '其他'" :class="{'flex cro-qbox-awbox__other': true, 'has-error': errors.has('Q4_other')}">
+                                                    <label :for="item.id" style="width: 2.75rem;" v-text="item.text"></label>
+                                                    <input class="flex-1 cro-qbox__input" name="Q4_other" v-model="Q4.other" v-validate="{required: Q4.answer.includes('其他'), min: 1}" type="text" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr v-if="Q4.answer.length>0">
+                                            <td colspan="2">
+                                                <div class="flex align-items__baseline" style="margin-top: 0.75rem;">
+                                                    <div class="">百分比：</div>
+                                                    <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q4_Rate')}">
+                                                        <input class="cro-qbox__input" name="Q4_Rate" v-model="Q4.rate" v-validate="{required: true}" type="text" placeholder="请选择百分比" style="background-color: transparent;" readonly="readonly" @@click="onQ4Picker($event)" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- 05-08 -->
+                        <article class="cro-page">
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q5.title"></div>
+                                <div :class="{'cro-qbox-awbox': true, 'has-error': errors.has(Q5.name)}">
+                                    <input class="cro-qbox__input" :name="Q5.name" v-model="Q5.answer" v-validate="{required: true, min_value: 0, numeric: true}" type="tel" :placeholder="Q5.placeholder" />
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q6.title"></div>
+                                <div :class="{'cro-qbox-awbox': true, 'has-error': errors.has(Q6.name)}">
+                                    <input class="cro-qbox__input" :name="Q6.name" v-model="Q6.answer" v-validate="{required: true, min_value: 0, numeric: true}" type="tel" :placeholder="Q5.placeholder" />
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q7.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tbody>
+                                            <tr v-for="(item,index) in Q7.options" :class="{'has-error': errors.has(item.name)}">
+                                                <td>
+                                                    <div class="checkbox-control">
+                                                        <input :id="item.id" v-model="Q7.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: 3}" v-if="index === 0" />
+                                                        <input :id="item.id" v-model="Q7.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                                        <label :for="item.id" class="checkbox-control-label"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <label :for="item.id" v-text="item.text" v-if="item.value !== '其他'"></label>
+                                                    <div v-if="item.value === '其他'" :class="{'flex cro-qbox-awbox__other': true, 'has-error': errors.has('Q7_other')}">
+                                                        <label :for="item.id" style="width: 2.75rem;" v-text="item.text"></label>
+                                                        <input class="flex-1 cro-qbox__input" name="Q7_other" v-model="Q7.other" v-validate="{required: Q7.answer.includes('其他'), min: 1}" type="text" />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr v-if="Q7.answer.length>0">
+                                                <td colspan="2">
+                                                    <div class="flex align-items__baseline" style="margin-top: 0.75rem;">
+                                                        <div class="">百分比：</div>
+                                                        <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q7_Rate')}">
+                                                            <input class="cro-qbox__input" name="Q7_Rate" v-model="Q7.rate" v-validate="{required: true}" type="text" placeholder="请选择百分比" style="background-color: transparent;" readonly="readonly" @@click="onQ7Picker($event)" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q8.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tr v-for="(item,index) in Q8.options" :class="{'has-error': errors.has(item.name)}">
+                                            <td>
+                                                <div class="checkbox-control">
+                                                    <input :id="item.id" v-model="Q8.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: 3}" v-if="index === 0" />
+                                                    <input :id="item.id" v-model="Q8.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                                    <label :for="item.id" class="checkbox-control-label"></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <label :for="item.id" v-text="item.text" v-if="item.value !== '其他'"></label>
+                                                <div v-if="item.value === '其他'" :class="{'flex cro-qbox-awbox__other': true, 'has-error': errors.has('Q8_other')}">
+                                                    <label :for="item.id" style="width: 2.75rem;" v-text="item.text"></label>
+                                                    <input class="flex-1 cro-qbox__input" name="Q8_other" v-model="Q8.other" v-validate="{required: Q8.answer.includes('其他'), min: 1}" type="text" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr v-if="Q8.answer.length>0">
+                                            <td colspan="2">
+                                                <div class="flex align-items__baseline" style="margin-top: 0.75rem;">
+                                                    <div class="">百分比：</div>
+                                                    <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q8_Rate')}">
+                                                        <input class="cro-qbox__input" name="Q8_Rate" v-model="Q8.rate" v-validate="{required: true}" type="text" placeholder="请选择百分比" style="background-color: transparent;" readonly="readonly" @@click="onQ8Picker($event)" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- 09-12 -->
+                        <article class="cro-page">
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q9.title"></div>
+                                <div :class="{'cro-qbox-awbox': true, 'has-error': errors.has(Q9.name)}">
+                                    <input class="cro-qbox__input" :name="Q9.name" v-model="Q9.answer" v-validate="{required: true, min_value: 0, numeric: true}" type="tel" :placeholder="Q9.placeholder" />
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q10.title"></div>
+                                <div :class="{'cro-qbox-awbox': true, 'has-error': errors.has(Q10.name)}">
+                                    <input class="cro-qbox__input" :name="Q10.name" v-model="Q10.answer" v-validate="{required: true, min_value: 0, numeric: true}" type="tel" :placeholder="Q5.placeholder" />
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q11.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tbody>
+                                            <tr v-for="(item,index) in Q11.options" :class="{'has-error': errors.has(item.name)}">
+                                                <td>
+                                                    <div class="checkbox-control">
+                                                        <input :id="item.id" v-model="Q11.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: 3}" v-if="index === 0" />
+                                                        <input :id="item.id" v-model="Q11.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                                        <label :for="item.id" class="checkbox-control-label"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <label :for="item.id" v-text="item.text" v-if="item.value !== '其他'"></label>
+                                                    <div v-if="item.value === '其他'" :class="{'flex cro-qbox-awbox__other': true, 'has-error': errors.has('Q11_other')}">
+                                                        <label :for="item.id" style="width: 2.75rem;" v-text="item.text"></label>
+                                                        <input class="flex-1 cro-qbox__input" name="Q11_other" v-model="Q11.other" v-validate="{required: Q11.answer.includes('其他'), min: 1}" type="text" />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr v-if="Q11.answer.length>0">
+                                                <td colspan="2">
+                                                    <div class="flex align-items__baseline" style="margin-top: 0.75rem;">
+                                                        <div class="">百分比：</div>
+                                                        <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q11_Rate')}">
+                                                            <input class="cro-qbox__input" name="Q11_Rate" v-model="Q11.rate" v-validate="{required: true}" type="text" placeholder="请选择百分比" style="background-color: transparent;" readonly="readonly" @@click="onQ11Picker($event)" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q12.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tr v-for="(item,index) in Q12.options" :class="{'has-error': errors.has(item.name)}">
+                                            <td>
+                                                <div class="checkbox-control">
+                                                    <input :id="item.id" v-model="Q12.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: 3}" v-if="index === 0" />
+                                                    <input :id="item.id" v-model="Q12.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                                    <label :for="item.id" class="checkbox-control-label"></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <label :for="item.id" v-text="item.text" v-if="item.value !== '其他'"></label>
+                                                <div v-if="item.value === '其他'" :class="{'flex cro-qbox-awbox__other': true, 'has-error': errors.has('Q12_other')}">
+                                                    <label :for="item.id" style="width: 2.75rem;" v-text="item.text"></label>
+                                                    <input class="flex-1 cro-qbox__input" name="Q12_other" v-model="Q12.other" v-validate="{required: Q12.answer.includes('其他'), min: 1}" type="text" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr v-if="Q12.answer.length>0">
+                                            <td colspan="2">
+                                                <div class="flex align-items__baseline" style="margin-top: 0.75rem;">
+                                                    <div class="">百分比：</div>
+                                                    <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q12_Rate')}">
+                                                        <input class="cro-qbox__input" name="Q12_Rate" v-model="Q12.rate" v-validate="{required: true}" type="text" placeholder="请选择百分比" style="background-color: transparent;" readonly="readonly" @@click="onQ12Picker($event)" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- 13-16 -->
+                        <article class="cro-page">
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q13.title"></div>
+                                <div :class="{'cro-qbox-awbox': true, 'has-error': errors.has(Q13.name)}">
+                                    <input class="cro-qbox__input" :name="Q13.name" v-model="Q13.answer" v-validate="{required: true, min_value: 0, numeric: true}" type="tel" :placeholder="Q13.placeholder" />
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q14.title"></div>
+                                <div :class="{'cro-qbox-awbox': true, 'has-error': errors.has(Q14.name)}">
+                                    <input class="cro-qbox__input" :name="Q14.name" v-model="Q14.answer" v-validate="{required: true, min_value: 0, numeric: true}" type="tel" :placeholder="Q5.placeholder" />
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q15.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tbody>
+                                            <tr v-for="(item,index) in Q15.options" :class="{'has-error': errors.has(item.name)}">
+                                                <td>
+                                                    <div class="checkbox-control">
+                                                        <input :id="item.id" v-model="Q15.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: 3}" v-if="index === 0" />
+                                                        <input :id="item.id" v-model="Q15.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                                        <label :for="item.id" class="checkbox-control-label"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <label :for="item.id" v-text="item.text" v-if="item.value !== '其他'"></label>
+                                                    <div v-if="item.value === '其他'" :class="{'flex cro-qbox-awbox__other': true, 'has-error': errors.has('Q15_other')}">
+                                                        <label :for="item.id" style="width: 2.75rem;" v-text="item.text"></label>
+                                                        <input class="flex-1 cro-qbox__input" name="Q15_other" v-model="Q15.other" v-validate="{required: Q15.answer.includes('其他'), min: 1}" type="text" />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr v-if="Q15.answer.length>0">
+                                                <td colspan="2">
+                                                    <div class="flex align-items__baseline" style="margin-top: 0.75rem;">
+                                                        <div class="">百分比：</div>
+                                                        <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q15_Rate')}">
+                                                            <input class="cro-qbox__input" name="Q15_Rate" v-model="Q15.rate" v-validate="{required: true}" type="text" placeholder="请选择百分比" style="background-color: transparent;" readonly="readonly" @@click="onQ15Picker($event)" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q16.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tr v-for="(item,index) in Q16.options" :class="{'has-error': errors.has(item.name)}">
+                                            <td>
+                                                <div class="checkbox-control">
+                                                    <input :id="item.id" v-model="Q16.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: 3}" v-if="index === 0" />
+                                                    <input :id="item.id" v-model="Q16.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                                    <label :for="item.id" class="checkbox-control-label"></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <label :for="item.id" v-text="item.text" v-if="item.value !== '其他'"></label>
+                                                <div v-if="item.value === '其他'" :class="{'flex cro-qbox-awbox__other': true, 'has-error': errors.has('Q16_other')}">
+                                                    <label :for="item.id" style="width: 2.75rem;" v-text="item.text"></label>
+                                                    <input class="flex-1 cro-qbox__input" name="Q16_other" v-model="Q16.other" v-validate="{required: Q16.answer.includes('其他'), min: 1}" type="text" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr v-if="Q16.answer.length>0">
+                                            <td colspan="2">
+                                                <div class="flex align-items__baseline" style="margin-top: 0.75rem;">
+                                                    <div class="">百分比：</div>
+                                                    <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q16_Rate')}">
+                                                        <input class="cro-qbox__input" name="Q16_Rate" v-model="Q16.rate" v-validate="{required: true}" type="text" placeholder="请选择百分比" style="background-color: transparent;" readonly="readonly" @@click="onQ16Picker($event)" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- 17-20 -->
+                        <article class="cro-page">
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q17.title"></div>
+                                <div :class="{'cro-qbox-awbox': true, 'has-error': errors.has(Q17.name)}">
+                                    <input class="cro-qbox__input" :name="Q17.name" v-model="Q17.answer" v-validate="{required: true, min_value: 0, numeric: true}" type="tel" :placeholder="Q17.placeholder" />
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q18.title"></div>
+                                <div :class="{'cro-qbox-awbox': true, 'has-error': errors.has(Q18.name)}">
+                                    <input class="cro-qbox__input" :name="Q18.name" v-model="Q18.answer" v-validate="{required: true, min_value: 0, numeric: true}" type="tel" :placeholder="Q5.placeholder" />
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q19.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tbody>
+                                            <tr v-for="(item,index) in Q19.options" :class="{'has-error': errors.has(item.name)}">
+                                                <td>
+                                                    <div class="checkbox-control">
+                                                        <input :id="item.id" v-model="Q19.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: 3}" v-if="index === 0" />
+                                                        <input :id="item.id" v-model="Q19.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                                        <label :for="item.id" class="checkbox-control-label"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <label :for="item.id" v-text="item.text" v-if="item.value !== '其他'"></label>
+                                                    <div v-if="item.value === '其他'" :class="{'flex cro-qbox-awbox__other': true, 'has-error': errors.has('Q19_other')}">
+                                                        <label :for="item.id" style="width: 2.75rem;" v-text="item.text"></label>
+                                                        <input class="flex-1 cro-qbox__input" name="Q19_other" v-model="Q19.other" v-validate="{required: Q19.answer.includes('其他'), min: 1}" type="text" />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr v-if="Q19.answer.length>0">
+                                                <td colspan="2">
+                                                    <div class="flex align-items__baseline" style="margin-top: 0.75rem;">
+                                                        <div class="">百分比：</div>
+                                                        <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q19_Rate')}">
+                                                            <input class="cro-qbox__input" name="Q19_Rate" v-model="Q19.rate" v-validate="{required: true}" type="text" placeholder="请选择百分比" style="background-color: transparent;" readonly="readonly" @@click="onQ19Picker($event)" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q20.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tr v-for="(item,index) in Q20.options" :class="{'has-error': errors.has(item.name)}">
+                                            <td>
+                                                <div class="checkbox-control">
+                                                    <input :id="item.id" v-model="Q20.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: 3}" v-if="index === 0" />
+                                                    <input :id="item.id" v-model="Q20.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                                    <label :for="item.id" class="checkbox-control-label"></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <label :for="item.id" v-text="item.text" v-if="item.value !== '其他'"></label>
+                                                <div v-if="item.value === '其他'" :class="{'flex cro-qbox-awbox__other': true, 'has-error': errors.has('Q20_other')}">
+                                                    <label :for="item.id" style="width: 2.75rem;" v-text="item.text"></label>
+                                                    <input class="flex-1 cro-qbox__input" name="Q20_other" v-model="Q20.other" v-validate="{required: Q20.answer.includes('其他'), min: 1}" type="text" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr v-if="Q20.answer.length>0">
+                                            <td colspan="2">
+                                                <div class="flex align-items__baseline" style="margin-top: 0.75rem;">
+                                                    <div class="">百分比：</div>
+                                                    <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q20_Rate')}">
+                                                        <input class="cro-qbox__input" name="Q20_Rate" v-model="Q20.rate" v-validate="{required: true}" type="text" placeholder="请选择百分比" style="background-color: transparent;" readonly="readonly" @@click="onQ20Picker($event)" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- 21-24 -->
+                        <article class="cro-page">
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q21.title"></div>
+                                <div :class="{'cro-qbox-awbox': true, 'has-error': errors.has(Q21.name)}">
+                                    <input class="cro-qbox__input" :name="Q21.name" v-model="Q21.answer" v-validate="{required: true, min_value: 0, numeric: true}" type="tel" :placeholder="Q21.placeholder" />
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q22.title"></div>
+                                <div :class="{'cro-qbox-awbox': true, 'has-error': errors.has(Q22.name)}">
+                                    <input class="cro-qbox__input" :name="Q22.name" v-model="Q22.answer" v-validate="{required: true, min_value: 0, numeric: true}" type="tel" :placeholder="Q5.placeholder" />
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q23.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tbody>
+                                            <tr v-for="(item,index) in Q23.options" :class="{'has-error': errors.has(item.name)}">
+                                                <td>
+                                                    <div class="checkbox-control">
+                                                        <input :id="item.id" v-model="Q23.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: 3}" v-if="index === 0" />
+                                                        <input :id="item.id" v-model="Q23.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                                        <label :for="item.id" class="checkbox-control-label"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <label :for="item.id" v-text="item.text" v-if="item.value !== '其他'"></label>
+                                                    <div v-if="item.value === '其他'" :class="{'flex cro-qbox-awbox__other': true, 'has-error': errors.has('Q23_other')}">
+                                                        <label :for="item.id" style="width: 2.75rem;" v-text="item.text"></label>
+                                                        <input class="flex-1 cro-qbox__input" name="Q23_other" v-model="Q23.other" v-validate="{required: Q23.answer.includes('其他'), min: 1}" type="text" />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr v-if="Q23.answer.length>0">
+                                                <td colspan="2">
+                                                    <div class="flex align-items__baseline" style="margin-top: 0.75rem;">
+                                                        <div class="">百分比：</div>
+                                                        <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q23_Rate')}">
+                                                            <input class="cro-qbox__input" name="Q23_Rate" v-model="Q23.rate" v-validate="{required: true}" type="text" placeholder="请选择百分比" style="background-color: transparent;" readonly="readonly" @@click="onQ23Picker($event)" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q24.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tr v-for="(item,index) in Q24.options" :class="{'has-error': errors.has(item.name)}">
+                                            <td>
+                                                <div class="checkbox-control">
+                                                    <input :id="item.id" v-model="Q24.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true, length: 3}" v-if="index === 0" />
+                                                    <input :id="item.id" v-model="Q24.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                                    <label :for="item.id" class="checkbox-control-label"></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <label :for="item.id" v-text="item.text" v-if="item.value !== '其他'"></label>
+                                                <div v-if="item.value === '其他'" :class="{'flex cro-qbox-awbox__other': true, 'has-error': errors.has('Q24_other')}">
+                                                    <label :for="item.id" style="width: 2.75rem;" v-text="item.text"></label>
+                                                    <input class="flex-1 cro-qbox__input" name="Q24_other" v-model="Q24.other" v-validate="{required: Q24.answer.includes('其他'), min: 1}" type="text" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr v-if="Q24.answer.length>0">
+                                            <td colspan="2">
+                                                <div class="flex align-items__baseline" style="margin-top: 0.75rem;">
+                                                    <div class="">百分比：</div>
+                                                    <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q24_Rate')}">
+                                                        <input class="cro-qbox__input" name="Q24_Rate" v-model="Q24.rate" v-validate="{required: true}" type="text" placeholder="请选择百分比" style="background-color: transparent;" readonly="readonly" @@click="onQ24Picker($event)" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- 25-26 -->
+                        <article class="cro-page">
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q25.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tbody>
+                                            <tr v-for="(item, index) in Q25.options" :class="{'has-error': errors.has(item.name)}">
+                                                <td>
+                                                    <div class="checkbox-control">
+                                                        <input :id="item.id" v-model="Q25.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true}" v-if="index === 0" />
+                                                        <input :id="item.id" v-model="Q25.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                                        <label :for="item.id" class="checkbox-control-label"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <label :for="item.id" v-text="item.text"></label>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q26.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tr>
+                                            <td style="width: 1.55rem;">
+                                                <div class="radio-control">
+                                                    <input id="radio__26_1" v-model="Q26.answer" class="radio-control-input" name="Q26" type="radio" value="否" />
+                                                    <label for="radio__26_1" class="radio-control-label"></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <label for="radio__26_1">否</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="radio-control">
+                                                    <input id="radio__26_2" v-model="Q26.answer" class="radio-control-input" name="Q26" type="radio" value="是" />
+                                                    <label for="radio__26_2" class="radio-control-label"></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <label for="radio__26_2" style="width: 2.75rem;">是</label>
+                                            </td>
+                                        </tr>
+                                        <tr v-if="Q26.answer === '是'">
+                                            <td colspan="2">
+                                                <div class="flex align-items__baseline" style="margin-top: 0.75rem;">
+                                                    <div class="">采用何方法？</div>
+                                                    <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q26_other')}">
+                                                        <input class="flex-1 cro-qbox__input" name="Q26_other" v-model="Q26.other" v-validate="{required: true, min: 1}" type="text" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- 27-28 -->
+                        <article class="cro-page" v-if="Q26.answer === '是'">
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q27.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tbody>
+                                            <tr v-for="(item, index) in Q27.options" :class="{'has-error': errors.has(item.name)}">
+                                                <td style="width: 1.55rem;">
+                                                    <div class="radio-control">
+                                                        <input :id="item.id" v-model="Q27.answer" class="radio-control-input" type="radio" :name="item.name" :value="item.value" v-validate="{required: true}" v-if="index === 0" />
+                                                        <input :id="item.id" v-model="Q27.answer" class="radio-control-input" type="radio" :name="item.name" :value="item.value" v-if="index > 0" />
+                                                        <label :for="item.id" class="radio-control-label"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div :class="{'flex cro-qbox-awbox__other q27_input_box': true, 'has-error': errors.has(item.name_input)}">
+                                                        <label :for="item.id" v-text="item.text"></label>
+                                                        <input class="flex-1 cro-qbox__input" :name="item.name_input" v-model="item.rate" v-validate="{required: Q27.answer === item.value, min: 1, decimal: 2}" type="tel" />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q28.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tbody>
+                                            <tr v-for="(item, index) in Q28.options" :class="{'has-error': errors.has(item.name)}">
+                                                <td style="width: 1.55rem;">
+                                                    <div class="checkbox-control">
+                                                        <input :id="item.id" v-model="Q28.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-validate="{required: true}" v-if="index === 0" />
+                                                        <input :id="item.id" v-model="Q28.answer" class="checkbox-control-input" type="checkbox" :name="item.name" :value="item.value" v-if="index > 0" />
+                                                        <label :for="item.id" class="checkbox-control-label"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <label :for="item.id" v-text="item.text"></label>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- 29-31 -->
+                        <article class="cro-page" style="margin-top: 0.75rem; margin-bottom: 0;">
+                            <div class="cro-qbox" style="background: inherit; padding-left: 0; margin-bottom: 0;">
+                                <div class="cro-qbox-title">请完善您的个人信息，以便我们发放奖品</div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q29.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="flex align-items__baseline">
+                                                        <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q29_hospital')}">
+                                                            <input class="flex-1 cro-qbox__input" name="Q29_hospital" v-model="Q29.hospital" v-validate="{required: true, min: 1}" type="text" @@focus="onHideSubmit" @@blur="onShowSubmit" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q30.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="flex align-items__baseline">
+                                                        <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q30_name')}">
+                                                            <input class="flex-1 cro-qbox__input" name="Q30_name" v-model="Q30.name" v-validate="{required: true, min: 1}" type="text" @@focus="onHideSubmit" @@blur="onShowSubmit" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="cro-qbox">
+                                <div class="cro-qbox-title" v-text="Q31.title"></div>
+                                <div class="cro-qbox-awbox">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="flex align-items__baseline">
+                                                        <div :class="{'cro-qbox-awbox flex-1': true, 'has-error': errors.has('Q31_mobile')}">
+                                                            <input class="flex-1 cro-qbox__input" name="Q31_mobile" v-model="Q31.mobile" v-validate="{required: true, numeric: true}" type="tel" @@focus="onHideSubmit" @@blur="onShowSubmit" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
+
+                        <footer class="cre-footer">
+                            <a class="btn btn-primary cre-submit" href="javascript: void(0);" @@click="onSubmit">提交问卷</a>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="survey-done" v-if="isSubmit">
+            <div class="page msg_success js_show">
+                <div class="weui-msg">
+                    <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+                    <div class="weui-msg__text-area">
+                        <h2 class="weui-msg__title">感谢您的参与！</h2>
+                    </div>
+                    <div class="weui-msg__opr-area">
+                        <p class="weui-btn-area">
+                            <a href="javascript:void(0);" @@click="onClosePage">关闭</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Content/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/Scripts/respond.min.js"></script>
+    <script src="~/Content/Scripts/vue/vue.min.js"></script>
+    <script src="~/Content/Scripts/swiper/swiper.min.js"></script>
+    <script src="~/Content/Scripts/axios/axios.min.js"></script>
+    <script src="~/Content/Scripts/vee-validate/vee-validate.min.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/Survey/Issue.js"></script>
+
+</body>
+</html>
+

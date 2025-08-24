@@ -1,0 +1,180 @@
+﻿@using ManageSystem.Web.Models.Members;
+@using Webdiyer.WebControls.Mvc;
+@using ManageSystem.Web.Extensions;
+@model MemberModel
+@{
+    ViewBag.Title = "折点-用户分配";
+    Layout = "~/Areas/DataInput/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Areas/DataInput/Content/css/OLDataInput.css" rel="stylesheet" />
+
+    <div class="W">
+
+        <div class="my_title">
+            当前位置： 首页 / 折点数据上传 / 用户分配
+        </div>
+
+      
+
+
+        <div class="ol_table">
+
+            @{
+                if (ViewBag.Median == true)
+                {
+                    <div class="ol_left">
+                        <ul>
+                            <li style="background-color:#dceef6"><a href="/DataInput/OLDataInput/OLproject">项目管理</a></li>
+                            <li><a href="/DataInput/OLDataInput/OLtemplate">字段模板</a></li>
+                            <li><a href="/DataInput/OLDataInput/ProjectStatistics">项目统计</a></li>
+                        </ul>
+                    </div>
+                }
+            }
+
+
+            <!-- 用户分配模态窗 开始-->
+            <div class="ol_right">
+
+                <span class="cbtn" style="float: right;margin-bottom:30px;margin-right:0;" onclick="query()">搜索</span>
+                <input type="text" class="ss" id="phone" placeholder="手机号">
+                <input type="text" class="ss" id="Hospital" placeholder="医院名称">
+                <input type="text" class="ss" id="loginId" placeholder="账号">
+                <table cellpadding="0" cellspacing="0" width="100%" class="no-collapse">
+                    <thead>
+                        <tr style="text-align:center;background-color: #42a3ce;height:35px;color: #fff; width:auto;">
+                            <th style="text-align:center;">
+                                <label for="checkall">
+                                    <input class="" id="checkall" name="data-items" type="checkbox" value="0" />
+                                </label>
+                            </th>
+                            <th  style="text-align:center;width:auto;">登录账号</th>
+                            <th  style="text-align:center;width:auto;">手机号</th>
+                            <th  style="text-align:center;width:auto;">呢称</th>
+                            <th  style="text-align:center;width:auto;">真实姓名</th>
+                            <th  style="text-align:center;width:auto;">所在医院</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (Model != null && Model.PageList.Any())
+                            {
+                                for (int i = 0; i < Model.PageList.Count; i++)
+                                {
+
+                                    <tr style="text-align:center;background-color: #fff;height:58px;color: #000;" :key="index">
+                                        <td style="width: auto;">
+                                            <label for="data-item-@(Model.PageList[i].Id)">
+                                                @if (ViewBag.strate.Count > 0)
+                                                {
+                                                    if (Model.PageList[i].Median != null && Model.PageList[i].Median.Contains("2") && ViewBag.strate[i].ToString() == "True")
+                                                    {
+                                                        <input class="" id="data-item-@(Model.PageList[i].Id)" type="checkbox" name="data-item" onclick="bindingusers(this)" checked="checked" value="@Model.PageList[i].Id" />
+                                                    }
+                                                    else
+                                                    {
+
+                                                        <input class="" id="data-item-@(Model.PageList[i].Id)" type="checkbox" name="data-item" onclick="bindingusers(this)" value="@Model.PageList[i].Id" />
+                                                    }
+                                                }
+                                                else
+                                                { 
+                                                    <input class="" id="data-item-@(Model.PageList[i].Id)" type="checkbox" name="data-item" onclick="bindingusers(this)" value="@Model.PageList[i].Id" />
+                                                }
+                                                <span class="text"></span>
+                                            </label>
+                                        </td>
+                                        <td style="width: auto;">@Model.PageList[i].LoginId</td>
+                                        <td style="width: auto;">@Model.PageList[i].Phone</td>
+                                        <td style="width: auto;">@Model.PageList[i].NickName</td>
+                                        <td style="width: auto;">@Model.PageList[i].Name</td>
+                                        <td style="width: auto;">@Model.PageList[i].HospitalName</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="8" class="text-danger">暂无数据~</td>
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                </table>
+                <div id="page-box" class="page">
+                    @Html.Pager(Model.PageList, MvcPagerExtensions.GetPagerOptions())
+                </div>
+            </div>
+            <input id="Median" type="hidden" value="@ViewBag.Median.ToString()" />
+            <!-- 用户分配模态窗 结束-->
+        </div>
+
+    </div>
+<script src="~/Areas/DataInput/Content/js/jquery.min.js"></script>
+<script>
+    $("[name='data-items']").click(function () {
+
+        if ($("[name='data-items']").prop("checked") == true) {
+            $("[name='data-item']").prop("checked", true)
+
+        }
+        else {
+            $("[name='data-item']").prop("checked", false)
+        }
+    })
+    $(function () {
+        Filling();
+        var Median = $("#Median").val();
+        if (Median != "" && Median != null && Median != "True") {
+            location.href = "/DataInput/OLDataInput/index";
+            return;
+        }
+    })
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return decodeURI(r[2]); return null;
+    }
+    function Filling()
+    {
+        var phone = getQueryString("Phone");
+        var loginId = getQueryString("LoginId");
+        var hospital = getQueryString("Hospital");
+        $("#phone").val(phone);
+        $("#Hospital").val(hospital);
+        $("#loginId").val(loginId);
+    }
+    function query() {
+        var phone = $("#phone").val();
+        var hospital = $("#Hospital").val();
+        var loginId = $("#loginId").val();
+        var Id = getQueryString("Id");
+        location.href = "/DataInput/OLDataInput/MemberList/?LoginId=" + loginId + "&&Phone=" + phone + "&&Hospital=" + hospital + "&&Id=" + Id+"";
+    }
+    function bindingusers(e)
+    {
+        var state = $(e).prop("checked");
+        var userid = $(e).val();
+        var projectId = getQueryString("Id");
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "/DataInput/OLDataInput/UpdatProjectMember",
+            data: { userid: userid, ProjectId: projectId, state: state },
+            dataType: "json",
+            success: function (json) {
+                if (json == null || json == "") {
+                    return false;
+                }
+
+                if (json.status == "true") {
+                    MessageWindow(json.message);
+                }
+                else {
+                    ErrorWindow(json.message, true);
+                }
+            }
+        });
+    }
+</script>

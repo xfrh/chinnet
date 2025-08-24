@@ -1,0 +1,484 @@
+﻿@model ManageSystem.Core.Domain.Cre.Toconfigure
+@using ManageSystem.Admin.Extensions;
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Cre_id)
+
+    <style>
+        .select-area-ddl {
+            width: 28.5% !important;
+            border: 1px solid #d9d9d9 !important;
+            color: #444 !important;
+        }
+
+        .post_main_r {
+            width: 82%;
+        }
+    </style>
+
+    <table class="adminContent">
+
+        <tr class="insert-time-tr" style="display:none;">
+            <td class="adminTitle">上传时间：</td>
+            <td class="adminData">
+                @Model.Created.ToString()
+            </td>
+        </tr>
+        <tr class="insert-time-tr" style="display:none;">
+            <td class="adminTitle">修改时间：</td>
+            <td class="adminData">
+                @Model.Modified.ToString()
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">医院名称：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Hospital, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })              
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">省市区：</td>
+            <td class="adminData">
+                <div class="post_main_r">
+                    @Html.Partial("~/Views/PartialView/_SelectArea.cshtml")
+                </div>
+                @Html.HiddenFor(a => a.Province_id)
+                @Html.HiddenFor(a => a.City_id)
+                @Html.HiddenFor(a => a.District_id)
+                @*@Html.HiddenFor(a => a.Area)*@
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">详细地址：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Detailedaddress, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                @Html.ValidationMessageFor(m => m.Detailedaddress)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">负责人：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Contact, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                @Html.ValidationMessageFor(m => m.Contact)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">联系电话：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Mobile, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                @Html.ValidationMessageFor(m => m.Mobile)
+            </td>
+        </tr>
+
+
+        <tr>
+            <td class="adminTitle">邮箱地址：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                @Html.ValidationMessageFor(m => m.Email)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">上报所属年份：</td>
+            <td class="post_main_r">
+                @Html.HiddenFor(a => a.Data_year)
+                <select id="year"style="width:1008px;border: 1px solid #d9d9d9;color: #444">
+                    <option value="2019">2019年</option>
+                    <option value="2020">2020年</option>
+                </select>
+
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">上报所属季度：</td>
+            <td class="post_main_r">
+                @Html.HiddenFor(a => a.Data_season)
+                <select id="season" style="width:1008px;border: 1px solid #d9d9d9;color: #444" onchange="SelectCallBack()">
+                    <option value="1">第一季度（1月-3月）</option>
+                    <option value="2">第二季度（4月-6月）</option>
+                    <option value="3">第三季度（7月-9月）</option>
+                    <option value="4">第四季度（10月-12月）</option>
+                </select>
+
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">细菌名称：</td>
+            <td class="adminData">              
+                @Html.DropDownList("Germ", Model.BacteriafenlList, new { @class = "form-control dropdown" })
+                @*@Html.ValidationMessageFor(m => m.BacteriafenlList)*@
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">细菌检出株数：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Germ_detected, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                @Html.ValidationMessageFor(m => m.Germ_detected)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">耐药检出株数：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Cr_detected, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                @Html.ValidationMessageFor(m => m.Cr_detected)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">请从标本来源中分别选出对应的检出率：</td>
+            @*<td class="adminData">
+                @Html.EditorFor(m => m.Email)
+                @Html.ValidationMessageFor(m => m.Email)
+            </td>*@
+        </tr>
+        <tr>
+            <td class="adminTitle">痰：</td>
+            <td class="adminData">
+                @Html.DropDownList("Specimen_tan", Model.PercentageList, new { @class = "form-control dropdown" })
+                @Html.ValidationMessageFor(m => m.BacteriafenlList)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">血液：</td>
+            <td class="adminData">
+                @Html.DropDownList("Specimen_blood", Model.PercentageList, new { @class = "form-control dropdown" })
+                @Html.ValidationMessageFor(m => m.BacteriafenlList)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">粪便：</td>
+            <td class="adminData">
+                @Html.DropDownList("Specimen_faeces", Model.PercentageList, new { @class = "form-control dropdown" })
+                @Html.ValidationMessageFor(m => m.BacteriafenlList)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">肺泡灌洗液：</td>
+            <td class="adminData">
+                @Html.DropDownList("Specimen_alveolar", Model.PercentageList, new { @class = "form-control dropdown" })
+                @Html.ValidationMessageFor(m => m.BacteriafenlList)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">脓液/伤口：</td>
+            <td class="adminData">
+                @Html.DropDownList("Specimen_woundpus", Model.PercentageList, new { @class = "form-control dropdown" })
+                @Html.ValidationMessageFor(m => m.BacteriafenlList)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">尿道：</td>
+            <td class="adminData">
+                @Html.DropDownList("Specimen_urethra", Model.PercentageList, new { @class = "form-control dropdown" })
+                @Html.ValidationMessageFor(m => m.BacteriafenlList)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">中心静脉导管：</td>
+            <td class="adminData">
+                @Html.DropDownList("Specimen_venous", Model.PercentageList, new { @class = "form-control dropdown" })
+                @Html.ValidationMessageFor(m => m.BacteriafenlList)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">穿刺液：</td>
+            <td class="adminData">
+                @Html.DropDownList("Specimen_puncture", Model.PercentageList, new { @class = "form-control dropdown" })
+                @Html.ValidationMessageFor(m => m.BacteriafenlList)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">其他：</td>
+            <td class="adminData">
+                @Html.DropDownList("Specimen_other", Model.PercentageList, new { @class = "form-control dropdown" })
+                @Html.ValidationMessageFor(m => m.BacteriafenlList)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">请从科室来源中分别选出对应的检出率：</td>
+            @*<td class="adminData">
+                @Html.EditorFor(m => m.Email)
+                @Html.ValidationMessageFor(m => m.Email)
+            </td>*@
+        </tr>
+        <tr>
+            <td class="adminTitle">血液科：</td>
+            <td class="adminData">
+                @Html.DropDownList("Department_bloodsection", Model.PercentageList, new { @class = "form-control dropdown" })
+                @Html.ValidationMessageFor(m => m.BacteriafenlList)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">ICU：</td>
+            <td class="adminData">
+                @Html.DropDownList("Department_icu", Model.PercentageList, new { @class = "form-control dropdown" })
+                @Html.ValidationMessageFor(m => m.BacteriafenlList)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">呼吸科：</td>
+            <td class="adminData">
+                @Html.DropDownList("Department_breathing", Model.PercentageList, new { @class = "form-control dropdown" })
+                @Html.ValidationMessageFor(m => m.BacteriafenlList)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">感染科：</td>
+            <td class="adminData">
+                @Html.DropDownList("Department_Infected", Model.PercentageList, new { @class = "form-control dropdown" })
+                @Html.ValidationMessageFor(m => m.BacteriafenlList)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">移植科：</td>
+            <td class="adminData">
+                @Html.DropDownList("Department_transplant", Model.PercentageList, new { @class = "form-control dropdown" })
+                @Html.ValidationMessageFor(m => m.BacteriafenlList)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">其他：</td>
+            <td class="adminData">
+                @Html.DropDownList("Department_other", Model.PercentageList, new { @class = "form-control dropdown" })
+                @Html.ValidationMessageFor(m => m.BacteriafenlList)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">药敏试验是否常规报告CRE所产碳青霉烯酶型别：</td>
+            <td class="adminData">
+                <div class="post_main_r">
+                    <select id="whether" onchange="whether()" class="select-area-ddl">
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </select>
+                    <select id="mode" onchange="mode()" class="select-area-ddl">
+                        <option value="">-- 请选择 --</option>
+                        <option value="口头沟通报告">口头沟通报告</option>
+                        <option value="报告中标注">报告中标注</option>
+                    </select>
+                </div>
+                <span class="field-validation-error" id="modewhether" hidden="hidden"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">实验室检测碳青霉烯酶的方法：</td>
+            @*<td class="adminData">
+                @Html.EditorFor(m => m.Email)
+                @Html.ValidationMessageFor(m => m.Email)
+            </td>*@
+        </tr>
+        <tr>
+            <td class="adminTitle">(1) 仅以药敏试验结果判断CRE：</td>
+            <td class="adminData">
+                @if (Model.Sensitive != "")
+                {
+                <input class="n-chk"id="One" name="One" type="checkbox" checked="checked" value="(1)仅以药敏试验结果判断CRE">
+                }
+                else
+                { 
+                   <input class="n-chk" id="One" name="One" type="checkbox" value="(1)仅以药敏试验结果判断CRE">
+                }
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">(2) 改良Hodge试验：</td>
+            <td class="adminData">
+                @if (Model.Hodge != "")
+                {
+                    <input class="n-chk" id="Two" name="Two" type="checkbox" checked="checked" value="(2) 改良Hodge试验">
+                }
+                else
+                {
+                    <input class="n-chk" id="Two" name="Two" type="checkbox" value="(2) 改良Hodge试验">
+                }
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">(3) Carba NP：</td>
+            <td class="adminData">
+                @if (Model.CarbaNP != "")
+                {
+                    <input class="n-chk" id="Three" name="Three" type="checkbox" checked="checked" value="(3) Carba NP">
+                }
+                else
+                {
+                    <input class="n-chk" id="Three" name="Three" type="checkbox" value="(3) Carba NP">
+                }
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">(4) mCIM和eCIM：</td>
+            <td class="adminData">
+                @if (Model.MCIMandeCIM != "")
+                {
+                    <input class="n-chk" id="Four" name="Four" type="checkbox" checked="checked" value="(4) mCIM和eCIM">
+                }
+                else
+                {
+                    <input class="n-chk" id="Four" name="Four" type="checkbox" value="(4) mCIM和eCIM">
+                }
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">(5) EDTA和APB抑制试验：</td>
+            <td class="adminData">
+                @if (Model.EDTAandAPB != "")
+                {
+                    <input class="n-chk" id="Five" name="Five" type="checkbox" checked="checked" value="(5) EDTA和APB抑制试验">
+                }
+                else
+                {
+                    <input class="n-chk" id="Five" name="Five" type="checkbox" value="(5) EDTA和APB抑制试验">
+                }
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">(6) 金标免疫快速检测技术：</td>
+            <td class="adminData">
+                @if (Model.Goldlabeled != "")
+                {
+                    <input class="n-chk" id="six" name="six" type="checkbox" checked="checked" value="(6) 金标免疫快速检测技术">
+                }
+                else
+                {
+                    <input class="n-chk" id="six" name="six" type="checkbox" value="(6) 金标免疫快速检测技术">
+                }
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">(7) 常规PCR技术：</td>
+            <td class="adminData">
+                @if (Model.PCR != "")
+                {
+                    <input class="n-chk" id="Seven" name="Seven" type="checkbox" checked="checked" value="(7) 常规PCR技术">
+                }
+                else
+                {
+                    <input class="n-chk" id="Seven" name="Seven" type="checkbox" value="(7) 常规PCR技术">
+                }
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">(8) GeneXpert：</td>
+            <td class="adminData">
+                @if (Model.GeneXpert != "")
+                {
+                    <input class="n-chk" id="Eight" name="Eight" type="checkbox" checked="checked" value="(8) GeneXpert">
+                }
+                else
+                {
+                    <input class="n-chk" id="Eight" name="Eight" type="checkbox" value="(1)仅以药敏试验结果判断CRE">
+                }
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">(9) 国产碳青霉烯酶基因检测试剂盒：</td>
+            <td class="adminData">
+                @if (Model.Report_type != "")
+                {
+                    <input class="n-chk" id="Nine" name="Nine" type="checkbox" checked="checked" value="(9) 国产碳青霉烯酶基因检测试剂盒">
+                }
+                else
+                {
+                    <input class="n-chk" id="Nine" name="Nine" type="checkbox" value="(9) 国产碳青霉烯酶基因检测试剂盒">
+                }
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">分离的碳青霉烯酶及菌株数：</td>
+            @*<td class="adminData">
+                @Html.EditorFor(m => m.Email)
+                @Html.ValidationMessageFor(m => m.Email)
+            </td>*@
+        </tr>
+        <tr>
+            <td class="adminTitle">KPC：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Carbapenemase_kpc, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                <span class="field-validation-error" id="kpc" hidden="hidden"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">NDM：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Carbapenemase_ndm, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                <span class="field-validation-error" id="ndm" hidden="hidden"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">OXA-48：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Carbapenemase_oxa_48, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                <span class="field-validation-error" id="OXA-48" hidden="hidden"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">IPM：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Carbapenemase_ipm, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                <span class="field-validation-error" id="IPM" hidden="hidden"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">VIM：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Carbapenemase_vim, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                <span class="field-validation-error" id="VIM" hidden="hidden"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">其他：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Carbapenemase_other, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                <span class="field-validation-error" id="other" hidden="hidden"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">检测出的各类抗生素耐药菌株数：</td>
+            @*<td class="adminData">
+                @Html.EditorFor(m => m.Email)
+                @Html.ValidationMessageFor(m => m.Email)
+            </td>*@
+        </tr>
+        <tr>
+            <td class="adminTitle">(1) 多粘菌素：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Antibiotic_polymyxin, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                <span class="field-validation-error" id="polymyxin" hidden="hidden"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">(2) 替加环素：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Antibiotic_tegafycline, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                <span class="field-validation-error" id="tegafycline" hidden="hidden"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">(3) 头孢他啶-阿维巴坦：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Antibiotic_ceftazidime, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                <span class="field-validation-error" id="ceftazidime" hidden="hidden"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">(4) 磷霉素：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Antibiotic_fosfomycin, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                <span class="field-validation-error" id="fosfomycin" hidden="hidden"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">(5) 氯霉素：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Antibiotic_chloramphenicol, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                <span class="field-validation-error" id="chloramphenicol" hidden="hidden"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">(6) 联合药敏试验：</td>
+            <td class="adminData">
+                @Html.EditorFor(m => m.Antibiotic_drugtest, new { htmlAttributes = new { @onkeydown = "keypresshandle(event);" } })
+                <span class="field-validation-error" id="drugtest" hidden="hidden"></span>
+            </td>
+        </tr>
+    </table>
+    <script src="/Content/Scripts/TranTextBox.js"></script>

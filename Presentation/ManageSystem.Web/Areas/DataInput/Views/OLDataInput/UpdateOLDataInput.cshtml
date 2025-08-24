@@ -1,0 +1,265 @@
+﻿
+@{
+    ViewBag.Title = "折点-修改数据";
+    Layout = "~/Areas/DataInput/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Areas/DataInput/Content/css/OLDataInput.css" rel="stylesheet" />
+<link href="~/Areas/DataInput/Content/AdminLTE/plugins/datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+<div id="app">
+    <div class="W">
+
+        <div class="my_title">
+            当前位置： 首页 / 折点数据上传 / 数据管理
+        </div>
+
+        <div class="ol_table">
+
+            @{
+                if (ViewBag.Median == true)
+                {
+                    <div class="ol_left">
+                        <ul>
+                            <li style="background-color:#dceef6"><a href="/DataInput/OLDataInput/OLproject">项目管理</a></li>
+                            <li><a href="/DataInput/OLDataInput/OLtemplate">字段模板</a></li>
+                            <li><a href="/DataInput/OLDataInput/ProjectStatistics">项目统计</a></li>
+                        </ul>
+                    </div>
+                }
+            }
+
+            <!-- 添加数据 开始 -->
+            <div class="ol_right">
+                <div style="width:66%">
+                    <div style="text-align: right;margin-bottom: 20px;" height="100%">
+                        <span>项目名称：</span>
+                        <input class="add_project_inp" style="margin-left: 10px;" id="project" name="project" type="text" placeholder="" ref="project" />
+                    </div>
+                    <div style="text-align: right;margin-bottom: 20px;" height="100%">
+                        <span>实验日期：</span>
+                        <input class="add_project_inp" style="margin-left: 10px;" id="Datatime" name="Datatime" type="text" placeholder="实验时间" value="" ref="Datatime" />
+
+                    </div>
+                    <div style="text-align: right;margin-bottom: 20px;" height="100%">
+                        <span>工作编号：</span>
+                        <input class="add_project_inp" style="margin-left: 10px;" id="jobnumber" name="jobnumber" type="text" placeholder="工作编号（如：HSH-0001）" value="" ref="jobnumber" />
+
+                    </div>
+                    @*<div style="text-align: right;margin-bottom: 20px;" height="100%">
+                            <span>菌种库号：</span>
+                            <input class="add_project_inp" style="margin-left: 10px;" id="germnumber" name="germnumber" type="text" placeholder="菌种库号（如：2018-W01-001）" value="" ref="germnumber" />
+
+                        </div>*@
+                    <div style="text-align: right;margin-bottom: 20px;" height="100%">
+                        <span>细菌名称：</span>
+                        <select class="add_project_inp" id="germname" style="margin-left: 10px;" onchange="Dataview()">
+                            <option value="">--请选择--</option>
+                            <option value="大肠埃希菌">大肠埃希菌</option>
+                            <option value="肺炎克雷伯菌">肺炎克雷伯菌</option>
+                            <option value="金黄色葡萄球菌">金黄色葡萄球菌</option>
+                            <option value="流感嗜血杆菌">流感嗜血杆菌</option>
+                            <option value="肺炎链球菌">肺炎链球菌</option>
+                            <option value="卡他莫拉菌">卡他莫拉菌</option>
+                            <option value="化脓链球菌">化脓链球菌</option>
+                            <option value="无乳链球菌">无乳链球菌</option>
+                            <option value="咽峡炎链球菌">咽峡炎链球菌</option>
+                            <option value="变异链球菌">变异链球菌</option>
+                            <option value="唾液链球菌">唾液链球菌</option>
+                            <option value="缓症链球菌">缓症链球菌</option>
+                            <option value="草绿色链球菌">草绿色链球菌</option>
+                        </select>
+
+                    </div>
+                    <div id="div1">
+
+                    </div>
+                    <div style="text-align: right;margin-bottom: 20px;" height="100%">
+
+                        <div class="add_project_inp" style="display: inline-block;border: none;padding-left:0;">
+                            <div class="cbtn" onclick="updatedata()">修改</div>
+                            <div class="cbtn" onclick="fanhui()">返回</div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- 添加数据 结束 -->
+            <input id="Median" type="hidden" value="@ViewBag.Median.ToString()" />
+        </div>
+
+    </div>
+</div>
+<script src="~/Areas/DataInput/Content/js/jquery.min.js"></script>
+<script src="/Areas/DataInput/Content/AdminLTE/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/Areas/DataInput/Content/AdminLTE/plugins/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script>
+
+    $("#Datatime").datetimepicker(
+        {
+            language: 'zh-CN', //语言
+            minView: "month",  //最精确的时间选择视图。
+            format: 'yyyy-mm-dd',  //日期格式
+            todayHighlight: true, //高亮当前日期
+            autoclose: true, //当选择一个日期之后是否立即关闭此日期时间选择器
+            todayBtn: true,//显示今日按钮
+            autoclose: 1,//选择后自动关闭
+            //minDate:0//设置最小日期
+        });
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+    $(function () {
+
+        //var Median = $("#Median").val();
+        //if (Median != "" && Median != null && Median != true) {
+        //    SuccessWindows("<div style='text-align:center;'>对不起您没有访问该页面的权限！", false, "/Data/AntibioticDrugFast");
+        //    return;
+        //}
+
+        var Id = getQueryString("Id");
+        var date = "";
+        $.ajax({
+            url: "/DataInput/OLDataInput/updateOLDataheade",
+            type: "Post",
+            dataType: "json",
+            data: { Id: Id },
+            success: function (json) {
+
+                if (json == null || json == "") {
+                    return;
+                }
+                for (var i = 0; i < json.length; i++) {
+                    $("#project").val(json[i].project_name);
+                    $("#Datatime").val(json[i].experimenttime);
+                    $("#jobnumber").val(json[i].jobnumber);
+                    //$("#germnumber").val(json[i].germnumber);
+                    $("#germname").val(json[i].germname);
+                    date = json[i].datevalue;
+                }
+
+
+            }
+        });
+        var div = "";
+        $.ajax({
+            url: "/DataInput/OLDataInput/GetOLDataheadelist",
+            type: "Post",
+            dataType: "json",
+            data: { Id: Id },
+            success: function (json) {
+                var datavalue = date.split(",");
+                for (var i = 0; i < json.length; i++) {
+                    div += "<div style='text-align: right;margin-bottom: 20px;' height='100%'><span>" + json[i].field_name + "：</span><input class='add_project_inp' ad_inp='' type='text' value='" + datavalue[i] + "' fieldname='" + json[i].field_name + "' fieldrule='" + json[i].default_value + "'  placeholder='请输入值" + json[i].field_name + "的值'></div>"
+                }
+                $("#div1").html(div);
+            }
+        });
+    })
+    ///修改数据
+    function updatedata() {
+        var Id = getQueryString("Id");
+        var experimenttime = $("#Datatime").val();
+        var jobnumber = $("#jobnumber").val();
+        //var germnumber = $("#germnumber").val();
+        var germname = $("#germname").val();
+        var datevalue = "";
+        var status = true;//判断是否继续执行
+        $('input[fieldrule]').each(function () {
+            var value = $(this).val()
+            console.log(value);
+            var field_name = $(this).attr("fieldname")
+            var fieldrule = $(this).attr("fieldrule")
+            if (value == "" || value == null) {
+                ErrorWindow(field_name + "的值不能为空", false);
+                status = false
+                return false;
+            }
+            if (fieldrule.toUpperCase() == "MIC") {
+                var rule = "0.008,0.015,0.03,0.06,0.125,0.25,0.5,1,2,4,8,16,32,64,128,256";
+                var newvalue1 = value.replace('<=.', '0.').replace('<=', '').replace('<.', '0.').replace('<', '').replace('>.', '0.').replace('>', '');
+                var rulelength = rule.split(',');
+                var statu = false;
+                for (var i = 0; i < rulelength.length; i++) {
+                    if (newvalue1 == rulelength[i]) {
+                        statu = true;
+                    }
+                }
+                if (statu == false) {
+                    ErrorWindow(field_name + "的值【" + value + "】不是有效的MIC值", false);
+                    status = false
+                    return false;
+                } else {
+                    if (datevalue == "") {
+                        datevalue = value;
+                    } else {
+                        datevalue += "," + value;
+                    }
+                }
+            }
+            if (fieldrule.toUpperCase() == "ZJ") {
+                var newvalue2 = value.replace('<=.', '0.').replace('<=', '').replace('<.', '0.').replace('<', '').replace('>.', '0.').replace('>', '');
+                if (Number(newvalue2) % 1 != 0) {
+                    ErrorWindow(field_name + "抑菌圈直径只能为整数", false);
+                    status = false
+                    return false;
+                } else if (6 <= newvalue2 && newvalue2 < 60) {
+                    if (datevalue == "") {
+                        datevalue = value;
+                    } else {
+                        datevalue += "," + value;
+                    }
+                } else {
+                    ErrorWindow(field_name + "抑菌圈直径不在范围值(6-60)内", false);
+                    status = false
+                    return false;
+                }
+            }
+            if (fieldrule.toUpperCase() == "MM") {
+                var newvalue2 = value.replace('<=.', '0.').replace('<=', '').replace('<.', '0.').replace('<', '').replace('>.', '0.').replace('>', '');
+                if (Number(newvalue2) % 1 != 0) {
+                    ErrorWindow(field_name + "抑菌圈直径只能为整数", false);
+                    status = false
+                    return false;
+                } else if (6 <= newvalue2 && newvalue2 < 50) {
+                    if (datevalue == "") {
+                        datevalue = value;
+                    } else {
+                        datevalue += "," + value;
+                    }
+                } else {
+                    ErrorWindow(field_name + "抑菌圈直径不在范围值(6-50)内", false);
+                    status = false
+                    return false;
+                }
+            }
+        })
+        if (status) {
+            $.ajax({
+                url: "/DataInput/OLDataInput/updateOLData",
+                type: "Post",
+                dataType: "json",
+                data: { Id: Id, jobnumber: jobnumber, germnumber: "", germname: germname, experimenttime: experimenttime, datevalue: datevalue },
+                success: function (json) {
+                    if (json == null || json == "") {
+                        return false;
+                    }
+
+                    if (json.status == "true") {
+                        SuccessWindow("修改成功！", true);
+                    }
+                    else {
+                        ErrorWindow(json.message, true);
+                    }
+                }
+            });
+        }
+    }
+    function fanhui() {
+        var Id = getQueryString("proId");
+        location.href = "/DataInput/OLDataInput/OLDataInput?Id=" + Id;
+    }
+</script>
+

@@ -1,0 +1,80 @@
+﻿@model ManageSystem.Web.Models.Members.LoginModel
+@using ManageSystem.Web.Extensions;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+
+    <link href="~/Content/bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/style.css" rel="stylesheet" />
+    <link href="~/Content/Css/common.css" rel="stylesheet" />
+
+    <title>用户注册</title>
+</head>
+
+
+<body style="background: url(/Content/Images/bj.jpg) no-repeat center center; text-align: center; background-size: 100% 100%; position: relative;">
+    <div style="padding-top: 80px;"><img src="/Content/Images/logo.png" width="28%"></div>
+    <div class="tc_login">
+        
+        <div class="register_HDB">
+            <p class="tit2" style="height: 30px;line-height: 30px;padding: 0px;margin: 5px 0px;">免费注册</p>
+            <ul class="reg_Ul">
+                <li>
+                    <span>登录帐号：</span>
+                    <input name="" type="text" placeholder="请输入登录帐号" id="LoginId" class="reg_input1">
+                </li>
+                <li>
+                    <span>姓　　名：</span>
+                    <input name="" type="text" placeholder="请输入姓名" id="Name" class="reg_input1">
+                </li>
+                <li>
+                    <span>手 机 号 ：</span>
+                    <input name="" type="number" placeholder="请输入手机号" id="Phone" class="reg_input1">
+                </li>
+                <li>
+                    <span>短信验证：</span>
+                    <input name="" type="number" placeholder="短信验证" id="PhoneCode" class="reg_input2" style="width: 130px;">
+                    <input type="button" class="btn btn-danger yzm" onclick="SendValidateCode()" value="获取短信验证码" style="padding:6px;width: 120px;" />
+                </li>
+                <li><span>密　　码：</span><input name="" type="password" placeholder="输入密码" id="Password" class="reg_input1"></li>
+                <li><span>确认密码：</span><input name="" type="password" placeholder="再次输入密码" id="Password2" class="reg_input1"></li>
+                <li>
+                    <span>邀 请 码：</span>
+                    <input name="" type="text" placeholder="邀请码（非必填）" id="Code" class="reg_input1" value="@this.Request.QueryString["code"]">
+                </li>
+            </ul>
+            <div style="margin: 20px 0px;">
+                <input type="button" value="确认注册" class="btn btn-info btn-login" style="width:150px;" onclick="Regist()" />
+            </div>
+
+        </div>
+        <div class="forget2"><input name="" type="checkbox" value="" checked="checked"> <span>我已阅读并同意<a target="_blank" href="/app/service_duty">《使用协议》</a></span></div>
+        <div class="noHao" style="margin-top:10px;">
+            我已有账号，
+            <a href="@Url.Action("Login","Home")">我要登录</a>
+        </div>
+    </div>
+
+    <script src="~/Content/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Content/bootstrap-3.3.0/js/bootstrap.min.js"></script>
+    <script src="~/Content/Scripts/common-validate.js"></script>
+    <script src="~/Content/Scripts/layer-v2.4/layer.js"></script>
+    <script src="~/Content/Scripts/layer-v2.4/helper.js"></script>
+
+    <script src="~/Content/Scripts/Home/Regist.js"></script>
+
+</body>
+
+</html>

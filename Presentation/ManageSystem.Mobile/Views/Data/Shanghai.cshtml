@@ -1,0 +1,144 @@
+﻿@using ManageSystem.Core.Utility
+@using ManageSystem.Mobile.Models.Data
+
+@model List<SHBarChartDTO>
+
+@{
+    ViewBag.Title = "柱状图";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    List<dynamic> autocompleteLookups = new List<dynamic>();
+}
+
+
+@section Styles{
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Data/GermWithBar.css?v=2.0.1" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="~/Content/QRcode/themes/bootstrap/easyui.css" rel="stylesheet" />
+    <link href="~/Content/QRcode/themes/icon.css" rel="stylesheet" />
+    <link href="~/Content/QRcode/themes/mobile.css" rel="stylesheet" />
+    <link href="~/Content/QRcode/themes/default/flex.css" rel="stylesheet" />
+    <style>
+        .modal-body canvas {
+        width:100%;
+        height:100%;
+        }
+        #myModal {
+            margin: 0 auto;        
+            /*width: 275px;
+            height: 300px;*/
+           /* transform:scale(0.6)*/
+        }
+    </style>
+}
+
+<div id="app" v-cloak class="indexpage">
+    <div id="header" class="flex padding-tb-20 fon-30 bold f-around top-nav">
+        @*<div style=" height: 40px;color: red;  text-align: center;font-size: 0.34rem; padding:0px 5%; padding-top:20px;">
+                通知：CHINET服务器将于2019年9月12日下午5点开始进行升级，期间您将无法访问。给您带来不便深表歉意。
+            </div>*@
+        <div class="border-b-2" @@click="toPage('@Url.Action("Shanghai", "Data").ToLowerInvariant()')">柱状图</div>
+    </div>
+    <div class="weui-search-bar weui-search-bar_focusing" id="searchBar" style="background-color:white;">
+        <div class="weui-search-bar__form">
+            <div class="weui-search-bar__box">
+                <input id="searchText" type="search" class="weui-search-bar__input" placeholder="请输入细菌名或药物名称" v-model="searchText" />
+                <a href="javascript:void(0);" @@click="onSearch" class="weui-search-bar__search-btn"><i class="weui-icon-search"></i></a>
+            </div>
+        </div>
+    </div>
+    <div ref="middle" class="middle">
+        <div ref="swiper_container" class="swiper-container scroll">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide slidescroll">
+                    <div style="width: 100%; display: block; overflow: hidden;" class="main-content">
+                        @*<div class="padding-lr-20" style="font-size: 0.4rem; text-align: center;  margin-bottom: 5px;margin-top: 0.4rem;" v-text="pageContentTitle"></div>
+                        <div style="font-size: 0.37rem; text-align: center;  margin-bottom: 10px;" v-text="pageContentSubTitle"></div>*@
+                        <div ref="main" style="overflow: hidden; width: 100%; height: 11.5rem; display: block; margin-bottom: 0px;"></div>
+                        <div style="font-size: 0.37rem; margin-top: 10px;"><input id="Hiddendata" type="hidden" /><span style="text-align:left;margin-left:25px;">往右拖动进度条浏览更多数据</span><a style="float:right;margin-right:30px;" data-toggle="modal" data-target="#myModal" @@click="QRcodesharing()"><img src="~/Content/Images/weixinfenxiang.jpg" style="width:25px;height:25px;"/></a></div>                      
+                    </div>
+                    <div class="" style="margin-top: 0.5rem;">
+                        @foreach (SHBarChartDTO item in Model)
+                        {
+                            <div class="sjd-list-group">
+                                <h4 class="" style="font-weight:600">@item.Name</h4>
+                                <ul class="list-group">
+                                    @foreach (SHBarChartDataItemDTO dataItem in item.DataItems)
+                                    {
+                                        string _guid = Guid.NewGuid().ToString().ToLowerInvariant();
+                                        autocompleteLookups.Add(new { value = dataItem.Name, data = _guid });
+                                        <li class="list-item data-item-va" id="li-@_guid" data-default="@(dataItem.Default ? 1 : 0)" @@click="renderBarChart('@dataItem.Id', $event)">@dataItem.Name</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                        <div style="height: 25px;">
+                            @Html.Hidden("HiddenAutocompleteLookups", autocompleteLookups.SerializeObject(), new { @ref = "autocompletelookups" })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    @Html.Partial("_FooterNavBar", "首页")
+
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_toast" style="font-size: 1.65rem;"></i>
+            <p class="weui-toast__content fon-32" v-text="weui_toast_content"></p>
+        </div>
+    </div>
+
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32">数据加载中</p>
+        </div>
+    </div>
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @*<div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="font-size:30px;">
+                    &times;
+                </button>
+            </div>*@
+            <div style="font-size:25px;text-align:center;">
+                <div class="modal-body" id="erWeiMa" style="align-content: center;">
+                </div>
+                <p style="margin-top:-10px;font-size:14px;">点击或长按图片进行分享</p>
+                @*<p style="margin-top:-10px;">长按二维码保存图片</p>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Content/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/swiper/swiper.min.js"></script>
+    <script src="~/Content/Scripts/Echarts/echarts.min.js"></script>
+    <script src="~/Content/Scripts/Echarts/theme/blue.js?v=1"></script>
+    <script src="~/Content/Scripts/fx.js"></script>
+    <script src="~/Content/Scripts/fx_methods.js"></script>
+    <script src="~/Content/Scripts/underscore-min.js"></script>
+    <script src="~/Content/Scripts/autocompleter/jquery.autocomplete.min.js"></script>
+    <script src="~/Content/Scripts/Data/GermWithBarShanghai.js?v=1.6.5"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="~/Content/QRcode/jquery.easyui.min.js"></script>
+    <script src="~/Content/QRcode/jquery.easyui.mobile.js"></script>
+    <script src="~/Content/QRcode/easyloader.js"></script>
+    <script src="~/Content/QRcode/plugins/jquery.parser.js"></script>
+    <script src="~/Content/QRcode/jquery.qrcode.min.js"></script>
+
+
+
+}

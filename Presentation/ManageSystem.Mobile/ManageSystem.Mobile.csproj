@@ -1,0 +1,2276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{69569D7E-1B5B-4CCD-8330-5616867CCBB7}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ManageSystem.Mobile</RootNamespace>
+    <AssemblyName>ManageSystem.Mobile</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <WebGreaseLibPath>..\..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>3.5</TypeScriptToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.Mvc5.3.3.4\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="JWT, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JWT.3.0.1\lib\net35\JWT.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Senparc.CO2NET, Version=0.2.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Senparc.CO2NET.0.2.14\lib\net45\Senparc.CO2NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Senparc.NeuChar, Version=0.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Senparc.NeuChar.0.2.7\lib\net45\Senparc.NeuChar.dll</HintPath>
+    </Reference>
+    <Reference Include="Senparc.Weixin, Version=5.0.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Senparc.Weixin.5.0.11\lib\net45\Senparc.Weixin.dll</HintPath>
+    </Reference>
+    <Reference Include="Senparc.Weixin.MP, Version=15.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Senparc.Weixin.MP.15.0.7\lib\net45\Senparc.Weixin.MP.dll</HintPath>
+    </Reference>
+    <Reference Include="Senparc.Weixin.MP.MvcExtension, Version=6.0.6.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Senparc.Weixin.MP.MVC.6.0.6.1\lib\net45\Senparc.Weixin.MP.MvcExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Webdiyer.MvcPager, Version=3.0.2015.802, Culture=neutral, PublicKeyToken=f6872c5a09aed72c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Webdiyer.MvcPager.3.0.1.1\lib\Webdiyer.MvcPager.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.ApplicationInsights">
+      <HintPath>..\..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept">
+      <HintPath>..\..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector">
+      <HintPath>..\..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector">
+      <HintPath>..\..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel">
+      <HintPath>..\..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer">
+      <HintPath>..\..\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web">
+      <HintPath>..\..\packages\Microsoft.ApplicationInsights.Web.2.2.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\CRE\Controllers\BriefController.cs" />
+    <Compile Include="Areas\CRE\Controllers\CreDataController.cs" />
+    <Compile Include="Areas\CRE\Controllers\CreDocumentController.cs" />
+    <Compile Include="Areas\CRE\Controllers\CreUploadDataController.cs" />
+    <Compile Include="Areas\CRE\Controllers\CreUserController.cs" />
+    <Compile Include="Areas\CRE\Controllers\MobileBaseController.cs" />
+    <Compile Include="Areas\CRE\CREAreaRegistration.cs" />
+    <Compile Include="Controllers\MobileBaseController.cs" />
+    <Compile Include="Controllers\DataController.cs" />
+    <Compile Include="Controllers\DocumentController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InformationController.cs" />
+    <Compile Include="Controllers\MobileController.cs" />
+    <Compile Include="Controllers\SatelliteController.cs" />
+    <Compile Include="Controllers\ScoringModuleController.cs" />
+    <Compile Include="Controllers\SurveyController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\_MvcCaptchaController.cs" />
+    <Compile Include="Extensions\CustomMessageContext.cs" />
+    <Compile Include="Extensions\CustomMessageHandle.cs" />
+    <Compile Include="Extensions\DependencyRegistrar.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Data\BarChartDataItemWithAntibioticModel.cs" />
+    <Compile Include="Models\Data\BarChartDTO.cs" />
+    <Compile Include="Models\Data\HeatmapDTO.cs" />
+    <Compile Include="Models\Data\SHBarChartDataItemWithAntibioticModel.cs" />
+    <Compile Include="Models\Data\SHBarChartDTO.cs" />
+    <Compile Include="Models\ScoringModule\EvaluateScoringFormParameter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\CRE\Content\css\Index.css" />
+    <Content Include="Areas\CRE\Content\css\Issue.css" />
+    <Content Include="Areas\CRE\Content\css\style.css" />
+    <Content Include="Areas\CRE\Content\css\style.mobile.css" />
+    <Content Include="Areas\CRE\Content\css\swiper.min.css" />
+    <Content Include="Areas\CRE\Content\css\weui.min.css" />
+    <Content Include="Areas\CRE\Content\js\jquery.min.js" />
+    <Content Include="Areas\CRE\Content\js\map\china.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\anhui.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\aomen.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\beijing.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\chongqing.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\fujian.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\gansu.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\guangdong.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\guangxi.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\guizhou.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\hainan.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\hebei.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\heilongjiang.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\henan.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\hubei.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\hunan.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\jiangsu.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\jiangxi.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\jilin.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\liaoning.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\neimenggu.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\ningxia.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\qinghai.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\shandong.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\shanghai.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\shanxi.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\shanxi1.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\sichuan.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\taiwan.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\tianjin.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\xianggang.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\xinjiang.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\xizang.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\yunnan.js" />
+    <Content Include="Areas\CRE\Content\js\map\province\zhejiang.js" />
+    <Content Include="Areas\CRE\Content\Scripts\china.js" />
+    <Content Include="Areas\CRE\Content\echartsjs\echarts.common.min.js" />
+    <Content Include="Areas\CRE\Content\echartsjs\echarts.js" />
+    <Content Include="Areas\CRE\Content\echartsjs\echarts.min.js" />
+    <Content Include="Areas\CRE\Content\echartsjs\echarts.simple.min.js" />
+    <Content Include="Areas\CRE\Content\echartsjs\下载说明.txt" />
+    <Content Include="Areas\CRE\Content\Images\left_l_14.jpg" />
+    <Content Include="Areas\CRE\Content\Images\u18.png" />
+    <Content Include="Areas\CRE\Content\Scripts\CreClickHeatMap.js" />
+    <Content Include="Areas\CRE\Content\Scripts\CreGerWithBar.js" />
+    <Content Include="Areas\CRE\Content\Scripts\CreHeatMapScript.js" />
+    <Content Include="Areas\CRE\Content\Scripts\CreUploadView.js" />
+    <Content Include="Areas\CRE\Content\Scripts\CreUser\Authentication.js" />
+    <Content Include="Areas\CRE\Content\Scripts\CreUser\Cipher.js" />
+    <Content Include="Areas\CRE\Content\Scripts\CreUser\EmailForgetPassword.js" />
+    <Content Include="Areas\CRE\Content\Scripts\CreUser\Feedback.js" />
+    <Content Include="Areas\CRE\Content\Scripts\CreUser\ForceCipher.js" />
+    <Content Include="Areas\CRE\Content\Scripts\CreUser\ForgetPassword.js" />
+    <Content Include="Areas\CRE\Content\Scripts\CreUser\Login - 复制.js" />
+    <Content Include="Areas\CRE\Content\Scripts\CreUser\Login.js" />
+    <Content Include="Areas\CRE\Content\Scripts\CreUser\MedicineList.js" />
+    <Content Include="Areas\CRE\Content\Scripts\CreUser\MyCenter.js" />
+    <Content Include="Areas\CRE\Content\Scripts\CreUser\Profile.js" />
+    <Content Include="Areas\CRE\Content\Scripts\CreUser\Register.js" />
+    <Content Include="Areas\CRE\Content\Scripts\CreUser\Setting.js" />
+    <Content Include="Areas\CRE\Content\Scripts\CreUser\SmsLogin.js" />
+    <Content Include="Areas\CRE\Content\Scripts\CreDocument\List.js" />
+    <Content Include="Areas\CRE\Content\Scripts\hSdrop.js" />
+    <Content Include="Areas\CRE\Content\Scripts\index.min.js" />
+    <Content Include="Areas\CRE\Content\Scripts\layer-v2.4\helper.js" />
+    <Content Include="Areas\CRE\Content\Scripts\layer-v2.4\laydate\laydate.js" />
+    <Content Include="Areas\CRE\Content\Scripts\layer-v2.4\laydate\need\laydate.css" />
+    <Content Include="Areas\CRE\Content\Scripts\layer-v2.4\laydate\skins\dahong\icon.png" />
+    <Content Include="Areas\CRE\Content\Scripts\layer-v2.4\laydate\skins\dahong\laydate.css" />
+    <Content Include="Areas\CRE\Content\Scripts\layer-v2.4\laydate\skins\default\icon.png" />
+    <Content Include="Areas\CRE\Content\Scripts\layer-v2.4\laydate\skins\default\laydate.css" />
+    <Content Include="Areas\CRE\Content\Scripts\layer-v2.4\laydate\skins\molv\icon.png" />
+    <Content Include="Areas\CRE\Content\Scripts\layer-v2.4\laydate\skins\molv\laydate.css" />
+    <Content Include="Areas\CRE\Content\Scripts\layer-v2.4\layer.js" />
+    <Content Include="Areas\CRE\Content\Scripts\layer-v2.4\layer_login.js" />
+    <Content Include="Areas\CRE\Content\Scripts\layer-v2.4\skin\default\icon-ext.png" />
+    <Content Include="Areas\CRE\Content\Scripts\layer-v2.4\skin\default\icon.png" />
+    <Content Include="Areas\CRE\Content\Scripts\layer-v2.4\skin\default\loading-0.gif" />
+    <Content Include="Areas\CRE\Content\Scripts\layer-v2.4\skin\default\loading-1.gif" />
+    <Content Include="Areas\CRE\Content\Scripts\layer-v2.4\skin\default\loading-2.gif" />
+    <Content Include="Areas\CRE\Content\Scripts\layer-v2.4\skin\layer.css" />
+    <Content Include="Areas\CRE\Content\Scripts\showText.js" />
+    <Content Include="Areas\CRE\Content\Scripts\swiper.min.js" />
+    <Content Include="Content\Css\animate.css" />
+    <Content Include="Content\Css\bootstrap-theme.css" />
+    <Content Include="Content\Css\bootstrap-theme.min.css" />
+    <Content Include="Content\Css\bootstrap.css" />
+    <Content Include="Content\Css\bootstrap.min.css" />
+    <Content Include="Content\Css\common.css" />
+    <Content Include="Content\Css\Data\GermWithBar.css" />
+    <Content Include="Content\Css\Data\ECharts.css" />
+    <Content Include="Content\Css\Data\GermWithYear.css" />
+    <Content Include="Content\Css\Data\HeatMap.css" />
+    <Content Include="Content\Css\Data\Monitor.css" />
+    <Content Include="Content\Css\Document\List.css" />
+    <Content Include="Content\Css\font-awesome.css" />
+    <Content Include="Content\Css\font-awesome.min.css" />
+    <Content Include="Content\Css\Home\Index.css" />
+    <Content Include="Content\Css\Home\Members.css" />
+    <Content Include="Content\Css\Information\Detail.css" />
+    <Content Include="Content\Css\Information\List.css" />
+    <Content Include="Content\Css\ladda\ladda-themeless.min.css" />
+    <Content Include="Content\Css\ladda\ladda.min.css" />
+    <Content Include="Content\Css\photoSwipe\default-skin\default-skin.css" />
+    <Content Include="Content\Css\photoSwipe\default-skin\default-skin.png" />
+    <Content Include="Content\Css\photoSwipe\default-skin\default-skin.svg" />
+    <Content Include="Content\Css\photoSwipe\default-skin\preloader.gif" />
+    <Content Include="Content\Css\photoSwipe\photoswipe.css" />
+    <Content Include="Content\Css\ScoringModule\AnewApply.css" />
+    <Content Include="Content\Css\ScoringModule\EvaluateScoringForm.css" />
+    <Content Include="Content\Css\ScoringModule\EvaluateScoringList.css" />
+    <Content Include="Content\Css\ScoringModule\EvaluateScoringResult.css" />
+    <Content Include="Content\Css\ScoringModule\HospitalList.css" />
+    <Content Include="Content\Css\style.css" />
+    <Content Include="Content\Css\Survey\Finish.css" />
+    <Content Include="Content\Css\Survey\Index.css" />
+    <Content Include="Content\Css\Survey\Issue - 复制.css" />
+    <Content Include="Content\Css\Survey\Issue.css" />
+    <Content Include="Content\Css\Survey\Page1.css" />
+    <Content Include="Content\Css\Survey\Page10.css" />
+    <Content Include="Content\Css\Survey\Page11.css" />
+    <Content Include="Content\Css\Survey\Page12.css" />
+    <Content Include="Content\Css\Survey\Page13.css" />
+    <Content Include="Content\Css\Survey\Page14.css" />
+    <Content Include="Content\Css\Survey\Page15.css" />
+    <Content Include="Content\Css\Survey\Page3.css" />
+    <Content Include="Content\Css\Survey\Page4.css" />
+    <Content Include="Content\Css\Survey\Page5.css" />
+    <Content Include="Content\Css\Survey\Page6.css" />
+    <Content Include="Content\Css\Survey\Page9.css" />
+    <Content Include="Content\Css\Survey\Page8.css" />
+    <Content Include="Content\Css\Survey\Page7.css" />
+    <Content Include="Content\Css\Survey\Page2.css" />
+    <Content Include="Content\Css\Survey\PagePartial2.css" />
+    <Content Include="Content\Css\swiper\swiper.css" />
+    <Content Include="Content\Css\swiper\swiper.min.css" />
+    <Content Include="Content\Css\User\Authentication.css" />
+    <Content Include="Content\Css\User\Cipher.css" />
+    <Content Include="Content\Css\User\Feedback.css" />
+    <Content Include="Content\Css\User\ForgetPassword.css" />
+    <Content Include="Content\Css\User\Login.css" />
+    <Content Include="Content\Css\User\MedicineList.css" />
+    <Content Include="Content\Css\User\MyCenter.css" />
+    <Content Include="Content\Css\User\Profile.css" />
+    <Content Include="Content\Css\User\Register.css" />
+    <Content Include="Content\Css\User\Setting.css" />
+    <Content Include="Content\Css\User\SmsLogin.css" />
+    <Content Include="Content\Css\weui.min.css" />
+    <Content Include="Content\File\usercenter_email_validate_template.html" />
+    <Content Include="Content\Fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Images\address_15.jpg" />
+    <Content Include="Content\Images\bg_my_02.jpg" />
+    <Content Include="Content\Images\data_list_null_x128.png" />
+    <Content Include="Content\Images\data_list_null_x48.png" />
+    <Content Include="Content\Images\des_03.jpg" />
+    <Content Include="Content\Images\de_03.jpg" />
+    <Content Include="Content\Images\download_03.jpg" />
+    <Content Include="Content\Images\icon-download.png" />
+    <Content Include="Content\Images\icon-hospital.png" />
+    <Content Include="Content\Images\icon-jury.png" />
+    <Content Include="Content\Images\icon_03.jpg" />
+    <Content Include="Content\Images\icon_about_active.png" />
+    <Content Include="Content\Images\icon_about_default.png" />
+    <Content Include="Content\Images\In-r_19.jpg" />
+    <Content Include="Content\Images\index_01_03.jpg" />
+    <Content Include="Content\Images\index_01_20.jpg" />
+    <Content Include="Content\Images\index_01_no_22.jpg" />
+    <Content Include="Content\Images\index_02_21.jpg" />
+    <Content Include="Content\Images\index_02_26.jpg" />
+    <Content Include="Content\Images\index_02_a_21.jpg" />
+    <Content Include="Content\Images\index_03_21.jpg" />
+    <Content Include="Content\Images\index_03_a_22.jpg" />
+    <Content Include="Content\Images\index_04_22.jpg" />
+    <Content Include="Content\Images\index_04_a_22.jpg" />
+    <Content Include="Content\Images\index_05_a_21.jpg" />
+    <Content Include="Content\Images\index_06_22.jpg" />
+    <Content Include="Content\Images\In_r-2_19.jpg" />
+    <Content Include="Content\Images\Jian_l_15.jpg" />
+    <Content Include="Content\Images\left_hos_15.jpg" />
+    <Content Include="Content\Images\left_l_14.jpg" />
+    <Content Include="Content\Images\left_phones_07.jpg" />
+    <Content Include="Content\Images\left_phone_07.jpg" />
+    <Content Include="Content\Images\left_suo_11.jpg" />
+    <Content Include="Content\Images\logo.jpg" />
+    <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\Images\look_06.jpg" />
+    <Content Include="Content\Images\message_07.jpg" />
+    <Content Include="Content\Images\shanchu_03.jpg" />
+    <Content Include="Content\Images\tiems_06.jpg" />
+    <Content Include="Content\Images\u_default.png" />
+    <Content Include="Content\Images\weixin.jpg" />
+    <Content Include="Content\Images\weixinfenxiang.jpg" />
+    <Content Include="Content\QRcode\changelog.txt" />
+    <Content Include="Content\QRcode\demo-mobile\accordion\basic.html" />
+    <Content Include="Content\QRcode\demo-mobile\accordion\header.html" />
+    <Content Include="Content\QRcode\demo-mobile\accordion\_content.html" />
+    <Content Include="Content\QRcode\demo-mobile\animation\basic.html" />
+    <Content Include="Content\QRcode\demo-mobile\animation\fade.html" />
+    <Content Include="Content\QRcode\demo-mobile\animation\pop.html" />
+    <Content Include="Content\QRcode\demo-mobile\animation\slide.html" />
+    <Content Include="Content\QRcode\demo-mobile\badge\basic.html" />
+    <Content Include="Content\QRcode\demo-mobile\badge\button.html" />
+    <Content Include="Content\QRcode\demo-mobile\badge\list.html" />
+    <Content Include="Content\QRcode\demo-mobile\badge\tabs.html" />
+    <Content Include="Content\QRcode\demo-mobile\button\basic.html" />
+    <Content Include="Content\QRcode\demo-mobile\button\group.html" />
+    <Content Include="Content\QRcode\demo-mobile\button\style.html" />
+    <Content Include="Content\QRcode\demo-mobile\button\switch.html" />
+    <Content Include="Content\QRcode\demo-mobile\datagrid\basic.html" />
+    <Content Include="Content\QRcode\demo-mobile\datagrid\rowediting.html" />
+    <Content Include="Content\QRcode\demo-mobile\datalist\basic.html" />
+    <Content Include="Content\QRcode\demo-mobile\datalist\group.html" />
+    <Content Include="Content\QRcode\demo-mobile\datalist\selection.html" />
+    <Content Include="Content\QRcode\demo-mobile\dialog\basic.html" />
+    <Content Include="Content\QRcode\demo-mobile\dialog\message.html" />
+    <Content Include="Content\QRcode\demo-mobile\form\basic.html" />
+    <Content Include="Content\QRcode\demo-mobile\images\login1.jpg" />
+    <Content Include="Content\QRcode\demo-mobile\images\modem.png" />
+    <Content Include="Content\QRcode\demo-mobile\images\more.png" />
+    <Content Include="Content\QRcode\demo-mobile\images\pda.png" />
+    <Content Include="Content\QRcode\demo-mobile\images\scanner.png" />
+    <Content Include="Content\QRcode\demo-mobile\images\tablet.png" />
+    <Content Include="Content\QRcode\demo-mobile\input\numberspinner.html" />
+    <Content Include="Content\QRcode\demo-mobile\input\textbox.html" />
+    <Content Include="Content\QRcode\demo-mobile\layout\basic.html" />
+    <Content Include="Content\QRcode\demo-mobile\menu\basic.html" />
+    <Content Include="Content\QRcode\demo-mobile\menu\menubar.html" />
+    <Content Include="Content\QRcode\demo-mobile\panel\ajax.html" />
+    <Content Include="Content\QRcode\demo-mobile\panel\basic.html" />
+    <Content Include="Content\QRcode\demo-mobile\panel\nav.html" />
+    <Content Include="Content\QRcode\demo-mobile\panel\_content.html" />
+    <Content Include="Content\QRcode\demo-mobile\simplelist\basic.html" />
+    <Content Include="Content\QRcode\demo-mobile\simplelist\button.html" />
+    <Content Include="Content\QRcode\demo-mobile\simplelist\group.html" />
+    <Content Include="Content\QRcode\demo-mobile\simplelist\image.html" />
+    <Content Include="Content\QRcode\demo-mobile\simplelist\link.html" />
+    <Content Include="Content\QRcode\demo-mobile\tabs\basic.html" />
+    <Content Include="Content\QRcode\demo-mobile\tabs\nav.html" />
+    <Content Include="Content\QRcode\demo-mobile\tabs\pill.html" />
+    <Content Include="Content\QRcode\demo-mobile\toolbar\basic.html" />
+    <Content Include="Content\QRcode\demo-mobile\toolbar\button.html" />
+    <Content Include="Content\QRcode\demo-mobile\toolbar\menu.html" />
+    <Content Include="Content\QRcode\demo-mobile\tree\basic.html" />
+    <Content Include="Content\QRcode\demo-mobile\tree\dnd.html" />
+    <Content Include="Content\QRcode\demo\accordion\actions.html" />
+    <Content Include="Content\QRcode\demo\accordion\ajax.html" />
+    <Content Include="Content\QRcode\demo\accordion\basic.html" />
+    <Content Include="Content\QRcode\demo\accordion\expandable.html" />
+    <Content Include="Content\QRcode\demo\accordion\fluid.html" />
+    <Content Include="Content\QRcode\demo\accordion\horizontal.html" />
+    <Content Include="Content\QRcode\demo\accordion\multiple.html" />
+    <Content Include="Content\QRcode\demo\accordion\tools.html" />
+    <Content Include="Content\QRcode\demo\accordion\_content.html" />
+    <Content Include="Content\QRcode\demo\calendar\basic.html" />
+    <Content Include="Content\QRcode\demo\calendar\custom.html" />
+    <Content Include="Content\QRcode\demo\calendar\disabledate.html" />
+    <Content Include="Content\QRcode\demo\calendar\firstday.html" />
+    <Content Include="Content\QRcode\demo\calendar\fluid.html" />
+    <Content Include="Content\QRcode\demo\calendar\weeknumber.html" />
+    <Content Include="Content\QRcode\demo\checkbox\basic.html" />
+    <Content Include="Content\QRcode\demo\combobox\actions.html" />
+    <Content Include="Content\QRcode\demo\combobox\basic.html" />
+    <Content Include="Content\QRcode\demo\combobox\customformat.html" />
+    <Content Include="Content\QRcode\demo\combobox\dynamicdata.html" />
+    <Content Include="Content\QRcode\demo\combobox\fluid.html" />
+    <Content Include="Content\QRcode\demo\combobox\group.html" />
+    <Content Include="Content\QRcode\demo\combobox\icons.html" />
+    <Content Include="Content\QRcode\demo\combobox\itemicon.html" />
+    <Content Include="Content\QRcode\demo\combobox\multiline.html" />
+    <Content Include="Content\QRcode\demo\combobox\multiple.html" />
+    <Content Include="Content\QRcode\demo\combobox\navigation.html" />
+    <Content Include="Content\QRcode\demo\combobox\remotedata.html" />
+    <Content Include="Content\QRcode\demo\combobox\remotejsonp.html" />
+    <Content Include="Content\QRcode\demo\combogrid\actions.html" />
+    <Content Include="Content\QRcode\demo\combogrid\basic.html" />
+    <Content Include="Content\QRcode\demo\combogrid\fluid.html" />
+    <Content Include="Content\QRcode\demo\combogrid\initvalue.html" />
+    <Content Include="Content\QRcode\demo\combogrid\multiple.html" />
+    <Content Include="Content\QRcode\demo\combogrid\navigation.html" />
+    <Content Include="Content\QRcode\demo\combogrid\setvalue.html" />
+    <Content Include="Content\QRcode\demo\combotreegrid\basic.html" />
+    <Content Include="Content\QRcode\demo\combotreegrid\multiple.html" />
+    <Content Include="Content\QRcode\demo\combotree\actions.html" />
+    <Content Include="Content\QRcode\demo\combotree\basic.html" />
+    <Content Include="Content\QRcode\demo\combotree\fluid.html" />
+    <Content Include="Content\QRcode\demo\combotree\initvalue.html" />
+    <Content Include="Content\QRcode\demo\combotree\multiple.html" />
+    <Content Include="Content\QRcode\demo\combotree\test.html" />
+    <Content Include="Content\QRcode\demo\combo\animation.html" />
+    <Content Include="Content\QRcode\demo\combo\basic.html" />
+    <Content Include="Content\QRcode\demo\datagrid\aligncolumns.html" />
+    <Content Include="Content\QRcode\demo\datagrid\basic.html" />
+    <Content Include="Content\QRcode\demo\datagrid\cacheeditor.html" />
+    <Content Include="Content\QRcode\demo\datagrid\cellediting.html" />
+    <Content Include="Content\QRcode\demo\datagrid\cellstyle.html" />
+    <Content Include="Content\QRcode\demo\datagrid\checkbox.html" />
+    <Content Include="Content\QRcode\demo\datagrid\clientpagination.html" />
+    <Content Include="Content\QRcode\demo\datagrid\columngroup.html" />
+    <Content Include="Content\QRcode\demo\datagrid\complextoolbar.html" />
+    <Content Include="Content\QRcode\demo\datagrid\contextmenu.html" />
+    <Content Include="Content\QRcode\demo\datagrid\custompager.html" />
+    <Content Include="Content\QRcode\demo\datagrid\fluid.html" />
+    <Content Include="Content\QRcode\demo\datagrid\footer.html" />
+    <Content Include="Content\QRcode\demo\datagrid\formatcolumns.html" />
+    <Content Include="Content\QRcode\demo\datagrid\frozencolumns.html" />
+    <Content Include="Content\QRcode\demo\datagrid\frozenrows.html" />
+    <Content Include="Content\QRcode\demo\datagrid\mergecells.html" />
+    <Content Include="Content\QRcode\demo\datagrid\multisorting.html" />
+    <Content Include="Content\QRcode\demo\datagrid\rowborder.html" />
+    <Content Include="Content\QRcode\demo\datagrid\rowediting.html" />
+    <Content Include="Content\QRcode\demo\datagrid\rowstyle.html" />
+    <Content Include="Content\QRcode\demo\datagrid\selection.html" />
+    <Content Include="Content\QRcode\demo\datagrid\simpletoolbar.html" />
+    <Content Include="Content\QRcode\demo\datagrid\transform.html" />
+    <Content Include="Content\QRcode\demo\datalist\basic.html" />
+    <Content Include="Content\QRcode\demo\datalist\checkbox.html" />
+    <Content Include="Content\QRcode\demo\datalist\group.html" />
+    <Content Include="Content\QRcode\demo\datalist\multiselect.html" />
+    <Content Include="Content\QRcode\demo\datalist\remotedata.html" />
+    <Content Include="Content\QRcode\demo\datebox\basic.html" />
+    <Content Include="Content\QRcode\demo\datebox\buttons.html" />
+    <Content Include="Content\QRcode\demo\datebox\clone.html" />
+    <Content Include="Content\QRcode\demo\datebox\dateformat.html" />
+    <Content Include="Content\QRcode\demo\datebox\events.html" />
+    <Content Include="Content\QRcode\demo\datebox\fluid.html" />
+    <Content Include="Content\QRcode\demo\datebox\restrict.html" />
+    <Content Include="Content\QRcode\demo\datebox\sharedcalendar.html" />
+    <Content Include="Content\QRcode\demo\datebox\validate.html" />
+    <Content Include="Content\QRcode\demo\datetimebox\basic.html" />
+    <Content Include="Content\QRcode\demo\datetimebox\fluid.html" />
+    <Content Include="Content\QRcode\demo\datetimebox\initvalue.html" />
+    <Content Include="Content\QRcode\demo\datetimebox\showseconds.html" />
+    <Content Include="Content\QRcode\demo\datetimespinner\basic.html" />
+    <Content Include="Content\QRcode\demo\datetimespinner\clearicon.html" />
+    <Content Include="Content\QRcode\demo\datetimespinner\fluid.html" />
+    <Content Include="Content\QRcode\demo\datetimespinner\format.html" />
+    <Content Include="Content\QRcode\demo\demo.css" />
+    <Content Include="Content\QRcode\demo\dialog\basic.html" />
+    <Content Include="Content\QRcode\demo\dialog\complextoolbar.html" />
+    <Content Include="Content\QRcode\demo\dialog\fluid.html" />
+    <Content Include="Content\QRcode\demo\dialog\toolbarbuttons.html" />
+    <Content Include="Content\QRcode\demo\draggable\basic.html" />
+    <Content Include="Content\QRcode\demo\draggable\constrain.html" />
+    <Content Include="Content\QRcode\demo\draggable\snap.html" />
+    <Content Include="Content\QRcode\demo\droppable\accept.html" />
+    <Content Include="Content\QRcode\demo\droppable\basic.html" />
+    <Content Include="Content\QRcode\demo\droppable\sort.html" />
+    <Content Include="Content\QRcode\demo\easyloader\basic.html" />
+    <Content Include="Content\QRcode\demo\filebox\basic.html" />
+    <Content Include="Content\QRcode\demo\filebox\buttonalign.html" />
+    <Content Include="Content\QRcode\demo\filebox\fluid.html" />
+    <Content Include="Content\QRcode\demo\form\basic.html" />
+    <Content Include="Content\QRcode\demo\form\floatinglabel.html" />
+    <Content Include="Content\QRcode\demo\form\load.html" />
+    <Content Include="Content\QRcode\demo\form\validateonsubmit.html" />
+    <Content Include="Content\QRcode\demo\layout\addremove.html" />
+    <Content Include="Content\QRcode\demo\layout\autoheight.html" />
+    <Content Include="Content\QRcode\demo\layout\basic.html" />
+    <Content Include="Content\QRcode\demo\layout\collapsetitle.html" />
+    <Content Include="Content\QRcode\demo\layout\complex.html" />
+    <Content Include="Content\QRcode\demo\layout\customcollapsetitle.html" />
+    <Content Include="Content\QRcode\demo\layout\fluid.html" />
+    <Content Include="Content\QRcode\demo\layout\full.html" />
+    <Content Include="Content\QRcode\demo\layout\nestedlayout.html" />
+    <Content Include="Content\QRcode\demo\layout\nocollapsible.html" />
+    <Content Include="Content\QRcode\demo\layout\_content.html" />
+    <Content Include="Content\QRcode\demo\linkbutton\basic.html" />
+    <Content Include="Content\QRcode\demo\linkbutton\fluid.html" />
+    <Content Include="Content\QRcode\demo\linkbutton\group.html" />
+    <Content Include="Content\QRcode\demo\linkbutton\iconalign.html" />
+    <Content Include="Content\QRcode\demo\linkbutton\plain.html" />
+    <Content Include="Content\QRcode\demo\linkbutton\size.html" />
+    <Content Include="Content\QRcode\demo\linkbutton\style.html" />
+    <Content Include="Content\QRcode\demo\linkbutton\toggle.html" />
+    <Content Include="Content\QRcode\demo\maskedbox\basic.html" />
+    <Content Include="Content\QRcode\demo\menubutton\actions.html" />
+    <Content Include="Content\QRcode\demo\menubutton\alignment.html" />
+    <Content Include="Content\QRcode\demo\menubutton\basic.html" />
+    <Content Include="Content\QRcode\demo\menubutton\nav.html" />
+    <Content Include="Content\QRcode\demo\menu\basic.html" />
+    <Content Include="Content\QRcode\demo\menu\customitem.html" />
+    <Content Include="Content\QRcode\demo\menu\events.html" />
+    <Content Include="Content\QRcode\demo\menu\inline.html" />
+    <Content Include="Content\QRcode\demo\menu\nav.html" />
+    <Content Include="Content\QRcode\demo\messager\alert.html" />
+    <Content Include="Content\QRcode\demo\messager\basic.html" />
+    <Content Include="Content\QRcode\demo\messager\interactive.html" />
+    <Content Include="Content\QRcode\demo\messager\position.html" />
+    <Content Include="Content\QRcode\demo\numberbox\basic.html" />
+    <Content Include="Content\QRcode\demo\numberbox\fluid.html" />
+    <Content Include="Content\QRcode\demo\numberbox\format.html" />
+    <Content Include="Content\QRcode\demo\numberbox\range.html" />
+    <Content Include="Content\QRcode\demo\numberspinner\align.html" />
+    <Content Include="Content\QRcode\demo\numberspinner\basic.html" />
+    <Content Include="Content\QRcode\demo\numberspinner\fluid.html" />
+    <Content Include="Content\QRcode\demo\numberspinner\increment.html" />
+    <Content Include="Content\QRcode\demo\numberspinner\range.html" />
+    <Content Include="Content\QRcode\demo\pagination\attaching.html" />
+    <Content Include="Content\QRcode\demo\pagination\basic.html" />
+    <Content Include="Content\QRcode\demo\pagination\custombuttons.html" />
+    <Content Include="Content\QRcode\demo\pagination\layout.html" />
+    <Content Include="Content\QRcode\demo\pagination\links.html" />
+    <Content Include="Content\QRcode\demo\pagination\simple.html" />
+    <Content Include="Content\QRcode\demo\panel\basic.html" />
+    <Content Include="Content\QRcode\demo\panel\customtools.html" />
+    <Content Include="Content\QRcode\demo\panel\fluid.html" />
+    <Content Include="Content\QRcode\demo\panel\footer.html" />
+    <Content Include="Content\QRcode\demo\panel\halign.html" />
+    <Content Include="Content\QRcode\demo\panel\loadcontent.html" />
+    <Content Include="Content\QRcode\demo\panel\nestedpanel.html" />
+    <Content Include="Content\QRcode\demo\panel\paneltools.html" />
+    <Content Include="Content\QRcode\demo\panel\_content.html" />
+    <Content Include="Content\QRcode\demo\passwordbox\basic.html" />
+    <Content Include="Content\QRcode\demo\passwordbox\flash.html" />
+    <Content Include="Content\QRcode\demo\passwordbox\validatepassword.html" />
+    <Content Include="Content\QRcode\demo\progressbar\basic.html" />
+    <Content Include="Content\QRcode\demo\progressbar\fluid.html" />
+    <Content Include="Content\QRcode\demo\propertygrid\basic.html" />
+    <Content Include="Content\QRcode\demo\propertygrid\customcolumns.html" />
+    <Content Include="Content\QRcode\demo\propertygrid\groupformat.html" />
+    <Content Include="Content\QRcode\demo\radiobutton\basic.html" />
+    <Content Include="Content\QRcode\demo\resizable\basic.html" />
+    <Content Include="Content\QRcode\demo\searchbox\basic.html" />
+    <Content Include="Content\QRcode\demo\searchbox\category.html" />
+    <Content Include="Content\QRcode\demo\searchbox\fluid.html" />
+    <Content Include="Content\QRcode\demo\sidemenu\basic.html" />
+    <Content Include="Content\QRcode\demo\sidemenu\sidemenu_style.css" />
+    <Content Include="Content\QRcode\demo\sidemenu\style.html" />
+    <Content Include="Content\QRcode\demo\slider\basic.html" />
+    <Content Include="Content\QRcode\demo\slider\fluid.html" />
+    <Content Include="Content\QRcode\demo\slider\formattip.html" />
+    <Content Include="Content\QRcode\demo\slider\nonlinear.html" />
+    <Content Include="Content\QRcode\demo\slider\range.html" />
+    <Content Include="Content\QRcode\demo\slider\rule.html" />
+    <Content Include="Content\QRcode\demo\slider\vertical.html" />
+    <Content Include="Content\QRcode\demo\splitbutton\actions.html" />
+    <Content Include="Content\QRcode\demo\splitbutton\basic.html" />
+    <Content Include="Content\QRcode\demo\switchbutton\action.html" />
+    <Content Include="Content\QRcode\demo\switchbutton\basic.html" />
+    <Content Include="Content\QRcode\demo\tabs\autoheight.html" />
+    <Content Include="Content\QRcode\demo\tabs\basic.html" />
+    <Content Include="Content\QRcode\demo\tabs\dropdown.html" />
+    <Content Include="Content\QRcode\demo\tabs\fixedwidth.html" />
+    <Content Include="Content\QRcode\demo\tabs\fluid.html" />
+    <Content Include="Content\QRcode\demo\tabs\hover.html" />
+    <Content Include="Content\QRcode\demo\tabs\images\modem.png" />
+    <Content Include="Content\QRcode\demo\tabs\images\pda.png" />
+    <Content Include="Content\QRcode\demo\tabs\images\scanner.png" />
+    <Content Include="Content\QRcode\demo\tabs\images\tablet.png" />
+    <Content Include="Content\QRcode\demo\tabs\nestedtabs.html" />
+    <Content Include="Content\QRcode\demo\tabs\striptools.html" />
+    <Content Include="Content\QRcode\demo\tabs\style.html" />
+    <Content Include="Content\QRcode\demo\tabs\tabimage.html" />
+    <Content Include="Content\QRcode\demo\tabs\tabposition.html" />
+    <Content Include="Content\QRcode\demo\tabs\tabstools.html" />
+    <Content Include="Content\QRcode\demo\tabs\_content.html" />
+    <Content Include="Content\QRcode\demo\tagbox\autocomplete.html" />
+    <Content Include="Content\QRcode\demo\tagbox\basic.html" />
+    <Content Include="Content\QRcode\demo\tagbox\button.html" />
+    <Content Include="Content\QRcode\demo\tagbox\format.html" />
+    <Content Include="Content\QRcode\demo\tagbox\style.html" />
+    <Content Include="Content\QRcode\demo\tagbox\validate.html" />
+    <Content Include="Content\QRcode\demo\textbox\basic.html" />
+    <Content Include="Content\QRcode\demo\textbox\button.html" />
+    <Content Include="Content\QRcode\demo\textbox\clearicon.html" />
+    <Content Include="Content\QRcode\demo\textbox\custom.html" />
+    <Content Include="Content\QRcode\demo\textbox\fluid.html" />
+    <Content Include="Content\QRcode\demo\textbox\icons.html" />
+    <Content Include="Content\QRcode\demo\textbox\multiline.html" />
+    <Content Include="Content\QRcode\demo\textbox\size.html" />
+    <Content Include="Content\QRcode\demo\timepicker\basic.html" />
+    <Content Include="Content\QRcode\demo\timespinner\actions.html" />
+    <Content Include="Content\QRcode\demo\timespinner\basic.html" />
+    <Content Include="Content\QRcode\demo\timespinner\fluid.html" />
+    <Content Include="Content\QRcode\demo\timespinner\hour12.html" />
+    <Content Include="Content\QRcode\demo\timespinner\range.html" />
+    <Content Include="Content\QRcode\demo\tooltip\ajax.html" />
+    <Content Include="Content\QRcode\demo\tooltip\basic.html" />
+    <Content Include="Content\QRcode\demo\tooltip\customcontent.html" />
+    <Content Include="Content\QRcode\demo\tooltip\customstyle.html" />
+    <Content Include="Content\QRcode\demo\tooltip\position.html" />
+    <Content Include="Content\QRcode\demo\tooltip\toolbar.html" />
+    <Content Include="Content\QRcode\demo\tooltip\tooltipdialog.html" />
+    <Content Include="Content\QRcode\demo\tooltip\_content.html" />
+    <Content Include="Content\QRcode\demo\tooltip\_dialog.html" />
+    <Content Include="Content\QRcode\demo\treegrid\actions.html" />
+    <Content Include="Content\QRcode\demo\treegrid\basic.html" />
+    <Content Include="Content\QRcode\demo\treegrid\checkbox.html" />
+    <Content Include="Content\QRcode\demo\treegrid\clientpagination.html" />
+    <Content Include="Content\QRcode\demo\treegrid\contextmenu.html" />
+    <Content Include="Content\QRcode\demo\treegrid\customcheckbox.html" />
+    <Content Include="Content\QRcode\demo\treegrid\editable.html" />
+    <Content Include="Content\QRcode\demo\treegrid\fluid.html" />
+    <Content Include="Content\QRcode\demo\treegrid\footer.html" />
+    <Content Include="Content\QRcode\demo\treegrid\lines.html" />
+    <Content Include="Content\QRcode\demo\treegrid\reports.html" />
+    <Content Include="Content\QRcode\demo\tree\actions.html" />
+    <Content Include="Content\QRcode\demo\tree\animation.html" />
+    <Content Include="Content\QRcode\demo\tree\basic.html" />
+    <Content Include="Content\QRcode\demo\tree\checkbox.html" />
+    <Content Include="Content\QRcode\demo\tree\contextmenu.html" />
+    <Content Include="Content\QRcode\demo\tree\customcheckbox.html" />
+    <Content Include="Content\QRcode\demo\tree\dnd.html" />
+    <Content Include="Content\QRcode\demo\tree\editable.html" />
+    <Content Include="Content\QRcode\demo\tree\formatting.html" />
+    <Content Include="Content\QRcode\demo\tree\icons.html" />
+    <Content Include="Content\QRcode\demo\tree\lazyload.html" />
+    <Content Include="Content\QRcode\demo\tree\lines.html" />
+    <Content Include="Content\QRcode\demo\validatebox\basic.html" />
+    <Content Include="Content\QRcode\demo\validatebox\customtooltip.html" />
+    <Content Include="Content\QRcode\demo\validatebox\errorplacement.html" />
+    <Content Include="Content\QRcode\demo\validatebox\validateonblur.html" />
+    <Content Include="Content\QRcode\demo\window\basic.html" />
+    <Content Include="Content\QRcode\demo\window\borderstyle.html" />
+    <Content Include="Content\QRcode\demo\window\customtools.html" />
+    <Content Include="Content\QRcode\demo\window\fluid.html" />
+    <Content Include="Content\QRcode\demo\window\footer.html" />
+    <Content Include="Content\QRcode\demo\window\inlinewindow.html" />
+    <Content Include="Content\QRcode\demo\window\modalwindow.html" />
+    <Content Include="Content\QRcode\demo\window\windowlayout.html" />
+    <Content Include="Content\QRcode\easyloader.js" />
+    <Content Include="Content\QRcode\easyui.css" />
+    <Content Include="Content\QRcode\icon.css" />
+    <Content Include="Content\QRcode\jquery.easyui.min.js" />
+    <Content Include="Content\QRcode\jquery.easyui.mobile.js" />
+    <Content Include="Content\QRcode\jquery.min.js" />
+    <Content Include="Content\QRcode\jquery.qrcode.min.js" />
+    <Content Include="Content\QRcode\license_freeware.txt" />
+    <Content Include="Content\QRcode\locale\easyui-lang-af.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-am.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-ar.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-bg.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-ca.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-cs.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-cz.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-da.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-de.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-el.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-en.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-es.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-fa.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-fr.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-it.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-jp.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-ko.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-nl.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-pl.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-pt_BR.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-ru.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-sv_SE.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-tr.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-ua.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-zh_CN.js" />
+    <Content Include="Content\QRcode\locale\easyui-lang-zh_TW.js" />
+    <Content Include="Content\QRcode\mobile.css" />
+    <Content Include="Content\QRcode\plugins\jquery.accordion.js" />
+    <Content Include="Content\QRcode\plugins\jquery.calendar.js" />
+    <Content Include="Content\QRcode\plugins\jquery.checkbox.js" />
+    <Content Include="Content\QRcode\plugins\jquery.combo.js" />
+    <Content Include="Content\QRcode\plugins\jquery.combobox.js" />
+    <Content Include="Content\QRcode\plugins\jquery.combogrid.js" />
+    <Content Include="Content\QRcode\plugins\jquery.combotree.js" />
+    <Content Include="Content\QRcode\plugins\jquery.combotreegrid.js" />
+    <Content Include="Content\QRcode\plugins\jquery.datagrid.js" />
+    <Content Include="Content\QRcode\plugins\jquery.datalist.js" />
+    <Content Include="Content\QRcode\plugins\jquery.datebox.js" />
+    <Content Include="Content\QRcode\plugins\jquery.datetimebox.js" />
+    <Content Include="Content\QRcode\plugins\jquery.datetimespinner.js" />
+    <Content Include="Content\QRcode\plugins\jquery.dialog.js" />
+    <Content Include="Content\QRcode\plugins\jquery.draggable.js" />
+    <Content Include="Content\QRcode\plugins\jquery.droppable.js" />
+    <Content Include="Content\QRcode\plugins\jquery.filebox.js" />
+    <Content Include="Content\QRcode\plugins\jquery.form.js" />
+    <Content Include="Content\QRcode\plugins\jquery.layout.js" />
+    <Content Include="Content\QRcode\plugins\jquery.linkbutton.js" />
+    <Content Include="Content\QRcode\plugins\jquery.maskedbox.js" />
+    <Content Include="Content\QRcode\plugins\jquery.menu.js" />
+    <Content Include="Content\QRcode\plugins\jquery.menubutton.js" />
+    <Content Include="Content\QRcode\plugins\jquery.messager.js" />
+    <Content Include="Content\QRcode\plugins\jquery.mobile.js" />
+    <Content Include="Content\QRcode\plugins\jquery.numberbox.js" />
+    <Content Include="Content\QRcode\plugins\jquery.numberspinner.js" />
+    <Content Include="Content\QRcode\plugins\jquery.pagination.js" />
+    <Content Include="Content\QRcode\plugins\jquery.panel.js" />
+    <Content Include="Content\QRcode\plugins\jquery.parser.js" />
+    <Content Include="Content\QRcode\plugins\jquery.passwordbox.js" />
+    <Content Include="Content\QRcode\plugins\jquery.progressbar.js" />
+    <Content Include="Content\QRcode\plugins\jquery.propertygrid.js" />
+    <Content Include="Content\QRcode\plugins\jquery.radiobutton.js" />
+    <Content Include="Content\QRcode\plugins\jquery.resizable.js" />
+    <Content Include="Content\QRcode\plugins\jquery.searchbox.js" />
+    <Content Include="Content\QRcode\plugins\jquery.sidemenu.js" />
+    <Content Include="Content\QRcode\plugins\jquery.slider.js" />
+    <Content Include="Content\QRcode\plugins\jquery.spinner.js" />
+    <Content Include="Content\QRcode\plugins\jquery.splitbutton.js" />
+    <Content Include="Content\QRcode\plugins\jquery.switchbutton.js" />
+    <Content Include="Content\QRcode\plugins\jquery.tabs.js" />
+    <Content Include="Content\QRcode\plugins\jquery.tagbox.js" />
+    <Content Include="Content\QRcode\plugins\jquery.textbox.js" />
+    <Content Include="Content\QRcode\plugins\jquery.timepicker.js" />
+    <Content Include="Content\QRcode\plugins\jquery.timespinner.js" />
+    <Content Include="Content\QRcode\plugins\jquery.tooltip.js" />
+    <Content Include="Content\QRcode\plugins\jquery.tree.js" />
+    <Content Include="Content\QRcode\plugins\jquery.treegrid.js" />
+    <Content Include="Content\QRcode\plugins\jquery.validatebox.js" />
+    <Content Include="Content\QRcode\plugins\jquery.window.js" />
+    <Content Include="Content\QRcode\readme.txt" />
+    <Content Include="Content\QRcode\src\easyloader.js" />
+    <Content Include="Content\QRcode\src\jquery.accordion.js" />
+    <Content Include="Content\QRcode\src\jquery.calendar.js" />
+    <Content Include="Content\QRcode\src\jquery.combobox.js" />
+    <Content Include="Content\QRcode\src\jquery.datebox.js" />
+    <Content Include="Content\QRcode\src\jquery.draggable.js" />
+    <Content Include="Content\QRcode\src\jquery.droppable.js" />
+    <Content Include="Content\QRcode\src\jquery.form.js" />
+    <Content Include="Content\QRcode\src\jquery.linkbutton.js" />
+    <Content Include="Content\QRcode\src\jquery.menu.js" />
+    <Content Include="Content\QRcode\src\jquery.parser.js" />
+    <Content Include="Content\QRcode\src\jquery.progressbar.js" />
+    <Content Include="Content\QRcode\src\jquery.propertygrid.js" />
+    <Content Include="Content\QRcode\src\jquery.resizable.js" />
+    <Content Include="Content\QRcode\src\jquery.slider.js" />
+    <Content Include="Content\QRcode\src\jquery.tabs.js" />
+    <Content Include="Content\QRcode\src\jquery.window.js" />
+    <Content Include="Content\QRcode\themes\angular.css" />
+    <Content Include="Content\QRcode\themes\black\accordion.css" />
+    <Content Include="Content\QRcode\themes\black\calendar.css" />
+    <Content Include="Content\QRcode\themes\black\checkbox.css" />
+    <Content Include="Content\QRcode\themes\black\combo.css" />
+    <Content Include="Content\QRcode\themes\black\combobox.css" />
+    <Content Include="Content\QRcode\themes\black\datagrid.css" />
+    <Content Include="Content\QRcode\themes\black\datalist.css" />
+    <Content Include="Content\QRcode\themes\black\datebox.css" />
+    <Content Include="Content\QRcode\themes\black\dialog.css" />
+    <Content Include="Content\QRcode\themes\black\easyui.css" />
+    <Content Include="Content\QRcode\themes\black\filebox.css" />
+    <Content Include="Content\QRcode\themes\black\flex.css" />
+    <Content Include="Content\QRcode\themes\black\images\accordion_arrows.png" />
+    <Content Include="Content\QRcode\themes\black\images\blank.gif" />
+    <Content Include="Content\QRcode\themes\black\images\calendar_arrows.png" />
+    <Content Include="Content\QRcode\themes\black\images\combo_arrow.png" />
+    <Content Include="Content\QRcode\themes\black\images\datagrid_icons.png" />
+    <Content Include="Content\QRcode\themes\black\images\datebox_arrow.png" />
+    <Content Include="Content\QRcode\themes\black\images\layout_arrows.png" />
+    <Content Include="Content\QRcode\themes\black\images\linkbutton_bg.png" />
+    <Content Include="Content\QRcode\themes\black\images\loading.gif" />
+    <Content Include="Content\QRcode\themes\black\images\menu_arrows.png" />
+    <Content Include="Content\QRcode\themes\black\images\messager_icons.png" />
+    <Content Include="Content\QRcode\themes\black\images\pagination_icons.png" />
+    <Content Include="Content\QRcode\themes\black\images\panel_tools.png" />
+    <Content Include="Content\QRcode\themes\black\images\passwordbox_close.png" />
+    <Content Include="Content\QRcode\themes\black\images\passwordbox_open.png" />
+    <Content Include="Content\QRcode\themes\black\images\searchbox_button.png" />
+    <Content Include="Content\QRcode\themes\black\images\slider_handle.png" />
+    <Content Include="Content\QRcode\themes\black\images\spinner_arrows.png" />
+    <Content Include="Content\QRcode\themes\black\images\tabs_icons.png" />
+    <Content Include="Content\QRcode\themes\black\images\tagbox_icons.png" />
+    <Content Include="Content\QRcode\themes\black\images\tree_icons.png" />
+    <Content Include="Content\QRcode\themes\black\images\validatebox_warning.png" />
+    <Content Include="Content\QRcode\themes\black\layout.css" />
+    <Content Include="Content\QRcode\themes\black\linkbutton.css" />
+    <Content Include="Content\QRcode\themes\black\menu.css" />
+    <Content Include="Content\QRcode\themes\black\menubutton.css" />
+    <Content Include="Content\QRcode\themes\black\messager.css" />
+    <Content Include="Content\QRcode\themes\black\numberbox.css" />
+    <Content Include="Content\QRcode\themes\black\pagination.css" />
+    <Content Include="Content\QRcode\themes\black\panel.css" />
+    <Content Include="Content\QRcode\themes\black\passwordbox.css" />
+    <Content Include="Content\QRcode\themes\black\progressbar.css" />
+    <Content Include="Content\QRcode\themes\black\propertygrid.css" />
+    <Content Include="Content\QRcode\themes\black\radiobutton.css" />
+    <Content Include="Content\QRcode\themes\black\searchbox.css" />
+    <Content Include="Content\QRcode\themes\black\sidemenu.css" />
+    <Content Include="Content\QRcode\themes\black\slider.css" />
+    <Content Include="Content\QRcode\themes\black\spinner.css" />
+    <Content Include="Content\QRcode\themes\black\splitbutton.css" />
+    <Content Include="Content\QRcode\themes\black\switchbutton.css" />
+    <Content Include="Content\QRcode\themes\black\tabs.css" />
+    <Content Include="Content\QRcode\themes\black\tagbox.css" />
+    <Content Include="Content\QRcode\themes\black\textbox.css" />
+    <Content Include="Content\QRcode\themes\black\timepicker.css" />
+    <Content Include="Content\QRcode\themes\black\tooltip.css" />
+    <Content Include="Content\QRcode\themes\black\tree.css" />
+    <Content Include="Content\QRcode\themes\black\validatebox.css" />
+    <Content Include="Content\QRcode\themes\black\window.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\accordion.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\calendar.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\checkbox.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\combo.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\combobox.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\datagrid.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\datalist.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\datebox.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\dialog.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\easyui.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\filebox.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\flex.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\accordion_arrows.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\blank.gif" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\calendar_arrows.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\combo_arrow.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\datagrid_icons.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\datebox_arrow.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\layout_arrows.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\linkbutton_bg.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\loading.gif" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\menu_arrows.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\messager_icons.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\pagination_icons.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\panel_tools.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\passwordbox_close.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\passwordbox_open.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\searchbox_button.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\slider_handle.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\spinner_arrows.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\tabs_icons.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\tagbox_icons.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\tree_icons.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\images\validatebox_warning.png" />
+    <Content Include="Content\QRcode\themes\bootstrap\layout.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\linkbutton.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\menu.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\menubutton.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\messager.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\numberbox.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\pagination.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\panel.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\passwordbox.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\progressbar.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\propertygrid.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\radiobutton.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\searchbox.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\sidemenu.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\slider.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\spinner.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\splitbutton.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\switchbutton.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\tabs.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\tagbox.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\textbox.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\timepicker.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\tooltip.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\tree.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\validatebox.css" />
+    <Content Include="Content\QRcode\themes\bootstrap\window.css" />
+    <Content Include="Content\QRcode\themes\color.css" />
+    <Content Include="Content\QRcode\themes\default\accordion.css" />
+    <Content Include="Content\QRcode\themes\default\calendar.css" />
+    <Content Include="Content\QRcode\themes\default\checkbox.css" />
+    <Content Include="Content\QRcode\themes\default\combo.css" />
+    <Content Include="Content\QRcode\themes\default\combobox.css" />
+    <Content Include="Content\QRcode\themes\default\datagrid.css" />
+    <Content Include="Content\QRcode\themes\default\datalist.css" />
+    <Content Include="Content\QRcode\themes\default\datebox.css" />
+    <Content Include="Content\QRcode\themes\default\dialog.css" />
+    <Content Include="Content\QRcode\themes\default\easyui.css" />
+    <Content Include="Content\QRcode\themes\default\filebox.css" />
+    <Content Include="Content\QRcode\themes\default\flex.css" />
+    <Content Include="Content\QRcode\themes\default\images\accordion_arrows.png" />
+    <Content Include="Content\QRcode\themes\default\images\blank.gif" />
+    <Content Include="Content\QRcode\themes\default\images\calendar_arrows.png" />
+    <Content Include="Content\QRcode\themes\default\images\combo_arrow.png" />
+    <Content Include="Content\QRcode\themes\default\images\datagrid_icons.png" />
+    <Content Include="Content\QRcode\themes\default\images\datebox_arrow.png" />
+    <Content Include="Content\QRcode\themes\default\images\layout_arrows.png" />
+    <Content Include="Content\QRcode\themes\default\images\linkbutton_bg.png" />
+    <Content Include="Content\QRcode\themes\default\images\loading.gif" />
+    <Content Include="Content\QRcode\themes\default\images\menu_arrows.png" />
+    <Content Include="Content\QRcode\themes\default\images\messager_icons.png" />
+    <Content Include="Content\QRcode\themes\default\images\pagination_icons.png" />
+    <Content Include="Content\QRcode\themes\default\images\panel_tools.png" />
+    <Content Include="Content\QRcode\themes\default\images\passwordbox_close.png" />
+    <Content Include="Content\QRcode\themes\default\images\passwordbox_open.png" />
+    <Content Include="Content\QRcode\themes\default\images\searchbox_button.png" />
+    <Content Include="Content\QRcode\themes\default\images\slider_handle.png" />
+    <Content Include="Content\QRcode\themes\default\images\spinner_arrows.png" />
+    <Content Include="Content\QRcode\themes\default\images\tabs_icons.png" />
+    <Content Include="Content\QRcode\themes\default\images\tagbox_icons.png" />
+    <Content Include="Content\QRcode\themes\default\images\tree_icons.png" />
+    <Content Include="Content\QRcode\themes\default\images\validatebox_warning.png" />
+    <Content Include="Content\QRcode\themes\default\layout.css" />
+    <Content Include="Content\QRcode\themes\default\linkbutton.css" />
+    <Content Include="Content\QRcode\themes\default\menu.css" />
+    <Content Include="Content\QRcode\themes\default\menubutton.css" />
+    <Content Include="Content\QRcode\themes\default\messager.css" />
+    <Content Include="Content\QRcode\themes\default\numberbox.css" />
+    <Content Include="Content\QRcode\themes\default\pagination.css" />
+    <Content Include="Content\QRcode\themes\default\panel.css" />
+    <Content Include="Content\QRcode\themes\default\passwordbox.css" />
+    <Content Include="Content\QRcode\themes\default\progressbar.css" />
+    <Content Include="Content\QRcode\themes\default\propertygrid.css" />
+    <Content Include="Content\QRcode\themes\default\radiobutton.css" />
+    <Content Include="Content\QRcode\themes\default\searchbox.css" />
+    <Content Include="Content\QRcode\themes\default\sidemenu.css" />
+    <Content Include="Content\QRcode\themes\default\slider.css" />
+    <Content Include="Content\QRcode\themes\default\spinner.css" />
+    <Content Include="Content\QRcode\themes\default\splitbutton.css" />
+    <Content Include="Content\QRcode\themes\default\switchbutton.css" />
+    <Content Include="Content\QRcode\themes\default\tabs.css" />
+    <Content Include="Content\QRcode\themes\default\tagbox.css" />
+    <Content Include="Content\QRcode\themes\default\textbox.css" />
+    <Content Include="Content\QRcode\themes\default\timepicker.css" />
+    <Content Include="Content\QRcode\themes\default\tooltip.css" />
+    <Content Include="Content\QRcode\themes\default\tree.css" />
+    <Content Include="Content\QRcode\themes\default\validatebox.css" />
+    <Content Include="Content\QRcode\themes\default\window.css" />
+    <Content Include="Content\QRcode\themes\gray\accordion.css" />
+    <Content Include="Content\QRcode\themes\gray\calendar.css" />
+    <Content Include="Content\QRcode\themes\gray\checkbox.css" />
+    <Content Include="Content\QRcode\themes\gray\combo.css" />
+    <Content Include="Content\QRcode\themes\gray\combobox.css" />
+    <Content Include="Content\QRcode\themes\gray\datagrid.css" />
+    <Content Include="Content\QRcode\themes\gray\datalist.css" />
+    <Content Include="Content\QRcode\themes\gray\datebox.css" />
+    <Content Include="Content\QRcode\themes\gray\dialog.css" />
+    <Content Include="Content\QRcode\themes\gray\easyui.css" />
+    <Content Include="Content\QRcode\themes\gray\filebox.css" />
+    <Content Include="Content\QRcode\themes\gray\flex.css" />
+    <Content Include="Content\QRcode\themes\gray\images\accordion_arrows.png" />
+    <Content Include="Content\QRcode\themes\gray\images\blank.gif" />
+    <Content Include="Content\QRcode\themes\gray\images\calendar_arrows.png" />
+    <Content Include="Content\QRcode\themes\gray\images\combo_arrow.png" />
+    <Content Include="Content\QRcode\themes\gray\images\datagrid_icons.png" />
+    <Content Include="Content\QRcode\themes\gray\images\datebox_arrow.png" />
+    <Content Include="Content\QRcode\themes\gray\images\layout_arrows.png" />
+    <Content Include="Content\QRcode\themes\gray\images\linkbutton_bg.png" />
+    <Content Include="Content\QRcode\themes\gray\images\loading.gif" />
+    <Content Include="Content\QRcode\themes\gray\images\menu_arrows.png" />
+    <Content Include="Content\QRcode\themes\gray\images\messager_icons.png" />
+    <Content Include="Content\QRcode\themes\gray\images\pagination_icons.png" />
+    <Content Include="Content\QRcode\themes\gray\images\panel_tools.png" />
+    <Content Include="Content\QRcode\themes\gray\images\passwordbox_close.png" />
+    <Content Include="Content\QRcode\themes\gray\images\passwordbox_open.png" />
+    <Content Include="Content\QRcode\themes\gray\images\searchbox_button.png" />
+    <Content Include="Content\QRcode\themes\gray\images\slider_handle.png" />
+    <Content Include="Content\QRcode\themes\gray\images\spinner_arrows.png" />
+    <Content Include="Content\QRcode\themes\gray\images\tabs_icons.png" />
+    <Content Include="Content\QRcode\themes\gray\images\tagbox_icons.png" />
+    <Content Include="Content\QRcode\themes\gray\images\tree_icons.png" />
+    <Content Include="Content\QRcode\themes\gray\images\validatebox_warning.png" />
+    <Content Include="Content\QRcode\themes\gray\layout.css" />
+    <Content Include="Content\QRcode\themes\gray\linkbutton.css" />
+    <Content Include="Content\QRcode\themes\gray\menu.css" />
+    <Content Include="Content\QRcode\themes\gray\menubutton.css" />
+    <Content Include="Content\QRcode\themes\gray\messager.css" />
+    <Content Include="Content\QRcode\themes\gray\numberbox.css" />
+    <Content Include="Content\QRcode\themes\gray\pagination.css" />
+    <Content Include="Content\QRcode\themes\gray\panel.css" />
+    <Content Include="Content\QRcode\themes\gray\passwordbox.css" />
+    <Content Include="Content\QRcode\themes\gray\progressbar.css" />
+    <Content Include="Content\QRcode\themes\gray\propertygrid.css" />
+    <Content Include="Content\QRcode\themes\gray\radiobutton.css" />
+    <Content Include="Content\QRcode\themes\gray\searchbox.css" />
+    <Content Include="Content\QRcode\themes\gray\sidemenu.css" />
+    <Content Include="Content\QRcode\themes\gray\slider.css" />
+    <Content Include="Content\QRcode\themes\gray\spinner.css" />
+    <Content Include="Content\QRcode\themes\gray\splitbutton.css" />
+    <Content Include="Content\QRcode\themes\gray\switchbutton.css" />
+    <Content Include="Content\QRcode\themes\gray\tabs.css" />
+    <Content Include="Content\QRcode\themes\gray\tagbox.css" />
+    <Content Include="Content\QRcode\themes\gray\textbox.css" />
+    <Content Include="Content\QRcode\themes\gray\timepicker.css" />
+    <Content Include="Content\QRcode\themes\gray\tooltip.css" />
+    <Content Include="Content\QRcode\themes\gray\tree.css" />
+    <Content Include="Content\QRcode\themes\gray\validatebox.css" />
+    <Content Include="Content\QRcode\themes\gray\window.css" />
+    <Content Include="Content\QRcode\themes\icon.css" />
+    <Content Include="Content\QRcode\themes\icons\back.png" />
+    <Content Include="Content\QRcode\themes\icons\blank.gif" />
+    <Content Include="Content\QRcode\themes\icons\cancel.png" />
+    <Content Include="Content\QRcode\themes\icons\clear.png" />
+    <Content Include="Content\QRcode\themes\icons\cut.png" />
+    <Content Include="Content\QRcode\themes\icons\edit_add.png" />
+    <Content Include="Content\QRcode\themes\icons\edit_remove.png" />
+    <Content Include="Content\QRcode\themes\icons\filesave.png" />
+    <Content Include="Content\QRcode\themes\icons\filter.png" />
+    <Content Include="Content\QRcode\themes\icons\help.png" />
+    <Content Include="Content\QRcode\themes\icons\large_chart.png" />
+    <Content Include="Content\QRcode\themes\icons\large_clipart.png" />
+    <Content Include="Content\QRcode\themes\icons\large_picture.png" />
+    <Content Include="Content\QRcode\themes\icons\large_shapes.png" />
+    <Content Include="Content\QRcode\themes\icons\large_smartart.png" />
+    <Content Include="Content\QRcode\themes\icons\lock.png" />
+    <Content Include="Content\QRcode\themes\icons\man.png" />
+    <Content Include="Content\QRcode\themes\icons\mini_add.png" />
+    <Content Include="Content\QRcode\themes\icons\mini_edit.png" />
+    <Content Include="Content\QRcode\themes\icons\mini_refresh.png" />
+    <Content Include="Content\QRcode\themes\icons\more.png" />
+    <Content Include="Content\QRcode\themes\icons\no.png" />
+    <Content Include="Content\QRcode\themes\icons\ok.png" />
+    <Content Include="Content\QRcode\themes\icons\pencil.png" />
+    <Content Include="Content\QRcode\themes\icons\print.png" />
+    <Content Include="Content\QRcode\themes\icons\redo.png" />
+    <Content Include="Content\QRcode\themes\icons\reload.png" />
+    <Content Include="Content\QRcode\themes\icons\search.png" />
+    <Content Include="Content\QRcode\themes\icons\sum.png" />
+    <Content Include="Content\QRcode\themes\icons\tip.png" />
+    <Content Include="Content\QRcode\themes\icons\undo.png" />
+    <Content Include="Content\QRcode\themes\material-blue\accordion.css" />
+    <Content Include="Content\QRcode\themes\material-blue\calendar.css" />
+    <Content Include="Content\QRcode\themes\material-blue\checkbox.css" />
+    <Content Include="Content\QRcode\themes\material-blue\combo.css" />
+    <Content Include="Content\QRcode\themes\material-blue\combobox.css" />
+    <Content Include="Content\QRcode\themes\material-blue\datagrid.css" />
+    <Content Include="Content\QRcode\themes\material-blue\datalist.css" />
+    <Content Include="Content\QRcode\themes\material-blue\datebox.css" />
+    <Content Include="Content\QRcode\themes\material-blue\dialog.css" />
+    <Content Include="Content\QRcode\themes\material-blue\easyui.css" />
+    <Content Include="Content\QRcode\themes\material-blue\filebox.css" />
+    <Content Include="Content\QRcode\themes\material-blue\flex.css" />
+    <Content Include="Content\QRcode\themes\material-blue\images\accordion_arrows.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\blank.gif" />
+    <Content Include="Content\QRcode\themes\material-blue\images\calendar_arrows.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\combo_arrow.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\datagrid_icons.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\datebox_arrow.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\layout_arrows.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\linkbutton_bg.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\loading.gif" />
+    <Content Include="Content\QRcode\themes\material-blue\images\menu_arrows.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\menu_arrows1.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\menu_arrows2.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\messager_icons.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\pagination_icons.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\panel_tools.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\passwordbox_close.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\passwordbox_open.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\searchbox_button.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\slider_handle.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\spinner_arrows.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\tabs_icons.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\tagbox_icons.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\tree_icons.png" />
+    <Content Include="Content\QRcode\themes\material-blue\images\validatebox_warning.png" />
+    <Content Include="Content\QRcode\themes\material-blue\layout.css" />
+    <Content Include="Content\QRcode\themes\material-blue\linkbutton.css" />
+    <Content Include="Content\QRcode\themes\material-blue\menu.css" />
+    <Content Include="Content\QRcode\themes\material-blue\menubutton.css" />
+    <Content Include="Content\QRcode\themes\material-blue\messager.css" />
+    <Content Include="Content\QRcode\themes\material-blue\numberbox.css" />
+    <Content Include="Content\QRcode\themes\material-blue\pagination.css" />
+    <Content Include="Content\QRcode\themes\material-blue\panel.css" />
+    <Content Include="Content\QRcode\themes\material-blue\passwordbox.css" />
+    <Content Include="Content\QRcode\themes\material-blue\progressbar.css" />
+    <Content Include="Content\QRcode\themes\material-blue\propertygrid.css" />
+    <Content Include="Content\QRcode\themes\material-blue\radiobutton.css" />
+    <Content Include="Content\QRcode\themes\material-blue\searchbox.css" />
+    <Content Include="Content\QRcode\themes\material-blue\sidemenu.css" />
+    <Content Include="Content\QRcode\themes\material-blue\slider.css" />
+    <Content Include="Content\QRcode\themes\material-blue\spinner.css" />
+    <Content Include="Content\QRcode\themes\material-blue\splitbutton.css" />
+    <Content Include="Content\QRcode\themes\material-blue\switchbutton.css" />
+    <Content Include="Content\QRcode\themes\material-blue\tabs.css" />
+    <Content Include="Content\QRcode\themes\material-blue\tagbox.css" />
+    <Content Include="Content\QRcode\themes\material-blue\textbox.css" />
+    <Content Include="Content\QRcode\themes\material-blue\timepicker.css" />
+    <Content Include="Content\QRcode\themes\material-blue\tooltip.css" />
+    <Content Include="Content\QRcode\themes\material-blue\tree.css" />
+    <Content Include="Content\QRcode\themes\material-blue\validatebox.css" />
+    <Content Include="Content\QRcode\themes\material-blue\window.css" />
+    <Content Include="Content\QRcode\themes\material-teal\accordion.css" />
+    <Content Include="Content\QRcode\themes\material-teal\calendar.css" />
+    <Content Include="Content\QRcode\themes\material-teal\checkbox.css" />
+    <Content Include="Content\QRcode\themes\material-teal\combo.css" />
+    <Content Include="Content\QRcode\themes\material-teal\combobox.css" />
+    <Content Include="Content\QRcode\themes\material-teal\datagrid.css" />
+    <Content Include="Content\QRcode\themes\material-teal\datalist.css" />
+    <Content Include="Content\QRcode\themes\material-teal\datebox.css" />
+    <Content Include="Content\QRcode\themes\material-teal\dialog.css" />
+    <Content Include="Content\QRcode\themes\material-teal\easyui.css" />
+    <Content Include="Content\QRcode\themes\material-teal\filebox.css" />
+    <Content Include="Content\QRcode\themes\material-teal\flex.css" />
+    <Content Include="Content\QRcode\themes\material-teal\images\accordion_arrows.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\blank.gif" />
+    <Content Include="Content\QRcode\themes\material-teal\images\calendar_arrows.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\combo_arrow.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\datagrid_icons.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\datebox_arrow.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\layout_arrows.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\linkbutton_bg.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\loading.gif" />
+    <Content Include="Content\QRcode\themes\material-teal\images\menu_arrows.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\messager_icons.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\pagination_icons.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\panel_tools.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\passwordbox_close.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\passwordbox_open.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\searchbox_button.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\slider_handle.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\spinner_arrows.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\tabs_icons.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\tagbox_icons.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\tree_icons.png" />
+    <Content Include="Content\QRcode\themes\material-teal\images\validatebox_warning.png" />
+    <Content Include="Content\QRcode\themes\material-teal\layout.css" />
+    <Content Include="Content\QRcode\themes\material-teal\linkbutton.css" />
+    <Content Include="Content\QRcode\themes\material-teal\menu.css" />
+    <Content Include="Content\QRcode\themes\material-teal\menubutton.css" />
+    <Content Include="Content\QRcode\themes\material-teal\messager.css" />
+    <Content Include="Content\QRcode\themes\material-teal\numberbox.css" />
+    <Content Include="Content\QRcode\themes\material-teal\pagination.css" />
+    <Content Include="Content\QRcode\themes\material-teal\panel.css" />
+    <Content Include="Content\QRcode\themes\material-teal\passwordbox.css" />
+    <Content Include="Content\QRcode\themes\material-teal\progressbar.css" />
+    <Content Include="Content\QRcode\themes\material-teal\propertygrid.css" />
+    <Content Include="Content\QRcode\themes\material-teal\radiobutton.css" />
+    <Content Include="Content\QRcode\themes\material-teal\searchbox.css" />
+    <Content Include="Content\QRcode\themes\material-teal\sidemenu.css" />
+    <Content Include="Content\QRcode\themes\material-teal\slider.css" />
+    <Content Include="Content\QRcode\themes\material-teal\spinner.css" />
+    <Content Include="Content\QRcode\themes\material-teal\splitbutton.css" />
+    <Content Include="Content\QRcode\themes\material-teal\switchbutton.css" />
+    <Content Include="Content\QRcode\themes\material-teal\tabs.css" />
+    <Content Include="Content\QRcode\themes\material-teal\tagbox.css" />
+    <Content Include="Content\QRcode\themes\material-teal\textbox.css" />
+    <Content Include="Content\QRcode\themes\material-teal\timepicker.css" />
+    <Content Include="Content\QRcode\themes\material-teal\tooltip.css" />
+    <Content Include="Content\QRcode\themes\material-teal\tree.css" />
+    <Content Include="Content\QRcode\themes\material-teal\validatebox.css" />
+    <Content Include="Content\QRcode\themes\material-teal\window.css" />
+    <Content Include="Content\QRcode\themes\material\accordion.css" />
+    <Content Include="Content\QRcode\themes\material\calendar.css" />
+    <Content Include="Content\QRcode\themes\material\checkbox.css" />
+    <Content Include="Content\QRcode\themes\material\combo.css" />
+    <Content Include="Content\QRcode\themes\material\combobox.css" />
+    <Content Include="Content\QRcode\themes\material\datagrid.css" />
+    <Content Include="Content\QRcode\themes\material\datalist.css" />
+    <Content Include="Content\QRcode\themes\material\datebox.css" />
+    <Content Include="Content\QRcode\themes\material\dialog.css" />
+    <Content Include="Content\QRcode\themes\material\easyui.css" />
+    <Content Include="Content\QRcode\themes\material\filebox.css" />
+    <Content Include="Content\QRcode\themes\material\flex.css" />
+    <Content Include="Content\QRcode\themes\material\images\accordion_arrows.png" />
+    <Content Include="Content\QRcode\themes\material\images\blank.gif" />
+    <Content Include="Content\QRcode\themes\material\images\calendar_arrows.png" />
+    <Content Include="Content\QRcode\themes\material\images\combo_arrow.png" />
+    <Content Include="Content\QRcode\themes\material\images\datagrid_icons.png" />
+    <Content Include="Content\QRcode\themes\material\images\datebox_arrow.png" />
+    <Content Include="Content\QRcode\themes\material\images\layout_arrows.png" />
+    <Content Include="Content\QRcode\themes\material\images\linkbutton_bg.png" />
+    <Content Include="Content\QRcode\themes\material\images\loading.gif" />
+    <Content Include="Content\QRcode\themes\material\images\menu_arrows.png" />
+    <Content Include="Content\QRcode\themes\material\images\messager_icons.png" />
+    <Content Include="Content\QRcode\themes\material\images\pagination_icons.png" />
+    <Content Include="Content\QRcode\themes\material\images\panel_tools.png" />
+    <Content Include="Content\QRcode\themes\material\images\passwordbox_close.png" />
+    <Content Include="Content\QRcode\themes\material\images\passwordbox_open.png" />
+    <Content Include="Content\QRcode\themes\material\images\searchbox_button.png" />
+    <Content Include="Content\QRcode\themes\material\images\slider_handle.png" />
+    <Content Include="Content\QRcode\themes\material\images\spinner_arrows.png" />
+    <Content Include="Content\QRcode\themes\material\images\tabs_icons.png" />
+    <Content Include="Content\QRcode\themes\material\images\tagbox_icons.png" />
+    <Content Include="Content\QRcode\themes\material\images\tree_icons.png" />
+    <Content Include="Content\QRcode\themes\material\images\validatebox_warning.png" />
+    <Content Include="Content\QRcode\themes\material\layout.css" />
+    <Content Include="Content\QRcode\themes\material\linkbutton.css" />
+    <Content Include="Content\QRcode\themes\material\menu.css" />
+    <Content Include="Content\QRcode\themes\material\menubutton.css" />
+    <Content Include="Content\QRcode\themes\material\messager.css" />
+    <Content Include="Content\QRcode\themes\material\numberbox.css" />
+    <Content Include="Content\QRcode\themes\material\pagination.css" />
+    <Content Include="Content\QRcode\themes\material\panel.css" />
+    <Content Include="Content\QRcode\themes\material\passwordbox.css" />
+    <Content Include="Content\QRcode\themes\material\progressbar.css" />
+    <Content Include="Content\QRcode\themes\material\propertygrid.css" />
+    <Content Include="Content\QRcode\themes\material\radiobutton.css" />
+    <Content Include="Content\QRcode\themes\material\searchbox.css" />
+    <Content Include="Content\QRcode\themes\material\sidemenu.css" />
+    <Content Include="Content\QRcode\themes\material\slider.css" />
+    <Content Include="Content\QRcode\themes\material\spinner.css" />
+    <Content Include="Content\QRcode\themes\material\splitbutton.css" />
+    <Content Include="Content\QRcode\themes\material\switchbutton.css" />
+    <Content Include="Content\QRcode\themes\material\tabs.css" />
+    <Content Include="Content\QRcode\themes\material\tagbox.css" />
+    <Content Include="Content\QRcode\themes\material\textbox.css" />
+    <Content Include="Content\QRcode\themes\material\timepicker.css" />
+    <Content Include="Content\QRcode\themes\material\tooltip.css" />
+    <Content Include="Content\QRcode\themes\material\tree.css" />
+    <Content Include="Content\QRcode\themes\material\validatebox.css" />
+    <Content Include="Content\QRcode\themes\material\window.css" />
+    <Content Include="Content\QRcode\themes\metro\accordion.css" />
+    <Content Include="Content\QRcode\themes\metro\calendar.css" />
+    <Content Include="Content\QRcode\themes\metro\checkbox.css" />
+    <Content Include="Content\QRcode\themes\metro\combo.css" />
+    <Content Include="Content\QRcode\themes\metro\combobox.css" />
+    <Content Include="Content\QRcode\themes\metro\datagrid.css" />
+    <Content Include="Content\QRcode\themes\metro\datalist.css" />
+    <Content Include="Content\QRcode\themes\metro\datebox.css" />
+    <Content Include="Content\QRcode\themes\metro\dialog.css" />
+    <Content Include="Content\QRcode\themes\metro\easyui.css" />
+    <Content Include="Content\QRcode\themes\metro\filebox.css" />
+    <Content Include="Content\QRcode\themes\metro\flex.css" />
+    <Content Include="Content\QRcode\themes\metro\images\accordion_arrows.png" />
+    <Content Include="Content\QRcode\themes\metro\images\blank.gif" />
+    <Content Include="Content\QRcode\themes\metro\images\calendar_arrows.png" />
+    <Content Include="Content\QRcode\themes\metro\images\combo_arrow.png" />
+    <Content Include="Content\QRcode\themes\metro\images\datagrid_icons.png" />
+    <Content Include="Content\QRcode\themes\metro\images\datebox_arrow.png" />
+    <Content Include="Content\QRcode\themes\metro\images\layout_arrows.png" />
+    <Content Include="Content\QRcode\themes\metro\images\linkbutton_bg.png" />
+    <Content Include="Content\QRcode\themes\metro\images\loading.gif" />
+    <Content Include="Content\QRcode\themes\metro\images\menu_arrows.png" />
+    <Content Include="Content\QRcode\themes\metro\images\messager_icons.png" />
+    <Content Include="Content\QRcode\themes\metro\images\pagination_icons.png" />
+    <Content Include="Content\QRcode\themes\metro\images\panel_tools.png" />
+    <Content Include="Content\QRcode\themes\metro\images\passwordbox_close.png" />
+    <Content Include="Content\QRcode\themes\metro\images\passwordbox_open.png" />
+    <Content Include="Content\QRcode\themes\metro\images\searchbox_button.png" />
+    <Content Include="Content\QRcode\themes\metro\images\slider_handle.png" />
+    <Content Include="Content\QRcode\themes\metro\images\spinner_arrows.png" />
+    <Content Include="Content\QRcode\themes\metro\images\tabs_icons.png" />
+    <Content Include="Content\QRcode\themes\metro\images\tagbox_icons.png" />
+    <Content Include="Content\QRcode\themes\metro\images\tree_icons.png" />
+    <Content Include="Content\QRcode\themes\metro\images\validatebox_warning.png" />
+    <Content Include="Content\QRcode\themes\metro\layout.css" />
+    <Content Include="Content\QRcode\themes\metro\linkbutton.css" />
+    <Content Include="Content\QRcode\themes\metro\menu.css" />
+    <Content Include="Content\QRcode\themes\metro\menubutton.css" />
+    <Content Include="Content\QRcode\themes\metro\messager.css" />
+    <Content Include="Content\QRcode\themes\metro\numberbox.css" />
+    <Content Include="Content\QRcode\themes\metro\pagination.css" />
+    <Content Include="Content\QRcode\themes\metro\panel.css" />
+    <Content Include="Content\QRcode\themes\metro\passwordbox.css" />
+    <Content Include="Content\QRcode\themes\metro\progressbar.css" />
+    <Content Include="Content\QRcode\themes\metro\propertygrid.css" />
+    <Content Include="Content\QRcode\themes\metro\radiobutton.css" />
+    <Content Include="Content\QRcode\themes\metro\searchbox.css" />
+    <Content Include="Content\QRcode\themes\metro\sidemenu.css" />
+    <Content Include="Content\QRcode\themes\metro\slider.css" />
+    <Content Include="Content\QRcode\themes\metro\spinner.css" />
+    <Content Include="Content\QRcode\themes\metro\splitbutton.css" />
+    <Content Include="Content\QRcode\themes\metro\switchbutton.css" />
+    <Content Include="Content\QRcode\themes\metro\tabs.css" />
+    <Content Include="Content\QRcode\themes\metro\tagbox.css" />
+    <Content Include="Content\QRcode\themes\metro\textbox.css" />
+    <Content Include="Content\QRcode\themes\metro\timepicker.css" />
+    <Content Include="Content\QRcode\themes\metro\tooltip.css" />
+    <Content Include="Content\QRcode\themes\metro\tree.css" />
+    <Content Include="Content\QRcode\themes\metro\validatebox.css" />
+    <Content Include="Content\QRcode\themes\metro\window.css" />
+    <Content Include="Content\QRcode\themes\mobile.css" />
+    <Content Include="Content\QRcode\themes\react.css" />
+    <Content Include="Content\QRcode\themes\vue.css" />
+    <Content Include="Content\Scripts\autocompleter\jquery.autocomplete.js" />
+    <Content Include="Content\Scripts\autocompleter\jquery.autocomplete.min.js" />
+    <Content Include="Content\Scripts\autocompleter\jquery.autocompleter.js" />
+    <Content Include="Content\Scripts\autocompleter\jquery.autocompleter.min.js" />
+    <Content Include="Content\Scripts\axios\axios.js" />
+    <Content Include="Content\Scripts\axios\axios.min.js" />
+    <Content Include="Content\Scripts\china.js" />
+    <Content Include="Content\Scripts\common.js" />
+    <Content Include="Content\Scripts\Data\ECharts.js" />
+    <Content Include="Content\Scripts\Data\GermWithBarShanghai.js" />
+    <Content Include="Content\Scripts\Data\GermWithBar.js" />
+    <Content Include="Content\Scripts\Data\GermWithYear.js" />
+    <Content Include="Content\Scripts\Data\HeatMap.js" />
+    <Content Include="Content\Scripts\Data\IndexRoute.js" />
+    <Content Include="Content\Scripts\Data\Monitor.js" />
+    <Content Include="Content\Scripts\Document\List.js" />
+    <Content Include="Content\Scripts\Echarts\asset\css\bootstrap-responsive.css" />
+    <Content Include="Content\Scripts\Echarts\asset\css\bootstrap-theme.css" />
+    <Content Include="Content\Scripts\Echarts\asset\css\bootstrap-theme.min.css" />
+    <Content Include="Content\Scripts\Echarts\asset\css\bootstrap.css" />
+    <Content Include="Content\Scripts\Echarts\asset\css\bootstrap.min.css" />
+    <Content Include="Content\Scripts\Echarts\asset\css\carousel.css" />
+    <Content Include="Content\Scripts\Echarts\asset\css\codemirror.css" />
+    <Content Include="Content\Scripts\Echarts\asset\css\echartsHome.css" />
+    <Content Include="Content\Scripts\Echarts\asset\css\flexslider.css" />
+    <Content Include="Content\Scripts\Echarts\asset\css\font-awesome.min.css" />
+    <Content Include="Content\Scripts\Echarts\asset\css\google-code-prettify.css" />
+    <Content Include="Content\Scripts\Echarts\asset\css\monokai.css" />
+    <Content Include="Content\Scripts\Echarts\asset\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Scripts\Echarts\asset\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Scripts\Echarts\asset\ico\bar.png" />
+    <Content Include="Content\Scripts\Echarts\asset\ico\chord.png" />
+    <Content Include="Content\Scripts\Echarts\asset\ico\favicon.png" />
+    <Content Include="Content\Scripts\Echarts\asset\ico\force.png" />
+    <Content Include="Content\Scripts\Echarts\asset\ico\funnel.png" />
+    <Content Include="Content\Scripts\Echarts\asset\ico\gauge.png" />
+    <Content Include="Content\Scripts\Echarts\asset\ico\k.png" />
+    <Content Include="Content\Scripts\Echarts\asset\ico\line.png" />
+    <Content Include="Content\Scripts\Echarts\asset\ico\map.png" />
+    <Content Include="Content\Scripts\Echarts\asset\ico\pie.png" />
+    <Content Include="Content\Scripts\Echarts\asset\ico\radar.png" />
+    <Content Include="Content\Scripts\Echarts\asset\ico\scatter.png" />
+    <Content Include="Content\Scripts\Echarts\asset\ico\treemap.png" />
+    <Content Include="Content\Scripts\Echarts\asset\ico\venn.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\chenwei.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\denghongqi.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\echarts1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\erik.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\HelloWorld1.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\HelloWorld2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\huangyue.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\huangzhimin.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\huyao.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\jaroslav.benc.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\linfeng.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\lizhan.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\loutongbing.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\shenhao.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\shenyi.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\sushuang.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\tanhe.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\wangjunting.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\weitaiyun.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\xieshiwei.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\yangji.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\yaofeifei.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\zhangyanru.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\zhouyang.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\zrender1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\about\zuming.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\architecture.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\banner1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\banner2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\banner3.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\banner4.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\bannerStudy.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\bannerX.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\bg_direction_nav.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\blacktocat.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\connect.gif" />
+    <Content Include="Content\Scripts\Echarts\asset\img\creativity.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\custom.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\dataDancing.mp3" />
+    <Content Include="Content\Scripts\Echarts\asset\img\dataRange.gif" />
+    <Content Include="Content\Scripts\Echarts\asset\img\dataView.gif" />
+    <Content Include="Content\Scripts\Echarts\asset\img\datazoom.gif" />
+    <Content Include="Content\Scripts\Echarts\asset\img\device.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\axisBoundaryGap.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\axisBoundaryGap1.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\axisDetail.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\axisDetail.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\axisScale1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\axisScale2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\barTheme.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\charts.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\chordTheme.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\dataRange.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\dataZoom.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\forceTheme.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\grid.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\kTheme.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\legend.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\lineTheme.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\mapTheme.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\multiControl.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\pieTheme.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\radarTheme.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\roamController.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\scatterTheme.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\timeline.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\title.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\toolbox.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\tooltip1.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\doc\tooltip2.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\draggable.gif" />
+    <Content Include="Content\Scripts\Echarts\asset\img\dynamic1.gif" />
+    <Content Include="Content\Scripts\Echarts\asset\img\dynamic2.gif" />
+    <Content Include="Content\Scripts\Echarts\asset\img\echarts-logo.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\echarts-logo2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\effect.gif" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\axis.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\bar.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\bar1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\bar10.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\bar11.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\bar12.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\bar13.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\bar14.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\bar15.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\bar2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\bar3.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\bar4.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\bar5.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\bar6.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\bar7.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\bar8.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\bar9.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\bmap1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\bmap2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\cache.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\chord.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\chord1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\chord2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\chord3.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\chord4.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\dataRange.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\dataRange1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\dataRange2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\dataZoom.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\dataZoom1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\dynamicLineBar.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\dynamicPieRadar.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\dynamicScatterK.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\EChartsTheme.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\event.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\eventRiver1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\eventRiver2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\force.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\force1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\force2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\force4.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\funnel.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\funnel1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\funnel2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\funnel3.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\funnel4.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\gauge.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\gauge1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\gauge2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\gauge3.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\gauge4.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\gauge5.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\heatmap.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\heatmap2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\heatmap_baidu.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\heatmap_map.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\import.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\k.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\k1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\lasagna.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\line.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\line1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\line2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\line3.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\line4.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\line5.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\line6.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\line7.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\line8.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\line9.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\loading.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map10.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map11.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map12.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map13.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map14.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map15.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map16.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map17.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map18.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map19.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map20.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map21.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map22.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map3.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map4.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map5.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map6.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map7.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map8.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\map9.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\mix1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\mix10.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\mix11.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\mix12.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\mix2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\mix3.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\mix4.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\mix5.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\mix6.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\mix7.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\mix8.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\mix9.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\pie.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\pie1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\pie2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\pie3.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\pie4.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\pie5.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\pie6.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\pie7.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\radar.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\radar1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\radar2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\radar3.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\scatter.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\scatter1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\scatter2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\scatter3.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\scatter4.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\scatter5.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\scatter6.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\theme.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\tooltip.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\tree.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\tree1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\tree2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\treemap.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\treemap1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\treemap2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\venn.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\webkit-dep.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\webkit-dep2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\wordCloud.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\example\wormhole.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\explorer.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\feature1.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\feature2.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\feature3.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\fork.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\glyphicons-halflings-white.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\glyphicons-halflings.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\groovepaper.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\icon-bar.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\legendSelected.gif" />
+    <Content Include="Content\Scripts\Echarts\asset\img\logo.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\logo\admaster_logo.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\logo\adm_logo.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\logo\caixin_logo.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\logo\health_logo.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\logo\huawei_logo.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\logo\hui_logo.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\logo\jinjiang_logo.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\logo\picc_logo.gif" />
+    <Content Include="Content\Scripts\Echarts\asset\img\logo\qqnews_logo.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\logo\renqi_logo.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\logo\sd_logo.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\logo\shujubang_logo.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\logo\shujuguan_logo.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\logo\sinopec_logo.gif" />
+    <Content Include="Content\Scripts\Echarts\asset\img\logo\xinhuanet_logo.gif" />
+    <Content Include="Content\Scripts\Echarts\asset\img\logo\yongyou_logo.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\magicType.gif" />
+    <Content Include="Content\Scripts\Echarts\asset\img\mark.gif" />
+    <Content Include="Content\Scripts\Echarts\asset\img\mix.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\multiStack.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\scatter.gif" />
+    <Content Include="Content\Scripts\Echarts\asset\img\slide-01.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\slide-02.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\slide-03.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\slide-04.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\slide-05.jpg" />
+    <Content Include="Content\Scripts\Echarts\asset\img\subMapType.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\ticks.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\tweed.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\why-echarts-m-cn.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\why-echarts-m-en.png" />
+    <Content Include="Content\Scripts\Echarts\asset\img\zrender.png" />
+    <Content Include="Content\Scripts\Echarts\asset\js\application.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\bootstrap-affix.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\bootstrap-alert.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\bootstrap-button.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\bootstrap-carousel.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\bootstrap-collapse.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\bootstrap-dropdown.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\bootstrap-modal.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\bootstrap-popover.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\bootstrap-scrollspy.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\bootstrap-tab.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\bootstrap-tooltip.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\bootstrap-transition.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\bootstrap-typeahead.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\bootstrap.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\bootstrap.min.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\codemirror.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\dataDancing.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\echartsConfig.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\echartsDoc.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\echartsExample.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\echartsHome.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\echartsTheme.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\echartsThemeDesigner.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\esl\css.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\esl\esl.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\esl\js.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\google-code-prettify.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\html5shiv.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\javascript.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\jquery.flexslider.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\jquery.js" />
+    <Content Include="Content\Scripts\Echarts\asset\js\jquery.min.js" />
+    <Content Include="Content\Scripts\Echarts\bmap.js" />
+    <Content Include="Content\Scripts\Echarts\china.js" />
+    <Content Include="Content\Scripts\Echarts\echarts.min.js" />
+    <Content Include="Content\Scripts\Echarts\theme\blue.js" />
+    <Content Include="Content\Scripts\Data\Monitor.json" />
+    <Content Include="Content\Scripts\Data\Monitor2.json" />
+    <Content Include="Content\Scripts\autocompleter\jquery.autocompleter.min.js.map" />
+    <Content Include="Content\Scripts\axios\axios.map" />
+    <Content Include="Content\Scripts\axios\axios.min.map" />
+    <Content Include="Areas\CRE\Views\web.config" />
+    <Content Include="Areas\CRE\Views\CreUser\Login.cshtml" />
+    <Content Include="Areas\CRE\Views\Shared\Error.cshtml" />
+    <Content Include="Areas\CRE\Views\Shared\_FooterNavBar.cshtml" />
+    <Content Include="Areas\CRE\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\CRE\Views\Shared\_MainLayout.cshtml" />
+    <Content Include="Areas\CRE\Views\Shared\_SurveyLayout.cshtml" />
+    <Content Include="Areas\CRE\Views\CreUser\Authentication.cshtml" />
+    <Content Include="Areas\CRE\Views\CreUser\Cipher.cshtml" />
+    <Content Include="Areas\CRE\Views\CreUser\EmailForgetPassword.cshtml" />
+    <Content Include="Areas\CRE\Views\CreUser\Feedback.cshtml" />
+    <Content Include="Areas\CRE\Views\CreUser\ForceCipher.cshtml" />
+    <Content Include="Areas\CRE\Views\CreUser\ForgetPassword.cshtml" />
+    <Content Include="Areas\CRE\Views\CreUser\MedicineList.cshtml" />
+    <Content Include="Areas\CRE\Views\CreUser\MyCenter.cshtml" />
+    <Content Include="Areas\CRE\Views\CreUser\Profile.cshtml" />
+    <Content Include="Areas\CRE\Views\CreUser\Register.cshtml" />
+    <Content Include="Areas\CRE\Views\CreUser\Setting.cshtml" />
+    <Content Include="Areas\CRE\Views\CreUser\SmsLogin.cshtml" />
+    <Content Include="Areas\CRE\Views\CreDocument\List.cshtml" />
+    <Content Include="Areas\CRE\Views\Brief\Index.cshtml" />
+    <Content Include="Areas\CRE\Views\CreData\HeatMap.cshtml" />
+    <Content Include="Areas\CRE\Content\echartsjs\第七下载.url" />
+    <Content Include="Areas\CRE\Views\CreData\GermWithBar.cshtml" />
+    <Content Include="Areas\CRE\Views\CreUploadData\Dataupload.cshtml" />
+    <Content Include="Content\QRcode\demo\accordion\datagrid_data1.json" />
+    <Content Include="Content\QRcode\demo\combobox\combobox_data1.json" />
+    <Content Include="Content\QRcode\demo\combobox\combobox_data2.json" />
+    <Content Include="Content\QRcode\demo\combogrid\datagrid_data1.json" />
+    <Content Include="Content\QRcode\demo\combotreegrid\treegrid_data1.json" />
+    <Content Include="Content\QRcode\demo\combotree\tree_data1.json" />
+    <Content Include="Content\QRcode\demo\datagrid\datagrid_data1.json" />
+    <Content Include="Content\QRcode\demo\datagrid\datagrid_data2.json" />
+    <Content Include="Content\QRcode\demo\datagrid\products.json" />
+    <Content Include="Content\QRcode\demo\datalist\datalist_data1.json" />
+    <Content Include="Content\QRcode\demo\form\form_data1.json" />
+    <Content Include="Content\QRcode\demo\layout\datagrid_data1.json" />
+    <Content Include="Content\QRcode\demo\layout\propertygrid_data1.json" />
+    <Content Include="Content\QRcode\demo\layout\tree_data1.json" />
+    <Content Include="Content\QRcode\demo\propertygrid\propertygrid_data1.json" />
+    <Content Include="Content\QRcode\demo\tabs\tree_data1.json" />
+    <Content Include="Content\QRcode\demo\tagbox\tagbox_data1.json" />
+    <Content Include="Content\QRcode\demo\treegrid\treegrid_data1.json" />
+    <Content Include="Content\QRcode\demo\treegrid\treegrid_data2.json" />
+    <Content Include="Content\QRcode\demo\treegrid\treegrid_data3.json" />
+    <Content Include="Content\QRcode\demo\tree\tree_data1.json" />
+    <Content Include="Content\QRcode\demo\tree\tree_data2.json" />
+    <Content Include="Content\QRcode\plugins\jquery.calendar" />
+    <None Include="Content\Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Content\Scripts\fastclick.js" />
+    <Content Include="Content\Scripts\fx.js" />
+    <Content Include="Content\Scripts\fx_methods.js" />
+    <Content Include="Content\Scripts\Home\About.js" />
+    <Content Include="Content\Scripts\Home\Index.js" />
+    <Content Include="Content\Scripts\Home\Members.js" />
+    <Content Include="Content\Scripts\index.min.js" />
+    <Content Include="Content\Scripts\Information\Detail.js" />
+    <Content Include="Content\Scripts\Information\List.js" />
+    <Content Include="Content\Scripts\jquery-3.3.1.js" />
+    <Content Include="Content\Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Content\Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Content\Scripts\jquery-3.3.1.slim.min.js" />
+    <Content Include="Content\Scripts\jsstore\jsstore.commonjs2.js" />
+    <Content Include="Content\Scripts\jsstore\jsstore.js" />
+    <Content Include="Content\Scripts\jsstore\jsstore.min.js" />
+    <Content Include="Content\Scripts\jsstore\jsstore.worker.commonjs2.js" />
+    <Content Include="Content\Scripts\jsstore\jsstore.worker.ie.js" />
+    <Content Include="Content\Scripts\jsstore\jsstore.worker.ie.min.js" />
+    <Content Include="Content\Scripts\jsstore\jsstore.worker.js" />
+    <Content Include="Content\Scripts\jsstore\jsstore.worker.min.js" />
+    <Content Include="Content\Scripts\jweixin-1.5.0.js" />
+    <Content Include="Content\Scripts\ladda\ladda.jquery.min.js" />
+    <Content Include="Content\Scripts\ladda\ladda.min.js" />
+    <Content Include="Content\Scripts\ladda\spin.min.js" />
+    <Content Include="Content\Scripts\modernizr-2.8.3.js" />
+    <Content Include="Content\Scripts\pdfjs\pdf.js" />
+    <Content Include="Content\Scripts\pdfjs\pdf.worker.js" />
+    <Content Include="Content\Scripts\photoSwipe\photoswipe-ui-default.js" />
+    <Content Include="Content\Scripts\photoSwipe\photoswipe-ui-default.min.js" />
+    <Content Include="Content\Scripts\photoSwipe\photoswipe.js" />
+    <Content Include="Content\Scripts\photoSwipe\photoswipe.min.js" />
+    <Content Include="Content\Scripts\prefixfree.min.js" />
+    <Content Include="Content\Scripts\respond.matchmedia.addListener.js" />
+    <Content Include="Content\Scripts\respond.matchmedia.addListener.min.js" />
+    <Content Include="Content\Scripts\ScoringModule\AnewApply.js" />
+    <Content Include="Content\Scripts\ScoringModule\EvaluateScoringForm.js" />
+    <Content Include="Content\Scripts\ScoringModule\EvaluateScoringList.js" />
+    <Content Include="Content\Scripts\ScoringModule\EvaluateScoringResult.js" />
+    <Content Include="Content\Scripts\ScoringModule\HospitalList.js" />
+    <Content Include="Content\Scripts\slimScroll\jquery.slimscroll.js" />
+    <Content Include="Content\Scripts\slimScroll\jquery.slimscroll.min.js" />
+    <Content Include="Content\Scripts\Survey\common.js" />
+    <Content Include="Content\Scripts\Survey\Finish.js" />
+    <Content Include="Content\Scripts\Survey\Index.js" />
+    <Content Include="Content\Scripts\Survey\Issue - 复制.js" />
+    <Content Include="Content\Scripts\Survey\Issue.js" />
+    <Content Include="Content\Scripts\Survey\Page1.js" />
+    <Content Include="Content\Scripts\Survey\Page10.js" />
+    <Content Include="Content\Scripts\Survey\Page11.js" />
+    <Content Include="Content\Scripts\Survey\Page12.js" />
+    <Content Include="Content\Scripts\Survey\Page13.js" />
+    <Content Include="Content\Scripts\Survey\Page14.js" />
+    <Content Include="Content\Scripts\Survey\Page15.js" />
+    <Content Include="Content\Scripts\Survey\Page8.js" />
+    <Content Include="Content\Scripts\Survey\Page9.js" />
+    <Content Include="Content\Scripts\Survey\Page7.js" />
+    <Content Include="Content\Scripts\Survey\Page6.js" />
+    <Content Include="Content\Scripts\Survey\Page5.js" />
+    <Content Include="Content\Scripts\Survey\Page4.js" />
+    <Content Include="Content\Scripts\Survey\Page3.js" />
+    <Content Include="Content\Scripts\Survey\Page2.js" />
+    <Content Include="Content\Scripts\Survey\PagePartial2.js" />
+    <Content Include="Content\Scripts\swiper\ssr.js" />
+    <Content Include="Content\Scripts\swiper\swiper.esm.bundle.js" />
+    <Content Include="Content\Scripts\swiper\swiper.esm.js" />
+    <Content Include="Content\Scripts\swiper\swiper.js" />
+    <Content Include="Content\Scripts\swiper\swiper.min.js" />
+    <Content Include="Content\Scripts\swiper\vue-awesome-swiper.js" />
+    <Content Include="Content\Scripts\template-web.js" />
+    <Content Include="Content\Scripts\touch.js" />
+    <Content Include="Content\Scripts\underscore-min.js" />
+    <Content Include="Content\Scripts\User\Authentication.js" />
+    <Content Include="Content\Scripts\User\Cipher.js" />
+    <Content Include="Content\Scripts\User\EmailForgetPassword.js" />
+    <Content Include="Content\Scripts\User\Feedback.js" />
+    <Content Include="Content\Scripts\User\ForceCipher.js" />
+    <Content Include="Content\Scripts\User\ForgetPassword.js" />
+    <Content Include="Content\Scripts\User\Login.js" />
+    <Content Include="Content\Scripts\User\MedicineList.js" />
+    <Content Include="Content\Scripts\User\MyCenter.js" />
+    <Content Include="Content\Scripts\User\Profile.js" />
+    <Content Include="Content\Scripts\User\Register.js" />
+    <Content Include="Content\Scripts\User\Setting.js" />
+    <Content Include="Content\Scripts\User\SmsLogin.js" />
+    <Content Include="Content\Scripts\vConsole\vconsole.min.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\ar.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\az.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\bg.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\ca.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\cs.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\da.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\de.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\el.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\en.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\es.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\et.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\eu.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\fa.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\fi.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\fr.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\he.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\hr.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\hu.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\id.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\it.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\ja.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\ka.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\ko.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\lt.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\lv.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\ms_MY.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\nb_NO.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\ne.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\nl.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\nn_NO.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\pl.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\pt_BR.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\pt_PT.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\ro.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\ru.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\sk.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\sl.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\sq.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\sr.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\sr_Latin.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\sv.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\th.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\tr.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\uk.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\vi.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\zh_CN.js" />
+    <Content Include="Content\Scripts\vee-validate\locale\zh_TW.js" />
+    <Content Include="Content\Scripts\vee-validate\rules.esm.js" />
+    <Content Include="Content\Scripts\vee-validate\vee-validate.esm.js" />
+    <Content Include="Content\Scripts\vee-validate\vee-validate.js" />
+    <Content Include="Content\Scripts\vee-validate\vee-validate.min.js" />
+    <Content Include="Content\Scripts\vee-validate\vee-validate.minimal.esm.js" />
+    <Content Include="Content\Scripts\vee-validate\vee-validate.minimal.js" />
+    <Content Include="Content\Scripts\vee-validate\vee-validate.minimal.min.js" />
+    <Content Include="Content\Scripts\vee-validate\vue.js" />
+    <Content Include="Content\Scripts\vue\vue-router.common.js" />
+    <Content Include="Content\Scripts\vue\vue-router.esm.browser.js" />
+    <Content Include="Content\Scripts\vue\vue-router.esm.browser.min.js" />
+    <Content Include="Content\Scripts\vue\vue-router.esm.js" />
+    <Content Include="Content\Scripts\vue\vue-router.js" />
+    <Content Include="Content\Scripts\vue\vue-router.min.js" />
+    <Content Include="Content\Scripts\vue\vue.common.dev.js" />
+    <Content Include="Content\Scripts\vue\vue.common.js" />
+    <Content Include="Content\Scripts\vue\vue.common.prod.js" />
+    <Content Include="Content\Scripts\vue\vue.esm.browser.js" />
+    <Content Include="Content\Scripts\vue\vue.esm.browser.min.js" />
+    <Content Include="Content\Scripts\vue\vue.esm.js" />
+    <Content Include="Content\Scripts\vue\vue.js" />
+    <Content Include="Content\Scripts\vue\vue.min.js" />
+    <Content Include="Content\Scripts\vue\vue.runtime.common.dev.js" />
+    <Content Include="Content\Scripts\vue\vue.runtime.common.js" />
+    <Content Include="Content\Scripts\vue\vue.runtime.common.prod.js" />
+    <Content Include="Content\Scripts\vue\vue.runtime.esm.js" />
+    <Content Include="Content\Scripts\vue\vue.runtime.js" />
+    <Content Include="Content\Scripts\vue\vue.runtime.min.js" />
+    <Content Include="Content\Scripts\weui.min.js" />
+    <Content Include="Content\Scripts\zepto.min.js" />
+    <Content Include="favicon.ico" />
+    <Content Include="Content\Fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Css\Site.css" />
+    <Content Include="Content\Scripts\bootstrap.js" />
+    <Content Include="Content\Scripts\bootstrap.min.js" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Scripts\Echarts\asset\css\bootstrap-theme.css.map" />
+    <Content Include="Content\Scripts\Echarts\asset\css\bootstrap.css.map" />
+    <Content Include="Content\Scripts\Echarts\asset\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Scripts\Echarts\asset\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Scripts\Echarts\asset\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Scripts\Echarts\asset\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\Scripts\Echarts\asset\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\Scripts\Echarts\asset\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\Scripts\Echarts\asset\js\jquery-1.10.2.min.map" />
+    <Content Include="Content\Scripts\Echarts\asset\js\jquery.min.map" />
+    <Content Include="Content\Scripts\Echarts\china.json" />
+    <Content Include="Content\Fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\Fonts\FontAwesome.otf" />
+    <None Include="Content\Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Content\Scripts\jquery-1.10.2.js" />
+    <Content Include="Content\Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Content\Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Content\Scripts\jquery-3.3.1.slim.min.map" />
+    <None Include="Content\Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Content\Scripts\jquery.validate.js" />
+    <Content Include="Content\Scripts\jquery.validate.min.js" />
+    <Content Include="Content\Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Content\Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Content\Scripts\respond.js" />
+    <Content Include="Content\Scripts\respond.min.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Data\GermYear.cshtml" />
+    <Content Include="Content\Scripts\swiper\swiper.min.js.map" />
+    <Content Include="Content\Scripts\pdfjs\pdf.js.map" />
+    <Content Include="Content\Scripts\pdfjs\pdf.worker.js.map" />
+    <Content Include="Content\Scripts\jsstore\jsstore.js.map" />
+    <Content Include="Content\Scripts\jsstore\jsstore.commonjs2.js.map" />
+    <Content Include="Content\Scripts\jsstore\jsstore.worker.commonjs2.js.map" />
+    <Content Include="Content\Scripts\jsstore\jsstore.worker.js.map" />
+    <Content Include="log4net.config" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\User\Register.cshtml" />
+    <Content Include="Views\User\ForgetPassword.cshtml" />
+    <Content Include="Views\User\SmsLogin.cshtml" />
+    <Content Include="Views\Home\Members.cshtml" />
+    <Content Include="Views\Information\List.cshtml" />
+    <Content Include="Views\Information\Detail.cshtml" />
+    <Content Include="Views\Document\List.cshtml" />
+    <Content Include="Views\User\MyCenter.cshtml" />
+    <Content Include="Views\User\Setting.cshtml" />
+    <Content Include="Views\User\Cipher.cshtml" />
+    <Content Include="Views\User\Profile.cshtml" />
+    <Content Include="Views\User\Authentication.cshtml" />
+    <Content Include="Views\User\Feedback.cshtml" />
+    <Content Include="Views\Shared\_MainLayout.cshtml" />
+    <Content Include="Views\Shared\_FooterNavBar.cshtml" />
+    <Content Include="Views\Data\HeatMap.cshtml" />
+    <Content Include="Views\Data\GermWithBar.cshtml" />
+    <Content Include="Views\Data\GermWithYear.cshtml" />
+    <Content Include="Views\User\MedicineList.cshtml" />
+    <Content Include="Views\Data\ECharts.cshtml" />
+    <Content Include="Views\Data\Monitor.cshtml" />
+    <Content Include="Views\User\ForceCipher.cshtml" />
+    <Content Include="Views\User\EmailForgetPassword.cshtml" />
+    <Content Include="Views\ScoringModule\EvaluateScoringList.cshtml" />
+    <Content Include="Views\ScoringModule\HospitalList.cshtml" />
+    <Content Include="Views\ScoringModule\EvaluateScoringForm.cshtml" />
+    <Content Include="Views\ScoringModule\EvaluateScoringResult.cshtml" />
+    <Content Include="Views\ScoringModule\AnewApply.cshtml" />
+    <Content Include="Views\Survey\Issue.cshtml" />
+    <Content Include="Views\Survey\PartialPage\_PartialPage2.cshtml" />
+    <Content Include="Views\Survey\PartialPage\_PartialPage3.cshtml" />
+    <Content Include="Views\Survey\PartialPage\_PartialPage4.cshtml" />
+    <Content Include="Views\Survey\PartialPage\_PartialPage5.cshtml" />
+    <Content Include="Views\Survey\PartialPage\_PartialPage6.cshtml" />
+    <Content Include="Views\Survey\PartialPage\_PartialPage7.cshtml" />
+    <Content Include="Views\Survey\PartialPage\_PartialPage8.cshtml" />
+    <Content Include="Views\Survey\PartialPage\_PartialPage9.cshtml" />
+    <Content Include="Views\Survey\PartialPage\_PartialPage1.cshtml" />
+    <Content Include="Views\Survey\PartialPage\_PartialPage10.cshtml" />
+    <Content Include="Views\Survey\PartialPage\_PartialPage11.cshtml" />
+    <Content Include="Views\Survey\Page1.cshtml" />
+    <Content Include="Views\Shared\_SurveyLayout.cshtml" />
+    <Content Include="Views\Survey\Index.cshtml" />
+    <Content Include="Views\Survey\Issue-复制.cshtml" />
+    <Content Include="Views\Survey\Page2.cshtml" />
+    <Content Include="Views\Survey\Page5.cshtml" />
+    <Content Include="Views\Survey\Page7.cshtml" />
+    <Content Include="Views\Survey\Page9.cshtml" />
+    <Content Include="Views\Survey\Finish.cshtml" />
+    <Content Include="Views\Survey\Index.Null.cshtml" />
+    <Content Include="Views\Survey\Index.Disabled.cshtml" />
+    <Content Include="Views\Survey\Index.NotStarted.cshtml" />
+    <Content Include="Views\Survey\Index.Expired.cshtml" />
+    <Content Include="Views\Survey\PagePartial2.cshtml" />
+    <Content Include="Views\Survey\Page3.cshtml" />
+    <Content Include="Views\Survey\Page4.cshtml" />
+    <Content Include="Views\Survey\Page6.cshtml" />
+    <Content Include="Views\Survey\Page8.cshtml" />
+    <Content Include="Views\Survey\Page10.cshtml" />
+    <Content Include="Views\Survey\Page15.cshtml" />
+    <Content Include="Views\Survey\Page11.cshtml" />
+    <Content Include="Views\Survey\Page13.cshtml" />
+    <Content Include="Views\Survey\Page14.cshtml" />
+    <Content Include="Views\Survey\Page12.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
+    <Content Include="Views\Shared\_MyLayout.cshtml" />
+    <Content Include="Views\Satellite\List.cshtml" />
+    <Content Include="Views\Data\GermWithBarMap.cshtml" />
+    <Content Include="Views\Home\List.cshtml" />
+    <Content Include="Views\Data\Shanghai.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\CRE\Models\" />
+    <Folder Include="Areas\CRE\Views\MobileBase\" />
+    <Folder Include="Content\QRcode\Images\" />
+    <Folder Include="Views\Mobile\" />
+    <Folder Include="Views\_MvcCaptcha\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Fonts\glyphicons-halflings-regular.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Fonts\glyphicons-halflings-regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Fonts\glyphicons-halflings-regular.eot" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <Content Include="Content\Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\ManageSystem.Core\ManageSystem.Core.csproj">
+      <Project>{CF99C5E9-AAE4-4FEB-ABB4-E5338E5D2008}</Project>
+      <Name>ManageSystem.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\ManageSystem.Services\ManageSystem.Services.csproj">
+      <Project>{3DC45396-DC16-4685-8345-3E8F401E3FB1}</Project>
+      <Name>ManageSystem.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ManageSystem.Framework\ManageSystem.Framework.csproj">
+      <Project>{5734c75e-45f1-4026-b3c0-d58f36714d2a}</Project>
+      <Name>ManageSystem.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\ie_polyfill\find.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\ie_polyfill\find_index.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\main\config.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\main\enums.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\main\global.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\main\helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\main\idb_helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\main\index.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\main\instance.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\main\instance_helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\main\interfaces.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\main\log_helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\main\model\column.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\main\model\index.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\main\types.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\main\util.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\main\webworker_helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\base.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\base_db.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\base_helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\bulk_insert.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\clear.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\count\base_count.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\count\in.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\count\index.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\count\instance.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\count\like.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\count\not_where.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\count\regex.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\count\where.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\create_db.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\drop_db.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\helpers\index.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\helpers\promise.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\idb_helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\index.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\init_db.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\insert\index.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\insert\instance.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\insert\values_checker.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\insert\value_checker.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\open_db.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\query_helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\remove\base_remove.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\remove\in.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\remove\index.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\remove\instance.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\remove\like.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\remove\not_where.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\remove\regex.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\remove\where.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\select\base_select.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\select\group_by_helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\select\helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\select\in.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\select\index.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\select\instance.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\select\join.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\select\like.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\select\not.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\select\not_where.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\select\orderby_helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\select\regex.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\select\where.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\transaction\index.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\transaction\instance.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\update\base_update.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\update\in.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\update\index.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\update\instance.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\update\like.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\update\not_where.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\update\regex.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\update\schema_checker.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\update\where.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\where_base.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\business\where_checker.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\config.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\enums.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\export.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\helpers\auto_increment_helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\helpers\index.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\helpers\promise.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\helpers\promise_all.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\helpers\set_cross_browser_indexeddb.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\index.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\interfaces.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\keystore\business\base_logic.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\keystore\business\get_logic.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\keystore\business\idb_helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\keystore\business\init_db_logic.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\keystore\business\main_logic.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\keystore\business\remove_logic.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\keystore\business\set_logic.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\keystore\enums.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\keystore\helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\keystore\index.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\keystore\instance.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\keystore\interfaces.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\keystore\keystore.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\keystore\query_executor.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\keystore\utils_logic.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\keystore_helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\log_helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\model\column.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\model\database.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\model\db_helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\model\index.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\model\table.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\model\table_helper.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\query_executor.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\start.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\types.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\types\db_info.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\types\index.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\util.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\utils\get_data_type.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\utils\get_object_first_key.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\utils\index.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\utils\is_array.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\utils\is_null.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\utils\is_null_or_empty.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\utils\is_string.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\jsstore\ts\worker\utils\remove_space.d.ts" />
+    <TypeScriptCompile Include="Content\Scripts\vConsole\vconsole.min.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>59185</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:59185/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,358 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.W {
+    width: 1200px;
+    margin: 0 auto;
+    /* background-color: cornflowerblue; */
+}
+
+a {
+    text-decoration: none;
+}
+
+.ol_table .ol_left ul li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: #000;
+    text-align: center;
+}
+
+.my_title {
+    height: 50px;
+    width: 100%;
+    font-size: 14px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    line-height: 50px;
+    border-bottom: 1px solid #c6c6c6;
+    margin-bottom: 20px;
+}
+
+.ol_table {
+    overflow: hidden;
+    min-height: 800px;
+    /* background-color: #d9534f; */
+}
+
+.ol_left {
+    float: left;
+    width: 16%;
+    height: 676px;
+    margin-right: 20px;
+}
+
+    .ol_left ul {
+        width: 100%;
+        height: 100%;
+        padding-left: 0;
+        margin: 0;
+    }
+
+        .ol_left ul li {
+            list-style: none;
+            height: 40px;
+            line-height: 40px;
+            width: 100%;
+            font-size: 14px;
+            /* padding-left: 36px; */
+            box-sizing: border-box;
+            border-bottom: 1px solid #d0d0d0;
+        }
+
+            .ol_left ul li:hover {
+                background-color: #dceef6;
+            }
+
+.ol_right {
+    position: relative;
+    min-width: 82%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.my_btns {
+    width: 100%;
+    height: 60px;
+    border-bottom: 1px solid #c6c6c6;
+    box-sizing: border-box;
+}
+
+    .my_btns .cbtn,
+    .ol_right .cbtn,
+    .add_data {
+        float: left;
+        margin-left: 20px;
+        box-sizing: border-box;
+        width: 74px;
+        height: 27px;
+        background-color: #2582c8;
+        color: #fff;
+        text-align: center;
+        border: none;
+        outline: none;
+        line-height: 27px;
+        font-size: 14px;
+    }
+
+.add_data {
+    float: none;
+    padding: 0;
+}
+
+.ol_right table {
+    font-family: "microsoft yahei", simsun, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #fff;
+}
+
+.opera_btn {
+    padding-right: 10px;
+    color: #0099e9;
+}
+
+    .opera_btn:focus {
+        color: #0099e9;
+    }
+
+.ol_right .add_project_inp {
+    width: 430px;
+    height: 40px;
+    padding-left: 20px;
+    border: 1px solid #ddd;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.ol_right .add_project_rad {
+    display: inline-block;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.el-radio__inner {
+    width: 20px;
+    height: 20px;
+}
+
+.add_text_model_inp {
+    width: 180px;
+    height: 30px;
+    border: 1px solid #ddd;
+    outline: none;
+}
+
+
+
+table tr td {
+    border-bottom: 1px solid #cbcbcb;
+}
+
+    table tr td:first-child {
+        border-left: 1px solid #cbcbcb;
+        box-sizing: border-box;
+    }
+
+    table tr td:last-child {
+        border-right: 1px solid #cbcbcb;
+        box-sizing: border-box;
+    }
+
+.read {
+    width: 100%;
+    height: 38px;
+    line-height: 38px;
+    background-color: rgba(234, 248, 255, 1);
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.349019607843137);
+    text-align: center;
+}
+
+    .read p {
+        display: inline-block;
+        margin-top: 0;
+        box-sizing: border-box;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+.statistic_main {
+    width: 100%;
+    overflow: hidden;
+}
+
+    .statistic_main .the_box {
+        position: relative;
+        float: left;
+        margin: 14px;
+        box-sizing: border-box;
+        width: 300px;
+        height: 170px;
+        background-color: #74caf9;
+        box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.349019607843137);
+    }
+
+.the_box .txt span {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    color: #fff;
+    font-size: 22px;
+}
+
+.the_box .txt img {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.the_box > span {
+    position: absolute;
+    top: 100px;
+    left: 10px;
+    color: #fff;
+}
+
+.the_box .butn {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    line-height: 32px;
+    height: 32px;
+    background-color: #8cd7fd;
+}
+
+.butn a:first-child {
+    color: #fff;
+    text-align: left;
+    line-height: 32px;
+    font-size: 14px;
+    margin-right: 20px;
+}
+
+.butn a:last-child {
+    color: #fff;
+    font-size: 14px;
+    margin-left: 20px;
+}
+
+    .butn a:last-child:hover {
+        cursor: pointer;
+    }
+
+.red,
+.add_data,
+.opera_btn,
+.cbtn,
+.ol_left ul li:hover {
+    cursor: pointer;
+}
+
+.ss {
+    width: 202px;
+    height: 27px;
+    padding: 0 31px;
+    border: 1px solid #bbbbbb;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.my_btns .cbtn a:hover {
+    color: #fff;
+}
+
+.this_btns {
+    padding-left: 101px;
+}
+
+.add_project_btn {
+    margin-left: 72px;
+}
+
+.my_a_style {
+    width: 100%;
+    height: 100%;
+    display: block;
+    color: #fff;
+}
+
+.page_style {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 300%);
+}
+
+    .page_style .prev,
+    .page_style .next,
+    .dan {
+        float: left;
+        width: 50px;
+        height: 31px;
+        text-align: center;
+        line-height: 31px;
+        color: #777;
+        font-size: 13px;
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+        background-color: #fff;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none
+    }
+
+.dan {
+    width: 33px;
+    height: 31px;
+    color: #337AB7;
+    border-left: none;
+}
+
+.page_style .next {
+    color: #337AB7;
+    border-left: none;
+}
+
+.page_style .prev:hover {
+    cursor: not-allowed;
+    background-color: #eeeeee;
+}
+
+.page_style .next:hover,
+.dan:hover {
+    cursor: pointer;
+    background-color: #eeeeee;
+}
+
+.no-collapse {
+    border-collapse: separate;
+}
+
+.ol_right .dan:nth-child(3) {
+    background-color: #337AB7;
+    color: #fff;
+    border-left: none;
+}
+
+.dropdown-menu .bacterium_a_style {
+    text-align: center !important;
+    color: #000 !important;
+    outline: none !important;
+}
+.ol_right table input[type=checkbox] {
+    width: 20px;
+    height: 20px;
+}
+
+.add_text_model_radio {
+    width:15px;
+    height: 15px;
+    border: 1px solid #ddd;
+    margin-left: 10px;
+}   
+.lable_radio{
+    margin:10px;
+}

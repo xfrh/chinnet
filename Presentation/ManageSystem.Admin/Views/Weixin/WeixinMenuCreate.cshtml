@@ -1,0 +1,64 @@
+﻿@model ManageSystem.Admin.Models.Weixin.WeixinMenuModel
+@{
+    //page title
+    ViewBag.Title ="添加微信菜单";
+    Layout = "~/Views/Shared/_OpenLayout.cshtml";
+}
+
+@using (Html.BeginForm("WeixinMenuCreate", "Weixin", FormMethod.Post, new { id = "form1" }))
+{
+  @Html.AntiForgeryToken()
+
+ <div class="page-body">
+    <div class="row add-page">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget ">
+                <div class="widget-header add-page-titlebox ">
+                    <span class="widget-caption add-page-title"><i class="glyphicon glyphicon-plus "></i>@this.ViewBag.Title</span>
+                </div>
+                <div class="widget-body " id="BaseDiv" runat="server">
+                    <div class="options add-page-options">
+                    <input type="button" name="save"  onclick="Save()" class="btn btn-blue " value="保存" />
+                </div>
+                    <div class="add-content ">
+                        <div class="k-content k-state-active" id="customer-edit-1" role="tabpanel" aria-expanded="true" style="display: block;">
+                            @Html.Partial("_CreateOrUpdateWeixinMenu", Model)
+                           </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        
+        var result="@this.Request.QueryString["result"]";
+        if(result == "ok")
+        {
+            parent.Reload();
+        }
+            
+    });
+
+
+    function Save() {
+
+        //设置选择的文章， 只有类型是文章里面才会计算
+        var result = SaveArticleData();
+        if (result == "ok") {
+
+            $("#form1").submit();
+        } else {
+            alert(result);
+        }
+
+       // parent.Reload();
+    }
+</script>

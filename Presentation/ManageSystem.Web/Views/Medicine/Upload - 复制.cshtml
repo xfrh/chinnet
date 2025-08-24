@@ -1,0 +1,256 @@
+﻿@model UploadMedicalDataModel
+@using ManageSystem.Web.Models.Medicine
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    this.ViewBag.Title = "发布医学数据";
+}
+
+<style type="text/css">
+    .alert {
+        padding: 8px 35px 8px 14px;
+        margin-bottom: 20px;
+        text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+        background-color: #fcf8e3;
+        border: 1px solid #fbeed5;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+    }
+
+    .alert {
+        font-size: 14px;
+        border-radius: 0;
+    }
+
+        .alert, .alert h4 {
+            color: #c09853;
+        }
+
+    .alert-warning h3 {
+        height: 30px;
+        line-height: 30px;
+        margin-bottom: 20px;
+        color: #c09853;
+    }
+
+    .warning-ul li {
+        color: #c09853;
+        line-height: 25px;
+        height: 25px;
+        list-style: none;
+    }
+
+    .title-2 p {
+        color: #478fca !important;
+        font-size: 16px;
+        border-bottom: 1px solid #ccc;
+        line-height: 30px;
+    }
+
+    .upload-content ul li span {
+        float: left;
+        line-height: 4.5;
+        width: 80%;
+    }
+
+
+        .upload-content ul li span:first-child {
+            width: 20%;
+            text-align: right;
+        }
+
+        .upload-content ul li span input {
+            margin: 0;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+            .upload-content ul li span input.text {
+                border: 1px solid #dadada;
+                display: inline-block;
+                line-height: 2;
+                width: 50%;
+            }
+
+    .ul-div li {
+        float: left;
+        margin-right: 20px;
+        margin-bottom: 20px;
+    }
+
+    .post_main_note {
+        float: left;
+    }
+
+    .post_main_li {
+        margin-bottom: 10px;
+    }
+
+    .btn_Post {
+        display: inline-block;
+        width: 213px;
+        height: 45px;
+        line-height: 45px;
+        margin-right: 10px;
+        text-align: center;
+        font-size: 18px;
+        color: #FFF;
+        background-color: #0099e9;
+    }
+</style>
+
+<div class="mbx">
+    <p>当前位置：首页 &gt; 发布医学数据 </p>
+</div>
+
+<div class="cy-wrap">
+    <span class="span-mark-author active">发布医学数据</span>
+
+</div>
+
+<div class="container" style="padding: 10px 20px; width:100%;">
+
+    <div class="alert alert-warning " style="margin: 20px 0px;">
+        <h3>
+            <b style="font-size:18px;">系统所支持的数据文件格式如下：请务必仔细阅读！</b>
+        </h3>
+        <ul class="warning-ul">
+            <li><span>1、通过 WHONET 5.6 软件导出的数据文件，<b class="red" style="font-weight: normal;">对文件扩展名无要求</b>；</span></li>
+            <li><span>2、与 WHONET 5.6 软件导出的数据文件格式所兼容的【<b class="red" style="font-weight: normal;">.DBF</b>】数据文件；</span></li>
+            <li><span>3、通过 Office Excel 2003 所另存的 Excel 文件，扩展名为【<b class="red" style="font-weight: normal;">.XLS</b>】；</span></li>
+            <li><span>4、通过 Office Excel 2007/2010 所另存的 Excel 文件，扩展名为【<b class="red" style="font-weight: normal;">.XLSX</b>】；</span></li>
+        </ul>
+    </div>
+
+    <div class="title-2">
+        <p>Whonet 监测数据上传 <span style="color:#b94a48;">【所有显示项均为必填项】</span></p>
+    </div>
+    @using (Html.BeginForm("Upload", "Medicine", FormMethod.Post, new { id = "form1", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+
+        <div id="post_form">
+            <ul class="post_main_ul">
+
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>上报数据所属年度：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.DropDownListFor(m => m.Year, Model.YearList)
+                            @Html.ValidationMessageFor(m => m.Year)
+                        </div>
+                    </div>
+                </li>
+
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>上报数据所属季度：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;">
+                            @Html.DropDownListFor(m => m.Quarter, Model.QuarterList)
+                            @Html.ValidationMessageFor(m => m.Quarter)
+                        </div>
+                    </div>
+                </li>
+             
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>药敏实验方法：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative; width:100%;">
+                            <ul class="ul-div bacteria-type-item" style="width:100%; margin-top: 10px;">
+                                @{
+
+                                    if (Model.BacteriaTypeList != null && Model.BacteriaTypeList.Any())
+                                    {
+                                        foreach (var item in Model.BacteriaTypeList)
+                                        {
+                                            <li><input type="checkbox" class="chk-item" ItemValue="@item.Id.ToString()" onchange="SelectBacteriaType()" />@item.Name</li>
+                                        }
+                                    }
+                                }
+                            </ul>
+                            <div style="width:100%;float:left;" class="bacteria-type-error">@Html.ValidationMessageFor(m => m.BacteriaIds)</div>
+                            @Html.TextBoxFor(m => m.BacteriaIds, new { style = " height:0px;" })
+                        </div>
+                    </div>
+                </li>
+
+                <li class="post_main_li">
+                    <div class="post_main_l_tit"><b class="red">*</b><span>数据文件：</span></div>
+                    <div class="red_outK">
+                        <div class="post_main_r" style="position:relative;padding-top:8px;">
+                            <input type="file" id="uploadFilePath" name="uploadFilePath" />
+                            <div class="post_main_note"></div>
+                        </div>
+                        <div style="float: left;margin-top: 10px;">
+                            <a href="/Content/File/medicine-template.xlsx" target="_blank" style="color: #428bca;">点击下载《标准模版文件》</a>
+                        </div>
+                    </div>
+
+
+                </li>
+
+                <li class="fb_Btn" style="margin-top:30px;">
+                    <div class="btn-loading bg-danger" style="display:none; padding: 10px;">
+                        <div style="width:180px; height:30px; margin:0px auto; ">
+                            <div style="width:30px; float:left; margin-right:10px;"><img src="~/Content/Images/loading.gif" style="width:30px; height:30px;" /></div>
+                            <div style="text-align:center;line-height:30px; width:140px; height:30px;float:left;">数据上传中，请等待...</div>
+                        </div>
+
+                        <div class="bg-danger" style="line-height: 30px;padding: 10px;">
+                            <p>数据已成功上传至服务器，但未正式存入上报数据库，服务器正在努力分析数据...</p>
+                            <p>为了您的数据安全，在系统给您反馈分析结果之前，请不要退出系统，也不要关闭浏览器！</p>
+                        </div>
+                    </div>
+                    <input type="button" onclick="Save()" class="btn_Post btn-save" value="开始上传" style="cursor:pointer; " />
+                </li>
+            </ul>
+        </div>
+                                    }
+
+    <script type="text/javascript">
+
+        function Save() {
+            if ($("#form1").valid()) {
+
+                var file = $("#uploadFilePath").val();
+                if (file == null || file == "") {
+                    alert("请选择数据文件！");
+                    return false;
+                }
+
+                $("#form1").submit();
+
+                $(".btn-save").css("display", "none");
+                $(".btn-loading").css("display", "block");
+            }
+        }
+
+        //选择细菌类型
+        function SelectBacteriaType() {
+            var li = $(".bacteria-type-item .chk-item ");
+            if (li == null || li.length <= 0) return;
+
+            var ids = new Array();
+            for (var i = 0; i < li.length; i++) {
+
+                if ($(li[i]).prop("checked") || $(li[i]).attr("checked") == "checked") {
+                    var itemId = $(li[i]).attr("ItemValue");
+
+                    if (itemId == null || itemId == "") continue;
+
+                    ids.push(itemId);
+                }
+            }
+
+            var value = ids.join(",");
+            $("#BacteriaIds").val(value);
+
+            if (value == null || value == "")
+                $(".bacteria-type-error").css("display", "block");
+            else
+                $(".bacteria-type-error").css("display", "none");
+        }
+
+    </script>
+</div>

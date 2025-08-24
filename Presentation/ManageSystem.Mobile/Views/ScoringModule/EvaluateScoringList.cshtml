@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "评分列表";
+    Layout = "/Views/Shared/_MainLayout.cshtml";
+}
+
+@section Styles{
+    <link href="~/Content/Css/ladda/ladda-themeless.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/weui.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/ScoringModule/EvaluateScoringList.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Content/Scripts/ladda/spin.min.js"></script>
+    <script src="~/Content/Scripts/ladda/ladda.min.js"></script>
+    <script src="~/Content/Scripts/swiper/swiper.min.js"></script>
+    <script src="~/Content/Scripts/weui.min.js"></script>
+    <script src="~/Content/Scripts/fx.js"></script>
+    <script src="~/Content/Scripts/fx_methods.js"></script>
+    <script src="~/Content/Scripts/ScoringModule/EvaluateScoringList.js?v=1.0.0"></script>
+}
+
+<div id="app" v-cloak class="indexpage">
+    <div ref="middle" class="middle">
+        <div ref="swiper_container" class="swiper-container scroll">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide slidescroll">
+
+                    <div v-for="item in items" class="flex padding-20 margin-b-35 f-center f-between bg-color-white">
+                        <div class="flex-1" @@click="toPage('@Url.Action("HospitalList")/' + item.Id)">
+                            <div class="flex fon-30 f-center margin-b-10">
+                                <h4 v-if="item.Status==='进行中'" class="title flex-1"><span>{{item.Title}}</span></h4>
+                                <h4 v-if="item.Status!=='进行中'" class="title flex-1"><span>{{item.Title}}</span></h4>
+                                <span class="status" v-if="item.Status==='进行中'">{{item.Status}}</span>
+                                <span class="status status-done" v-if="item.Status!=='进行中'" style="color: #999; border-color: #999;">{{item.Status}}</span>
+                            </div>
+                            <div class="flex f-center margin-b-25">
+                                <article class="flex fon-28 line-height-1dot5" v-html="item.Intro"></article>
+                            </div>
+                            <div class="flex fon-28  border-b-1 padding-b-25">
+                                评分时间：{{item.DateTime.Begin}} - {{item.DateTime.End}}
+                            </div>
+                            <div class="flex f-center margin-t-15px">
+                                <div class="flex-1 f-center f-jcenter text-center">
+                                    <a href="javascript:void(0);" class="a-block">
+                                        <span class="flex f-center f-jcenter margin-b-5">
+                                            <img src="~/Content/Images/icon-hospital.png" style="width: 32px;" />
+                                        </span>
+                                        <p class="fon-24 text-center">{{item.HospitalCount}}家医院</p>
+                                    </a>
+                                </div>
+                                <div class="flex-1 f-center f-jcenter">&ensp;</div>
+                                <div class="flex-1 f-center f-jcenter">&ensp;</div>
+                                <div class="flex-1 f-center f-jcenter text-center">
+                                    <span class="flex f-center f-jcenter margin-b-5">
+                                        <img src="~/Content/Images/icon-jury.png" style="width: 28px;" />
+                                    </span>
+                                    <p class="fon-24 text-center">{{item.JuryCount}}位评委</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="pageNull" ref="listNullDiv" class="list-null"></div>
+                    <div v-if="nextPageLoading" class="weui-loadmore" style="margin: 0.23rem auto;">
+                        <i class="weui-loading"></i>
+                        <span class="weui-loadmore__tips">加载更多</span>
+                    </div>
+                    <div v-if="noNetxPage" class="weui-loadmore weui-loadmore_line" style="margin: 0.75rem auto 0;">
+                        <span class="weui-loadmore__tips">这是人家的底线</span>
+                    </div>
+                    <div v-if="!nextPageLoading&&!noNetxPage" style="height: 1rem;"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ref="failToast" id="failToast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_toast" style="font-size: 1.65rem;"></i>
+            <p class="weui-toast__content fon-32" v-text="resFailMessage" style="margin-top: 0.25rem;"></p>
+        </div>
+    </div>
+
+    <div ref="loadingToast" id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content fon-32" v-html="loadingText"></p>
+        </div>
+    </div>
+
+    <div ref="iosDialog" id="iosDialog" class="js_dialog" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd" v-html="dialogContent"></div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:void(0);" @@click="closeDialog" class="weui-dialog__btn weui-dialog__btn_primary" style="color: #005cad;">知道了</a>
+            </div>
+        </div>
+    </div>
+</div>
