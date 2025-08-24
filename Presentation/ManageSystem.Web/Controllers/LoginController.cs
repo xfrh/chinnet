@@ -22,6 +22,7 @@ namespace ManageSystem.Web.Controllers
     /// <summary>
     /// 用户登录
     /// </summary>
+    [CheckRole(false)]
     public class LoginController : WebBaseController
     {
         private readonly IMemberService MemberService;
@@ -56,7 +57,6 @@ namespace ManageSystem.Web.Controllers
         /// 登录页面的登录
         /// </summary>
         /// <returns></returns>
-        [CheckRole(false)]
         public ActionResult Index()
         {
             LoginModel model = new LoginModel();
@@ -69,7 +69,6 @@ namespace ManageSystem.Web.Controllers
         /// 弹窗登录
         /// </summary>
         /// <returns></returns>
-        [CheckRole(false)]
         public ActionResult Open()
         {
             LoginModel model = new LoginModel();
@@ -86,7 +85,6 @@ namespace ManageSystem.Web.Controllers
         /// <param name="returnUrl"></param>
         /// <returns></returns>
         [HttpPost]
-        [CheckRole(false)]
         public ContentResult PhoneLogin(string phone, string validateCode, string returnUrl = "")
         {
             //由字母a～z(不区分大小写)、数字0～9、点、减号或下划线组成
@@ -142,7 +140,6 @@ namespace ManageSystem.Web.Controllers
         /// <param name="returnUrl"></param>
         /// <returns></returns>
         [HttpPost]
-        [CheckRole(false)]
         public ContentResult SatelliteUserLogin(string account, string password, string validationCode, string mvcCaptchaGuid, string returnUrl = "")
         {
             //由字母a～z(不区分大小写)、数字0～9、点、减号或下划线组成
@@ -202,7 +199,6 @@ namespace ManageSystem.Web.Controllers
         /// <param name="returnUrl"></param>
         /// <returns></returns>
         [HttpPost]
-        [CheckRole(false)]
         public ContentResult AccountLogin(string account, string password, string validationCode, string mvcCaptchaGuid, string returnUrl = "")
         {
             //由字母a～z(不区分大小写)、数字0～9、点、减号或下划线组成
@@ -263,7 +259,6 @@ namespace ManageSystem.Web.Controllers
         /// <param name="phone">手机号码</param>
         /// <returns></returns>
         [HttpPost]
-        [CheckRole(false)]
         public ContentResult SendValidateCode(string phone)
         {
             try
@@ -321,7 +316,6 @@ namespace ManageSystem.Web.Controllers
             }
         }
 
-        [CheckRole(false)]
         public ActionResult Out()
         {
             this.AuthenticationService.SignOut();
@@ -332,7 +326,6 @@ namespace ManageSystem.Web.Controllers
 
         #region 登录页面 2019版
 
-        [CheckRole(false)]
         public ActionResult OpenIndex()
         {
             return View();
@@ -343,7 +336,7 @@ namespace ManageSystem.Web.Controllers
         /// </summary>
         /// <param name="mobile"></param>
         /// <returns></returns>
-        [HttpPost, CheckRole(false)]
+        [HttpPost]
         public JsonResult CheckMobile(string mobile)
         {
             try
@@ -375,7 +368,7 @@ namespace ManageSystem.Web.Controllers
         /// <param name="mvcCaptchaGuid"></param>
         /// <param name="returnUrl"></param>
         /// <returns></returns>
-        [HttpPost, CheckRole(false)]
+        [HttpPost]
         public JsonResult AccountLoginWithPassword(string mobile, string new_Password, string cfm_Password, string validationCode, string mvcCaptchaGuid, string returnUrl = "")
         {
             #region 基础验证
@@ -475,7 +468,6 @@ namespace ManageSystem.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [CheckRole(false)]
         public ActionResult GetLoginMember()
         {
             try
@@ -505,7 +497,6 @@ namespace ManageSystem.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [CheckRole(false)]
         public ActionResult GetHospital()
         {
             //枚举MemberProjectType：0/CHINET、1/SUGAR多中心、2/CRAB多中心、3/ERA多中心,4/CRE多中心
