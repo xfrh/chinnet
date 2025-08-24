@@ -42,10 +42,14 @@ namespace ManageSystem.Web.Controllers
         [CheckRole(false)]
         public ActionResult Index()
         {
-            return View();
-            //2022/2/22 根据胡主任需求修改 现有首页页面进行修改；直接进入主要主页
-            // Temporarily redirect to a working endpoint while we fix the main data issues
-            // return RedirectToAction("Test1", "Home"); // Commented out to restore normal home page
+            if (base.LoginUserinfo != null)
+            {
+                return RedirectToAction("Index", "Main");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [CheckRole(false)]

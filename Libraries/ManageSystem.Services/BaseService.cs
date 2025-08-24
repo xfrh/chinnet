@@ -239,7 +239,7 @@ namespace ManageSystem.Services
 
                 if (query == null || query.Count() <= 0)
                 {
-                    return null;
+                    return new List<T>();
                 }
                 return query.ToList<T>();
             //}
