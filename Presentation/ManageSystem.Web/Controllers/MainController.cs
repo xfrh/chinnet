@@ -10,6 +10,7 @@ using ManageSystem.Services.Members;
 using ManageSystem.Services.Medicine;
 using ManageSystem.Services.Meetings;
 using ManageSystem.Services.Researches;
+using ManageSystem.Web.App_Start;
 
 namespace ManageSystem.Web.Controllers
 {
@@ -34,6 +35,7 @@ namespace ManageSystem.Web.Controllers
         /// 主页
         /// </summary>
         /// <returns></returns>
+        [CheckRole(false)]
         public ActionResult Index()
         {
             var member = base.LoginUserinfo;
